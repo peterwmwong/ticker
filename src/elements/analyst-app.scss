@@ -1,0 +1,26 @@
+@import 'bourbon';
+@import 'imports';
+
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.analyst-app__header {
+  color: white;
+  background: $brand-primary-light;
+
+  &.is-tall {
+    height: $baseline * 15;
+
+    .analyst-app__header__secondary {
+      opacity: 1;
+    }
+  }
+
+  .analyst-app__header__secondary {
+    @include transition(opacity 250ms ease-in);
+    margin: 0 0 -16px 0;
+    opacity: 0;
+  }
+}

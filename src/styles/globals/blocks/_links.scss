@@ -1,0 +1,15 @@
+// Links
+
+a.link-secondary,
+a.link-secondary:hover,
+a.link-secondary:visited,
+a.link-secondary:active,
+a.link-secondary.active {
+  color: $gray-light;
+  font-size: 1.4rem;
+  text-decoration: underline;
+}
+
+a.link-secondary:hover { text-decoration: none; }
+
+a.link-delete:hover { color: $error }

@@ -1,0 +1,20 @@
+{
+  "undef": true,
+  "unused": true,
+  "eqnull": true,
+  "esnext": true,
+  "globalstrict": false,
+  "globals": {
+    "document": false,
+    "Platform": false,
+    "Polymer": false,
+    "PolymerExpressions": false,
+    "Promise": false,
+    "Promise": false,
+    "setTimeout": false,
+    "toString": false,
+    "Symbol": false,
+    "window": false,
+    "XMLHttpRequest": false
+  }
+}

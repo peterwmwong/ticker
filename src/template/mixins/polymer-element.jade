@@ -1,0 +1,20 @@
+mixin polymer-element
+  - var elementPath = /\/src\/(.*).jade$/.exec( jade_debug[jade_debug.length - 1].filename )[1];
+  - var filename    = /\/([^\/]*)$/.exec( elementPath )[1];
+  - attributes.name = filename
+  - var hasNoTemplate = !!attributes.notemplate;
+  - var hasNoCSS = !!attributes.nocss;
+
+  //- Remove compile time attributes so they don't get rendered
+  - delete attributes.notemplate
+  - delete attributes.nocss
+
+  polymer-element&attributes(attributes)
+    - if (!hasNoTemplate)
+      template
+        - if (!hasNoCSS)
+          link(rel='stylesheet' href=(filename + '.css'))
+        block
+    - if (!attributes.noscript)
+      script
+        | !{"System.import('"+elementPath+"')"};

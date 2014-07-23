@@ -1,0 +1,21 @@
+{
+  "undef": true,
+  "unused": true,
+  "esnext": true,
+  "eqnull": true,
+  "globalstrict": false,
+  "globals": {
+    "afterEach": false,
+    "beforeEach": false,
+    "describe": false,
+    "document": false,
+    "expect": false,
+    "it": false,
+    "Polymer": false,
+    "Platform": false,
+    "Promise": false,
+    "setTimeout": false,
+    "spyOn": false,
+    "window": false
+  }
+}

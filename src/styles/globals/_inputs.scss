@@ -1,0 +1,70 @@
+// %input-base {
+//   font-size: 1.4rem;
+//   background: transparent;
+//   border: 1px solid $gray-light;
+//   color: $gray-darkest;
+//   display: block;
+//   height: $baseline * 5 + 1; // Include border
+//   line-height: $baseline * 3;
+//   padding: 0 ($base-width + 3);
+//   width: 100%;
+//   resize: none;
+//
+//   @extend %input-inset-shadow;
+//
+//   &:focus {
+//     border: 1px solid $brand-primary-light;
+//     box-shadow: none;
+//   }
+//
+//   @include placeholder {
+//     line-height: $baseline * 3;
+//     color: $gray-light;
+//     opacity: 1;
+//   }
+//
+//   &::-moz-placeholder {
+//     line-height: $baseline * 5 - 1;
+//   }
+// }
+//
+// html _deep_ {
+//   input {
+//     @extend %input-base;
+//   }
+//
+//   textarea {
+//     @extend %input-base;
+//     height: $baseline * 11 + 1;
+//     padding-top: $baseline;
+//
+//     &::-moz-placeholder { line-height: $baseline * 3; }
+//   }
+//
+//   .b-input--masthead {
+//     $input-height: $baseline * 16 + 2;
+//     $input-vertical-padding: $baseline * 4;
+//     $input-line-height: $input-height - ($input-vertical-padding * 2);
+//     @extend %text-truncate;
+//
+//     box-shadow: none;
+//     color: $brand-primary-light;
+//     font-size: 3.2rem;
+//     font-weight: $font-weight-light;
+//     height: $input-height;
+//     line-height: $input-line-height;
+//     padding: ($input-vertical-padding + 1) ($gutter * 2) $input-vertical-padding $gutter;
+//
+//     @include placeholder {
+//       color: $gray-lighter;
+//       line-height: $input-line-height;
+//       opacity: 1;
+//     }
+//
+//     // No blue focus bordering like regular inputs
+//     &,
+//     &:focus {
+//       border: 1px solid $gray-lightest;
+//     }
+//   }
+// }

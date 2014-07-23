@@ -1,0 +1,50 @@
+html _deep_ {
+
+  // .l-{width, height}-{25, 33, 50, 66, 75, 100}
+  @each $dimension in width, height {
+    @each $pct in 25, 33, 50, 66, 75, 100 {
+      .l-#{$dimension}-#{$pct} {
+        #{$dimension}: $pct * 1%;
+      }
+    }
+  }
+
+  .l-clearfix { @include clearfix; }
+  .l-float-r  { float: right; }
+  .l-float-l  { float: left;  }
+
+  // .l-{padding, margin}-{t,r,b,l, h,v}{1 ... 6}
+  @each $type in padding, margin {
+    @for $i from 1 through 6 {
+      .l-#{$type}-#{$i} {
+        #{$type}: ($baseline * $i) ($base-width * $i);
+      }
+
+      .l-#{$type}-r#{$i} {
+        #{$type}-right: $base-width * $i;
+      }
+
+      .l-#{$type}-l#{$i} {
+        #{$type}-left:  $base-width * $i;
+      }
+
+      .l-#{$type}-h#{$i} {
+        #{$type}-left:  $base-width * $i;
+        #{$type}-right: $base-width * $i;
+      }
+
+      .l-#{$type}-t#{$i} {
+        #{$type}-top: $baseline * $i;
+      }
+
+      .l-#{$type}-b#{$i} {
+        #{$type}-bottom: $baseline * $i;
+      }
+
+      .l-#{$type}-v#{$i} {
+        #{$type}-top:    $baseline * $i;
+        #{$type}-bottom: $baseline * $i;
+      }
+    }
+  }
+}

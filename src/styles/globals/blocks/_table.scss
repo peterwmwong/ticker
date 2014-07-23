@@ -1,0 +1,89 @@
+html _deep_ {
+  .b-table {
+    background-color: white;
+    border-bottom: 1px solid $gray-lightest;
+    color: $gray-darkest;
+    display: table;
+    font-size: 1.4rem;
+    position: relative;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .b-table--header--sticky {
+    @include position(absolute, 0px 0px 0 0px);
+    @include user-select(none);
+
+    cursor: default;
+    margin-top: 0px;
+    z-index: 2;
+  }
+
+  .b-table--header {
+    background-color: $gray-lightest;
+    border-color: $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    color: $gray-dark;
+    margin-top: -1px; // Prevent double border
+
+    .b-table__cell {
+      padding: $baseline ($gutter / 2) ($baseline - 1);
+    }
+  }
+
+  .b-table-body {
+    @include position(absolute, ($baseline * 5) 0px 0px 0px);
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 1;
+  }
+
+  .b-table--footer {
+    border-top: 1px solid $gray-lightest;
+  }
+
+  .b-table__row { display: table-row; }
+
+  .b-table__cell {
+    display: table-cell;
+    font-size: 1.4rem;
+    line-height: $baseline * 3;
+    padding: ($baseline * 1.5) ($gutter / 2);
+    vertical-align: top;
+  }
+
+  .b-table__cell-label {
+    @extend %t-truncate;
+    color: $gray-light;
+    float: left;
+    font-size: 1.1rem;
+    text-align: right;
+    width: 50%;
+  }
+
+  .b-table__cell-label--right {
+    float: right;
+    text-align: left;
+  }
+
+  .b-table__cell-value {
+    @extend %t-truncate;
+    float: right;
+    padding: 0 ($gutter / 4);
+    width: 50%;
+  }
+
+  .b-table__cell-value--left {
+    float: left;
+    text-align: right;
+  }
+}
+
+// TODO(pwong): where do we use this?
+// %table--hoverable {
+//   @extend %table;
+//   cursor: pointer;
+//
+//   &:hover { background-color: transparentize($gray-lightest, 0.75); }
+// }

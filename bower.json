@@ -1,0 +1,19 @@
+{
+  "name": "antikythera",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jasmine": "2.0.0",
+    "platform": "Polymer/platform#master",
+    "polymer": "Polymer/polymer#master",
+    "paper-elements": "Polymer/paper-elements#master",
+    "core-elements": "Polymer/core-elements#master",
+    "paper-tabs": "Polymer/paper-tabs#~0.3.4"
+  }
+}

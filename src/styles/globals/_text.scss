@@ -1,0 +1,53 @@
+// Fonts
+// =====
+
+// Source Sans
+// Our applications's main workhorse.
+// @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+
+// Source Code Pro
+// Main monospace
+// @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,600);
+
+// Font Icons
+// ==========
+
+// Flaticons
+// https://flaticons.co/
+@include font-face("Flaticons Stroke", "../vendor/fonts/flaticons-stroke/flaticons-stroke", normal, normal);
+
+
+html _deep_ {
+
+  // Truncate text with an ellipsis
+  .t-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .t-italic { font-style: italic; }
+  .t-bold   { font-weight: $font-weight-semibold; }
+  .t-light  { font-weight: $font-weight-light;    }
+  .t-normal { font-weight: $font-weight-normal;   }
+
+  .t-align-left  { text-align: left;  }
+  .t-align-right { text-align: right; }
+  .t-align-center{ text-align: center; }
+
+  .t-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Smoothing
+  // ---------
+
+  // This mixin overrides default anti-aliasing in Webkit and Gecko, which tends to
+  // be too heavy for dark-on-light text. It is on by default. In cases
+  // where text will be light-on-dark, please turn this value off.
+  .t-smoothing-on  { @extend %t-smoothing-on;  }
+
+  .t-smoothing-off { @extend %t-smoothing-off; }
+}

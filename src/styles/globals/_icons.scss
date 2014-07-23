@@ -1,0 +1,16 @@
+html _deep_ {
+
+  .t-icon {
+    @extend %t-smoothing-on;
+    @include user-select(none);
+
+    font-family: 'Flaticons Stroke';
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: normal;
+    line-height: inherit;
+    speak: none;
+    text-decoration: none;
+    text-rendering: optimizeLegibility;
+  }
+}

@@ -1,0 +1,27 @@
++import('/bower_components/core-header-panel/core-header-panel.html')
++import('/bower_components/core-icons/core-icons.html')
++import('/bower_components/core-toolbar/core-toolbar.html')
++import('/bower_components/paper-tabs/paper-tabs.html')
+
++import('/bower_components/paper-icon-button/paper-icon-button.html')
++import('./analyst-card.html')
+
++polymer-element(horizontal)
+  template(id='github-commit-card')
+    analyst-card
+      span {{card}}
+
+  core-header-panel.l-width-100.l-height-100(mode='waterfall-tall' tallclass='is-tall')
+    core-toolbar.analyst-app__header.is-tall
+      paper-icon-button(icon="menu")
+      span(flex) Test
+      paper-icon-button(icon="search")
+
+      .analyst-app__header__secondary.bottom.l-width-100
+        paper-tabs(selected="0")
+          paper-tab TAB 1
+          paper-tab TAB 2
+
+    template(
+      ref="github-commit-card"
+      repeat="{{ card in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,] }}")
