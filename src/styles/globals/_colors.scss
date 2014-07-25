@@ -1,0 +1,43 @@
+html _deep_ {
+
+  .c-color-white{color: white;}
+  .c-bg-white{background-color: white;}
+  .c-color-gray-darkest{color: $gray-darkest;}
+  .c-bg-gray-darkest{background-color: $gray-darkest;}
+  .c-color-gray-darker{color: $gray-darker;}
+  .c-bg-gray-darker{background-color: $gray-darker;}
+  .c-color-gray-dark{color: $gray-dark;}
+  .c-bg-gray-dark{background-color: $gray-dark;}
+  .c-color-gray-light{color: $gray-light;}
+  .c-bg-gray-light{background-color: $gray-light;}
+  .c-color-gray-lighter{color: $gray-lighter;}
+  .c-bg-gray-lighter{background-color: $gray-lighter;}
+  .c-color-gray-lightest{color: $gray-lightest;}
+  .c-bg-gray-lightest{background-color: $gray-lightest;}
+  .c-color-brand-primary-dark{color: $brand-primary-dark;}
+  .c-bg-brand-primary-dark{background-color: $brand-primary-dark;}
+  .c-color-brand-primary-light{color: $brand-primary-light;}
+  .c-bg-brand-primary-light{background-color: $brand-primary-light;}
+  .c-color-brand-primary-lighter{color: $brand-primary-lighter;}
+  .c-bg-brand-primary-lighter{background-color: $brand-primary-lighter;}
+  .c-color-brand-secondary-dark{color: $brand-secondary-dark;}
+  .c-bg-brand-secondary-dark{background-color: $brand-secondary-dark;}
+  .c-color-brand-secondary-light{color: $brand-secondary-light;}
+  .c-bg-brand-secondary-light{background-color: $brand-secondary-light;}
+  .c-color-confirm{color: $confirm;}
+  .c-bg-confirm{background-color: $confirm;}
+  .c-color-error{color: $error;}
+  .c-bg-error{background-color: $error;}
+  .c-color-warning{color: $warning;}
+  .c-bg-warning{background-color: $warning;}
+  .c-color-notify{color: $notify;}
+  .c-bg-notify{background-color: $notify;}
+  .c-color-highlight{color: $highlight;}
+  .c-bg-highlight{background-color: $highlight;}
+
+  .c-bg-disabled {
+    // http://ptrn.it/1l13xrL
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKv3n38zwjjgzhiQvyMYAEYB8RmROaABAASlw/NHPn3mAAAAABJRU5ErkJggg==) repeat;
+    background-color: white;
+  }
+}

@@ -9,11 +9,25 @@ html _deep_ {
     }
   }
 
-  .l-clearfix { @include clearfix; }
-  .l-float-r  { float: right; }
-  .l-float-l  { float: left;  }
+  @each $pct in 25, 33, 50, 66, 75, 100 {
+    .l-width-#{$pct}-gutter-r {
+      @include calc('width', '#{$pct}% - #{$gutter}');
+      margin-right: $gutter;
+    }
 
-  // .l-{padding, margin}-{t,r,b,l, h,v}{1 ... 6}
+    .l-width-#{$pct}-gutter-l {
+      @include calc('width', '#{$pct}% - #{$gutter}');
+      margin-left: $gutter;
+    }
+  }
+
+  .l-clearfix { @include clearfix; }
+  .l-clear-r  { clear: right;      }
+  .l-clear-l  { clear: left;       }
+  .l-float-r  { float: right;      }
+  .l-float-l  { float: left;       }
+
+  // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
   @each $type in padding, margin {
     @for $i from 1 through 6 {
       .l-#{$type}-#{$i} {

@@ -21,15 +21,3 @@ $error                 :hsl(355,89%,62%); /* #F44856 */
 $warning               :hsl(34,97%,59%);  /* #FCA431 */
 $notify                :hsl(43,81%,83%);  /* #F7E3B1 */
 $highlight             :hsl(44,90%,96%);
-
-// TODO(pwong): Remove once we figure out where these we introduced from new
-//              campaign validation.
-// $centro-brand-1a       :hsl(195, 90%, 28%);
-// $centro-brand-1b       :hsl(192, 100%, 28%);
-// $centro-brand-1c       :hsl(191, 59%, 80%);
-
-%disabled-background {
-  // http://ptrn.it/1l13xrL
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKv3n38zwjjgzhiQvyMYAEYB8RmROaABAASlw/NHPn3mAAAAABJRU5ErkJggg==) repeat;
-  background-color: white;
-}
