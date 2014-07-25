@@ -4,7 +4,6 @@
   background-color: white;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
   display: inline-block;
-  margin: $baseline ($base-width * 2);
   min-height: 100px;
   min-width: $column * 3;
   width: unquote("calc(100% - #{$base-width * 4})");

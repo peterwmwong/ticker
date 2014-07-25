@@ -1,0 +1,2 @@
+Polymer('ticker-app',{
+});

@@ -1,21 +1,2 @@
-- [Polymer bug] JS Polymer declaration  can't be asynchronous?
-  - http://jsbin.com/tunikicu/9/edit
-- [REFACTOR] Input refactor
-  - analyze current use cases
-- [BUG] cmm-input <content> styled with core-input :host styles?
-- [helpers/model] IE9: specs that use setTimeout seem to be flaky... need to
-                       specify a time?
-- [helpers/model] Move functions into prototype
-- [helpers/model] Use Symbols for privates
-  - $isBusy, $promise, className
-- [helpers/model] Use Map
-  - associations()
-  - IDMap
-- [cmm-planning-line-item] one-time <-> change binding switch
-  - build time?
-- [BUILD] modify `gulp watch`, when src/styles/globals/**/*.scss changes, only
-          update index.scss
-- [BUILD] i18n -> translate
-- [BUILD] Fix JS sourcemap urls
-- [BUILD] Modify livereload to replace shadow deep styles
-- [BUILD] Outdated dependencies
+- [REFACTOR] es6 <-> polymer
+  - https://github.com/geelen/x-gif

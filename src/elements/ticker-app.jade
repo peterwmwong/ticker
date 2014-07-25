@@ -4,20 +4,20 @@
 +import('/bower_components/paper-tabs/paper-tabs.html')
 
 +import('/bower_components/paper-icon-button/paper-icon-button.html')
-+import('./analyst-card.html')
++import('./ticker-card.html')
 
 +polymer-element(horizontal)
   template(id='github-commit-card')
-    analyst-card
+    ticker-card.ticker-app__card
       span {{card}}
 
   core-header-panel.l-width-100.l-height-100(mode='waterfall-tall' tallclass='is-tall')
-    core-toolbar.analyst-app__header.is-tall
+    core-toolbar.ticker-app__header.is-tall
       paper-icon-button(icon="menu")
       span(flex) Test
       paper-icon-button(icon="search")
 
-      .analyst-app__header__secondary.bottom.l-width-100
+      .ticker-app__header__secondary.bottom.l-width-100
         paper-tabs(selected="0")
           paper-tab TAB 1
           paper-tab TAB 2
