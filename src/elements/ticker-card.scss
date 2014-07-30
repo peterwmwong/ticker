@@ -6,5 +6,4 @@
   display: inline-block;
   min-height: 100px;
   min-width: $column * 3;
-  width: unquote("calc(100% - #{$base-width * 4})");
 }

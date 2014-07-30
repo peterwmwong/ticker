@@ -2,30 +2,33 @@
 @import 'imports';
 
 :host {
-  display: inline-block;
-  position: relative;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom:  0;
+  left: 0;
 }
 
-.ticker-app__header {
-  &.is-tall {
-    height: $baseline * 15;
+core-scroll-header-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom:  0;
+  left: 0;
 
-    .ticker-app__header__secondary {
-      opacity: 1;
-    }
+  /* background for toolbar when it is at its full size */
+  &::shadow #headerBg {
+    background-color: $brand-primary-light;
   }
 
-  .ticker-app__header__secondary {
-    @include transition(opacity 250ms ease-in);
-    margin: 0 0 -16px 0;
-    opacity: 0;
+  /* background for toolbar when it is condensed */
+  &::shadow #condensedHeaderBg {
+    background-color: #f4b400;
   }
 }
 
-.ticker-app__card {
-  margin: $baseline ($base-width * 2);
-
-  &:first-of-type {
-    margin-top: $baseline*2;
-  }
+.ticker-app__title-text {
+  padding-left: $base-width*11;
+  font-size: 28px;
 }

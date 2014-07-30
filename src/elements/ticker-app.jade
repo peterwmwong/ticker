@@ -1,4 +1,4 @@
-+import('/bower_components/core-header-panel/core-header-panel.html')
++import('/bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
 +import('/bower_components/core-icons/core-icons.html')
 +import('/bower_components/core-toolbar/core-toolbar.html')
 +import('/bower_components/paper-tabs/paper-tabs.html')
@@ -6,28 +6,21 @@
 +import('/bower_components/paper-icon-button/paper-icon-button.html')
 +import('./ticker-card.html')
 
-+polymer-element(horizontal)
++polymer-element
   template(id='github-commit-card')
-    ticker-card.ticker-app__card
-      span {{card}}
+    ticker-card.ticker-app__card(
+      class='l-width-100-gutter-r l-margin-l2 l-margin-t2')
 
-  core-header-panel(
-    mode='waterfall-tall'
-    tallclass='is-tall'
-    class='l-width-100 l-height-100')
+      p(class='l-padding-h2') Card: \#{{i + 1}}
 
-    core-toolbar.ticker-app__header.is-tall(
-      class='c-color-white c-bg-brand-primary-light')
-
+  core-scroll-header-panel(condenses)
+    core-toolbar(class='tall')
       paper-icon-button(icon="menu")
-      span(flex) Test
+      span(flex)
       paper-icon-button(icon="search")
+      div#titleText.bottom.ticker-app__title-text Title
 
-      .ticker-app__header__secondary.bottom(class='l-width-100')
-        paper-tabs(selected="0")
-          paper-tab TAB 1
-          paper-tab TAB 2
-
-    template(
-      ref="github-commit-card"
-      repeat="{{ card in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] }}")
+    .content
+      template(
+        ref="github-commit-card"
+        repeat="{{ card,i in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] }}")
