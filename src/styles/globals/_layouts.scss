@@ -1,10 +1,15 @@
 html _deep_ {
 
+  .l-position-static    { position: static   !important; }
+  .l-position-fixed     { position: relative !important; }
+  .l-position-absolute  { position: absolute !important; }
+  .l-position-fixed     { position: fixed    !important; }
+
   // .l-{width, height}-{25, 33, 50, 66, 75, 100}
   @each $dimension in width, height {
     @each $pct in 25, 33, 50, 66, 75, 100 {
       .l-#{$dimension}-#{$pct} {
-        #{$dimension}: $pct * 1%;
+        #{$dimension}: $pct * 1% !important;
       }
     }
   }
