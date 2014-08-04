@@ -1,26 +1,27 @@
-+import('/bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
-+import('/bower_components/core-icons/core-icons.html')
-+import('/bower_components/core-toolbar/core-toolbar.html')
-+import('/bower_components/paper-tabs/paper-tabs.html')
-
-+import('/bower_components/paper-icon-button/paper-icon-button.html')
-+import('./ticker-card.html')
++import('../../bower_components/core-icons/core-icons.html')
++import('../../bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
++import('../../bower_components/core-toolbar/core-toolbar.html')
++import('../../bower_components/paper-icon-button/paper-icon-button.html')
++import('../../bower_components/paper-tabs/paper-tabs.html')
++import('./cards/ticker-github-events-card.html')
 
 +polymer-element
-  template(id='github-commit-card')
-    ticker-card.ticker-app__card(
-      class='l-width-100-gutter-r l-margin-l2 l-margin-t2')
+  template#github-commit-card
+    ticker-github-events-card(
+      data="[[event]]"
+      class='l-margin-l2 l-margin-t2 l-width-100-gutter-r'
+    )
 
-      p(class='l-padding-h2') Card: \#{{i + 1}}
-
-  core-scroll-header-panel(condenses)
+  core-scroll-header-panel(
+    condenses
+    on-core-header-transform='{{onCoreHeaderTransform}}'
+  )
     core-toolbar(class='tall')
       paper-icon-button(icon="menu")
       span(flex)
       paper-icon-button(icon="search")
-      div#titleText.bottom.ticker-app__title-text Title
+      div#titleText.bottom.ticker-app__title-text
+        | Title
 
     .content
-      template(
-        ref="github-commit-card"
-        repeat="{{ card,i in [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] }}")
+      template(ref="github-commit-card" repeat="{{ event in githubEvents }}")

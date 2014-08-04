@@ -11,24 +11,30 @@
 }
 
 core-scroll-header-panel {
+  color: white;
   position: absolute;
   top: 0;
   right: 0;
   bottom:  0;
   left: 0;
 
-  /* background for toolbar when it is at its full size */
-  &::shadow #headerBg {
-    background-color: $brand-primary-light;
+  &::shadow {
+    #headerContainer {
+      background: transparentize($brand-primary-light, .2);
+    }
+    /* background for toolbar when it is at its full size */
+    #headerBg {
+      background-color: $brand-primary-light;
+    }
   }
+}
 
-  /* background for toolbar when it is condensed */
-  &::shadow #condensedHeaderBg {
-    background-color: #f4b400;
-  }
+// Override default background
+core-toolbar {
+  background-color: transparent;
 }
 
 .ticker-app__title-text {
   padding-left: $base-width*11;
-  font-size: 28px;
+  font-size: 1.8rem;
 }

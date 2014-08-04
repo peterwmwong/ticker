@@ -1,0 +1,9 @@
++import('../../iconsets/github.html')
++import('../../../bower_components/core-icon/core-icon.html')
++import('../ticker-card.html')
+
++polymer-element(attributes='data' noscript)
+  ticker-card(class='c-color-gray-darker l-padding-h2 l-padding-v2' center horizontal layout)
+    span(flex)
+      | {{data.repo.name}}
+    core-icon(class='c-color-gray-lighter' icon="github:git-merge")

@@ -1,6 +1,8 @@
+import Event from '../models/github/Event';
+
 Polymer('ticker-app',{
   ready(){
-    window.addEventListener('core-header-transform',this.onCoreHeaderTransform.bind(this));
+    this.githubEvents = Event.query({type:'user', user:'polymer'});
   },
 
   onCoreHeaderTransform(e){
@@ -11,7 +13,6 @@ Polymer('ticker-app',{
     var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
     titleStyle.webkitTransform = titleStyle.transform =
         'scale(' + scale + ') translateZ(0)';
-    console.log('scaling');
   }
 
 });
