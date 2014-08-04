@@ -1,6 +1,18 @@
 # Ticker
 
-Stay up-to-date.
+Stay up-to-date with X with minimal effort.
+
+- Group sources of information of X
+  - Github
+  - Website (blog)
+  - Twitter
+  - Google+
+  - Google Group
+- Aggregate/Summarize updates
+  - Most active PR/Issue
+  - Aggregate PR Activity
+    - PR comments as a number
+    - PR Closed (Merged or Not)
 
 ## Development Setup
 
