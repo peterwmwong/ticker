@@ -14,6 +14,7 @@ var path       = require('path');
 var plumber    = require('gulp-plumber');
 var replace    = require('gulp-replace');
 var sass       = require('gulp-sass');
+var svgSprite  = require("gulp-svg-sprites");
 var tinylr     = require('tiny-lr');
 var traceur    = require('gulp-traceur');
 var exec       = require('child_process').exec;
@@ -55,6 +56,21 @@ gulp.task('server', function(){
 
 // Compile Tasks
 // -------------
+
+gulp.task('iconsets', function(){
+  return gulp.src('bower_components/octicons/svg/*.svg')
+             .pipe(svgSprite({
+               mode: "defs",
+               svg: {
+                 defs: 'github.html'
+               },
+               preview: false,
+               templates: {
+                 defs: require('fs').readFileSync('./tasks/svg-sprite-template-core-iconset.html', 'utf-8')
+               }
+             }))
+             .pipe(gulp.dest(BUILD_DIR+"/iconsets"));
+})
 
 // Currently, libSass cannot handle /deep/, so we use _deep_ in our source files
 // and replace it with /deep/ after compilation.
@@ -197,25 +213,18 @@ gulp.task('compile-spec-run-single', ['compile'], function(){
 gulp.task('dev', ['clean', 'spec-clean', 'server'], function(){
   gulp.start('compile-watch');
 });
-gulp.task('compile-watch', ['compile'], function(){
+gulp.task('compile-watch', ['compile','iconsets'], function(){
   gulp.start('watch', 'livereload', 'spec-run');
 });
 
 gulp.task('prod', ['clean', 'spec-clean'], function(){
   gulp.start('prod-compile');
 });
-gulp.task('prod-compile', ['templates', 'styles', 'code-prod'], function(){
+gulp.task('prod-compile', ['templates', 'styles', 'code-prod', 'iconsets'], function(){
   vulcanize.setOptions({
     inline:true,
     strip:true,
     input:'build/index.html',
     output:'build/index.html'
-  }, vulcanize.processDocument );
-
-  vulcanize.setOptions({
-    inline:true,
-    strip:true,
-    input:'build/styleguide.html',
-    output:'build/styleguide.html'
   }, vulcanize.processDocument );
 });

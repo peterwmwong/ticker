@@ -25,6 +25,7 @@
     "tiny-lr": "peterwmwong/tiny-lr#fix-livecss-option",
     "traceur": "0.0.45",
     "vulcanize": "0.2.6",
-    "gulp-replace": "^0.3.0"
+    "gulp-replace": "^0.3.0",
+    "gulp-svg-sprites": "^1.0.0"
   }
 }
