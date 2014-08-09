@@ -139,7 +139,7 @@ gulp.task('code-spec', function(){
 });
 gulp.task('code-prod', function(done){
   exec('cd src;'+
-       '../node_modules/.bin/traceur'+
+       '../node_modules/es6-module-loader/node_modules/.bin/traceur'+
        '  --modules=instantiate'+
        '  --async-functions=true'+
        '  --out all.js $(find . -name "*.js");'+

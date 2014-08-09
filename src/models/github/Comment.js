@@ -15,3 +15,5 @@ Comment.create($=>{
 
   $.hasOne('user',   'User');
 });
+
+export default Comment;
