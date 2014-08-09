@@ -20,7 +20,7 @@ module.exports = function(config) {
       'node_modules/Base64/base64.min.js',
       'spec/spec-utils/force-shadowdom-polyfill.js',
       'bower_components/platform/platform.js',
-      'node_modules/traceur/bin/traceur-runtime.js',
+      'node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
       'src/patchTraceurForIE.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
       'node_modules/systemjs/lib/extension-register.js',
@@ -31,8 +31,7 @@ module.exports = function(config) {
       {pattern: 'build/**/*',              included: false},
       {pattern: 'vendor/**/*',             included: false},
       {pattern: 'bower_components/**/*',   included: false},
-      {pattern: 'spec_build/**/*.js',      included: false},
-      {pattern: 'spec_build/**/*.map',     included: false}
+      {pattern: 'spec_build/**/*.js',      included: false}
     ],
 
 
