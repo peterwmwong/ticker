@@ -14,6 +14,7 @@ var path       = require('path');
 var plumber    = require('gulp-plumber');
 var replace    = require('gulp-replace');
 var sass       = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 var svgSprite  = require("gulp-svg-sprites");
 var tinylr     = require('tiny-lr');
 var traceur    = require('gulp-traceur');
@@ -117,11 +118,12 @@ gulp.task('code', function(){
   return gulp.src(SRC_DIR+'**/*.js')
              .pipe(changed(BUILD_DIR))
              .pipe(plumber())
-             .pipe(traceur({
-               sourceMap:!IS_PROD,
-               modules:'instantiate',
-               asyncFunctions:true
-             }))
+             .pipe(sourcemaps.init())
+               .pipe(traceur({
+                 modules:'instantiate',
+                 asyncFunctions:true
+               }))
+             .pipe(sourcemaps.write())
              .pipe(gulp.dest(BUILD_DIR));
 });
 gulp.task('code-spec', function(){
@@ -180,23 +182,15 @@ gulp.task('watch', function(){
 });
 
 gulp.task('livereload', function(){
-  // TODO(pwong): temporary to force a full page reload on CSS change. This is
-  //              necessary as Polymer style importing currently cannot be
-  //              liveCss-ed due to polyfill style munging.
-  var port = 35729;
-  var tinylrServer = tinylr({liveCss:false});
-  var server = livereload(tinylrServer);
-  function handleChanged(event){
-    server.changed(event.path);
+  var server = livereload({liveCss:false});
+  function handleChanged(file){
+    server.changed(file.path);
   }
 
   gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
   gulp.watch(SPEC_BUILD_DIR+'**/*.js', handleChanged);
 
-  tinylrServer.listen(port, function(err) {
-    if (err){ throw new gutil.PluginError('gulp-livereload', err.message); }
-    gutil.log('Live reload server listening on: ' + gutil.colors.magenta(port));
-  });
+  livereload.listen();
 });
 
 
