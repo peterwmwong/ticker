@@ -1,7 +1,7 @@
-import Model from '../../helpers/model/Model';
+import Model       from '../../helpers/model/Model';
 import EventMapper from './EventMapper';
-import Actor from './Actor';
-import Repo from './Repo';
+import User        from './User';
+import Repo        from './Repo';
 
 class Event extends Model{}
 Event.create($=>{
@@ -10,7 +10,7 @@ Event.create($=>{
   $.attr('type',    'string');
   $.attr('payload', 'identity');
 
-  $.hasOne('actor', 'Actor');
+  $.hasOne('actor', 'User');
   $.hasOne('repo',  'Repo');
 });
 

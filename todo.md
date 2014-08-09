@@ -1,7 +1,5 @@
-
 - [Design] Data Source
   - Provides Data that can be Rendered as a card
-
     ```js
     interface IDataSource {
       query({}):Data[]
@@ -15,8 +13,17 @@
       }
     }
     ```
-
-
+- [Design] Model elements
+    ```jade
+    script.
+      System.import('../models');
+    ```
+    ```jade
+    +import('../models/models.html')
+    model-query(type="Event" options="[[ {type:'user', user:'polymer'} ]]" models="{{githubEvents}}")
+    model-get(type="Event" id="GUID_IDENTIFIER" model="{{githubEvent}}")
+    model-create(type="Event" model="{{githubEvent}}")
+    ```
 - [Design] Less boilerplate for Model/Mapper
     ```js
     class JsonRestMapper {
