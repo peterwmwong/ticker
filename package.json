@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "Base64": "^0.3.0",
-    "es6-module-loader": "^0.8.0",
+    "es6-module-loader": "^0.8.1",
     "gulp-changed": "^0.4.1",
     "gulp-clean": "^0.3.1",
     "gulp-connect": "^2.0.6",
@@ -23,7 +23,7 @@
     "karma-chrome-launcher": "^0.1.4",
     "karma-jasmine": "^0.2.2",
     "karma": "^0.12.21",
-    "systemjs": "^0.7.0",
+    "systemjs": "^0.8.0",
     "tiny-lr": "^0.1.0",
     "vulcanize": "^0.4.2",
     "gulp-sourcemaps": "^1.1.1"
