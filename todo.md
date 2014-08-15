@@ -1,3 +1,4 @@
+- [Style] Github icons are NOT centered, need a svgSprite transform
 - [Design] Data Source
   - Provides Data that can be Rendered as a card
     ```js
