@@ -1,36 +1,48 @@
 html _deep_ {
 
+  .l-clearfix { @include clearfix;       }
+  .l-clear-r  { clear: right !important; }
+  .l-clear-l  { clear: left  !important; }
+  .l-float-r  { float: right !important; }
+  .l-float-l  { float: left  !important; }
+
   .l-position-static    { position: static   !important; }
   .l-position-fixed     { position: relative !important; }
   .l-position-absolute  { position: absolute !important; }
   .l-position-fixed     { position: fixed    !important; }
 
-  // .l-{width, height}-{25, 33, 50, 66, 75, 100}
-  @each $dimension in width, height {
-    @each $pct in 25, 33, 50, 66, 75, 100 {
-      .l-#{$dimension}-#{$pct} {
-        #{$dimension}: $pct * 1% !important;
+  // .l-width{ex. 1of4}
+  // .l-width{ex. 1of4}-gutter-r
+  // .l-width{ex. 1of4}-gutter-l
+  // .l-margin-r{ex. 1of4}
+  // .l-margin-l{ex. 1of4}
+  @each $columns in 2, 3, 4, 6, 8, 10, 12 {
+    @for $column from 1 through ($columns - 1) {
+      $pctValue: ($column / $columns) * 100%;
+
+      .l-width#{$column}of#{$columns} {
+        width: $pctValue !important;
+      }
+
+      .l-width#{$column}of#{$columns}-gutter-r {
+        @include calc('width', '#{$pctValue} - #{$gutter}');
+        margin-right: $gutter !important;
+      }
+
+      .l-width#{$column}of#{$columns}-gutter-l {
+        @include calc('width', '#{$pctValue} - #{$gutter}');
+        margin-left: $gutter !important;
+      }
+
+      .l-margin-r#{$column}of#{$columns} {
+        margin-right: $pctValue !important;
+      }
+
+      .l-margin-l#{$column}of#{$columns} {
+        margin-left: $pctValue !important;
       }
     }
   }
-
-  @each $pct in 25, 33, 50, 66, 75, 100 {
-    .l-width-#{$pct}-gutter-r {
-      @include calc('width', '#{$pct}% - #{$gutter}');
-      margin-right: $gutter;
-    }
-
-    .l-width-#{$pct}-gutter-l {
-      @include calc('width', '#{$pct}% - #{$gutter}');
-      margin-left: $gutter;
-    }
-  }
-
-  .l-clearfix { @include clearfix; }
-  .l-clear-r  { clear: right;      }
-  .l-clear-l  { clear: left;       }
-  .l-float-r  { float: right;      }
-  .l-float-l  { float: left;       }
 
   // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
   @each $type in padding, margin {
