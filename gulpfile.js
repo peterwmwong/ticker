@@ -61,6 +61,18 @@ gulp.task('server', function(){
 gulp.task('iconsets', function(){
   return gulp.src('bower_components/octicons/svg/*.svg')
              .pipe(svgSprite({
+               transformData:function(data){
+                 data.svg.forEach(function(svg){
+                   // Center the icons
+                   if(svg.viewBox){
+                     var viewBox = svg.viewBox.split(' ');
+                     var width = +viewBox[2];
+                     var translateX = (1024 - width)/2;
+                     svg.correctiveTransform = "translate("+translateX+",0)";
+                   }
+                 })
+                 return data;
+               },
                mode: "defs",
                svg: {
                  defs: 'github.html'
