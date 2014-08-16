@@ -44,6 +44,20 @@ html _deep_ {
     }
   }
 
+  .l-width100 {
+    width: 100% !important;
+  }
+
+  .l-width100-gutter-r {
+    @include calc('width', '100% - #{$gutter}');
+    margin-right: $gutter !important;
+  }
+
+  .l-width100-gutter-l {
+    @include calc('width', '100% - #{$gutter}');
+    margin-left: $gutter !important;
+  }
+
   // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
   @each $type in padding, margin {
     @for $i from 1 through 6 {

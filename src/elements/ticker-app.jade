@@ -9,7 +9,7 @@
   template#github-commit-card
     ticker-github-events-card(
       data="[[event]]"
-      class='l-margin-l2 l-margin-t2 l-width-100-gutter-r'
+      class='l-margin-t2 l-margin-l2 l-width100-gutter-r'
     )
 
   core-scroll-header-panel(
@@ -20,7 +20,7 @@
       paper-icon-button(icon="menu")
       span(flex)
       paper-icon-button(icon="search")
-      div#titleText.bottom.ticker-app__title-text
+      #titleText.bottom.ticker-app__title-text
         | Title
 
     .content
