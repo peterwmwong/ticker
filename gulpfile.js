@@ -142,11 +142,12 @@ gulp.task('code-spec', function(){
   return gulp.src(SPEC_SRC_DIR+'**/*.js')
              .pipe(changed(SPEC_BUILD_DIR))
              .pipe(plumber())
+             .pipe(sourcemaps.init())
              .pipe(traceur({
-               sourceMap:true,
                modules:'instantiate',
                asyncFunctions:true
              }))
+             .pipe(sourcemaps.write())
              .pipe(gulp.dest(SPEC_BUILD_DIR));
 });
 gulp.task('code-prod', function(done){
