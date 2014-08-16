@@ -19,13 +19,13 @@ Polymer('ticker-github-events-card', {
     this.icon =
         (this.type === 'PR')     ? 'github:git-pull-request'
       : (this.type === 'ISSUE')  ?
-            (action === 'opened')  ?  'github:issue-opened'
-          : (action === 'closed')  ?  'github:issue-closed'
-          : (type === 'IssueCommentEvent') && 'github:comment'
-      : (this.type === 'BRANCH') ? 'github:git-branch'
-      : (this.type === 'REPO')   ? 'github:repo'
-      : (type === 'WatchEvent')  ? 'github:star'
-      : (type === 'ForkEvent')   ? 'github:repo-forked'
+            (action === 'opened')            ?  'github:issue-opened'
+          : (action === 'closed')            ?  'github:issue-closed'
+          : (type   === 'IssueCommentEvent') && 'github:comment'
+      : (this.type === 'BRANCH')     ? 'github:git-branch'
+      : (this.type === 'REPO')       ? 'github:repo'
+      : (type      === 'WatchEvent') ? 'github:star'
+      : (type      === 'ForkEvent')  ? 'github:repo-forked'
       : this.icon; // Use default
   }
 })
