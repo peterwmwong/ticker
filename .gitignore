@@ -11,7 +11,6 @@
 *.swp
 *.DS_Store
 
-/build/
 /spec_build/
 /.sass-cache/
 /node_modules/
