@@ -2,8 +2,16 @@
 +import('../../../bower_components/core-icon/core-icon.html')
 +import('../ticker-card.html')
 
+polymer-element(name='ticker-github-branch' attributes='branch')
+  template {{branchName}}
+  script.
+    Polymer({
+      branchChanged: function(_, branch){
+        this.branchName = branch && branch.split('/').slice(-1);
+      }
+    })
+
 template#RepoName
-  span(style='width:0; height:24px;' class='')
   span(class='t-light c-color-gray-light') {{repoOwner}}
   span(class='c-color-gray-light t-light') /
   span(class='t-light') {{repoName}}
@@ -141,22 +149,22 @@ template#ForkEvent
 
 
 template#PushEvent
-  template(ref='CardTitle' bind='{{}}')
-  div(class='l-margin-l6 l-margin-b2 t-light' horizontal layout)
+  template(ref='CardTitle' bind='[[]]')
+  div(horizontal layout class='l-margin-l6 l-margin-b2 t-light')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
       icon='github:git-branch'
     )
-    span(flex) {{payload.ref}}
+    ticker-github-branch(branch='[[payload.ref]]')
   div(layout horizontal center-top)
     img.actor-avatar(
       class='l-margin-r2'
       width='24'
       height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
+      _src='[["https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"]]'
     )
     ul.ticker-github-pushevent__commits(flex)
-      template(repeat='{{commit in limitArray(payload.commits, 3)}}')
+      template(repeat='[[commit in limitArray(payload.commits, 3)]]')
         li(class='l-margin-b50pct t-truncate')
           core-icon(class='c-color-confirm l-margin-r2' icon='github:git-commit')
           | {{commit.message}}
@@ -176,6 +184,5 @@ template#GollumEvent
 
 +polymer-element(attributes='data')
   //- div.c-color-gray-light.l-margin-b1.l-margin-l2.l-margin-t4 {{data.type}}
-  //- div.c-color-gray-light.l-margin-b1.l-margin-l2.l-margin-t2 {{data.repo.name}}
   ticker-card(class='c-color-gray-darker l-padding-v2 l-padding-h2' layout vertical)
     template(ref='{{data.type}}' bind='{{data}}')
