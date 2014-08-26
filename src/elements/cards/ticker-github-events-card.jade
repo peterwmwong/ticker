@@ -1,24 +1,15 @@
 +import('../../iconsets/github.html')
 +import('../../../bower_components/core-icon/core-icon.html')
 +import('../ticker-card.html')
-
-polymer-element(name='ticker-github-branch' attributes='branch')
-  template {{branchName}}
-  script.
-    Polymer({
-      branchChanged: function(_, branch){
-        this.branchName = branch && branch.split('/').slice(-1);
-      }
-    })
-
-template#RepoName
-  span(class='t-light c-color-gray-light') {{repoOwner}}
-  span(class='c-color-gray-light t-light') /
-  span(class='t-light') {{repoName}}
++import('./ticker-github-branch.html')
++import('./ticker-github-repo.html')
 
 template#CardTitle
-  div(layout horizontal center class='l-margin-b2 l-padding-b1' style='border-bottom: 1px solid #EEE;')
-    template(ref='RepoName' bind='{{}}')
+  ticker-github-repo(
+    block
+    repo='{{repo.name}}'
+    class='l-margin-b2 l-padding-b1'
+    style='border-bottom: 1px solid #EEE;')
 
 template#PullRequestEvent
   template(ref='CardTitle' bind='{{}}')
@@ -48,7 +39,7 @@ template#CreateOrDeleteEvent
         _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
       )
       core-icon(class='c-{{iconColor}} l-margin-r2' icon='github:repo')
-      template(ref='RepoName' bind='{{}}')
+      ticker-github-repo(repo='{{repo.name}}')
 
   template(if='{{payload.refType !== "repository"}}')
     template(ref='CardTitle' bind='{{}}')
@@ -130,7 +121,7 @@ template#WatchEvent
       class='c-color-gray-lightest l-margin-r1'
       icon='github:star'
     )
-    template(ref='RepoName' bind='{{}}')
+    ticker-github-repo(repo='{{repo.name}}')
 
 
 template#ForkEvent
@@ -145,7 +136,7 @@ template#ForkEvent
       class='c-color-gray-lightest l-margin-r1'
       icon='github:repo-forked'
     )
-    template(ref='RepoName' bind='{{}}')
+    ticker-github-repo(repo='{{repo.name}}')
 
 
 template#PushEvent
