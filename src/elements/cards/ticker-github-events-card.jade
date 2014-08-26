@@ -71,7 +71,7 @@ template#IssueCommentEvent
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
       icon='{{payload.issue.pullRequest ? "github:git-pull-request" \
-                                        : "github:repo"             }}'
+                                        : "github:issue-opened"     }}'
     )
     span(flex) {{payload.issue.title}}
   div(layout horizontal center-top)
