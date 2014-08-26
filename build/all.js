@@ -1,28 +1,17 @@
 System.register("elements/cards/ticker-github-events-card", [], function($__export) {
   "use strict";
   var __moduleName = "elements/cards/ticker-github-events-card";
-  var REF_TYPE_TO_TYPE;
   return {
     setters: [],
     execute: function() {
-      REF_TYPE_TO_TYPE = {
-        'branch': 'BRANCH',
-        'repository': 'REPO'
+      PolymerExpressions.prototype.limitArray = function(array, size) {
+        return array && array.slice(0, size);
       };
-      Polymer('ticker-github-events-card', {
-        type: 'OTHER',
-        icon: 'github:octoface',
-        dataChanged: function(_) {
-          var $__0 = arguments[1] !== (void 0) ? arguments[1] : {},
-              type = $__0.type,
-              $__1 = $__0.payload,
-              action = $__1.action,
-              refType = $__1.refType,
-              pullRequest = $__1.pullRequest;
-          this.type = (type === 'PullRequestEvent') ? 'PR' : (type === 'IssuesEvent') ? 'ISSUE' : (type === 'IssueCommentEvent') ? (pullRequest ? 'PR' : 'ISSUE') : (type === 'CreateEvent' || type === 'DeleteEvent') ? REF_TYPE_TO_TYPE[refType] : this.type;
-          this.icon = (this.type === 'PR') ? 'github:git-pull-request' : (this.type === 'ISSUE') ? (action === 'opened') ? 'github:issue-opened' : (action === 'closed') ? 'github:issue-closed' : (type === 'IssueCommentEvent') && 'github:comment' : (this.type === 'BRANCH') ? 'github:git-branch' : (this.type === 'REPO') ? 'github:repo' : (type === 'WatchEvent') ? 'github:star' : (type === 'ForkEvent') ? 'github:repo-forked' : this.icon;
-        }
-      });
+      Polymer('ticker-github-events-card', {dataChanged: function(_, data) {
+          var nameParts = data.repo.name.split('/');
+          data.repoOwner = nameParts[0];
+          data.repoName = nameParts[1];
+        }});
     }
   };
 });
@@ -332,9 +321,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       hasManyRemove.call(this, desc, [model], false);
   }
   function hasOneSet(desc, v, sync) {
-    var $__17 = desc,
-        name = $__17.name,
-        inverse = $__17.inverse;
+    var $__15 = desc,
+        name = $__15.name,
+        inverse = $__15.inverse;
     var key = ("__" + name + "__");
     var prev = this[key];
     if (v)
@@ -348,16 +337,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       inverseAdded.call(v, inverse, this);
   }
   function hasManySet(desc, a) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name];
     a.forEach(checkAssociatedType.bind(this, desc));
     if (desc.inverse) {
       prev.forEach((function(x) {
-        return inverseRemoved.call(x, desc.inverse, $__2);
+        return inverseRemoved.call(x, desc.inverse, $__0);
       }));
       a.forEach((function(x) {
-        return inverseAdded.call(x, desc.inverse, $__2);
+        return inverseAdded.call(x, desc.inverse, $__0);
       }));
     }
     this[("__" + desc.name + "__")] = a;
@@ -365,30 +354,30 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       setChange.call(this, name, prev);
   }
   function hasManyAdd(desc, models, sync) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      checkAssociatedType.call($__2, desc, m);
+      checkAssociatedType.call($__0, desc, m);
       if (sync && desc.inverse)
-        inverseAdded.call(m, desc.inverse, $__2);
-      $__2[name].push(m);
+        inverseAdded.call(m, desc.inverse, $__0);
+      $__0[name].push(m);
     }));
     if (desc.owner && this.$isLoaded)
       setChange.call(this, name, prev);
   }
   function hasManyRemove(desc, models, sync) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      var i = $__2[name].indexOf(m);
+      var i = $__0[name].indexOf(m);
       if (i >= 0) {
         if (sync && desc.inverse)
-          inverseRemoved.call(m, desc.inverse, $__2);
-        $__2[name].splice(i, 1);
-        if (desc.owner && $__2.$isLoaded)
-          setChange.call($__2, name, prev);
+          inverseRemoved.call(m, desc.inverse, $__0);
+        $__0[name].splice(i, 1);
+        if (desc.owner && $__0.$isLoaded)
+          setChange.call($__0, name, prev);
       }
     }));
   }
@@ -435,20 +424,20 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       $query: {
         value: function() {
           for (var args = [],
-              $__8 = 0; $__8 < arguments.length; $__8++)
-            args[$__8] = arguments[$__8];
-          var $__2 = this;
+              $__6 = 0; $__6 < arguments.length; $__6++)
+            args[$__6] = arguments[$__6];
+          var $__0 = this;
           if (isBusy) {
             queued = args;
           } else {
             isBusy = true;
             promise = ensurePromise(klass.mapper.query.apply(this, $traceurRuntime.spread([this], args)), '$query').then((function() {
-              return $__2;
+              return $__0;
             }), (function() {})).then((function(result) {
-              var $__18;
+              var $__16;
               isBusy = false;
               if (queued)
-                ($__18 = $__2).$query.apply($__18, $traceurRuntime.spread(queued));
+                ($__16 = $__0).$query.apply($__16, $traceurRuntime.spread(queued));
               return result;
             }));
           }
@@ -460,8 +449,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       },
       $replace: {
         value: function(a) {
-          var $__18;
-          ($__18 = this).splice.apply($__18, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
+          var $__16;
+          ($__16 = this).splice.apply($__16, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
           return this;
         },
         enumerable: false,
@@ -471,12 +460,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     });
   }
   function mapperGet(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__8 = 1; $__8 < arguments.length; $__8++)
-      args[$__8 - 1] = arguments[$__8];
+        $__6 = 1; $__6 < arguments.length; $__6++)
+      args[$__6 - 1] = arguments[$__6];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).get.apply($__18, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).get.apply($__16, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
       model.__$sourceState__ = LOADED;
     }), (function() {
       if (model.__$sourceState__ === EMPTY)
@@ -487,12 +476,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperCreate(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__9 = 1; $__9 < arguments.length; $__9++)
-      args[$__9 - 1] = arguments[$__9];
+        $__7 = 1; $__7 < arguments.length; $__7++)
+      args[$__7 - 1] = arguments[$__7];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).create.apply($__18, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).create.apply($__16, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
       model.__$sourceState__ = LOADED;
       return model;
     }), (function() {})).then((function() {
@@ -502,12 +491,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperUpdate(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__10 = 1; $__10 < arguments.length; $__10++)
-      args[$__10 - 1] = arguments[$__10];
+        $__8 = 1; $__8 < arguments.length; $__8++)
+      args[$__8 - 1] = arguments[$__8];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).update.apply($__18, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).update.apply($__16, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
       return model;
     }), (function() {})).then((function() {
       return model.__$isBusy__ = false;
@@ -520,9 +509,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     model.__$isBusy__ = false;
     setPristine.call(model);
     var associations = model.constructor.associations();
-    for (var $__4 = Object.keys(associations)[Symbol.iterator](),
-        $__5; !($__5 = $__4.next()).done; ) {
-      var name = $__5.value;
+    for (var $__2 = Object.keys(associations)[Symbol.iterator](),
+        $__3; !($__3 = $__2.next()).done; ) {
+      var name = $__3.value;
       {
         var desc = associations[name];
         var m = model[name];
@@ -539,12 +528,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperDelete(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__11 = 1; $__11 < arguments.length; $__11++)
-      args[$__11 - 1] = arguments[$__11];
+        $__9 = 1; $__9 < arguments.length; $__9++)
+      args[$__9 - 1] = arguments[$__9];
     model.__$isBusy__ = true;
-    model.__$promise__ = ($__18 = model.constructor.mapper).delete.apply($__18, $traceurRuntime.spread([model], args));
+    model.__$promise__ = ($__16 = model.constructor.mapper).delete.apply($__16, $traceurRuntime.spread([model], args));
     ensurePromise(model.__$promise__, 'mapperDelete');
     model.__$promise__.then((function() {
       return mapperDeleteSuccess(model);
@@ -648,9 +637,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
               if (desc.owner) {
                 var assoc = this[desc.name];
                 if (desc.type === 'hasMany') {
-                  for (var $__4 = assoc[Symbol.iterator](),
-                      $__5; !($__5 = $__4.next()).done; ) {
-                    var o = $__5.value;
+                  for (var $__2 = assoc[Symbol.iterator](),
+                      $__3; !($__3 = $__2.next()).done; ) {
+                    var o = $__3.value;
                     if (o.$hasChanges())
                       return true;
                   }
@@ -683,16 +672,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $get: function() {
             for (var args = [],
-                $__12 = 0; $__12 < arguments.length; $__12++)
-              args[$__12] = arguments[$__12];
+                $__10 = 0; $__10 < arguments.length; $__10++)
+              args[$__10] = arguments[$__10];
             if ((!this.$isLoaded && !this.$isEmpty) || this.$isBusy)
               throw (this.$className() + "#$get: cannot get a model in the " + this.$stateString() + " state: " + this);
             return mapperGet.apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
           },
           $save: function() {
             for (var args = [],
-                $__13 = 0; $__13 < arguments.length; $__13++)
-              args[$__13] = arguments[$__13];
+                $__11 = 0; $__11 < arguments.length; $__11++)
+              args[$__11] = arguments[$__11];
             if ((!this.$isNew && !this.$isLoaded) || this.$isBusy)
               throw (this.$className() + "#$save: cannot save a model in the " + this.$stateString() + " state: " + this);
             (this.$isNew ? mapperCreate : mapperUpdate).apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
@@ -700,8 +689,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $delete: function() {
             for (var args = [],
-                $__14 = 0; $__14 < arguments.length; $__14++)
-              args[$__14] = arguments[$__14];
+                $__12 = 0; $__12 < arguments.length; $__12++)
+              args[$__12] = arguments[$__12];
             if (this.$isDeleted)
               return this;
             if (this.$isBusy)
@@ -849,14 +838,14 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             });
             this.prototype[("add" + cap)] = function() {
               for (var args = [],
-                  $__15 = 0; $__15 < arguments.length; $__15++)
-                args[$__15] = arguments[$__15];
+                  $__13 = 0; $__13 < arguments.length; $__13++)
+                args[$__13] = arguments[$__13];
               hasManyAdd.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("remove" + cap)] = function() {
               for (var args = [],
-                  $__16 = 0; $__16 < arguments.length; $__16++)
-                args[$__16] = arguments[$__16];
+                  $__14 = 0; $__14 < arguments.length; $__14++)
+                args[$__14] = arguments[$__14];
               hasManyRemove.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("clear" + cap)] = function() {
@@ -932,15 +921,15 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
                 } else if (type === 'hasMany') {
                   var others = [],
                       o;
-                  for (var $__4 = data[Symbol.iterator](),
-                      $__5; !($__5 = $__4.next()).done; ) {
-                    o = $__5.value;
+                  for (var $__2 = data[Symbol.iterator](),
+                      $__3; !($__3 = $__2.next()).done; ) {
+                    o = $__3.value;
                     others.push(typeof o === 'object' ? klass.load(o) : IDMap.get(klass, o) || klass.empty(o));
                   }
                   model[name] = others;
-                  for (var $__6 = others[Symbol.iterator](),
-                      $__7; !($__7 = $__6.next()).done; ) {
-                    o = $__7.value;
+                  for (var $__4 = others[Symbol.iterator](),
+                      $__5; !($__5 = $__4.next()).done; ) {
+                    o = $__5.value;
                     setPristine.call(o);
                   }
                 }
@@ -952,17 +941,17 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             return model;
           },
           loadAll: function(objects) {
-            var $__2 = this;
+            var $__0 = this;
             return objects.map((function(o) {
-              return $__2.load(o);
+              return $__0.load(o);
             }));
           },
           query: function() {
-            var $__18;
+            var $__16;
             for (var args = [],
-                $__15 = 0; $__15 < arguments.length; $__15++)
-              args[$__15] = arguments[$__15];
-            return ($__18 = this.buildQuery()).$query.apply($__18, $traceurRuntime.spread(args));
+                $__13 = 0; $__13 < arguments.length; $__13++)
+              args[$__13] = arguments[$__13];
+            return ($__16 = this.buildQuery()).$query.apply($__16, $traceurRuntime.spread(args));
           },
           buildQuery: function() {
             return buildQueryArray(this);
@@ -985,8 +974,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           extend: function() {
             for (var args = [],
-                $__16 = 0; $__16 < arguments.length; $__16++)
-              args[$__16] = arguments[$__16];
+                $__14 = 0; $__14 < arguments.length; $__14++)
+              args[$__14] = arguments[$__14];
             return extendMany(this, args);
           }
         });
@@ -1004,6 +993,4086 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       Model.registerAttr('date', DateAttr);
       Model.registerAttr('datetime', DateTimeAttr);
       $__export('default', Model);
+    }
+  };
+});
+System.register("models/github/EventMapperMOCKDATA2", [], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/EventMapperMOCKDATA2";
+  return {
+    setters: [],
+    execute: function() {
+      $__export('default', [{
+        "id": "2249773972",
+        "type": "DeleteEvent",
+        "actor": {
+          "id": 569564,
+          "login": "cstump",
+          "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+          "url": "https://api.github.com/users/cstump",
+          "avatar_url": "https://avatars.githubusercontent.com/u/569564?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "trunk",
+          "ref_type": "branch",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-22T19:50:53Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249472340",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+            "id": 40852167,
+            "number": 128,
+            "title": "Sizmek advertisers 139",
+            "user": {
+              "login": "mswieboda",
+              "id": 2223822,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2223822?v=2",
+              "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+              "url": "https://api.github.com/users/mswieboda",
+              "html_url": "https://github.com/mswieboda",
+              "followers_url": "https://api.github.com/users/mswieboda/followers",
+              "following_url": "https://api.github.com/users/mswieboda/following{/other_user}",
+              "gists_url": "https://api.github.com/users/mswieboda/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/mswieboda/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/mswieboda/subscriptions",
+              "organizations_url": "https://api.github.com/users/mswieboda/orgs",
+              "repos_url": "https://api.github.com/users/mswieboda/repos",
+              "events_url": "https://api.github.com/users/mswieboda/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/mswieboda/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 3,
+            "created_at": "2014-08-21T21:27:22Z",
+            "updated_at": "2014-08-22T17:05:16Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/128.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/128.patch"
+            },
+            "body": "[Create and Manage Advertisers in Sizmek](https://centro.mingle.thoughtworks.com/projects/cmp___integration_efforts/cards/139)\r\nSizmek Create/Delete/Update/Get Advertisers\r\n\r\nNote: also renamed a few classes match Sizmek API better\r\n`FindCampaign` => `GetCampaigns` and `CampaignFilter => CampaignsFilter`"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53090095",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128#issuecomment-53090095",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "id": 53090095,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T17:05:16Z",
+            "updated_at": "2014-08-22T17:05:16Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/152/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T17:05:16Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249465373",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/132",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/132",
+            "id": 40927303,
+            "number": 132,
+            "title": "Fix ie tc file error",
+            "user": {
+              "login": "peterwmwong",
+              "id": 284734,
+              "avatar_url": "https://avatars.githubusercontent.com/u/284734?v=2",
+              "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+              "url": "https://api.github.com/users/peterwmwong",
+              "html_url": "https://github.com/peterwmwong",
+              "followers_url": "https://api.github.com/users/peterwmwong/followers",
+              "following_url": "https://api.github.com/users/peterwmwong/following{/other_user}",
+              "gists_url": "https://api.github.com/users/peterwmwong/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/peterwmwong/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/peterwmwong/subscriptions",
+              "organizations_url": "https://api.github.com/users/peterwmwong/orgs",
+              "repos_url": "https://api.github.com/users/peterwmwong/repos",
+              "events_url": "https://api.github.com/users/peterwmwong/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/peterwmwong/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 1,
+            "created_at": "2014-08-22T16:50:48Z",
+            "updated_at": "2014-08-22T17:01:18Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/132",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/132",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/132.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/132.patch"
+            },
+            "body": "DEPENDS ON: PR #129 \r\n\r\n### Before\r\n\r\n![screen shot 2014-08-22 at 11 50 13 am](https://cloud.githubusercontent.com/assets/284734/4014010/6e38fa3c-2a1c-11e4-9649-7326be0dfb06.png)\r\n\r\n### After\r\n\r\n![screen shot 2014-08-22 at 11 47 06 am](https://cloud.githubusercontent.com/assets/284734/4014003/4a31acec-2a1c-11e4-950f-3b36046e4705.png)\r\n"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53089626",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/132#issuecomment-53089626",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132",
+            "id": 53089626,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T17:01:17Z",
+            "updated_at": "2014-08-22T17:01:17Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/151/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T17:01:18Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249453010",
+        "type": "PushEvent",
+        "actor": {
+          "id": 2223822,
+          "login": "mswieboda",
+          "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+          "url": "https://api.github.com/users/mswieboda",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2223822?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 435037054,
+          "size": 1,
+          "distinct_size": 1,
+          "ref": "refs/heads/sizmek-advertisers-139",
+          "head": "beb958f7c6c1edd46d3171242c12a48dd342dbb2",
+          "before": "78b585edb8bcb35dafc671b5965f60cf6eff9ccc",
+          "commits": [{
+            "sha": "beb958f7c6c1edd46d3171242c12a48dd342dbb2",
+            "author": {
+              "email": "matt.swieboda@centro.net",
+              "name": "Matt Swieboda"
+            },
+            "message": "advertiser builder spec forgot get_advertisers.xml, renamed get_campaigns.xml",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/beb958f7c6c1edd46d3171242c12a48dd342dbb2"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:54:26Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249446796",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 284734,
+          "login": "peterwmwong",
+          "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+          "url": "https://api.github.com/users/peterwmwong",
+          "avatar_url": "https://avatars.githubusercontent.com/u/284734?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "opened",
+          "number": 132,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/132",
+            "id": 20183337,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/132",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/132.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/132.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132",
+            "number": 132,
+            "state": "open",
+            "locked": false,
+            "title": "Fix ie tc file error",
+            "user": {
+              "login": "peterwmwong",
+              "id": 284734,
+              "avatar_url": "https://avatars.githubusercontent.com/u/284734?v=2",
+              "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+              "url": "https://api.github.com/users/peterwmwong",
+              "html_url": "https://github.com/peterwmwong",
+              "followers_url": "https://api.github.com/users/peterwmwong/followers",
+              "following_url": "https://api.github.com/users/peterwmwong/following{/other_user}",
+              "gists_url": "https://api.github.com/users/peterwmwong/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/peterwmwong/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/peterwmwong/subscriptions",
+              "organizations_url": "https://api.github.com/users/peterwmwong/orgs",
+              "repos_url": "https://api.github.com/users/peterwmwong/repos",
+              "events_url": "https://api.github.com/users/peterwmwong/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/peterwmwong/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "DEPENDS ON: PR #129 \r\n\r\n### Before\r\n\r\n![screen shot 2014-08-22 at 11 50 13 am](https://cloud.githubusercontent.com/assets/284734/4014010/6e38fa3c-2a1c-11e4-9649-7326be0dfb06.png)\r\n\r\n### After\r\n\r\n![screen shot 2014-08-22 at 11 47 06 am](https://cloud.githubusercontent.com/assets/284734/4014003/4a31acec-2a1c-11e4-950f-3b36046e4705.png)\r\n",
+            "created_at": "2014-08-22T16:50:48Z",
+            "updated_at": "2014-08-22T16:50:48Z",
+            "closed_at": null,
+            "merged_at": null,
+            "merge_commit_sha": null,
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/132/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/132/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/132/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/e20fe7555365dc329baa56e8a4ba7c5143366a12",
+            "head": {
+              "label": "centro:fix-ie-tc-file-error",
+              "ref": "fix-ie-tc-file-error",
+              "sha": "e20fe7555365dc329baa56e8a4ba7c5143366a12",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T16:44:46Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 4,
+                "forks": 0,
+                "open_issues": 4,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "f72f149f6401e7a65b6ffc763ecf6405f0e77246",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T16:44:46Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 4,
+                "forks": 0,
+                "open_issues": 4,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/132"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/132"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/132"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/132/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/132/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/132/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/e20fe7555365dc329baa56e8a4ba7c5143366a12"}
+            },
+            "merged": false,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": null,
+            "comments": 0,
+            "review_comments": 0,
+            "commits": 3,
+            "additions": 48,
+            "deletions": 16,
+            "changed_files": 7
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:50:49Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249436185",
+        "type": "CreateEvent",
+        "actor": {
+          "id": 284734,
+          "login": "peterwmwong",
+          "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+          "url": "https://api.github.com/users/peterwmwong",
+          "avatar_url": "https://avatars.githubusercontent.com/u/284734?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "fix-ie-tc-file-error",
+          "ref_type": "branch",
+          "master_branch": "master",
+          "description": "Documentation for platform workflow and cross product requirements",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:44:47Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249428233",
+        "type": "PushEvent",
+        "actor": {
+          "id": 271342,
+          "login": "mikenichols",
+          "gravatar_id": "9a8e6e470fcf3e3112e1fac53737e421",
+          "url": "https://api.github.com/users/mikenichols",
+          "avatar_url": "https://avatars.githubusercontent.com/u/271342?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 435026494,
+          "size": 1,
+          "distinct_size": 1,
+          "ref": "refs/heads/master",
+          "head": "f72f149f6401e7a65b6ffc763ecf6405f0e77246",
+          "before": "18ca27f1c20989b3c52dc574fdb781974c96bcfc",
+          "commits": [{
+            "sha": "f72f149f6401e7a65b6ffc763ecf6405f0e77246",
+            "author": {
+              "email": "mike.nichols@cento.net",
+              "name": "Mike Nichols"
+            },
+            "message": "Making repo_manager setup tasks idempotent.",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/f72f149f6401e7a65b6ffc763ecf6405f0e77246"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:40:24Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249417591",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+            "id": 40852167,
+            "number": 128,
+            "title": "Sizmek advertisers 139",
+            "user": {
+              "login": "mswieboda",
+              "id": 2223822,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2223822?v=2",
+              "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+              "url": "https://api.github.com/users/mswieboda",
+              "html_url": "https://github.com/mswieboda",
+              "followers_url": "https://api.github.com/users/mswieboda/followers",
+              "following_url": "https://api.github.com/users/mswieboda/following{/other_user}",
+              "gists_url": "https://api.github.com/users/mswieboda/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/mswieboda/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/mswieboda/subscriptions",
+              "organizations_url": "https://api.github.com/users/mswieboda/orgs",
+              "repos_url": "https://api.github.com/users/mswieboda/repos",
+              "events_url": "https://api.github.com/users/mswieboda/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/mswieboda/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 2,
+            "created_at": "2014-08-21T21:27:22Z",
+            "updated_at": "2014-08-22T16:34:54Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/128.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/128.patch"
+            },
+            "body": "[Create and Manage Advertisers in Sizmek](https://centro.mingle.thoughtworks.com/projects/cmp___integration_efforts/cards/139)\r\nSizmek Create/Delete/Update/Get Advertisers\r\n\r\nNote: also renamed a few classes match Sizmek API better\r\n`FindCampaign` => `GetCampaigns` and `CampaignFilter => CampaignsFilter`"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53086017",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128#issuecomment-53086017",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "id": 53086017,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T16:34:54Z",
+            "updated_at": "2014-08-22T16:34:54Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/150/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:34:55Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249406137",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/129",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/129",
+            "id": 40856013,
+            "number": 129,
+            "title": "Fix: IE9 Fix file uploads (T&C and Import/Export)",
+            "user": {
+              "login": "peterwmwong",
+              "id": 284734,
+              "avatar_url": "https://avatars.githubusercontent.com/u/284734?v=2",
+              "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+              "url": "https://api.github.com/users/peterwmwong",
+              "html_url": "https://github.com/peterwmwong",
+              "followers_url": "https://api.github.com/users/peterwmwong/followers",
+              "following_url": "https://api.github.com/users/peterwmwong/following{/other_user}",
+              "gists_url": "https://api.github.com/users/peterwmwong/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/peterwmwong/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/peterwmwong/subscriptions",
+              "organizations_url": "https://api.github.com/users/peterwmwong/orgs",
+              "repos_url": "https://api.github.com/users/peterwmwong/repos",
+              "events_url": "https://api.github.com/users/peterwmwong/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/peterwmwong/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 2,
+            "created_at": "2014-08-21T22:10:58Z",
+            "updated_at": "2014-08-22T16:29:02Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/129",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/129",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/129.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/129.patch"
+            },
+            "body": "[Mingle #204](https://centro.mingle.thoughtworks.com/projects/cmp___global_vendor_directory/cards/204)\r\n\r\n- ~~Handling server errors after submit (T&C duplicate name) is broken~~ Separate defect for this: https://centro.mingle.thoughtworks.com/projects/cmp___global_vendor_directory/cards/209"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53084894",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/129#issuecomment-53084894",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129",
+            "id": 53084894,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T16:29:02Z",
+            "updated_at": "2014-08-22T16:29:02Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/149/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:29:02Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249396235",
+        "type": "PushEvent",
+        "actor": {
+          "id": 2223822,
+          "login": "mswieboda",
+          "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+          "url": "https://api.github.com/users/mswieboda",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2223822?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 435013940,
+          "size": 1,
+          "distinct_size": 1,
+          "ref": "refs/heads/sizmek-advertisers-139",
+          "head": "78b585edb8bcb35dafc671b5965f60cf6eff9ccc",
+          "before": "885d91008c22c6335086d38ca2a6891a28dd6fa9",
+          "commits": [{
+            "sha": "78b585edb8bcb35dafc671b5965f60cf6eff9ccc",
+            "author": {
+              "email": "matt.swieboda@centro.net",
+              "name": "Matt Swieboda"
+            },
+            "message": "clean up advertiser XmlBuilders",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/78b585edb8bcb35dafc671b5965f60cf6eff9ccc"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:23:52Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249386129",
+        "type": "PushEvent",
+        "actor": {
+          "id": 284734,
+          "login": "peterwmwong",
+          "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+          "url": "https://api.github.com/users/peterwmwong",
+          "avatar_url": "https://avatars.githubusercontent.com/u/284734?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 435009960,
+          "size": 1,
+          "distinct_size": 1,
+          "ref": "refs/heads/fix-ie-file-upload",
+          "head": "7726f62b85d990a8329c0df23b9928c6054c420a",
+          "before": "24fa6c95c5e307229e374a371de36dcb49e101d1",
+          "commits": [{
+            "sha": "7726f62b85d990a8329c0df23b9928c6054c420a",
+            "author": {
+              "email": "peter.wm.wong@gmail.com",
+              "name": "peterwmwong"
+            },
+            "message": "UI: Cleanup styles",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/7726f62b85d990a8329c0df23b9928c6054c420a"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-22T16:18:33Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249334389",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/131",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/131",
+            "id": 40920613,
+            "number": 131,
+            "title": "Add spec:integration task for VCR-disabled testing to other gems",
+            "user": {
+              "login": "tmertens",
+              "id": 2243386,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2243386?v=2",
+              "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+              "url": "https://api.github.com/users/tmertens",
+              "html_url": "https://github.com/tmertens",
+              "followers_url": "https://api.github.com/users/tmertens/followers",
+              "following_url": "https://api.github.com/users/tmertens/following{/other_user}",
+              "gists_url": "https://api.github.com/users/tmertens/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/tmertens/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/tmertens/subscriptions",
+              "organizations_url": "https://api.github.com/users/tmertens/orgs",
+              "repos_url": "https://api.github.com/users/tmertens/repos",
+              "events_url": "https://api.github.com/users/tmertens/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/tmertens/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 1,
+            "created_at": "2014-08-22T15:42:18Z",
+            "updated_at": "2014-08-22T15:52:49Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/131",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/131",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/131.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/131.patch"
+            },
+            "body": "@cwitthaus @brownierin This one is for you.  It adds a spec:integration task to the integration gems which disables VCR and executes the specs against the real server(s).  Previously it was only added to the adwords_integration gem, this adds it to the rest."
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53078337",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/131#issuecomment-53078337",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131",
+            "id": 53078337,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T15:52:49Z",
+            "updated_at": "2014-08-22T15:52:49Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/148/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:52:49Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249313151",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 2243386,
+          "login": "tmertens",
+          "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+          "url": "https://api.github.com/users/tmertens",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2243386?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "opened",
+          "number": 131,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/131",
+            "id": 20179425,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/131",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/131.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/131.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131",
+            "number": 131,
+            "state": "open",
+            "locked": false,
+            "title": "Add spec:integration task for VCR-disabled testing to other gems",
+            "user": {
+              "login": "tmertens",
+              "id": 2243386,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2243386?v=2",
+              "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+              "url": "https://api.github.com/users/tmertens",
+              "html_url": "https://github.com/tmertens",
+              "followers_url": "https://api.github.com/users/tmertens/followers",
+              "following_url": "https://api.github.com/users/tmertens/following{/other_user}",
+              "gists_url": "https://api.github.com/users/tmertens/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/tmertens/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/tmertens/subscriptions",
+              "organizations_url": "https://api.github.com/users/tmertens/orgs",
+              "repos_url": "https://api.github.com/users/tmertens/repos",
+              "events_url": "https://api.github.com/users/tmertens/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/tmertens/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "@cwitthaus @brownierin This one is for you.  It adds a spec:integration task to the integration gems which disables VCR and executes the specs against the real server(s).  Previously it was only added to the adwords_integration gem, this adds it to the rest.",
+            "created_at": "2014-08-22T15:42:18Z",
+            "updated_at": "2014-08-22T15:42:18Z",
+            "closed_at": null,
+            "merged_at": null,
+            "merge_commit_sha": null,
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/131/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/131/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/131/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/68e2e6dd0c2534f9841719a4d5836aa20587386a",
+            "head": {
+              "label": "centro:gem-vcr-tasks",
+              "ref": "gem-vcr-tasks",
+              "sha": "68e2e6dd0c2534f9841719a4d5836aa20587386a",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:41:00Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 3,
+                "forks": 0,
+                "open_issues": 3,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "18ca27f1c20989b3c52dc574fdb781974c96bcfc",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:41:00Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 3,
+                "forks": 0,
+                "open_issues": 3,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/131"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/131"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/131"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/131/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/131/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/131/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/68e2e6dd0c2534f9841719a4d5836aa20587386a"}
+            },
+            "merged": false,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": null,
+            "comments": 0,
+            "review_comments": 0,
+            "commits": 1,
+            "additions": 88,
+            "deletions": 24,
+            "changed_files": 10
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:42:18Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249310465",
+        "type": "CreateEvent",
+        "actor": {
+          "id": 2243386,
+          "login": "tmertens",
+          "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+          "url": "https://api.github.com/users/tmertens",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2243386?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "gem-vcr-tasks",
+          "ref_type": "branch",
+          "master_branch": "master",
+          "description": "Documentation for platform workflow and cross product requirements",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:41:00Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249287616",
+        "type": "PushEvent",
+        "actor": {
+          "id": 4668,
+          "login": "burrows",
+          "gravatar_id": "2f10dbbf43d858001133a9cc11424067",
+          "url": "https://api.github.com/users/burrows",
+          "avatar_url": "https://avatars.githubusercontent.com/u/4668?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 434969006,
+          "size": 7,
+          "distinct_size": 1,
+          "ref": "refs/heads/master",
+          "head": "18ca27f1c20989b3c52dc574fdb781974c96bcfc",
+          "before": "7bf36ca5c884f280a0b1f0e2a034ca3238277077",
+          "commits": [{
+            "sha": "61be41c7c7208e184de5ed5f3c904ea4f47c7f55",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate dummy gem / app",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/61be41c7c7208e184de5ed5f3c904ea4f47c7f55"
+          }, {
+            "sha": "1d4ee7faaf1daef267f2c4a76d81bdc8107febfb",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "update components and specs to use new dummy location",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/1d4ee7faaf1daef267f2c4a76d81bdc8107febfb"
+          }, {
+            "sha": "04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate template to components dir",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce"
+          }, {
+            "sha": "b757f9e7364c595498f9c97b18eac527a2e857b6",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "Revert \"relocate template to components dir\"\n\nThis reverts commit 04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce.",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/b757f9e7364c595498f9c97b18eac527a2e857b6"
+          }, {
+            "sha": "f357aad6de9de7010137d1881b12b94b10b0a253",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate template to components dir",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/f357aad6de9de7010137d1881b12b94b10b0a253"
+          }, {
+            "sha": "53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "Merge branch 'master' into relocate_dummy_and_template",
+            "distinct": false,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37"
+          }, {
+            "sha": "18ca27f1c20989b3c52dc574fdb781974c96bcfc",
+            "author": {
+              "email": "corey.burrows@gmail.com",
+              "name": "Corey Burrows"
+            },
+            "message": "Merge pull request #130 from centro/relocate_dummy_and_template\n\nRelocate dummy and template",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/18ca27f1c20989b3c52dc574fdb781974c96bcfc"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:29:42Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249287577",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 4668,
+          "login": "burrows",
+          "gravatar_id": "2f10dbbf43d858001133a9cc11424067",
+          "url": "https://api.github.com/users/burrows",
+          "avatar_url": "https://avatars.githubusercontent.com/u/4668?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "closed",
+          "number": 130,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130",
+            "id": 20177402,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/130.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/130.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "number": 130,
+            "state": "closed",
+            "locked": false,
+            "title": "Relocate dummy and template",
+            "user": {
+              "login": "cstump",
+              "id": 569564,
+              "avatar_url": "https://avatars.githubusercontent.com/u/569564?v=2",
+              "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+              "url": "https://api.github.com/users/cstump",
+              "html_url": "https://github.com/cstump",
+              "followers_url": "https://api.github.com/users/cstump/followers",
+              "following_url": "https://api.github.com/users/cstump/following{/other_user}",
+              "gists_url": "https://api.github.com/users/cstump/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/cstump/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/cstump/subscriptions",
+              "organizations_url": "https://api.github.com/users/cstump/orgs",
+              "repos_url": "https://api.github.com/users/cstump/repos",
+              "events_url": "https://api.github.com/users/cstump/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/cstump/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "This moves the dummy app needed for testing under spec/ and puts the component template under components/ . The latter was renamed to a dotdir so it is out of the way and so scripts like test-all.sh don't have to worry about it. ",
+            "created_at": "2014-08-22T15:11:10Z",
+            "updated_at": "2014-08-22T15:29:41Z",
+            "closed_at": "2014-08-22T15:29:41Z",
+            "merged_at": "2014-08-22T15:29:41Z",
+            "merge_commit_sha": "18bcd1d1c3e6c79471e9f5f143fdc435d99995a5",
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37",
+            "head": {
+              "label": "centro:relocate_dummy_and_template",
+              "ref": "relocate_dummy_and_template",
+              "sha": "53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:29:41Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 2,
+                "forks": 0,
+                "open_issues": 2,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "7bf36ca5c884f280a0b1f0e2a034ca3238277077",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:29:41Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 2,
+                "forks": 0,
+                "open_issues": 2,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/130"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/130"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37"}
+            },
+            "merged": true,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": {
+              "login": "burrows",
+              "id": 4668,
+              "avatar_url": "https://avatars.githubusercontent.com/u/4668?v=2",
+              "gravatar_id": "2f10dbbf43d858001133a9cc11424067",
+              "url": "https://api.github.com/users/burrows",
+              "html_url": "https://github.com/burrows",
+              "followers_url": "https://api.github.com/users/burrows/followers",
+              "following_url": "https://api.github.com/users/burrows/following{/other_user}",
+              "gists_url": "https://api.github.com/users/burrows/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/burrows/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/burrows/subscriptions",
+              "organizations_url": "https://api.github.com/users/burrows/orgs",
+              "repos_url": "https://api.github.com/users/burrows/repos",
+              "events_url": "https://api.github.com/users/burrows/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/burrows/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "comments": 2,
+            "review_comments": 0,
+            "commits": 6,
+            "additions": 18,
+            "deletions": 18,
+            "changed_files": 57
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:29:41Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249287449",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 4668,
+          "login": "burrows",
+          "gravatar_id": "2f10dbbf43d858001133a9cc11424067",
+          "url": "https://api.github.com/users/burrows",
+          "avatar_url": "https://avatars.githubusercontent.com/u/4668?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+            "id": 40917575,
+            "number": 130,
+            "title": "Relocate dummy and template",
+            "user": {
+              "login": "cstump",
+              "id": 569564,
+              "avatar_url": "https://avatars.githubusercontent.com/u/569564?v=2",
+              "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+              "url": "https://api.github.com/users/cstump",
+              "html_url": "https://github.com/cstump",
+              "followers_url": "https://api.github.com/users/cstump/followers",
+              "following_url": "https://api.github.com/users/cstump/following{/other_user}",
+              "gists_url": "https://api.github.com/users/cstump/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/cstump/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/cstump/subscriptions",
+              "organizations_url": "https://api.github.com/users/cstump/orgs",
+              "repos_url": "https://api.github.com/users/cstump/repos",
+              "events_url": "https://api.github.com/users/cstump/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/cstump/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 2,
+            "created_at": "2014-08-22T15:11:10Z",
+            "updated_at": "2014-08-22T15:29:37Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/130.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/130.patch"
+            },
+            "body": "This moves the dummy app needed for testing under spec/ and puts the component template under components/ . The latter was renamed to a dotdir so it is out of the way and so scripts like test-all.sh don't have to worry about it. "
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53075137",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130#issuecomment-53075137",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "id": 53075137,
+            "user": {
+              "login": "burrows",
+              "id": 4668,
+              "avatar_url": "https://avatars.githubusercontent.com/u/4668?v=2",
+              "gravatar_id": "2f10dbbf43d858001133a9cc11424067",
+              "url": "https://api.github.com/users/burrows",
+              "html_url": "https://github.com/burrows",
+              "followers_url": "https://api.github.com/users/burrows/followers",
+              "following_url": "https://api.github.com/users/burrows/following{/other_user}",
+              "gists_url": "https://api.github.com/users/burrows/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/burrows/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/burrows/subscriptions",
+              "organizations_url": "https://api.github.com/users/burrows/orgs",
+              "repos_url": "https://api.github.com/users/burrows/repos",
+              "events_url": "https://api.github.com/users/burrows/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/burrows/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T15:29:37Z",
+            "updated_at": "2014-08-22T15:29:37Z",
+            "body": "LGTM."
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:29:37Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249271146",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+            "id": 40917575,
+            "number": 130,
+            "title": "Relocate dummy and template",
+            "user": {
+              "login": "cstump",
+              "id": 569564,
+              "avatar_url": "https://avatars.githubusercontent.com/u/569564?v=2",
+              "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+              "url": "https://api.github.com/users/cstump",
+              "html_url": "https://github.com/cstump",
+              "followers_url": "https://api.github.com/users/cstump/followers",
+              "following_url": "https://api.github.com/users/cstump/following{/other_user}",
+              "gists_url": "https://api.github.com/users/cstump/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/cstump/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/cstump/subscriptions",
+              "organizations_url": "https://api.github.com/users/cstump/orgs",
+              "repos_url": "https://api.github.com/users/cstump/repos",
+              "events_url": "https://api.github.com/users/cstump/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/cstump/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 1,
+            "created_at": "2014-08-22T15:11:10Z",
+            "updated_at": "2014-08-22T15:21:50Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/130.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/130.patch"
+            },
+            "body": "This moves the dummy app needed for testing under spec/ and puts the component template under components/ . The latter was renamed to a dotdir so it is out of the way and so scripts like test-all.sh don't have to worry about it. "
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/53074028",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130#issuecomment-53074028",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "id": 53074028,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-22T15:21:50Z",
+            "updated_at": "2014-08-22T15:21:50Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/147/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:21:51Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249248766",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 569564,
+          "login": "cstump",
+          "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+          "url": "https://api.github.com/users/cstump",
+          "avatar_url": "https://avatars.githubusercontent.com/u/569564?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "opened",
+          "number": 130,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130",
+            "id": 20177402,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/130",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/130.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/130.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130",
+            "number": 130,
+            "state": "open",
+            "locked": false,
+            "title": "Relocate dummy and template",
+            "user": {
+              "login": "cstump",
+              "id": 569564,
+              "avatar_url": "https://avatars.githubusercontent.com/u/569564?v=2",
+              "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+              "url": "https://api.github.com/users/cstump",
+              "html_url": "https://github.com/cstump",
+              "followers_url": "https://api.github.com/users/cstump/followers",
+              "following_url": "https://api.github.com/users/cstump/following{/other_user}",
+              "gists_url": "https://api.github.com/users/cstump/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/cstump/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/cstump/subscriptions",
+              "organizations_url": "https://api.github.com/users/cstump/orgs",
+              "repos_url": "https://api.github.com/users/cstump/repos",
+              "events_url": "https://api.github.com/users/cstump/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/cstump/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "This moves the dummy app needed for testing under spec/ and puts the component template under components/ . The latter was renamed to a dotdir so it is out of the way and so scripts like test-all.sh don't have to worry about it. ",
+            "created_at": "2014-08-22T15:11:10Z",
+            "updated_at": "2014-08-22T15:11:10Z",
+            "closed_at": null,
+            "merged_at": null,
+            "merge_commit_sha": null,
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37",
+            "head": {
+              "label": "centro:relocate_dummy_and_template",
+              "ref": "relocate_dummy_and_template",
+              "sha": "53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:05:31Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 3,
+                "forks": 0,
+                "open_issues": 3,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "7bf36ca5c884f280a0b1f0e2a034ca3238277077",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-22T15:05:31Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 3,
+                "forks": 0,
+                "open_issues": 3,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/130"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/130"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/130/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/130/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/53e42ae7a3abca3a58d7fb13c7ee22234e5d1d37"}
+            },
+            "merged": false,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": null,
+            "comments": 0,
+            "review_comments": 0,
+            "commits": 6,
+            "additions": 18,
+            "deletions": 18,
+            "changed_files": 57
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:11:10Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2249237126",
+        "type": "CreateEvent",
+        "actor": {
+          "id": 569564,
+          "login": "cstump",
+          "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+          "url": "https://api.github.com/users/cstump",
+          "avatar_url": "https://avatars.githubusercontent.com/u/569564?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "relocate_dummy_and_template",
+          "ref_type": "branch",
+          "master_branch": "master",
+          "description": "Documentation for platform workflow and cross product requirements",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-22T15:05:31Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2248003350",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/129",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/129",
+            "id": 40856013,
+            "number": 129,
+            "title": "Fix: IE9/10 Fix file uploads (T&C and Import/Export)",
+            "user": {
+              "login": "peterwmwong",
+              "id": 284734,
+              "avatar_url": "https://avatars.githubusercontent.com/u/284734?v=2",
+              "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+              "url": "https://api.github.com/users/peterwmwong",
+              "html_url": "https://github.com/peterwmwong",
+              "followers_url": "https://api.github.com/users/peterwmwong/followers",
+              "following_url": "https://api.github.com/users/peterwmwong/following{/other_user}",
+              "gists_url": "https://api.github.com/users/peterwmwong/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/peterwmwong/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/peterwmwong/subscriptions",
+              "organizations_url": "https://api.github.com/users/peterwmwong/orgs",
+              "repos_url": "https://api.github.com/users/peterwmwong/repos",
+              "events_url": "https://api.github.com/users/peterwmwong/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/peterwmwong/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 1,
+            "created_at": "2014-08-21T22:10:58Z",
+            "updated_at": "2014-08-21T22:21:13Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/129",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/129",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/129.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/129.patch"
+            },
+            "body": "[Mingle #204](https://centro.mingle.thoughtworks.com/projects/cmp___global_vendor_directory/cards/204)\r\n\r\n- [ ] Handling server errors after submit (T&C duplicate name) is broken"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/52993166",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/129#issuecomment-52993166",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129",
+            "id": 52993166,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-21T22:21:13Z",
+            "updated_at": "2014-08-21T22:21:13Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/146/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-21T22:21:14Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247987055",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 284734,
+          "login": "peterwmwong",
+          "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+          "url": "https://api.github.com/users/peterwmwong",
+          "avatar_url": "https://avatars.githubusercontent.com/u/284734?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "opened",
+          "number": 129,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/129",
+            "id": 20141618,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/129",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/129.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/129.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129",
+            "number": 129,
+            "state": "open",
+            "locked": false,
+            "title": "Fix: IE9/10 Fix file uploads (T&C and Import/Export)",
+            "user": {
+              "login": "peterwmwong",
+              "id": 284734,
+              "avatar_url": "https://avatars.githubusercontent.com/u/284734?v=2",
+              "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+              "url": "https://api.github.com/users/peterwmwong",
+              "html_url": "https://github.com/peterwmwong",
+              "followers_url": "https://api.github.com/users/peterwmwong/followers",
+              "following_url": "https://api.github.com/users/peterwmwong/following{/other_user}",
+              "gists_url": "https://api.github.com/users/peterwmwong/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/peterwmwong/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/peterwmwong/subscriptions",
+              "organizations_url": "https://api.github.com/users/peterwmwong/orgs",
+              "repos_url": "https://api.github.com/users/peterwmwong/repos",
+              "events_url": "https://api.github.com/users/peterwmwong/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/peterwmwong/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "[Mingle #204](https://centro.mingle.thoughtworks.com/projects/cmp___global_vendor_directory/cards/204)\r\n\r\n- [ ] Handling server errors after submit (T&C duplicate name) is broken",
+            "created_at": "2014-08-21T22:10:58Z",
+            "updated_at": "2014-08-21T22:10:58Z",
+            "closed_at": null,
+            "merged_at": null,
+            "merge_commit_sha": null,
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/129/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/129/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/129/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/24fa6c95c5e307229e374a371de36dcb49e101d1",
+            "head": {
+              "label": "centro:fix-ie-file-upload",
+              "ref": "fix-ie-file-upload",
+              "sha": "24fa6c95c5e307229e374a371de36dcb49e101d1",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T21:30:40Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 2,
+                "forks": 0,
+                "open_issues": 2,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "7bf36ca5c884f280a0b1f0e2a034ca3238277077",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T21:30:40Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 2,
+                "forks": 0,
+                "open_issues": 2,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/129"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/129"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/129"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/129/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/129/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/129/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/24fa6c95c5e307229e374a371de36dcb49e101d1"}
+            },
+            "merged": false,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": null,
+            "comments": 0,
+            "review_comments": 0,
+            "commits": 1,
+            "additions": 36,
+            "deletions": 12,
+            "changed_files": 7
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-21T22:10:58Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247927686",
+        "type": "IssueCommentEvent",
+        "actor": {
+          "id": 2659360,
+          "login": "centrobot",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/users/centrobot",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2659360?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "created",
+          "issue": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "labels_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/labels{/name}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/comments",
+            "events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/events",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+            "id": 40852167,
+            "number": 128,
+            "title": "Sizmek advertisers 139",
+            "user": {
+              "login": "mswieboda",
+              "id": 2223822,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2223822?v=2",
+              "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+              "url": "https://api.github.com/users/mswieboda",
+              "html_url": "https://github.com/mswieboda",
+              "followers_url": "https://api.github.com/users/mswieboda/followers",
+              "following_url": "https://api.github.com/users/mswieboda/following{/other_user}",
+              "gists_url": "https://api.github.com/users/mswieboda/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/mswieboda/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/mswieboda/subscriptions",
+              "organizations_url": "https://api.github.com/users/mswieboda/orgs",
+              "repos_url": "https://api.github.com/users/mswieboda/repos",
+              "events_url": "https://api.github.com/users/mswieboda/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/mswieboda/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "labels": [],
+            "state": "open",
+            "locked": false,
+            "assignee": null,
+            "milestone": null,
+            "comments": 1,
+            "created_at": "2014-08-21T21:27:22Z",
+            "updated_at": "2014-08-21T21:37:51Z",
+            "closed_at": null,
+            "pull_request": {
+              "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128",
+              "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+              "diff_url": "https://github.com/centro/centro-media-manager/pull/128.diff",
+              "patch_url": "https://github.com/centro/centro-media-manager/pull/128.patch"
+            },
+            "body": "[Create and Manage Advertisers in Sizmek](https://centro.mingle.thoughtworks.com/projects/cmp___integration_efforts/cards/139)\r\nSizmek Create/Delete/Update/Get Advertisers\r\n\r\nNote: also renamed a few classes match Sizmek API better\r\n`FindCampaign` => `GetCampaigns` and `CampaignFilter => CampaignsFilter`"
+          },
+          "comment": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/52988554",
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128#issuecomment-52988554",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "id": 52988554,
+            "user": {
+              "login": "centrobot",
+              "id": 2659360,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2659360?v=2",
+              "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+              "url": "https://api.github.com/users/centrobot",
+              "html_url": "https://github.com/centrobot",
+              "followers_url": "https://api.github.com/users/centrobot/followers",
+              "following_url": "https://api.github.com/users/centrobot/following{/other_user}",
+              "gists_url": "https://api.github.com/users/centrobot/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/centrobot/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/centrobot/subscriptions",
+              "organizations_url": "https://api.github.com/users/centrobot/orgs",
+              "repos_url": "https://api.github.com/users/centrobot/repos",
+              "events_url": "https://api.github.com/users/centrobot/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/centrobot/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "created_at": "2014-08-21T21:37:51Z",
+            "updated_at": "2014-08-21T21:37:51Z",
+            "body": "Test PASSed.\nRefer to this link for build results (access rights to CI server needed): \nhttp://jenkins.ourcentro.net/job/Centro%20Media%20Manager%20-%20Pull%20Requests/145/"
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:37:52Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247914123",
+        "type": "CreateEvent",
+        "actor": {
+          "id": 284734,
+          "login": "peterwmwong",
+          "gravatar_id": "73c7efac6fc4503a27b82e700815093a",
+          "url": "https://api.github.com/users/peterwmwong",
+          "avatar_url": "https://avatars.githubusercontent.com/u/284734?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "fix-ie-file-upload",
+          "ref_type": "branch",
+          "master_branch": "master",
+          "description": "Documentation for platform workflow and cross product requirements",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:30:40Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247907951",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 2223822,
+          "login": "mswieboda",
+          "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+          "url": "https://api.github.com/users/mswieboda",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2223822?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "opened",
+          "number": 128,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128",
+            "id": 20139144,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/128",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/128.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/128.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128",
+            "number": 128,
+            "state": "open",
+            "locked": false,
+            "title": "Sizmek advertisers 139",
+            "user": {
+              "login": "mswieboda",
+              "id": 2223822,
+              "avatar_url": "https://avatars.githubusercontent.com/u/2223822?v=2",
+              "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+              "url": "https://api.github.com/users/mswieboda",
+              "html_url": "https://github.com/mswieboda",
+              "followers_url": "https://api.github.com/users/mswieboda/followers",
+              "following_url": "https://api.github.com/users/mswieboda/following{/other_user}",
+              "gists_url": "https://api.github.com/users/mswieboda/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/mswieboda/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/mswieboda/subscriptions",
+              "organizations_url": "https://api.github.com/users/mswieboda/orgs",
+              "repos_url": "https://api.github.com/users/mswieboda/repos",
+              "events_url": "https://api.github.com/users/mswieboda/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/mswieboda/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "[Create and Manage Advertisers in Sizmek](https://centro.mingle.thoughtworks.com/projects/cmp___integration_efforts/cards/139)\r\nSizmek Create/Delete/Update/Get Advertisers\r\n\r\nNote: also renamed a few classes match Sizmek API better\r\n`FindCampaign` => `GetCampaigns` and `CampaignFilter => CampaignsFilter`",
+            "created_at": "2014-08-21T21:27:22Z",
+            "updated_at": "2014-08-21T21:27:22Z",
+            "closed_at": null,
+            "merged_at": null,
+            "merge_commit_sha": null,
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/128/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/128/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/885d91008c22c6335086d38ca2a6891a28dd6fa9",
+            "head": {
+              "label": "centro:sizmek-advertisers-139",
+              "ref": "sizmek-advertisers-139",
+              "sha": "885d91008c22c6335086d38ca2a6891a28dd6fa9",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T21:07:16Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 1,
+                "forks": 0,
+                "open_issues": 1,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "7bf36ca5c884f280a0b1f0e2a034ca3238277077",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T21:07:16Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 1,
+                "forks": 0,
+                "open_issues": 1,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/128"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/128"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/128"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/128/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/128/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/128/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/885d91008c22c6335086d38ca2a6891a28dd6fa9"}
+            },
+            "merged": false,
+            "mergeable": null,
+            "mergeable_state": "unknown",
+            "merged_by": null,
+            "comments": 0,
+            "review_comments": 0,
+            "commits": 7,
+            "additions": 17282,
+            "deletions": 1923,
+            "changed_files": 48
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:27:22Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247868950",
+        "type": "CreateEvent",
+        "actor": {
+          "id": 2223822,
+          "login": "mswieboda",
+          "gravatar_id": "d4d312a34cfa93a577373558f8c34da8",
+          "url": "https://api.github.com/users/mswieboda",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2223822?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "sizmek-advertisers-139",
+          "ref_type": "branch",
+          "master_branch": "master",
+          "description": "Documentation for platform workflow and cross product requirements",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:07:17Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247868050",
+        "type": "PushEvent",
+        "actor": {
+          "id": 569564,
+          "login": "cstump",
+          "gravatar_id": "3ece8879c1ceb0d68f3b58377bf58514",
+          "url": "https://api.github.com/users/cstump",
+          "avatar_url": "https://avatars.githubusercontent.com/u/569564?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 434352215,
+          "size": 6,
+          "distinct_size": 6,
+          "ref": "refs/heads/trunk",
+          "head": "d581d48adb6550b4cc53e56cc776fd1b799aa9c6",
+          "before": "e35828d9699d352ce90cf9e1e12dee5974e63df6",
+          "commits": [{
+            "sha": "61be41c7c7208e184de5ed5f3c904ea4f47c7f55",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate dummy gem / app",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/61be41c7c7208e184de5ed5f3c904ea4f47c7f55"
+          }, {
+            "sha": "1d4ee7faaf1daef267f2c4a76d81bdc8107febfb",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "update components and specs to use new dummy location",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/1d4ee7faaf1daef267f2c4a76d81bdc8107febfb"
+          }, {
+            "sha": "04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate template to components dir",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce"
+          }, {
+            "sha": "b757f9e7364c595498f9c97b18eac527a2e857b6",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "Revert \"relocate template to components dir\"\n\nThis reverts commit 04c623fb7e53cc6ce3fa3ab274e6c66cb942c4ce.",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/b757f9e7364c595498f9c97b18eac527a2e857b6"
+          }, {
+            "sha": "f357aad6de9de7010137d1881b12b94b10b0a253",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "relocate template to components dir",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/f357aad6de9de7010137d1881b12b94b10b0a253"
+          }, {
+            "sha": "d581d48adb6550b4cc53e56cc776fd1b799aa9c6",
+            "author": {
+              "email": "chris.stump@centro.net",
+              "name": "Chris Stump"
+            },
+            "message": "Merge branch 'relocate_dummy_and_template' into trunk",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/d581d48adb6550b4cc53e56cc776fd1b799aa9c6"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:06:51Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247855695",
+        "type": "DeleteEvent",
+        "actor": {
+          "id": 2243386,
+          "login": "tmertens",
+          "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+          "url": "https://api.github.com/users/tmertens",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2243386?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "ref": "testing_jenkins_pr",
+          "ref_type": "branch",
+          "pusher_type": "user"
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:00:48Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247855437",
+        "type": "PullRequestEvent",
+        "actor": {
+          "id": 2243386,
+          "login": "tmertens",
+          "gravatar_id": "ed8160ecdaeb10c4509f9bd52e610e5a",
+          "url": "https://api.github.com/users/tmertens",
+          "avatar_url": "https://avatars.githubusercontent.com/u/2243386?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "action": "closed",
+          "number": 97,
+          "pull_request": {
+            "url": "https://api.github.com/repos/centro/centro-media-manager/pulls/97",
+            "id": 19638452,
+            "html_url": "https://github.com/centro/centro-media-manager/pull/97",
+            "diff_url": "https://github.com/centro/centro-media-manager/pull/97.diff",
+            "patch_url": "https://github.com/centro/centro-media-manager/pull/97.patch",
+            "issue_url": "https://api.github.com/repos/centro/centro-media-manager/issues/97",
+            "number": 97,
+            "state": "closed",
+            "locked": false,
+            "title": "Testing PR  do not merge to master",
+            "user": {
+              "login": "cmeisinger",
+              "id": 416120,
+              "avatar_url": "https://avatars.githubusercontent.com/u/416120?v=2",
+              "gravatar_id": "45080ac51edb5ad418fb70b166baea7b",
+              "url": "https://api.github.com/users/cmeisinger",
+              "html_url": "https://github.com/cmeisinger",
+              "followers_url": "https://api.github.com/users/cmeisinger/followers",
+              "following_url": "https://api.github.com/users/cmeisinger/following{/other_user}",
+              "gists_url": "https://api.github.com/users/cmeisinger/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/cmeisinger/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/cmeisinger/subscriptions",
+              "organizations_url": "https://api.github.com/users/cmeisinger/orgs",
+              "repos_url": "https://api.github.com/users/cmeisinger/repos",
+              "events_url": "https://api.github.com/users/cmeisinger/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/cmeisinger/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "body": "This is a PR to allow me to test the Jenkins PR builder.",
+            "created_at": "2014-08-12T01:37:45Z",
+            "updated_at": "2014-08-21T21:00:40Z",
+            "closed_at": "2014-08-21T21:00:40Z",
+            "merged_at": null,
+            "merge_commit_sha": "3341fafcf99682ebcac507bf9e67e31979aa4044",
+            "assignee": null,
+            "milestone": null,
+            "commits_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/97/commits",
+            "review_comments_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/97/comments",
+            "review_comment_url": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}",
+            "comments_url": "https://api.github.com/repos/centro/centro-media-manager/issues/97/comments",
+            "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/76aaa4961b54011f4304b4fd6ece3607487834dd",
+            "head": {
+              "label": "centro:testing_jenkins_pr",
+              "ref": "testing_jenkins_pr",
+              "sha": "76aaa4961b54011f4304b4fd6ece3607487834dd",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T20:16:41Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 0,
+                "forks": 0,
+                "open_issues": 0,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "base": {
+              "label": "centro:master",
+              "ref": "master",
+              "sha": "d98c7253980e21d92e8fe0186c1d206e1a1f3820",
+              "user": {
+                "login": "centro",
+                "id": 13479,
+                "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                "url": "https://api.github.com/users/centro",
+                "html_url": "https://github.com/centro",
+                "followers_url": "https://api.github.com/users/centro/followers",
+                "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                "organizations_url": "https://api.github.com/users/centro/orgs",
+                "repos_url": "https://api.github.com/users/centro/repos",
+                "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/centro/received_events",
+                "type": "Organization",
+                "site_admin": false
+              },
+              "repo": {
+                "id": 9459622,
+                "name": "centro-media-manager",
+                "full_name": "centro/centro-media-manager",
+                "owner": {
+                  "login": "centro",
+                  "id": 13479,
+                  "avatar_url": "https://avatars.githubusercontent.com/u/13479?v=2",
+                  "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+                  "url": "https://api.github.com/users/centro",
+                  "html_url": "https://github.com/centro",
+                  "followers_url": "https://api.github.com/users/centro/followers",
+                  "following_url": "https://api.github.com/users/centro/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/centro/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/centro/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/centro/subscriptions",
+                  "organizations_url": "https://api.github.com/users/centro/orgs",
+                  "repos_url": "https://api.github.com/users/centro/repos",
+                  "events_url": "https://api.github.com/users/centro/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/centro/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "private": true,
+                "html_url": "https://github.com/centro/centro-media-manager",
+                "description": "Documentation for platform workflow and cross product requirements",
+                "fork": false,
+                "url": "https://api.github.com/repos/centro/centro-media-manager",
+                "forks_url": "https://api.github.com/repos/centro/centro-media-manager/forks",
+                "keys_url": "https://api.github.com/repos/centro/centro-media-manager/keys{/key_id}",
+                "collaborators_url": "https://api.github.com/repos/centro/centro-media-manager/collaborators{/collaborator}",
+                "teams_url": "https://api.github.com/repos/centro/centro-media-manager/teams",
+                "hooks_url": "https://api.github.com/repos/centro/centro-media-manager/hooks",
+                "issue_events_url": "https://api.github.com/repos/centro/centro-media-manager/issues/events{/number}",
+                "events_url": "https://api.github.com/repos/centro/centro-media-manager/events",
+                "assignees_url": "https://api.github.com/repos/centro/centro-media-manager/assignees{/user}",
+                "branches_url": "https://api.github.com/repos/centro/centro-media-manager/branches{/branch}",
+                "tags_url": "https://api.github.com/repos/centro/centro-media-manager/tags",
+                "blobs_url": "https://api.github.com/repos/centro/centro-media-manager/git/blobs{/sha}",
+                "git_tags_url": "https://api.github.com/repos/centro/centro-media-manager/git/tags{/sha}",
+                "git_refs_url": "https://api.github.com/repos/centro/centro-media-manager/git/refs{/sha}",
+                "trees_url": "https://api.github.com/repos/centro/centro-media-manager/git/trees{/sha}",
+                "statuses_url": "https://api.github.com/repos/centro/centro-media-manager/statuses/{sha}",
+                "languages_url": "https://api.github.com/repos/centro/centro-media-manager/languages",
+                "stargazers_url": "https://api.github.com/repos/centro/centro-media-manager/stargazers",
+                "contributors_url": "https://api.github.com/repos/centro/centro-media-manager/contributors",
+                "subscribers_url": "https://api.github.com/repos/centro/centro-media-manager/subscribers",
+                "subscription_url": "https://api.github.com/repos/centro/centro-media-manager/subscription",
+                "commits_url": "https://api.github.com/repos/centro/centro-media-manager/commits{/sha}",
+                "git_commits_url": "https://api.github.com/repos/centro/centro-media-manager/git/commits{/sha}",
+                "comments_url": "https://api.github.com/repos/centro/centro-media-manager/comments{/number}",
+                "issue_comment_url": "https://api.github.com/repos/centro/centro-media-manager/issues/comments/{number}",
+                "contents_url": "https://api.github.com/repos/centro/centro-media-manager/contents/{+path}",
+                "compare_url": "https://api.github.com/repos/centro/centro-media-manager/compare/{base}...{head}",
+                "merges_url": "https://api.github.com/repos/centro/centro-media-manager/merges",
+                "archive_url": "https://api.github.com/repos/centro/centro-media-manager/{archive_format}{/ref}",
+                "downloads_url": "https://api.github.com/repos/centro/centro-media-manager/downloads",
+                "issues_url": "https://api.github.com/repos/centro/centro-media-manager/issues{/number}",
+                "pulls_url": "https://api.github.com/repos/centro/centro-media-manager/pulls{/number}",
+                "milestones_url": "https://api.github.com/repos/centro/centro-media-manager/milestones{/number}",
+                "notifications_url": "https://api.github.com/repos/centro/centro-media-manager/notifications{?since,all,participating}",
+                "labels_url": "https://api.github.com/repos/centro/centro-media-manager/labels{/name}",
+                "releases_url": "https://api.github.com/repos/centro/centro-media-manager/releases{/id}",
+                "created_at": "2013-04-15T22:37:14Z",
+                "updated_at": "2014-08-19T13:44:34Z",
+                "pushed_at": "2014-08-21T20:16:41Z",
+                "git_url": "git://github.com/centro/centro-media-manager.git",
+                "ssh_url": "git@github.com:centro/centro-media-manager.git",
+                "clone_url": "https://github.com/centro/centro-media-manager.git",
+                "svn_url": "https://github.com/centro/centro-media-manager",
+                "homepage": null,
+                "size": 86960,
+                "stargazers_count": 1,
+                "watchers_count": 1,
+                "language": "Ruby",
+                "has_issues": true,
+                "has_downloads": true,
+                "has_wiki": true,
+                "forks_count": 0,
+                "mirror_url": null,
+                "open_issues_count": 0,
+                "forks": 0,
+                "open_issues": 0,
+                "watchers": 1,
+                "default_branch": "master"
+              }
+            },
+            "_links": {
+              "self": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/97"},
+              "html": {"href": "https://github.com/centro/centro-media-manager/pull/97"},
+              "issue": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/97"},
+              "comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/issues/97/comments"},
+              "review_comments": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/97/comments"},
+              "review_comment": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/comments/{number}"},
+              "commits": {"href": "https://api.github.com/repos/centro/centro-media-manager/pulls/97/commits"},
+              "statuses": {"href": "https://api.github.com/repos/centro/centro-media-manager/statuses/76aaa4961b54011f4304b4fd6ece3607487834dd"}
+            },
+            "merged": false,
+            "mergeable": true,
+            "mergeable_state": "clean",
+            "merged_by": null,
+            "comments": 13,
+            "review_comments": 0,
+            "commits": 1,
+            "additions": 1,
+            "deletions": 0,
+            "changed_files": 1
+          }
+        },
+        "public": false,
+        "created_at": "2014-08-21T21:00:40Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }, {
+        "id": "2247759041",
+        "type": "PushEvent",
+        "actor": {
+          "id": 19976,
+          "login": "sirsean",
+          "gravatar_id": "c77ab584a8a6872ec2b2acec076354f7",
+          "url": "https://api.github.com/users/sirsean",
+          "avatar_url": "https://avatars.githubusercontent.com/u/19976?"
+        },
+        "repo": {
+          "id": 9459622,
+          "name": "centro/centro-media-manager",
+          "url": "https://api.github.com/repos/centro/centro-media-manager"
+        },
+        "payload": {
+          "push_id": 434309669,
+          "size": 1,
+          "distinct_size": 1,
+          "ref": "refs/heads/trunk",
+          "head": "e35828d9699d352ce90cf9e1e12dee5974e63df6",
+          "before": "85a4efabc2063b882662c6a057483c6c0a0a0dd1",
+          "commits": [{
+            "sha": "e35828d9699d352ce90cf9e1e12dee5974e63df6",
+            "author": {
+              "email": "sirsean@gmail.com",
+              "name": "Sean Schulte"
+            },
+            "message": "We can run unit tests separately from feature tests now.",
+            "distinct": true,
+            "url": "https://api.github.com/repos/centro/centro-media-manager/commits/e35828d9699d352ce90cf9e1e12dee5974e63df6"
+          }]
+        },
+        "public": false,
+        "created_at": "2014-08-21T20:16:42Z",
+        "org": {
+          "id": 13479,
+          "login": "centro",
+          "gravatar_id": "864a80ec43c517f08ce8ecf269aaffed",
+          "url": "https://api.github.com/orgs/centro",
+          "avatar_url": "https://avatars.githubusercontent.com/u/13479?"
+        }
+      }]);
+    }
+  };
+});
+System.register("helpers/AttrMunger", ["./is"], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/AttrMunger";
+  var is;
+  function copy(obj) {
+    return is.aArray(obj) ? obj.map(copy) : is.aObject(obj) ? copyObj(obj) : obj;
+  }
+  function copyObj(obj) {
+    var result = {};
+    for (var key in obj)
+      result[key] = copy(obj[key]);
+    return result;
+  }
+  function upcase(str) {
+    var self;
+    self = str.replace(/_([a-z])/g, (function($) {
+      return "_" + $[1].toUpperCase();
+    }));
+    self = self.replace(/\/([a-z])/g, (function($) {
+      return "/" + $[1].toUpperCase();
+    }));
+    return self[0].toUpperCase() + self.substr(1);
+  }
+  function downcase(str) {
+    var self;
+    self = str.replace(/_([A-Z])/g, (function($) {
+      return "_" + $[1].toLowerCase();
+    }));
+    self = self.replace(/\/([A-Z])/g, (function($) {
+      return "/" + $[1].toLowerCase();
+    }));
+    return self[0].toLowerCase() + self.substr(1);
+  }
+  function camelize(words) {
+    return downcase(words.replace(/\/(.?)/g, (function($) {
+      return "." + upcase($[1]);
+    })).replace(/(?:_)(.)/g, (function($) {
+      return upcase($[1]);
+    })));
+  }
+  function underscore(word) {
+    return word.replace(/\./g, '/').replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/([a-z\d])([A-Z])/g, "$1_$2").replace(/-/g, '_').toLowerCase();
+  }
+  function munge(isCamelize, attrs) {
+    if (is.aArray(attrs)) {
+      attrs.map((function(o) {
+        return munge(isCamelize, o);
+      }));
+    } else if (is.aObject(attrs)) {
+      for (var k in attrs) {
+        var v = attrs[k];
+        if (is.aObject(v))
+          munge(isCamelize, v);
+        var transformed = isCamelize ? camelize(k, false) : underscore(k);
+        if (k !== transformed) {
+          attrs[transformed] = v;
+          delete attrs[k];
+        }
+      }
+    }
+    return attrs;
+  }
+  return {
+    setters: [function(m) {
+      is = m.default;
+    }],
+    execute: function() {
+      $__export('default', {
+        camelize: (function(attrs) {
+          return munge(true, copy(attrs));
+        }),
+        underscore: (function(attrs) {
+          return munge(false, copy(attrs));
+        })
+      });
+    }
+  };
+});
+System.register("helpers/load", ["./is"], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/load";
+  var is;
+  function loadResource(type, url, headers) {
+    headers = headers == null ? {} : headers;
+    return new Promise(function(fulfill, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.setRequestHeader('Authorization', 'token cd3cc5d471d59d6dce0095cf33e7c7f1ddaf23e6');
+      xhr.responseType = type;
+      xhr.send();
+      xhr.onload = (function() {
+        return fulfill(xhr);
+      });
+      xhr.onerror = (function() {
+        return reject(xhr);
+      });
+    });
+  }
+  function loadJSON(url) {
+    return loadResource("json", url).then(function($__17) {
+      var response = $__17.response;
+      if (!response)
+        throw new Error("Not found");
+      return is.aString(response) ? JSON.parse(response) : response;
+    });
+  }
+  $__export("loadResource", loadResource);
+  $__export("loadJSON", loadJSON);
+  return {
+    setters: [function(m) {
+      is = m.default;
+    }],
+    execute: function() {
+    }
+  };
+});
+System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/load", "./EventMapperMOCKDATA2"], function($__export) {
+  "use strict";
+  var $__19;
+  var __moduleName = "models/github/EventMapper";
+  var AttrMunger,
+      loadJSON,
+      MOCKDATA;
+  return ($__19 = {}, Object.defineProperty($__19, "setters", {
+    value: [function(m) {
+      AttrMunger = m.default;
+    }, function(m) {
+      loadJSON = m.loadJSON;
+    }, function(m) {
+      MOCKDATA = m.default;
+    }],
+    configurable: true,
+    enumerable: true,
+    writable: true
+  }), Object.defineProperty($__19, "execute", {
+    value: function() {
+      var $__19;
+      $__export('default', ($__19 = {}, Object.defineProperty($__19, "query", {
+        value: (function(array, $__20) {
+          var $__21 = $__20,
+              type = $__21.type,
+              typeRef = $__21[type];
+          var promise = $__export("promise", loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events")));
+          promise.then((function(data) {
+            return array.$replace(array.$class.loadAll(AttrMunger.camelize(data.slice(6))));
+          }));
+          return promise;
+        }),
+        configurable: true,
+        enumerable: true,
+        writable: true
+      }), $__19));
+    },
+    configurable: true,
+    enumerable: true,
+    writable: true
+  }), $__19);
+});
+System.register("models/github/Repo", ["../../helpers/model/Model"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/Repo";
+  var Model,
+      Repo;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }],
+    execute: function() {
+      Repo = (function($__super) {
+        var Repo = function Repo() {
+          $traceurRuntime.defaultSuperCall(this, Repo.prototype, arguments);
+        };
+        return ($traceurRuntime.createClass)(Repo, {}, {}, $__super);
+      }(Model));
+      Repo.create((function($) {
+        $.attr('name', 'string');
+        $.attr('url', 'string');
+      }));
+      $__export('default', Repo);
+    }
+  };
+});
+System.register("models/github/User", ["../../helpers/model/Model"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/User";
+  var Model,
+      User;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }],
+    execute: function() {
+      User = (function($__super) {
+        var User = function User() {
+          $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
+        };
+        return ($traceurRuntime.createClass)(User, {}, {}, $__super);
+      }(Model));
+      User.create((function($) {
+        $.attr('avatarUrl', 'string');
+        $.attr('gravatarId', 'string');
+        $.attr('login', 'string');
+        $.attr('url', 'string');
+      }));
+      $__export('default', User);
+    }
+  };
+});
+System.register("models/github/Event", ["../../helpers/model/Model", "./EventMapper", "./User", "./Repo"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/Event";
+  var Model,
+      EventMapper,
+      User,
+      Repo,
+      Event;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }, function(m) {
+      EventMapper = m.default;
+    }, function(m) {
+      User = m.default;
+    }, function(m) {
+      Repo = m.default;
+    }],
+    execute: function() {
+      Event = (function($__super) {
+        var Event = function Event() {
+          $traceurRuntime.defaultSuperCall(this, Event.prototype, arguments);
+        };
+        return ($traceurRuntime.createClass)(Event, {}, {}, $__super);
+      }(Model));
+      Event.create((function($) {
+        $.mapper = EventMapper;
+        $.attr('type', 'string');
+        $.attr('payload', 'identity');
+        $.hasOne('actor', 'User');
+        $.hasOne('repo', 'Repo');
+      }));
+      $__export('default', Event);
+    }
+  };
+});
+System.register("elements/ticker-app", ["../models/github/Event"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-app";
+  var Event;
+  return {
+    setters: [function(m) {
+      Event = m.default;
+    }],
+    execute: function() {
+      Polymer('ticker-app', {
+        ready: function() {
+          this.githubEvents = Event.query({
+            type: 'users',
+            users: 'polymer'
+          });
+        },
+        onCoreHeaderTransform: function(e) {
+          var titleStyle = this.$.titleText.style;
+          var d = e.detail;
+          var m = d.height - d.condensedHeight;
+          var scale = Math.max(0.75, (m - d.y) / (m / 0.25) + 0.75);
+          titleStyle.webkitTransform = titleStyle.transform = 'scale(' + scale + ') translateZ(0)';
+        }
+      });
+    }
+  };
+});
+System.register("helpers/KEYCODES", [], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/KEYCODES";
+  return {
+    setters: [],
+    execute: function() {
+      $__export('default', {
+        SHIFT: 16,
+        BACKSPACE: 8,
+        ENTER: 13,
+        ESC: 27,
+        TAB: 9,
+        UP: 38,
+        DOWN: 40,
+        LEFT: 37,
+        RIGHT: 39
+      });
+    }
+  };
+});
+System.register("helpers/model/Mapper", [], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/model/Mapper";
+  return {
+    setters: [],
+    execute: function() {
+      $__export('default', {
+        query: function(array) {
+          for (var args = [],
+              $__22 = 1; $__22 < arguments.length; $__22++)
+            args[$__22 - 1] = arguments[$__22];
+        },
+        get: function(model) {
+          for (var args = [],
+              $__23 = 1; $__23 < arguments.length; $__23++)
+            args[$__23 - 1] = arguments[$__23];
+        },
+        create: function(model) {
+          for (var args = [],
+              $__24 = 1; $__24 < arguments.length; $__24++)
+            args[$__24 - 1] = arguments[$__24];
+        },
+        update: function(model) {
+          for (var args = [],
+              $__25 = 1; $__25 < arguments.length; $__25++)
+            args[$__25 - 1] = arguments[$__25];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__26 = 1; $__26 < arguments.length; $__26++)
+            args[$__26 - 1] = arguments[$__26];
+        }
+      });
+    }
+  };
+});
+System.register("models/github/Comment", ["../../helpers/model/Model", "./User"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/Comment";
+  var Model,
+      User,
+      Comment;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }, function(m) {
+      User = m.default;
+    }],
+    execute: function() {
+      Comment = (function($__super) {
+        var Comment = function Comment() {
+          $traceurRuntime.defaultSuperCall(this, Comment.prototype, arguments);
+        };
+        return ($traceurRuntime.createClass)(Comment, {}, {}, $__super);
+      }(Model));
+      Comment.create((function($) {
+        $.attr('body', 'datetime');
+        $.attr('commitId', 'string');
+        $.attr('createdAt', 'datetime');
+        $.attr('html_url', 'string');
+        $.attr('line', 'number');
+        $.attr('path', 'string');
+        $.attr('position', 'number');
+        $.attr('updatedAt', 'datetime');
+        $.attr('url', 'string');
+        $.hasOne('user', 'User');
+      }));
+      $__export('default', Comment);
     }
   };
 });
@@ -3464,350 +7533,6 @@ System.register("models/github/EventMapperMOCKDATA", [], function($__export) {
           "avatar_url": "https://avatars.githubusercontent.com/u/2159051?"
         }
       }]);
-    }
-  };
-});
-System.register("helpers/AttrMunger", ["./is"], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/AttrMunger";
-  var is;
-  function copy(obj) {
-    return is.aArray(obj) ? obj.map(copy) : is.aObject(obj) ? copyObj(obj) : obj;
-  }
-  function copyObj(obj) {
-    var result = {};
-    for (var key in obj)
-      result[key] = copy(obj[key]);
-    return result;
-  }
-  function upcase(str) {
-    var self;
-    self = str.replace(/_([a-z])/g, (function($) {
-      return "_" + $[1].toUpperCase();
-    }));
-    self = self.replace(/\/([a-z])/g, (function($) {
-      return "/" + $[1].toUpperCase();
-    }));
-    return self[0].toUpperCase() + self.substr(1);
-  }
-  function downcase(str) {
-    var self;
-    self = str.replace(/_([A-Z])/g, (function($) {
-      return "_" + $[1].toLowerCase();
-    }));
-    self = self.replace(/\/([A-Z])/g, (function($) {
-      return "/" + $[1].toLowerCase();
-    }));
-    return self[0].toLowerCase() + self.substr(1);
-  }
-  function camelize(words) {
-    return downcase(words.replace(/\/(.?)/g, (function($) {
-      return "." + upcase($[1]);
-    })).replace(/(?:_)(.)/g, (function($) {
-      return upcase($[1]);
-    })));
-  }
-  function underscore(word) {
-    return word.replace(/\./g, '/').replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/([a-z\d])([A-Z])/g, "$1_$2").replace(/-/g, '_').toLowerCase();
-  }
-  function munge(isCamelize, attrs) {
-    if (is.aArray(attrs)) {
-      attrs.map((function(o) {
-        return munge(isCamelize, o);
-      }));
-    } else if (is.aObject(attrs)) {
-      for (var k in attrs) {
-        var v = attrs[k];
-        if (is.aObject(v))
-          munge(isCamelize, v);
-        var transformed = isCamelize ? camelize(k, false) : underscore(k);
-        if (k !== transformed) {
-          attrs[transformed] = v;
-          delete attrs[k];
-        }
-      }
-    }
-    return attrs;
-  }
-  return {
-    setters: [function(m) {
-      is = m.default;
-    }],
-    execute: function() {
-      $__export('default', {
-        camelize: (function(attrs) {
-          return munge(true, copy(attrs));
-        }),
-        underscore: (function(attrs) {
-          return munge(false, copy(attrs));
-        })
-      });
-    }
-  };
-});
-System.register("helpers/load", ["./is"], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/load";
-  var is;
-  function loadResource(type, url, headers) {
-    headers = headers == null ? {} : headers;
-    return new Promise(function(fulfill, reject) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url);
-      xhr.setRequestHeader('Authorization', 'token cd3cc5d471d59d6dce0095cf33e7c7f1ddaf23e6');
-      xhr.responseType = type;
-      xhr.send();
-      xhr.onload = (function() {
-        return fulfill(xhr);
-      });
-      xhr.onerror = (function() {
-        return reject(xhr);
-      });
-    });
-  }
-  function loadJSON(url) {
-    return loadResource("json", url).then(function($__19) {
-      var response = $__19.response;
-      if (!response)
-        throw new Error("Not found");
-      return is.aString(response) ? JSON.parse(response) : response;
-    });
-  }
-  $__export("loadResource", loadResource);
-  $__export("loadJSON", loadJSON);
-  return {
-    setters: [function(m) {
-      is = m.default;
-    }],
-    execute: function() {
-    }
-  };
-});
-System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/load", "./EventMapperMOCKDATA"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/EventMapper";
-  var AttrMunger,
-      loadJSON,
-      MOCKDATA;
-  return {
-    setters: [function(m) {
-      AttrMunger = m.default;
-    }, function(m) {
-      loadJSON = m.loadJSON;
-    }, function(m) {
-      MOCKDATA = m.default;
-    }],
-    execute: function() {
-      $__export('default', {query: (function(array, $__21) {
-          var user = $__21.user;
-          return new Promise(function(resolve) {
-            resolve(array.$replace(array.$class.loadAll(AttrMunger.camelize(MOCKDATA))));
-          });
-        })});
-    }
-  };
-});
-System.register("models/github/Repo", ["../../helpers/model/Model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/Repo";
-  var Model,
-      Repo;
-  return {
-    setters: [function(m) {
-      Model = m.default;
-    }],
-    execute: function() {
-      Repo = (function($__super) {
-        var Repo = function Repo() {
-          $traceurRuntime.defaultSuperCall(this, Repo.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(Repo, {}, {}, $__super);
-      }(Model));
-      Repo.create((function($) {
-        $.attr('name', 'string');
-        $.attr('url', 'string');
-      }));
-      $__export('default', Repo);
-    }
-  };
-});
-System.register("models/github/User", ["../../helpers/model/Model"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/User";
-  var Model,
-      User;
-  return {
-    setters: [function(m) {
-      Model = m.default;
-    }],
-    execute: function() {
-      User = (function($__super) {
-        var User = function User() {
-          $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(User, {}, {}, $__super);
-      }(Model));
-      User.create((function($) {
-        $.attr('avatar_url', 'string');
-        $.attr('gravatar_id', 'string');
-        $.attr('login', 'string');
-        $.attr('url', 'string');
-      }));
-      $__export('default', User);
-    }
-  };
-});
-System.register("models/github/Event", ["../../helpers/model/Model", "./EventMapper", "./User", "./Repo"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/Event";
-  var Model,
-      EventMapper,
-      User,
-      Repo,
-      Event;
-  return {
-    setters: [function(m) {
-      Model = m.default;
-    }, function(m) {
-      EventMapper = m.default;
-    }, function(m) {
-      User = m.default;
-    }, function(m) {
-      Repo = m.default;
-    }],
-    execute: function() {
-      Event = (function($__super) {
-        var Event = function Event() {
-          $traceurRuntime.defaultSuperCall(this, Event.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(Event, {}, {}, $__super);
-      }(Model));
-      Event.create((function($) {
-        $.mapper = EventMapper;
-        $.attr('type', 'string');
-        $.attr('payload', 'identity');
-        $.hasOne('actor', 'User');
-        $.hasOne('repo', 'Repo');
-      }));
-      $__export('default', Event);
-    }
-  };
-});
-System.register("elements/ticker-app", ["../models/github/Event"], function($__export) {
-  "use strict";
-  var __moduleName = "elements/ticker-app";
-  var Event;
-  return {
-    setters: [function(m) {
-      Event = m.default;
-    }],
-    execute: function() {
-      Polymer('ticker-app', {
-        ready: function() {
-          this.githubEvents = Event.query({
-            type: 'user',
-            user: 'polymer'
-          });
-        },
-        onCoreHeaderTransform: function(e) {
-          var titleStyle = this.$.titleText.style;
-          var d = e.detail;
-          var m = d.height - d.condensedHeight;
-          var scale = Math.max(0.75, (m - d.y) / (m / 0.25) + 0.75);
-          titleStyle.webkitTransform = titleStyle.transform = 'scale(' + scale + ') translateZ(0)';
-        }
-      });
-    }
-  };
-});
-System.register("helpers/KEYCODES", [], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/KEYCODES";
-  return {
-    setters: [],
-    execute: function() {
-      $__export('default', {
-        SHIFT: 16,
-        BACKSPACE: 8,
-        ENTER: 13,
-        ESC: 27,
-        TAB: 9,
-        UP: 38,
-        DOWN: 40,
-        LEFT: 37,
-        RIGHT: 39
-      });
-    }
-  };
-});
-System.register("helpers/model/Mapper", [], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/model/Mapper";
-  return {
-    setters: [],
-    execute: function() {
-      $__export('default', {
-        query: function(array) {
-          for (var args = [],
-              $__23 = 1; $__23 < arguments.length; $__23++)
-            args[$__23 - 1] = arguments[$__23];
-        },
-        get: function(model) {
-          for (var args = [],
-              $__24 = 1; $__24 < arguments.length; $__24++)
-            args[$__24 - 1] = arguments[$__24];
-        },
-        create: function(model) {
-          for (var args = [],
-              $__25 = 1; $__25 < arguments.length; $__25++)
-            args[$__25 - 1] = arguments[$__25];
-        },
-        update: function(model) {
-          for (var args = [],
-              $__26 = 1; $__26 < arguments.length; $__26++)
-            args[$__26 - 1] = arguments[$__26];
-        },
-        delete: function(model) {
-          for (var args = [],
-              $__27 = 1; $__27 < arguments.length; $__27++)
-            args[$__27 - 1] = arguments[$__27];
-        }
-      });
-    }
-  };
-});
-System.register("models/github/Comment", ["../../helpers/model/Model", "./User"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/Comment";
-  var Model,
-      User,
-      Comment;
-  return {
-    setters: [function(m) {
-      Model = m.default;
-    }, function(m) {
-      User = m.default;
-    }],
-    execute: function() {
-      Comment = (function($__super) {
-        var Comment = function Comment() {
-          $traceurRuntime.defaultSuperCall(this, Comment.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(Comment, {}, {}, $__super);
-      }(Model));
-      Comment.create((function($) {
-        $.attr('body', 'datetime');
-        $.attr('commitId', 'string');
-        $.attr('createdAt', 'datetime');
-        $.attr('html_url', 'string');
-        $.attr('line', 'number');
-        $.attr('path', 'string');
-        $.attr('position', 'number');
-        $.attr('updatedAt', 'datetime');
-        $.attr('url', 'string');
-        $.hasOne('user', 'User');
-      }));
-      $__export('default', Comment);
     }
   };
 });

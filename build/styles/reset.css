@@ -1,0 +1,6 @@
+html /deep/ p {
+  margin: 0;
+  padding: 0; }
+html /deep/ ul, html /deep/ li {
+  margin: 0;
+  padding: 0; }
