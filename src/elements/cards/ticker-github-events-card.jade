@@ -4,15 +4,12 @@
 +import('./ticker-github-branch.html')
 +import('./ticker-github-repo.html')
 
-template#CardTitle
+template#PullRequestEvent
   ticker-github-repo(
     block
     repo='{{repo.name}}'
     class='l-margin-b2 l-padding-b1'
     style='border-bottom: 1px solid #EEE;')
-
-template#PullRequestEvent
-  template(ref='CardTitle' bind='{{}}')
   div(layout horizontal center)
     img.actor-avatar(
       class="l-margin-r2"
@@ -42,7 +39,11 @@ template#CreateOrDeleteEvent
       ticker-github-repo(repo='{{repo.name}}')
 
   template(if='{{payload.refType !== "repository"}}')
-    template(ref='CardTitle' bind='{{}}')
+    ticker-github-repo(
+      block
+      repo='{{repo.name}}'
+      class='l-margin-b2 l-padding-b1'
+      style='border-bottom: 1px solid #EEE;')
     div(layout horizontal center)
       img.actor-avatar(
         class="l-margin-r2"
@@ -65,7 +66,11 @@ template#DeleteEvent
 
 
 template#IssueCommentEvent
-  template(ref='CardTitle' bind='{{}}')
+  ticker-github-repo(
+    block
+    repo='{{repo.name}}'
+    class='l-margin-b2 l-padding-b1'
+    style='border-bottom: 1px solid #EEE;')
   div(layout horizontal class='l-margin-l6 l-margin-b2 t-light')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
@@ -91,7 +96,11 @@ template#IssueCommentEvent
         span() "
 
 template#IssuesEvent
-  template(ref='CardTitle' bind='{{}}')
+  ticker-github-repo(
+    block
+    repo='{{repo.name}}'
+    class='l-margin-b2 l-padding-b1'
+    style='border-bottom: 1px solid #EEE;')
   div(layout horizontal center-top)
     img.actor-avatar(
       class='l-margin-r2'
@@ -140,7 +149,11 @@ template#ForkEvent
 
 
 template#PushEvent
-  template(ref='CardTitle' bind='{{}}')
+  ticker-github-repo(
+    block
+    repo='{{repo.name}}'
+    class='l-margin-b2 l-padding-b1'
+    style='border-bottom: 1px solid #EEE;')
   div(horizontal layout class='l-margin-l6 l-margin-b2 t-light')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
@@ -162,7 +175,11 @@ template#PushEvent
 
 
 template#GollumEvent
-  template(ref='CardTitle' bind='{{}}')
+  ticker-github-repo(
+    block
+    repo='{{repo.name}}'
+    class='l-margin-b2 l-padding-b1'
+    style='border-bottom: 1px solid #EEE;')
   div(layout horizontal center-top)
     img.actor-avatar(
       class='l-margin-r2'
