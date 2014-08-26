@@ -4856,11 +4856,9 @@ System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/loa
           var $__21 = $__20,
               type = $__21.type,
               typeRef = $__21[type];
-          var promise = $__export("promise", loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events")));
-          promise.then((function(data) {
-            return array.$replace(array.$class.loadAll(AttrMunger.camelize(data.slice(6))));
+          return loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events")).then((function(data) {
+            return array.$replace(array.$class.loadAll(AttrMunger.camelize(data)));
           }));
-          return promise;
         }),
         configurable: true,
         enumerable: true,
