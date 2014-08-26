@@ -2,7 +2,7 @@ import Event from '../models/github/Event';
 
 Polymer('ticker-app',{
   ready(){
-    this.githubEvents = Event.query({type:'user', user:'polymer'});
+    this.githubEvents = Event.query({type:'users', users:'polymer'});
   },
 
   onCoreHeaderTransform(e){
