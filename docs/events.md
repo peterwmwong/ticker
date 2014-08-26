@@ -6,6 +6,8 @@
   - Open (PullRequestEvent payload.action == 'open')
     - Repo
     - User
+      - is contributor?
+      - is collaborator?
     - PR Name
     - Description
   - Merged (PullRequestEvent payload.action == 'closed' && payload.merged)
@@ -40,7 +42,19 @@
 
 ```
 PR
+  + (open)   yellow
+  x (closed) red
+  ✓ (merged) green
+
+Issue
   + (open)
   x (closed)
-  ✓ (merged)
+
+Issue
+  + (open)
+  x (closed)
 ```
+
+## Sentence building
+
+[Actor] [Action] [Object]

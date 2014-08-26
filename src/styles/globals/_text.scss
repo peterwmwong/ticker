@@ -4,6 +4,7 @@
 // Source Sans
 // Our applications's main workhorse.
 // @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+// @include font-face("Source Sans Pro", "../vendor/fonts/source-sans/sourcesanspro-light", normal, normal);
 
 // Source Code Pro
 // Main monospace
@@ -26,6 +27,10 @@ html _deep_ {
     white-space: nowrap;
   }
 
+  .t-word-wrap-break-word {
+    word-wrap: break-word;
+  }
+
   .t-italic { font-style: italic; }
   .t-bold   { font-weight: $font-weight-semibold; }
   .t-light  { font-weight: $font-weight-light;    }
@@ -34,12 +39,6 @@ html _deep_ {
   .t-align-left  { text-align: left;  }
   .t-align-right { text-align: right; }
   .t-align-center{ text-align: center; }
-
-  .t-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 
   // Smoothing
   // ---------

@@ -1,4 +1,5 @@
 @import 'imports';
+@import 'reset';
 
 html, body {
   width: 100%;
@@ -12,7 +13,7 @@ body {
   color: $gray-darkest;
   font-family: $font-stack-proportional;
   font-weight: $font-weight-normal;
-  line-height: 1;
+  line-height: 24px;
   text-rendering: optimizeLegibility;
   background-color: $gray-lightest;
 }

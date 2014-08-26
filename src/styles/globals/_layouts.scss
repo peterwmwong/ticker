@@ -6,8 +6,11 @@ html _deep_ {
   .l-float-r  { float: right !important; }
   .l-float-l  { float: left  !important; }
 
+  .l-display-inline-block { display: inline-block !important; }
+  .l-display-block        { display: block        !important; }
+
   .l-position-static    { position: static   !important; }
-  .l-position-fixed     { position: relative !important; }
+  .l-position-relative  { position: relative !important; }
   .l-position-absolute  { position: absolute !important; }
   .l-position-fixed     { position: fixed    !important; }
 
@@ -44,6 +47,7 @@ html _deep_ {
     }
   }
 
+  // TODO: Do we need this with polymer/layout
   .l-width100 {
     width: 100% !important;
   }
@@ -60,6 +64,37 @@ html _deep_ {
 
   // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
   @each $type in padding, margin {
+    @each $i in 25, 50, 75 {
+      .l-#{$type}-#{$i}pct {
+        #{$type}: ($baseline * ($i/100)) ($base-width * ($i/100));
+      }
+
+      .l-#{$type}-r#{$i}pct {
+        #{$type}-right: $base-width * ($i/100);
+      }
+
+      .l-#{$type}-l#{$i}pct {
+        #{$type}-left:  $base-width * ($i/100);
+      }
+
+      .l-#{$type}-h#{$i}pct {
+        #{$type}-left:  $base-width * ($i/100);
+        #{$type}-right: $base-width * ($i/100);
+      }
+
+      .l-#{$type}-t#{$i}pct {
+        #{$type}-top: $baseline * ($i/100);
+      }
+
+      .l-#{$type}-b#{$i}pct {
+        #{$type}-bottom: $baseline * ($i/100);
+      }
+
+      .l-#{$type}-v#{$i}pct {
+        #{$type}-top:    $baseline * ($i/100);
+        #{$type}-bottom: $baseline * ($i/100);
+      }
+    }
     @for $i from 1 through 6 {
       .l-#{$type}-#{$i} {
         #{$type}: ($baseline * $i) ($base-width * $i);

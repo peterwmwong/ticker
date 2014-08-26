@@ -9,7 +9,7 @@
   template#github-commit-card
     ticker-github-events-card(
       data="[[event]]"
-      class='l-margin-t2 l-margin-l2 l-width100-gutter-r'
+      class='l-margin-b2 l-margin-l2 l-width100-gutter-r'
     )
 
   core-scroll-header-panel(
@@ -23,5 +23,5 @@
       #titleText.bottom.ticker-app__title-text
         | Polymer
 
-    .content
-      template(ref="github-commit-card" repeat="{{ event in githubEvents }}")
+    .content(class='l-padding-t2')
+      template(ref='github-commit-card' repeat='{{ event in githubEvents }}')
