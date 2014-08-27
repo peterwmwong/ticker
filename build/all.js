@@ -1,3 +1,25 @@
+System.register("elements/cards/ticker-github-avatar", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/cards/ticker-github-avatar";
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-github-avatar', {size: 24});
+    }
+  };
+});
+System.register("elements/cards/ticker-github-branch", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/cards/ticker-github-branch";
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-github-branch', {branchChanged: function(_, branch) {
+          this.branchName = branch && branch.split('/').slice(-1);
+        }});
+    }
+  };
+});
 System.register("elements/cards/ticker-github-events-card", [], function($__export) {
   "use strict";
   var __moduleName = "elements/cards/ticker-github-events-card";
@@ -7,10 +29,20 @@ System.register("elements/cards/ticker-github-events-card", [], function($__expo
       PolymerExpressions.prototype.limitArray = function(array, size) {
         return array && array.slice(0, size);
       };
-      Polymer('ticker-github-events-card', {dataChanged: function(_, data) {
-          var nameParts = data.repo.name.split('/');
-          data.repoOwner = nameParts[0];
-          data.repoName = nameParts[1];
+      Polymer('ticker-github-events-card', {});
+    }
+  };
+});
+System.register("elements/cards/ticker-github-repo", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/cards/ticker-github-repo";
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-github-repo', {repoChanged: function(_, repo) {
+          var $__0;
+          if (repo)
+            ($__0 = repo.split('/'), this.repoOwner = $__0[0], this.repoName = $__0[1], $__0);
         }});
     }
   };
@@ -321,9 +353,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       hasManyRemove.call(this, desc, [model], false);
   }
   function hasOneSet(desc, v, sync) {
-    var $__15 = desc,
-        name = $__15.name,
-        inverse = $__15.inverse;
+    var $__16 = desc,
+        name = $__16.name,
+        inverse = $__16.inverse;
     var key = ("__" + name + "__");
     var prev = this[key];
     if (v)
@@ -337,16 +369,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       inverseAdded.call(v, inverse, this);
   }
   function hasManySet(desc, a) {
-    var $__0 = this;
+    var $__1 = this;
     var name = desc.name;
     var prev = this[name];
     a.forEach(checkAssociatedType.bind(this, desc));
     if (desc.inverse) {
       prev.forEach((function(x) {
-        return inverseRemoved.call(x, desc.inverse, $__0);
+        return inverseRemoved.call(x, desc.inverse, $__1);
       }));
       a.forEach((function(x) {
-        return inverseAdded.call(x, desc.inverse, $__0);
+        return inverseAdded.call(x, desc.inverse, $__1);
       }));
     }
     this[("__" + desc.name + "__")] = a;
@@ -354,30 +386,30 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       setChange.call(this, name, prev);
   }
   function hasManyAdd(desc, models, sync) {
-    var $__0 = this;
+    var $__1 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      checkAssociatedType.call($__0, desc, m);
+      checkAssociatedType.call($__1, desc, m);
       if (sync && desc.inverse)
-        inverseAdded.call(m, desc.inverse, $__0);
-      $__0[name].push(m);
+        inverseAdded.call(m, desc.inverse, $__1);
+      $__1[name].push(m);
     }));
     if (desc.owner && this.$isLoaded)
       setChange.call(this, name, prev);
   }
   function hasManyRemove(desc, models, sync) {
-    var $__0 = this;
+    var $__1 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      var i = $__0[name].indexOf(m);
+      var i = $__1[name].indexOf(m);
       if (i >= 0) {
         if (sync && desc.inverse)
-          inverseRemoved.call(m, desc.inverse, $__0);
-        $__0[name].splice(i, 1);
-        if (desc.owner && $__0.$isLoaded)
-          setChange.call($__0, name, prev);
+          inverseRemoved.call(m, desc.inverse, $__1);
+        $__1[name].splice(i, 1);
+        if (desc.owner && $__1.$isLoaded)
+          setChange.call($__1, name, prev);
       }
     }));
   }
@@ -424,20 +456,20 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       $query: {
         value: function() {
           for (var args = [],
-              $__6 = 0; $__6 < arguments.length; $__6++)
-            args[$__6] = arguments[$__6];
-          var $__0 = this;
+              $__7 = 0; $__7 < arguments.length; $__7++)
+            args[$__7] = arguments[$__7];
+          var $__1 = this;
           if (isBusy) {
             queued = args;
           } else {
             isBusy = true;
             promise = ensurePromise(klass.mapper.query.apply(this, $traceurRuntime.spread([this], args)), '$query').then((function() {
-              return $__0;
+              return $__1;
             }), (function() {})).then((function(result) {
-              var $__16;
+              var $__17;
               isBusy = false;
               if (queued)
-                ($__16 = $__0).$query.apply($__16, $traceurRuntime.spread(queued));
+                ($__17 = $__1).$query.apply($__17, $traceurRuntime.spread(queued));
               return result;
             }));
           }
@@ -449,8 +481,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       },
       $replace: {
         value: function(a) {
-          var $__16;
-          ($__16 = this).splice.apply($__16, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
+          var $__17;
+          ($__17 = this).splice.apply($__17, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
           return this;
         },
         enumerable: false,
@@ -460,12 +492,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     });
   }
   function mapperGet(model) {
-    var $__16;
+    var $__17;
     for (var args = [],
-        $__6 = 1; $__6 < arguments.length; $__6++)
-      args[$__6 - 1] = arguments[$__6];
+        $__7 = 1; $__7 < arguments.length; $__7++)
+      args[$__7 - 1] = arguments[$__7];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).get.apply($__16, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
+    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).get.apply($__17, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
       model.__$sourceState__ = LOADED;
     }), (function() {
       if (model.__$sourceState__ === EMPTY)
@@ -476,12 +508,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperCreate(model) {
-    var $__16;
+    var $__17;
     for (var args = [],
-        $__7 = 1; $__7 < arguments.length; $__7++)
-      args[$__7 - 1] = arguments[$__7];
+        $__8 = 1; $__8 < arguments.length; $__8++)
+      args[$__8 - 1] = arguments[$__8];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).create.apply($__16, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
+    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).create.apply($__17, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
       model.__$sourceState__ = LOADED;
       return model;
     }), (function() {})).then((function() {
@@ -491,12 +523,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperUpdate(model) {
-    var $__16;
+    var $__17;
     for (var args = [],
-        $__8 = 1; $__8 < arguments.length; $__8++)
-      args[$__8 - 1] = arguments[$__8];
+        $__9 = 1; $__9 < arguments.length; $__9++)
+      args[$__9 - 1] = arguments[$__9];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).update.apply($__16, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
+    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).update.apply($__17, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
       return model;
     }), (function() {})).then((function() {
       return model.__$isBusy__ = false;
@@ -509,9 +541,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     model.__$isBusy__ = false;
     setPristine.call(model);
     var associations = model.constructor.associations();
-    for (var $__2 = Object.keys(associations)[Symbol.iterator](),
-        $__3; !($__3 = $__2.next()).done; ) {
-      var name = $__3.value;
+    for (var $__3 = Object.keys(associations)[Symbol.iterator](),
+        $__4; !($__4 = $__3.next()).done; ) {
+      var name = $__4.value;
       {
         var desc = associations[name];
         var m = model[name];
@@ -528,12 +560,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperDelete(model) {
-    var $__16;
+    var $__17;
     for (var args = [],
-        $__9 = 1; $__9 < arguments.length; $__9++)
-      args[$__9 - 1] = arguments[$__9];
+        $__10 = 1; $__10 < arguments.length; $__10++)
+      args[$__10 - 1] = arguments[$__10];
     model.__$isBusy__ = true;
-    model.__$promise__ = ($__16 = model.constructor.mapper).delete.apply($__16, $traceurRuntime.spread([model], args));
+    model.__$promise__ = ($__17 = model.constructor.mapper).delete.apply($__17, $traceurRuntime.spread([model], args));
     ensurePromise(model.__$promise__, 'mapperDelete');
     model.__$promise__.then((function() {
       return mapperDeleteSuccess(model);
@@ -637,9 +669,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
               if (desc.owner) {
                 var assoc = this[desc.name];
                 if (desc.type === 'hasMany') {
-                  for (var $__2 = assoc[Symbol.iterator](),
-                      $__3; !($__3 = $__2.next()).done; ) {
-                    var o = $__3.value;
+                  for (var $__3 = assoc[Symbol.iterator](),
+                      $__4; !($__4 = $__3.next()).done; ) {
+                    var o = $__4.value;
                     if (o.$hasChanges())
                       return true;
                   }
@@ -672,16 +704,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $get: function() {
             for (var args = [],
-                $__10 = 0; $__10 < arguments.length; $__10++)
-              args[$__10] = arguments[$__10];
+                $__11 = 0; $__11 < arguments.length; $__11++)
+              args[$__11] = arguments[$__11];
             if ((!this.$isLoaded && !this.$isEmpty) || this.$isBusy)
               throw (this.$className() + "#$get: cannot get a model in the " + this.$stateString() + " state: " + this);
             return mapperGet.apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
           },
           $save: function() {
             for (var args = [],
-                $__11 = 0; $__11 < arguments.length; $__11++)
-              args[$__11] = arguments[$__11];
+                $__12 = 0; $__12 < arguments.length; $__12++)
+              args[$__12] = arguments[$__12];
             if ((!this.$isNew && !this.$isLoaded) || this.$isBusy)
               throw (this.$className() + "#$save: cannot save a model in the " + this.$stateString() + " state: " + this);
             (this.$isNew ? mapperCreate : mapperUpdate).apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
@@ -689,8 +721,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $delete: function() {
             for (var args = [],
-                $__12 = 0; $__12 < arguments.length; $__12++)
-              args[$__12] = arguments[$__12];
+                $__13 = 0; $__13 < arguments.length; $__13++)
+              args[$__13] = arguments[$__13];
             if (this.$isDeleted)
               return this;
             if (this.$isBusy)
@@ -838,14 +870,14 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             });
             this.prototype[("add" + cap)] = function() {
               for (var args = [],
-                  $__13 = 0; $__13 < arguments.length; $__13++)
-                args[$__13] = arguments[$__13];
+                  $__14 = 0; $__14 < arguments.length; $__14++)
+                args[$__14] = arguments[$__14];
               hasManyAdd.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("remove" + cap)] = function() {
               for (var args = [],
-                  $__14 = 0; $__14 < arguments.length; $__14++)
-                args[$__14] = arguments[$__14];
+                  $__15 = 0; $__15 < arguments.length; $__15++)
+                args[$__15] = arguments[$__15];
               hasManyRemove.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("clear" + cap)] = function() {
@@ -921,15 +953,15 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
                 } else if (type === 'hasMany') {
                   var others = [],
                       o;
-                  for (var $__2 = data[Symbol.iterator](),
-                      $__3; !($__3 = $__2.next()).done; ) {
-                    o = $__3.value;
+                  for (var $__3 = data[Symbol.iterator](),
+                      $__4; !($__4 = $__3.next()).done; ) {
+                    o = $__4.value;
                     others.push(typeof o === 'object' ? klass.load(o) : IDMap.get(klass, o) || klass.empty(o));
                   }
                   model[name] = others;
-                  for (var $__4 = others[Symbol.iterator](),
-                      $__5; !($__5 = $__4.next()).done; ) {
-                    o = $__5.value;
+                  for (var $__5 = others[Symbol.iterator](),
+                      $__6; !($__6 = $__5.next()).done; ) {
+                    o = $__6.value;
                     setPristine.call(o);
                   }
                 }
@@ -941,17 +973,17 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             return model;
           },
           loadAll: function(objects) {
-            var $__0 = this;
+            var $__1 = this;
             return objects.map((function(o) {
-              return $__0.load(o);
+              return $__1.load(o);
             }));
           },
           query: function() {
-            var $__16;
+            var $__17;
             for (var args = [],
-                $__13 = 0; $__13 < arguments.length; $__13++)
-              args[$__13] = arguments[$__13];
-            return ($__16 = this.buildQuery()).$query.apply($__16, $traceurRuntime.spread(args));
+                $__14 = 0; $__14 < arguments.length; $__14++)
+              args[$__14] = arguments[$__14];
+            return ($__17 = this.buildQuery()).$query.apply($__17, $traceurRuntime.spread(args));
           },
           buildQuery: function() {
             return buildQueryArray(this);
@@ -974,8 +1006,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           extend: function() {
             for (var args = [],
-                $__14 = 0; $__14 < arguments.length; $__14++)
-              args[$__14] = arguments[$__14];
+                $__15 = 0; $__15 < arguments.length; $__15++)
+              args[$__15] = arguments[$__15];
             return extendMany(this, args);
           }
         });
@@ -4813,8 +4845,8 @@ System.register("helpers/load", ["./is"], function($__export) {
     });
   }
   function loadJSON(url) {
-    return loadResource("json", url).then(function($__17) {
-      var response = $__17.response;
+    return loadResource("json", url).then(function($__18) {
+      var response = $__18.response;
       if (!response)
         throw new Error("Not found");
       return is.aString(response) ? JSON.parse(response) : response;
@@ -4832,12 +4864,12 @@ System.register("helpers/load", ["./is"], function($__export) {
 });
 System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/load", "./EventMapperMOCKDATA2"], function($__export) {
   "use strict";
-  var $__19;
+  var $__20;
   var __moduleName = "models/github/EventMapper";
   var AttrMunger,
       loadJSON,
       MOCKDATA;
-  return ($__19 = {}, Object.defineProperty($__19, "setters", {
+  return ($__20 = {}, Object.defineProperty($__20, "setters", {
     value: [function(m) {
       AttrMunger = m.default;
     }, function(m) {
@@ -4848,14 +4880,14 @@ System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/loa
     configurable: true,
     enumerable: true,
     writable: true
-  }), Object.defineProperty($__19, "execute", {
+  }), Object.defineProperty($__20, "execute", {
     value: function() {
-      var $__19;
-      $__export('default', ($__19 = {}, Object.defineProperty($__19, "query", {
-        value: (function(array, $__20) {
-          var $__21 = $__20,
-              type = $__21.type,
-              typeRef = $__21[type];
+      var $__20;
+      $__export('default', ($__20 = {}, Object.defineProperty($__20, "query", {
+        value: (function(array, $__21) {
+          var $__22 = $__21,
+              type = $__22.type,
+              typeRef = $__22[type];
           return loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events")).then((function(data) {
             return array.$replace(array.$class.loadAll(AttrMunger.camelize(data)));
           }));
@@ -4863,12 +4895,12 @@ System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/loa
         configurable: true,
         enumerable: true,
         writable: true
-      }), $__19));
+      }), $__20));
     },
     configurable: true,
     enumerable: true,
     writable: true
-  }), $__19);
+  }), $__20);
 });
 System.register("models/github/Repo", ["../../helpers/model/Model"], function($__export) {
   "use strict";
@@ -5012,28 +5044,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__22 = 1; $__22 < arguments.length; $__22++)
-            args[$__22 - 1] = arguments[$__22];
-        },
-        get: function(model) {
-          for (var args = [],
               $__23 = 1; $__23 < arguments.length; $__23++)
             args[$__23 - 1] = arguments[$__23];
         },
-        create: function(model) {
+        get: function(model) {
           for (var args = [],
               $__24 = 1; $__24 < arguments.length; $__24++)
             args[$__24 - 1] = arguments[$__24];
         },
-        update: function(model) {
+        create: function(model) {
           for (var args = [],
               $__25 = 1; $__25 < arguments.length; $__25++)
             args[$__25 - 1] = arguments[$__25];
         },
-        delete: function(model) {
+        update: function(model) {
           for (var args = [],
               $__26 = 1; $__26 < arguments.length; $__26++)
             args[$__26 - 1] = arguments[$__26];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__27 = 1; $__27 < arguments.length; $__27++)
+            args[$__27 - 1] = arguments[$__27];
         }
       });
     }

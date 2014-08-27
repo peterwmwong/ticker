@@ -35,12 +35,6 @@ html /deep/ ul, html /deep/ li {
   margin: 0;
   padding: 0; }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0; }
-
 body {
   color: #05242e;
   font-family: "Source Sans Pro", Helvetica, Arial, sans-serif;
