@@ -15,7 +15,7 @@
       }
     }
     ```
-- [Design] Model elements
+- [Design] Model polymer-elements
     ```jade
     script.
       System.import('../models');
@@ -77,5 +77,3 @@
       payload: 'identity'
     }){};
     ```
-- [Refactor] es6 <-> polymer
-  - https://github.com/geelen/x-gif

@@ -4,8 +4,8 @@ import {loadJSON} from 'helpers/load';
 import MOCKDATA from './EventMapperMOCKDATA2';
 
 export default {
-  // var promise = Promise.resolve(MOCKDATA);
   query:(array,{type, [type]:typeRef})=>
+    // Promise.resolve(MOCKDATA)
     loadJSON(`https://api.github.com/${type}/${typeRef}/events`)
       .then(data=>
         array.$replace(

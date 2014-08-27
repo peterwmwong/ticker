@@ -1,23 +1,14 @@
 +import('../../iconsets/github.html')
 +import('../../../bower_components/core-icon/core-icon.html')
 +import('../ticker-card.html')
-
-template#RepoName
-  div(layout horizontal center class='l-margin-b2')
-    span(style='width:0; height:24px;' class='')
-    span(class='t-light c-color-gray-light') {{repoOwner}}
-    span(class='c-color-gray-light t-light') /
-    span(class='t-light') {{repoName}}
++import('./ticker-github-branch.html')
++import('./ticker-github-repo.html')
++import('./ticker-github-avatar.html')
 
 template#PullRequestEvent
-  template#RepoName
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center)
-    img.actor-avatar(
-      class="l-margin-r2"
-      width="24"
-      height="24"
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='{{   payload.pullRequest.state === "open" ? "c-color-warning"    \
                 : payload.pullRequest.merged           ? "c-color-confirm"    \
@@ -27,46 +18,42 @@ template#PullRequestEvent
     span(flex)
       | {{payload.pullRequest.title}}
 
-
 template#CreateOrDeleteEvent
-  template(ref='RepoName' bind='{{}}')
-  div(layout horizontal center)
-    img.actor-avatar(
-      class="l-margin-r2"
-      width="24"
-      height="24"
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
-    core-icon(class='c-{{iconColor}} l-margin-r2' icon='github:git-branch')
-    span(flex) {{payload.ref}}
+  template(if='{{payload.refType === "repository"}}')
+    div(layout horizontal center)
+      ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
+      core-icon(class='{{iconColor}} l-margin-r2' icon='github:repo')
+      ticker-github-repo(repo='{{repo.name}}')
+
+  template(if='{{payload.refType !== "repository"}}')
+    ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
+    div(layout horizontal center)
+      ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
+      core-icon(class='{{iconColor}} l-margin-r2' icon='github:git-branch')
+      span(flex) {{payload.ref}}
 
 
 template#CreateEvent
-  template(bind='{{"color-warning" as iconColor}}')
+  template(bind='{{"c-color-confirm" as iconColor}}')
     template(ref='CreateOrDeleteEvent' bind='{{}}')
 
 
 template#DeleteEvent
-  template(bind='{{"color-error" as iconColor}}')
+  template(bind='{{"c-color-error" as iconColor}}')
     template(ref='CreateOrDeleteEvent' bind='{{}}')
 
 
 template#IssueCommentEvent
-  template(ref='RepoName' bind='{{}}')
-  div(layout horizontal class='l-margin-l6 l-margin-b1 t-light')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
+  div(layout horizontal class='l-margin-l6 l-margin-b2')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
-      icon='{{payload.issue.pullRequest ? "github:git-pull-request"    \
-                                        : "github:repo"             }}'
+      icon='{{payload.issue.pullRequest ? "github:git-pull-request" \
+                                        : "github:issue-opened"     }}'
     )
-    span(flex) {{payload.issue.title}}
+    span(flex class='t-light') {{payload.issue.title}}
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     div(flex layout horizontal)
       core-icon(
         class='c-color-brand-primary-lighter l-float-l l-margin-r2'
@@ -78,18 +65,13 @@ template#IssueCommentEvent
         span() "
 
 template#IssuesEvent
-  template(ref='RepoName' bind='{{}}')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
-      class='{{   payload.action === "opened"   ? "c-color-warning"      \
-                : payload.action === "reopened" ? "c-color-warning"      \
-                                                : "c-color-confirm"   }} \
+      class='{{   payload.action === "opened"   ? "c-color-warning"    \
+                : payload.action === "reopened" ? "c-color-warning"    \
+                                                : "c-color-confirm" }} \
             l-margin-r2'
       icon='github:issue-{{payload.action}}'
     )
@@ -98,50 +80,35 @@ template#IssuesEvent
 
 template#WatchEvent
   div(layout horizontal center)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='c-color-gray-lightest l-margin-r1'
       icon='github:star'
     )
-    span(flex class='t-light') {{repo.name}}
+    ticker-github-repo(repo='{{repo.name}}')
 
 
 template#ForkEvent
   div(layout horizontal center)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='c-color-gray-lightest l-margin-r1'
       icon='github:repo-forked'
     )
-    span(flex class='t-light') {{repo.name}}
+    ticker-github-repo(repo='{{repo.name}}')
 
 
 template#PushEvent
-  template(ref='RepoName' bind='{{}}')
-  div(class='l-margin-l6 l-margin-b1 t-light' horizontal layout)
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
+  div(layout horizontal class='l-margin-l6 l-margin-b2')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
       icon='github:git-branch'
     )
-    span(flex) {{payload.ref}}
+    ticker-github-branch(branch='{{payload.ref}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
-    ul.ticker-github-pushevent__commits(flex)
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
+    ul(flex)
       template(repeat='{{commit in limitArray(payload.commits, 3)}}')
         li(class='l-margin-b50pct t-truncate')
           core-icon(class='c-color-confirm l-margin-r2' icon='github:git-commit')
@@ -149,18 +116,13 @@ template#PushEvent
 
 
 template#GollumEvent
-  template(ref='RepoName' bind='{{}}')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(class='c-color-confirm l-margin-r2' icon='github:book')
     div {{payload.pages[0].title}}
 
 +polymer-element(attributes='data')
   //- div.c-color-gray-light.l-margin-b1.l-margin-l2.l-margin-t4 {{data.type}}
-  ticker-card(class='c-color-gray-darker l-padding-v2 l-padding-h2' layout vertical)
+  ticker-card(layout vertical class='c-color-gray-darker l-padding-v2 l-padding-h2')
     template(ref='{{data.type}}' bind='{{data}}')
