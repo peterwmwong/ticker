@@ -108,7 +108,7 @@ template#PushEvent
     ticker-github-branch(branch='{{payload.ref}}')
   div(layout horizontal center-top)
     ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
-    ul.ticker-github-pushevent__commits(flex)
+    ul(flex)
       template(repeat='{{commit in limitArray(payload.commits, 3)}}')
         li(class='l-margin-b50pct t-truncate')
           core-icon(class='c-color-confirm l-margin-r2' icon='github:git-commit')
