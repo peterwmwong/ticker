@@ -3,20 +3,12 @@
 +import('../ticker-card.html')
 +import('./ticker-github-branch.html')
 +import('./ticker-github-repo.html')
++import('./ticker-github-avatar.html')
 
 template#PullRequestEvent
-  ticker-github-repo(
-    block
-    repo='{{repo.name}}'
-    class='l-margin-b2 l-padding-b1'
-    style='border-bottom: 1px solid #EEE;')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center)
-    img.actor-avatar(
-      class="l-margin-r2"
-      width="24"
-      height="24"
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='{{   payload.pullRequest.state === "open" ? "c-color-warning"    \
                 : payload.pullRequest.merged           ? "c-color-confirm"    \
@@ -29,28 +21,14 @@ template#PullRequestEvent
 template#CreateOrDeleteEvent
   template(if='{{payload.refType === "repository"}}')
     div(layout horizontal center)
-      img.actor-avatar(
-        class="l-margin-r2"
-        width="24"
-        height="24"
-        _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-      )
+      ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
       core-icon(class='c-{{iconColor}} l-margin-r2' icon='github:repo')
       ticker-github-repo(repo='{{repo.name}}')
 
   template(if='{{payload.refType !== "repository"}}')
-    ticker-github-repo(
-      block
-      repo='{{repo.name}}'
-      class='l-margin-b2 l-padding-b1'
-      style='border-bottom: 1px solid #EEE;')
+    ticker-github-repo(block repo='{{repo.name}}')
     div(layout horizontal center)
-      img.actor-avatar(
-        class="l-margin-r2"
-        width="24"
-        height="24"
-        _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-      )
+      ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
       core-icon(class='c-{{iconColor}} l-margin-r2' icon='github:git-branch')
       span(flex) {{payload.ref}}
 
@@ -66,11 +44,7 @@ template#DeleteEvent
 
 
 template#IssueCommentEvent
-  ticker-github-repo(
-    block
-    repo='{{repo.name}}'
-    class='l-margin-b2 l-padding-b1'
-    style='border-bottom: 1px solid #EEE;')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal class='l-margin-l6 l-margin-b2 t-light')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
@@ -79,12 +53,7 @@ template#IssueCommentEvent
     )
     span(flex) {{payload.issue.title}}
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     div(flex layout horizontal)
       core-icon(
         class='c-color-brand-primary-lighter l-float-l l-margin-r2'
@@ -96,18 +65,9 @@ template#IssueCommentEvent
         span() "
 
 template#IssuesEvent
-  ticker-github-repo(
-    block
-    repo='{{repo.name}}'
-    class='l-margin-b2 l-padding-b1'
-    style='border-bottom: 1px solid #EEE;')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='{{   payload.action === "opened"   ? "c-color-warning"    \
                 : payload.action === "reopened" ? "c-color-warning"    \
@@ -120,12 +80,7 @@ template#IssuesEvent
 
 template#WatchEvent
   div(layout horizontal center)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='c-color-gray-lightest l-margin-r1'
       icon='github:star'
@@ -135,12 +90,7 @@ template#WatchEvent
 
 template#ForkEvent
   div(layout horizontal center)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
       class='c-color-gray-lightest l-margin-r1'
       icon='github:repo-forked'
@@ -149,11 +99,7 @@ template#ForkEvent
 
 
 template#PushEvent
-  ticker-github-repo(
-    block
-    repo='{{repo.name}}'
-    class='l-margin-b2 l-padding-b1'
-    style='border-bottom: 1px solid #EEE;')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(horizontal layout class='l-margin-l6 l-margin-b2 t-light')
     core-icon(
       class='c-color-gray-lighter l-margin-h1 l-margin-r2'
@@ -161,12 +107,7 @@ template#PushEvent
     )
     ticker-github-branch(branch='{{payload.ref}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     ul.ticker-github-pushevent__commits(flex)
       template(repeat='{{commit in limitArray(payload.commits, 3)}}')
         li(class='l-margin-b50pct t-truncate')
@@ -175,18 +116,9 @@ template#PushEvent
 
 
 template#GollumEvent
-  ticker-github-repo(
-    block
-    repo='{{repo.name}}'
-    class='l-margin-b2 l-padding-b1'
-    style='border-bottom: 1px solid #EEE;')
+  ticker-github-repo.ticker-github-events-card__title(repo='{{repo.name}}')
   div(layout horizontal center-top)
-    img.actor-avatar(
-      class='l-margin-r2'
-      width='24'
-      height='24'
-      _src='{{"https://avatars2.githubusercontent.com/u/"+actor.id+"?v=2&s=24"}}'
-    )
+    ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(class='c-color-confirm l-margin-r2' icon='github:book')
     div {{payload.pages[0].title}}
 
