@@ -35,8 +35,7 @@ template#PullRequestEvent
                                                        : "c-error"   }} \
              l-margin-r2'
       icon='github:git-pull-request')
-    span(flex)
-      | {{payload.pullRequest.title}}
+    span(flex class='t-normal') {{payload.pullRequest.title}}
 
 
 template#CreateOrDeleteEvent
@@ -51,7 +50,7 @@ template#CreateOrDeleteEvent
     div(layout horizontal center)
       ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
       core-icon(class='{{iconColor}} l-margin-r2' icon='github:git-branch')
-      span(flex class='t-') {{payload.ref}}
+      span(flex class='t-normal') {{payload.ref}}
 
 
 template#CreateEvent
@@ -91,7 +90,7 @@ template#IssuesEvent
             l-margin-r2'
       icon='github:issue-{{payload.action}}'
     )
-    span(flex) {{payload.issue.title}}
+    span(flex class='t-normal') {{payload.issue.title}}
 
 
 template#WatchEvent

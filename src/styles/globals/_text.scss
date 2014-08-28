@@ -1,12 +1,8 @@
 // Fonts
 // =====
 
-@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-light", 300, normal);
-@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-regular", 400, normal);
-@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-semibold", 600, normal);
-
-@include font-face("Source Code Pro", "../../../vendor/fonts/source-code/sourcecodepro-regular", 400, normal);
-@include font-face("Source Code Pro", "../../../vendor/fonts/source-code/sourcecodepro-semibold", 600, normal);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
 
 html _deep_ {
 
