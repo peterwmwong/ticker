@@ -80,35 +80,35 @@ html _deep_ {
         #{$type}-bottom: $baseline * ($i/100);
       }
     }
-    @for $i from 1 through 6 {
+    @for $i from 0 through 6 {
       .l-#{$type}-#{$i} {
-        #{$type}: ($baseline * $i) ($base-width * $i);
+        #{$type}: ($baseline * $i) ($base-width * $i) !important;
       }
 
       .l-#{$type}-r#{$i} {
-        #{$type}-right: $base-width * $i;
+        #{$type}-right: $base-width * $i !important;
       }
 
       .l-#{$type}-l#{$i} {
-        #{$type}-left:  $base-width * $i;
+        #{$type}-left:  $base-width * $i !important;
       }
 
       .l-#{$type}-h#{$i} {
-        #{$type}-left:  $base-width * $i;
-        #{$type}-right: $base-width * $i;
+        #{$type}-left:  $base-width * $i !important;
+        #{$type}-right: $base-width * $i !important;
       }
 
       .l-#{$type}-t#{$i} {
-        #{$type}-top: $baseline * $i;
+        #{$type}-top: $baseline * $i !important;
       }
 
       .l-#{$type}-b#{$i} {
-        #{$type}-bottom: $baseline * $i;
+        #{$type}-bottom: $baseline * $i !important;
       }
 
       .l-#{$type}-v#{$i} {
-        #{$type}-top:    $baseline * $i;
-        #{$type}-bottom: $baseline * $i;
+        #{$type}-top:    $baseline * $i !important;
+        #{$type}-bottom: $baseline * $i !important;
       }
     }
   }
