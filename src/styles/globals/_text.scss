@@ -1,24 +1,19 @@
 // Fonts
 // =====
 
-// Source Sans
-// Our applications's main workhorse.
-// @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
-// @include font-face("Source Sans Pro", "../vendor/fonts/source-sans/sourcesanspro-light", normal, normal);
+@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-light", 300, normal);
+@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-regular", 400, normal);
+@include font-face("Source Sans Pro", "../../../vendor/fonts/source-sans/sourcesanspro-semibold", 600, normal);
 
-// Source Code Pro
-// Main monospace
-// @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,600);
-
-// Font Icons
-// ==========
-
-// Flaticons
-// https://flaticons.co/
-@include font-face("Flaticons Stroke", "../vendor/fonts/flaticons-stroke/flaticons-stroke", normal, normal);
-
+@include font-face("Source Code Pro", "../../../vendor/fonts/source-code/sourcecodepro-regular", 400, normal);
+@include font-face("Source Code Pro", "../../../vendor/fonts/source-code/sourcecodepro-semibold", 600, normal);
 
 html _deep_ {
+
+  // Sizes
+  @each $fontSize in 10, 11, 12, 14, 16, 18, 20, 24, 28, 32 {
+    .t-font-size-#{$fontSize} { font-size: #{$fontSize/10}rem; }
+  }
 
   // Truncate text with an ellipsis
   .t-truncate {

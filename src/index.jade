@@ -12,11 +12,8 @@ html(lang='en')
     link(rel='shortcut icon' href='../favicon.ico?v=1' type="image/x-icon")
     link(rel='stylesheet' href='index.css' shim-shadowdom)
 
-    //- IE9: polyfill btoa and atob
-    script(src='../node_modules/Base64/base64.min.js')
     script(src='../bower_components/platform/platform.js')
     script(src='../node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js')
-    script(src='../src/patchTraceurForIE.js')
 
     script(src='../node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js')
     script(src='../node_modules/systemjs/lib/extension-register.js')

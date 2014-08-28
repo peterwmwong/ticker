@@ -1,11 +1,5 @@
 @import 'imports';
 
-:host {
-  display: block;
-}
-
 .ticker-github-events-card__title {
   border-bottom: 1px solid $gray-lightest;
-  margin: 0 0 ($baseline*2) 0;
-  padding: 0 0 ($baseline*1) 0;
 }

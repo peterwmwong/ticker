@@ -17,11 +17,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/Base64/base64.min.js',
       'spec/spec-utils/force-shadowdom-polyfill.js',
       'bower_components/platform/platform.js',
       'node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
-      'src/patchTraceurForIE.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
       'node_modules/systemjs/lib/extension-register.js',
 

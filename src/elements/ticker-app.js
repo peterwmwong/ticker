@@ -2,8 +2,8 @@ import Event from '../models/github/Event';
 
 Polymer('ticker-app',{
   ready(){
-    // this.githubEvents = Event.query({type:'repos', repos:'centro/centro-media-manager'});
-    this.githubEvents = Event.query({type:'users', users:'polymer'});
+    this.githubEvents = Event.query({type:'repos', repos:'centro/centro-media-manager'});
+    // this.githubEvents = Event.query({type:'users', users:'polymer'});
   },
 
   onCoreHeaderTransform(e){

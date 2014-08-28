@@ -5,7 +5,6 @@
     "node": ">=0.10.26"
   },
   "dependencies": {
-    "Base64": "^0.3.0",
     "es6-module-loader": "^0.8.2",
     "gulp-changed": "^0.4.1",
     "gulp-clean": "^0.3.1",

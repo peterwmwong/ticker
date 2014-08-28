@@ -19,7 +19,7 @@ html _deep_ {
   // .l-width{ex. 1of4}-gutter-l
   // .l-margin-r{ex. 1of4}
   // .l-margin-l{ex. 1of4}
-  @each $columns in 2, 3, 4, 6, 8, 10, 12 {
+  @each $columns in 2, 3, 4, 6, 8 {
     @for $column from 1 through ($columns - 1) {
       $pctValue: ($column / $columns) * 100%;
 
@@ -45,21 +45,6 @@ html _deep_ {
         margin-left: $pctValue !important;
       }
     }
-  }
-
-  // TODO: Do we need this with polymer/layout
-  .l-width100 {
-    width: 100% !important;
-  }
-
-  .l-width100-gutter-r {
-    @include calc('width', '100% - #{$gutter}');
-    margin-right: $gutter !important;
-  }
-
-  .l-width100-gutter-l {
-    @include calc('width', '100% - #{$gutter}');
-    margin-left: $gutter !important;
   }
 
   // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
