@@ -6,12 +6,6 @@
 +import('./cards/ticker-github-events-card.html')
 
 +polymer-element
-  template#github-commit-card
-    ticker-github-events-card(
-      data="[[event]]"
-      class='l-margin-b2 l-margin-l2 l-width100-gutter-r'
-    )
-
   core-scroll-header-panel(
     condenses
     on-core-header-transform='{{onCoreHeaderTransform}}'
@@ -20,8 +14,12 @@
       paper-icon-button(icon="menu")
       span(flex)
       paper-icon-button(icon="search")
-      #titleText.bottom.ticker-app__title-text
+      #titleText.bottom(class='l-padding-l6 l-margin-l4 t-normal t-font-size-32')
         | Polymer
 
-    .content(class='l-padding-t2')
-      template(ref='github-commit-card' repeat='{{ event in githubEvents }}')
+    .content(class='l-padding-t2 l-padding-h2')
+      template(repeat='{{ event in githubEvents }}')
+        ticker-github-events-card(
+          class='l-display-block l-margin-b1'
+          data="[[event]]"
+        )

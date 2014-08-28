@@ -9,6 +9,7 @@ Event.create($=>{
 
   $.attr('type',    'string');
   $.attr('payload', 'identity');
+  $.attr('createdAt', 'datetime');
 
   $.hasOne('actor', 'User');
   $.hasOne('repo',  'Repo');
