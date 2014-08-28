@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
 /* #05242E */
@@ -947,41 +949,6 @@ html /deep/ .m-shadow-dropdown {
   box-shadow: 0 5px 2px -2px rgba(5, 35, 45, 0.1); }
 html /deep/ .m-shadow-dialog {
   box-shadow: 0 4px 8px rgba(5, 35, 45, 0.2); }
-
-@font-face {
-  font-family: "Source Sans Pro";
-  font-weight: 300;
-  font-style: normal;
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-light.eot');
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-light.eot?#iefix') format('embedded-opentype'), url('../../../vendor/fonts/source-sans/sourcesanspro-light.woff') format('woff'), url('../../../vendor/fonts/source-sans/sourcesanspro-light.ttf') format('truetype'), url('../../../vendor/fonts/source-sans/sourcesanspro-light.svg#Source Sans Pro') format('svg'); }
-
-@font-face {
-  font-family: "Source Sans Pro";
-  font-weight: 400;
-  font-style: normal;
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-regular.eot');
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-regular.eot?#iefix') format('embedded-opentype'), url('../../../vendor/fonts/source-sans/sourcesanspro-regular.woff') format('woff'), url('../../../vendor/fonts/source-sans/sourcesanspro-regular.ttf') format('truetype'), url('../../../vendor/fonts/source-sans/sourcesanspro-regular.svg#Source Sans Pro') format('svg'); }
-
-@font-face {
-  font-family: "Source Sans Pro";
-  font-weight: 600;
-  font-style: normal;
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-semibold.eot');
-  src: url('../../../vendor/fonts/source-sans/sourcesanspro-semibold.eot?#iefix') format('embedded-opentype'), url('../../../vendor/fonts/source-sans/sourcesanspro-semibold.woff') format('woff'), url('../../../vendor/fonts/source-sans/sourcesanspro-semibold.ttf') format('truetype'), url('../../../vendor/fonts/source-sans/sourcesanspro-semibold.svg#Source Sans Pro') format('svg'); }
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 400;
-  font-style: normal;
-  src: url('../../../vendor/fonts/source-code/sourcecodepro-regular.eot');
-  src: url('../../../vendor/fonts/source-code/sourcecodepro-regular.eot?#iefix') format('embedded-opentype'), url('../../../vendor/fonts/source-code/sourcecodepro-regular.woff') format('woff'), url('../../../vendor/fonts/source-code/sourcecodepro-regular.ttf') format('truetype'), url('../../../vendor/fonts/source-code/sourcecodepro-regular.svg#Source Code Pro') format('svg'); }
-
-@font-face {
-  font-family: "Source Code Pro";
-  font-weight: 600;
-  font-style: normal;
-  src: url('../../../vendor/fonts/source-code/sourcecodepro-semibold.eot');
-  src: url('../../../vendor/fonts/source-code/sourcecodepro-semibold.eot?#iefix') format('embedded-opentype'), url('../../../vendor/fonts/source-code/sourcecodepro-semibold.woff') format('woff'), url('../../../vendor/fonts/source-code/sourcecodepro-semibold.ttf') format('truetype'), url('../../../vendor/fonts/source-code/sourcecodepro-semibold.svg#Source Code Pro') format('svg'); }
 
 html /deep/ .t-font-size-10 {
   font-size: 1rem; }
