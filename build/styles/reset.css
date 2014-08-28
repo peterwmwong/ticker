@@ -1,6 +1,5 @@
-html /deep/ p {
+html /deep/ p, html /deep/ ul, html /deep/ li {
   margin: 0;
   padding: 0; }
-html /deep/ ul, html /deep/ li {
-  margin: 0;
-  padding: 0; }
+html /deep/ li {
+  list-style-type: none; }
