@@ -3743,8 +3743,8 @@ System.register("elements/ticker-app", ["../models/github/Event"], function($__e
       Polymer('ticker-app', {
         ready: function() {
           this.githubEvents = Event.query({
-            type: 'repos',
-            repos: 'centro/centro-media-manager'
+            type: 'users',
+            users: 'polymer'
           });
         },
         onCoreHeaderTransform: function(e) {
