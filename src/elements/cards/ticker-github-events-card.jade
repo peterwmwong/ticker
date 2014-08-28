@@ -67,7 +67,7 @@ template#IssueCommentEvent
   template(ref='CardTitle' bind='{{}}')
   div(layout horizontal class='l-margin-b2')
     core-icon(
-      class='c-gray-light l-margin-r2'
+      class='c-gray-lighter l-margin-r2'
       icon='{{payload.issue.pullRequest ? "github:git-pull-request" \
                                         : "github:issue-opened"     }}'
     )
@@ -75,7 +75,7 @@ template#IssueCommentEvent
   div(layout horizontal)
     ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     div(flex layout horizontal)
-      div(flex class='t-normal t-italic t-word-wrap-break-word')
+      div(flex class='t-italic t-normal t-word-wrap-break-word')
         span "{{payload.comment.body}}"
 
 
@@ -90,14 +90,14 @@ template#IssuesEvent
             l-margin-r2'
       icon='github:issue-{{payload.action}}'
     )
-    span(flex class='t-normal') {{payload.issue.title}}
+    span(flex class='t-normal t-word-wrap-break-word') {{payload.issue.title}}
 
 
 template#WatchEvent
   div(layout horizontal center)
     ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
-      class='c-gray-light l-margin-r1'
+      class='c-gray-lighter l-margin-r1'
       icon='github:star'
     )
     ticker-github-repo(flex repo='{{repo.name}}')
@@ -108,7 +108,7 @@ template#ForkEvent
   div(layout horizontal center)
     ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     core-icon(
-      class='c-gray-light l-margin-r1'
+      class='c-gray-lighter l-margin-r1'
       icon='github:repo-forked'
     )
     ticker-github-repo(flex repo='{{repo.name}}')
@@ -119,7 +119,7 @@ template#PushEvent
   template(ref='CardTitle' bind='{{}}')
   div(layout horizontal class='l-margin-b2')
     core-icon(
-      class='c-gray-light l-margin-r2'
+      class='c-gray-lighter l-margin-r2'
       icon='github:git-branch'
     )
     ticker-github-branch(branch='{{payload.ref}}')
@@ -129,7 +129,7 @@ template#PushEvent
       template(repeat='{{commit in limitArray(payload.commits, 3)}}')
         li(horizontal layout class='l-margin-b1')
           core-icon(class='c-confirm l-margin-r2' icon='github:git-commit')
-          span(flex) {{commit.message}}
+          span(flex class='t-word-wrap-break-word') {{commit.message}}
 
 
 template#GollumEvent
