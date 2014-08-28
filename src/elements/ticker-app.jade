@@ -17,9 +17,6 @@
       #titleText.bottom(class='l-padding-l6 l-margin-l4 t-normal t-font-size-32')
         | Polymer
 
-    .content(class='l-padding-t2 l-padding-h2')
+    .content(class='l-padding-2')
       template(repeat='{{ event in githubEvents }}')
-        ticker-github-events-card(
-          class='l-display-block l-margin-b1'
-          data="[[event]]"
-        )
+        ticker-github-events-card(block class='l-margin-b1' data="[[event]]")
