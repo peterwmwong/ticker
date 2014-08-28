@@ -9,7 +9,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
 template#EventTimeAgo
   time(
-    class='c-gray-light t-font-size-12'
+    class='c-gray-dark t-font-size-12'
     datetime='{{createdAt}}'
     format='micro'
     is='time-ago'
@@ -67,7 +67,7 @@ template#IssueCommentEvent
   template(ref='CardTitle' bind='{{}}')
   div(layout horizontal class='l-margin-b2')
     core-icon(
-      class='c-gray-lighter l-margin-r2'
+      class='c-gray-light l-margin-r2'
       icon='{{payload.issue.pullRequest ? "github:git-pull-request" \
                                         : "github:issue-opened"     }}'
     )
@@ -75,7 +75,7 @@ template#IssueCommentEvent
   div(layout horizontal)
     ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
     div(flex layout horizontal)
-      div(flex class='t-italic t-word-wrap-break-word')
+      div(flex class='t-normal t-italic t-word-wrap-break-word')
         span "{{payload.comment.body}}"
 
 
@@ -119,7 +119,7 @@ template#PushEvent
   template(ref='CardTitle' bind='{{}}')
   div(layout horizontal class='l-margin-b2')
     core-icon(
-      class='c-gray-lighter l-margin-r2'
+      class='c-gray-light l-margin-r2'
       icon='github:git-branch'
     )
     ticker-github-branch(branch='{{payload.ref}}')

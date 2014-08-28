@@ -38,6 +38,5 @@ html _deep_ {
   // be too heavy for dark-on-light text. It is on by default. In cases
   // where text will be light-on-dark, please turn this value off.
   .t-smoothing-on  { @extend %t-smoothing-on;  }
-
   .t-smoothing-off { @extend %t-smoothing-off; }
 }
