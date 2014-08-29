@@ -4999,18 +4999,15 @@ System.register("elements/ticker-app", ["../models/github/Event"], function($__e
     }],
     execute: function() {
       Polymer('ticker-app', {
-        ready: function() {
-          this.githubEvents = Event.query({
-            type: 'users',
-            users: 'polymer'
-          });
+        query: {
+          type: 'users',
+          users: 'polymer'
         },
-        onCoreHeaderTransform: function(e) {
-          var titleStyle = this.$.titleText.style;
-          var d = e.detail;
-          var m = d.height - d.condensedHeight;
-          var scale = Math.max(0.75, (m - d.y) / (m / 0.25) + 0.75);
-          titleStyle.webkitTransform = titleStyle.transform = 'scale(' + scale + ') translateZ(0)';
+        ready: function() {
+          this.githubEvents = Event.query(this.query);
+        },
+        onRefresh: function() {
+          this.githubEvents.$query(this.query);
         }
       });
     }
