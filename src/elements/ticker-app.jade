@@ -7,16 +7,14 @@
 
 +polymer-element
   core-scroll-header-panel(
-    condenses
     on-core-header-transform='{{onCoreHeaderTransform}}'
   )
-    core-toolbar(class='tall')
-      paper-icon-button(icon="menu")
-      span(flex)
-      paper-icon-button(icon="search")
-      #titleText.bottom(class='l-padding-l6 l-margin-l4 t-normal t-font-size-32')
-        | Polymer
+    core-toolbar
+      paper-icon-button(icon='menu')
+      span(flex class='l-margin-0 t-normal') Polymer
+      paper-icon-button(icon='refresh' on-tap='{{onRefresh}}')
+      paper-icon-button(icon='search')
 
     .content(class='l-padding-2')
       template(repeat='{{ event in githubEvents }}')
-        ticker-github-events-card(block class='l-margin-b1' data="[[event]]")
+        ticker-github-events-card(block class='l-margin-b1' data='[[event]]')
