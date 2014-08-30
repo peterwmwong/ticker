@@ -15,18 +15,3 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-.subject-background:before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: -13px;
-  right: -11px;
-  bottom: -12px;
-  left: -11px;
-  background: rgba(233, 237, 240, 0.3);
-  border: 1px solid #f0f3f5;
-  border-style: solid none;
-  z-index: 0; }
-
-.subject-background--no-borders:before {
-  border-bottom-style: none; }

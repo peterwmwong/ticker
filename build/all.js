@@ -5003,11 +5003,75 @@ System.register("elements/ticker-app", ["../models/github/Event"], function($__e
           type: 'users',
           users: 'polymer'
         },
+        isSearching: false,
+        searchText: '',
         ready: function() {
           this.githubEvents = Event.query(this.query);
         },
+        focusSearchInput: function() {
+          var $__23 = this;
+          this.job('focusSearchInput', (function(_) {
+            var searchInput = $__23.shadowRoot.querySelector('#searchInput');
+            if (searchInput)
+              searchInput.focus();
+          }), 150);
+        },
         onRefresh: function() {
           this.githubEvents.$query(this.query);
+        },
+        onShowSearch: function() {
+          this.isSearching = true;
+          this.focusSearchInput();
+        },
+        onHideSearch: function() {
+          this.isSearching = false;
+        },
+        onClearSearch: function() {
+          this.searchText = '';
+          this.focusSearchInput();
+        }
+      });
+    }
+  };
+});
+System.register("elements/ticker-search", ["../models/github/Repo", "../models/github/User"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-search";
+  var Repo,
+      User;
+  return {
+    setters: [function(m) {
+      Repo = m.default;
+    }, function(m) {
+      User = m.default;
+    }],
+    execute: function() {
+      Polymer('ticker-search', {
+        searchText: '',
+        userResults: [],
+        repoResults: [],
+        search: function() {
+          var $__24 = this;
+          this.job('search', (function() {
+            var term = $__24.searchText;
+            $__24.repoResults = Repo.query({term: term});
+            $__24.userResults = User.query({term: term});
+          }));
+        },
+        searchTextChanged: function(_, searchText) {
+          if (searchText) {
+            this.onSearch();
+          }
+        },
+        onSearch: function() {
+          var $__24 = this;
+          this.job('search', (function() {
+            $__24.query = {
+              type: 'users',
+              users: $__24.searchText
+            };
+            $__24.onSearch();
+          }), 100);
         }
       });
     }
@@ -5042,28 +5106,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__23 = 1; $__23 < arguments.length; $__23++)
-            args[$__23 - 1] = arguments[$__23];
-        },
-        get: function(model) {
-          for (var args = [],
-              $__24 = 1; $__24 < arguments.length; $__24++)
-            args[$__24 - 1] = arguments[$__24];
-        },
-        create: function(model) {
-          for (var args = [],
               $__25 = 1; $__25 < arguments.length; $__25++)
             args[$__25 - 1] = arguments[$__25];
         },
-        update: function(model) {
+        get: function(model) {
           for (var args = [],
               $__26 = 1; $__26 < arguments.length; $__26++)
             args[$__26 - 1] = arguments[$__26];
         },
-        delete: function(model) {
+        create: function(model) {
           for (var args = [],
               $__27 = 1; $__27 < arguments.length; $__27++)
             args[$__27 - 1] = arguments[$__27];
+        },
+        update: function(model) {
+          for (var args = [],
+              $__28 = 1; $__28 < arguments.length; $__28++)
+            args[$__28 - 1] = arguments[$__28];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__29 = 1; $__29 < arguments.length; $__29++)
+            args[$__29 - 1] = arguments[$__29];
         }
       });
     }

@@ -295,74 +295,78 @@ html /deep/ .b-tabs-underbar--large .b-tabs-underbar__tab {
   font-size: 2rem;
   font-weight: 300; }
 
+html /deep/ .c-transparent {
+  color: transparent !important; }
+html /deep/ .c-bg-transparent {
+  background-color: transparent !important; }
 html /deep/ .c-white {
-  color: white; }
+  color: white !important; }
 html /deep/ .c-bg-white {
-  background-color: white; }
+  background-color: white !important; }
 html /deep/ .c-gray-darkest {
-  color: #05242e; }
+  color: #05242e !important; }
 html /deep/ .c-bg-gray-darkest {
-  background-color: #05242e; }
+  background-color: #05242e !important; }
 html /deep/ .c-gray-darker {
-  color: #425357; }
+  color: #425357 !important; }
 html /deep/ .c-bg-gray-darker {
-  background-color: #425357; }
+  background-color: #425357 !important; }
 html /deep/ .c-gray-dark {
-  color: #6e8a91; }
+  color: #6e8a91 !important; }
 html /deep/ .c-bg-gray-dark {
-  background-color: #6e8a91; }
+  background-color: #6e8a91 !important; }
 html /deep/ .c-gray-light {
-  color: #b0c1c4; }
+  color: #b0c1c4 !important; }
 html /deep/ .c-bg-gray-light {
-  background-color: #b0c1c4; }
+  background-color: #b0c1c4 !important; }
 html /deep/ .c-gray-lighter {
-  color: #d9e0e3; }
+  color: #d9e0e3 !important; }
 html /deep/ .c-bg-gray-lighter {
-  background-color: #d9e0e3; }
+  background-color: #d9e0e3 !important; }
 html /deep/ .c-gray-lightest {
-  color: #eaeef1; }
+  color: #eaeef1 !important; }
 html /deep/ .c-bg-gray-lightest {
-  background-color: #eaeef1; }
+  background-color: #eaeef1 !important; }
 html /deep/ .c-brand-primary-dark {
-  color: #196685; }
+  color: #196685 !important; }
 html /deep/ .c-bg-brand-primary-dark {
-  background-color: #196685; }
+  background-color: #196685 !important; }
 html /deep/ .c-brand-primary-light {
-  color: #28a6d7; }
+  color: #28a6d7 !important; }
 html /deep/ .c-bg-brand-primary-light {
-  background-color: #28a6d7; }
+  background-color: #28a6d7 !important; }
 html /deep/ .c-brand-primary-lighter {
-  color: #d5edf6; }
+  color: #d5edf6 !important; }
 html /deep/ .c-bg-brand-primary-lighter {
-  background-color: #d5edf6; }
+  background-color: #d5edf6 !important; }
 html /deep/ .c-brand-secondary-dark {
-  color: #96135f; }
+  color: #96135f !important; }
 html /deep/ .c-bg-brand-secondary-dark {
-  background-color: #96135f; }
+  background-color: #96135f !important; }
 html /deep/ .c-brand-secondary-light {
-  color: #e94999; }
+  color: #e94999 !important; }
 html /deep/ .c-bg-brand-secondary-light {
-  background-color: #e94999; }
+  background-color: #e94999 !important; }
 html /deep/ .c-confirm {
-  color: #72bd61; }
+  color: #72bd61 !important; }
 html /deep/ .c-bg-confirm {
-  background-color: #72bd61; }
+  background-color: #72bd61 !important; }
 html /deep/ .c-error {
-  color: #f44856; }
+  color: #f44856 !important; }
 html /deep/ .c-bg-error {
-  background-color: #f44856; }
+  background-color: #f44856 !important; }
 html /deep/ .c-warning {
-  color: #fca431; }
+  color: #fca431 !important; }
 html /deep/ .c-bg-warning {
-  background-color: #fca431; }
+  background-color: #fca431 !important; }
 html /deep/ .c-notify {
-  color: #f7e3b1; }
+  color: #f7e3b1 !important; }
 html /deep/ .c-bg-notify {
-  background-color: #f7e3b1; }
+  background-color: #f7e3b1 !important; }
 html /deep/ .c-highlight {
-  color: #fef9ec; }
+  color: #fef9ec !important; }
 html /deep/ .c-bg-highlight {
-  background-color: #fef9ec; }
+  background-color: #fef9ec !important; }
 
 html /deep/ .t-icon {
   -webkit-user-select: none;

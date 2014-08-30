@@ -15,27 +15,17 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-:host {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0; }
-
-core-scroll-header-panel {
-  color: white;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0; }
-  core-scroll-header-panel::shadow {
-    /* background for toolbar when it is at its full size */ }
-    core-scroll-header-panel::shadow #headerContainer {
-      background: rgba(39, 165, 215, 0.8); }
-    core-scroll-header-panel::shadow #headerBg {
-      background-color: #28a6d7; }
+.ticker-app__content {
+  padding: 76px 12px 0 12px;
+  overflow: auto; }
+  .ticker-app__content.ticker-app__content--search {
+    background: rgba(233, 237, 240, 0.8); }
 
 core-toolbar {
-  background-color: transparent; }
+  background: rgba(39, 165, 215, 0.8); }
+
+paper-input /deep/ #input {
+  color: white; }
+paper-input /deep/ .focused-underline, paper-input /deep/ .unfocused-underline, paper-input /deep/ .cursor {
+  background: white;
+  border-bottom-color: white; }
