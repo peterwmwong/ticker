@@ -1,38 +1,40 @@
 html _deep_ {
 
-  .c-white{color: white;}
-  .c-bg-white{background-color: white;}
-  .c-gray-darkest{color: $gray-darkest;}
-  .c-bg-gray-darkest{background-color: $gray-darkest;}
-  .c-gray-darker{color: $gray-darker;}
-  .c-bg-gray-darker{background-color: $gray-darker;}
-  .c-gray-dark{color: $gray-dark;}
-  .c-bg-gray-dark{background-color: $gray-dark;}
-  .c-gray-light{color: $gray-light;}
-  .c-bg-gray-light{background-color: $gray-light;}
-  .c-gray-lighter{color: $gray-lighter;}
-  .c-bg-gray-lighter{background-color: $gray-lighter;}
-  .c-gray-lightest{color: $gray-lightest;}
-  .c-bg-gray-lightest{background-color: $gray-lightest;}
-  .c-brand-primary-dark{color: $brand-primary-dark;}
-  .c-bg-brand-primary-dark{background-color: $brand-primary-dark;}
-  .c-brand-primary-light{color: $brand-primary-light;}
-  .c-bg-brand-primary-light{background-color: $brand-primary-light;}
-  .c-brand-primary-lighter{color: $brand-primary-lighter;}
-  .c-bg-brand-primary-lighter{background-color: $brand-primary-lighter;}
-  .c-brand-secondary-dark{color: $brand-secondary-dark;}
-  .c-bg-brand-secondary-dark{background-color: $brand-secondary-dark;}
-  .c-brand-secondary-light{color: $brand-secondary-light;}
-  .c-bg-brand-secondary-light{background-color: $brand-secondary-light;}
-  .c-confirm{color: $confirm;}
-  .c-bg-confirm{background-color: $confirm;}
-  .c-error{color: $error;}
-  .c-bg-error{background-color: $error;}
-  .c-warning{color: $warning;}
-  .c-bg-warning{background-color: $warning;}
-  .c-notify{color: $notify;}
-  .c-bg-notify{background-color: $notify;}
-  .c-highlight{color: $highlight;}
-  .c-bg-highlight{background-color: $highlight;}
+  .c-transparent{color: transparent !important;}
+  .c-bg-transparent{background-color: transparent !important;}
+  .c-white{color: white !important;}
+  .c-bg-white{background-color: white !important;}
+  .c-gray-darkest{color: $gray-darkest !important;}
+  .c-bg-gray-darkest{background-color: $gray-darkest !important;}
+  .c-gray-darker{color: $gray-darker !important;}
+  .c-bg-gray-darker{background-color: $gray-darker !important;}
+  .c-gray-dark{color: $gray-dark !important;}
+  .c-bg-gray-dark{background-color: $gray-dark !important;}
+  .c-gray-light{color: $gray-light !important;}
+  .c-bg-gray-light{background-color: $gray-light !important;}
+  .c-gray-lighter{color: $gray-lighter !important;}
+  .c-bg-gray-lighter{background-color: $gray-lighter !important;}
+  .c-gray-lightest{color: $gray-lightest !important;}
+  .c-bg-gray-lightest{background-color: $gray-lightest !important;}
+  .c-brand-primary-dark{color: $brand-primary-dark !important;}
+  .c-bg-brand-primary-dark{background-color: $brand-primary-dark !important;}
+  .c-brand-primary-light{color: $brand-primary-light !important;}
+  .c-bg-brand-primary-light{background-color: $brand-primary-light !important;}
+  .c-brand-primary-lighter{color: $brand-primary-lighter !important;}
+  .c-bg-brand-primary-lighter{background-color: $brand-primary-lighter !important;}
+  .c-brand-secondary-dark{color: $brand-secondary-dark !important;}
+  .c-bg-brand-secondary-dark{background-color: $brand-secondary-dark !important;}
+  .c-brand-secondary-light{color: $brand-secondary-light !important;}
+  .c-bg-brand-secondary-light{background-color: $brand-secondary-light !important;}
+  .c-confirm{color: $confirm !important;}
+  .c-bg-confirm{background-color: $confirm !important;}
+  .c-error{color: $error !important;}
+  .c-bg-error{background-color: $error !important;}
+  .c-warning{color: $warning !important;}
+  .c-bg-warning{background-color: $warning !important;}
+  .c-notify{color: $notify !important;}
+  .c-bg-notify{background-color: $notify !important;}
+  .c-highlight{color: $highlight !important;}
+  .c-bg-highlight{background-color: $highlight !important;}
 
 }

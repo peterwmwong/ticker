@@ -1,0 +1,7 @@
++import('../../bower_components/core-toolbar/core-toolbar.html')
++import('../../bower_components/paper-input/paper-input.html')
+
++polymer-element(attributes='searchText' nocss)
+  .ticker-search__results
+    template(repeat='{{result in results}}')
+      | {{result}}

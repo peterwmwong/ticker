@@ -1,5 +1,26 @@
 @import 'imports';
 
 .ticker-github-events-card__title {
-  border-bottom: 1px solid $gray-lightest;
+  // border-bottom: 1px solid $gray-lightest;
+}
+
+.subject-background:before {
+  content: '';
+  display: block;
+  position: absolute;
+    top: -13px;
+    right: -11px;
+    bottom: -12px;
+    left: -11px;
+  // background: rgba(0,128,220,.025);
+  background: transparentize($gray-lightest,.7);
+  // background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKv3n38zwjjgzhiQvyMYAEYB8RmROaABAASlw/NHPn3mAAAAABJRU5ErkJggg==) repeat;
+  // border: 1px solid transparent;
+  border: 1px solid lighten($gray-lightest, 2%);
+  border-style: solid none;
+  z-index: 0;
+}
+
+.subject-background--no-borders:before{
+  border-bottom-style: none;
 }
