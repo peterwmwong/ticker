@@ -2,7 +2,7 @@
 @import 'imports';
 
 .ticker-app__content {
-  padding: 76px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
+  padding: 73px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
   overflow: auto;
 
   &.ticker-app__content--search {
