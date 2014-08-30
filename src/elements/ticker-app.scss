@@ -1,35 +1,30 @@
 @import 'bourbon';
 @import 'imports';
 
-:host {
-  display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom:  0;
-  left: 0;
-}
+.ticker-app__content {
+  padding: 76px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
+  overflow: auto;
 
-core-scroll-header-panel {
-  color: white;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom:  0;
-  left: 0;
-
-  &::shadow {
-    #headerContainer {
-      background: transparentize($brand-primary-light, .2);
-    }
-    /* background for toolbar when it is at its full size */
-    #headerBg {
-      background-color: $brand-primary-light;
-    }
+  &.ticker-app__content--search {
+    background: transparentize($gray-lightest, .2);
   }
 }
 
 // Override default background
 core-toolbar {
-  background-color: transparent;
+  background: transparentize($brand-primary-light, .2);
+}
+
+// Override bordering and input color to white
+paper-input _deep_ {
+  #input {
+    color: white;
+  }
+
+  .focused-underline,
+  .unfocused-underline,
+  .cursor {
+    background: white;
+    border-bottom-color: white;
+  }
 }

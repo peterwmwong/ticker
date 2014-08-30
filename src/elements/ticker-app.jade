@@ -2,19 +2,31 @@
 +import('../../bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/paper-icon-button/paper-icon-button.html')
-+import('../../bower_components/paper-tabs/paper-tabs.html')
 +import('./cards/ticker-github-events-card.html')
++import('./ticker-search.html')
 
 +polymer-element
-  core-scroll-header-panel(
-    on-core-header-transform='{{onCoreHeaderTransform}}'
-  )
-    core-toolbar
-      paper-icon-button(icon='menu')
-      span(flex class='l-margin-0 t-normal') Polymer
-      paper-icon-button(icon='refresh' on-tap='{{onRefresh}}')
-      paper-icon-button(icon='search')
+  .ticker-app__content(fit class='l-padding-h2')
+    template(repeat='{{ event in githubEvents }}')
+      ticker-github-events-card(block class='l-margin-b1' data='[[event]]')
 
-    .content(class='l-padding-2')
-      template(repeat='{{ event in githubEvents }}')
-        ticker-github-events-card(block class='l-margin-b1' data='[[event]]')
+    template(if='{{isSearching}}')
+
+  .ticker-app__content.ticker-app__content--search(fit hidden?='{{!isSearching}}')
+    ticker-search(fit searchText='{{}}')
+
+  core-toolbar(fit class='c-white l-block')
+    template(if='{{!isSearching}}')
+      paper-icon-button(icon='menu' on-tap='{{onRefresh}}')
+      span(flex class='l-margin-l1 t-normal') {{query.users}}
+      paper-icon-button(icon='refresh' on-tap='{{onRefresh}}')
+      paper-icon-button(icon='search' on-tap='{{onShowSearch}}')
+
+    template(if='{{isSearching}}')
+      paper-icon-button(icon='arrow-back' on-tap='{{onHideSearch}}')
+      paper-input#searchInput(
+        flex
+        class='c-white l-padding-t2 t-normal'
+        inputValue='{{searchText}}'
+      )
+      paper-icon-button(icon='close' on-tap='{{onClearSearch}}')
