@@ -2,5 +2,7 @@
 
 :host {
   background-color: white;
+  border: 1px solid transparentize($gray-dark, .8);
+  border-top-style: none;
   border-bottom: 2px solid transparentize($gray-dark, .75);
 }

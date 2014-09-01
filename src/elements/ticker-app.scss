@@ -2,7 +2,7 @@
 @import 'imports';
 
 .ticker-app__content {
-  padding: 76px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
+  padding: 66px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
   overflow: auto;
 
   &.ticker-app__content--search {
@@ -13,6 +13,12 @@
 // Override default background
 core-toolbar {
   background: transparentize($brand-primary-light, .2);
+
+  &,
+  &::shadow #topBar {
+    height: 56px;
+    padding: 0;
+  }
 }
 
 // Override bordering and input color to white

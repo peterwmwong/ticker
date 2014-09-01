@@ -22,14 +22,17 @@ html _deep_ {
   .c-bg-brand-primary-light{background-color: $brand-primary-light !important;}
   .c-brand-primary-lighter{color: $brand-primary-lighter !important;}
   .c-bg-brand-primary-lighter{background-color: $brand-primary-lighter !important;}
-  .c-brand-secondary-dark{color: $brand-secondary-dark !important;}
-  .c-bg-brand-secondary-dark{background-color: $brand-secondary-dark !important;}
-  .c-brand-secondary-light{color: $brand-secondary-light !important;}
-  .c-bg-brand-secondary-light{background-color: $brand-secondary-light !important;}
+
   .c-confirm{color: $confirm !important;}
   .c-bg-confirm{background-color: $confirm !important;}
+  .c-confirm-light{color: $confirm-light !important;}
+  .c-bg-confirm-light{background-color: $confirm-light !important;}
   .c-error{color: $error !important;}
   .c-bg-error{background-color: $error !important;}
+  .c-error-light{color: $error-light !important;}
+  .c-bg-error-light{background-color: $error-light !important;}
+  .c-warning-light{color: $warning-light !important;}
+  .c-bg-warning-light{background-color: $warning-light !important;}
   .c-warning{color: $warning !important;}
   .c-bg-warning{background-color: $warning !important;}
   .c-notify{color: $notify !important;}

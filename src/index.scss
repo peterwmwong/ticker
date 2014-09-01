@@ -2,22 +2,23 @@
 @import 'reset';
 
 html, body {
-  font-size: 10px;
+  font-size: $font-root-size;
 }
+
 body {
-  @extend %t-smoothing-off;
-  color: $gray-darkest;
+  @extend %t-smoothing-on;
+  background-color: $gray-lightest;
+  color: $gray-darker;
   font-family: $font-stack-proportional;
   font-weight: $font-weight-light;
-  line-height: 24px;
+  line-height: 1;
   text-rendering: optimizeLegibility;
-  background-color: $gray-lightest;
 }
 
 ticker-app {
   width: 100%;
   height: 100%;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 @import 'globals';
