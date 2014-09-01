@@ -9,12 +9,12 @@
 /* #196685 - dark blue */
 /* #28A6D7 - primary blue */
 /* #D5EDF6 - light blue */
-/* #96135F */
-/* #E94999 */
 /* #72BD61 */
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
 :host {
   background-color: white;
+  border: 1px solid rgba(109, 138, 145, 0.2);
+  border-top-style: none;
   border-bottom: 2px solid rgba(109, 138, 145, 0.25); }

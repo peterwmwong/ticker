@@ -9,20 +9,21 @@
 /* #196685 - dark blue */
 /* #28A6D7 - primary blue */
 /* #D5EDF6 - light blue */
-/* #96135F */
-/* #E94999 */
 /* #72BD61 */
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
 .ticker-app__content {
-  padding: 76px 12px 0 12px;
+  padding: 66px 12px 0 12px;
   overflow: auto; }
   .ticker-app__content.ticker-app__content--search {
     background: rgba(233, 237, 240, 0.8); }
 
 core-toolbar {
   background: rgba(39, 165, 215, 0.8); }
+  core-toolbar, core-toolbar::shadow #topBar {
+    height: 56px;
+    padding: 0; }
 
 paper-input /deep/ #input {
   color: white; }
