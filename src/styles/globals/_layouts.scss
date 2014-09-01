@@ -14,77 +14,63 @@ html _deep_ {
   .l-position-absolute  { position: absolute !important; }
   .l-position-fixed     { position: fixed    !important; }
 
-  // .l-width{ex. 1of4}
-  // .l-width{ex. 1of4}-gutter-r
-  // .l-width{ex. 1of4}-gutter-l
-  // .l-margin-r{ex. 1of4}
-  // .l-margin-l{ex. 1of4}
-  @each $columns in 2, 3, 4, 6, 8 {
-    @for $column from 1 through ($columns - 1) {
-      $pctValue: ($column / $columns) * 100%;
-
-      .l-width#{$column}of#{$columns} {
-        width: $pctValue !important;
-      }
-
-      .l-width#{$column}of#{$columns}-gutter-r {
-        @include calc('width', '#{$pctValue} - #{$gutter}');
-        margin-right: $gutter !important;
-      }
-
-      .l-width#{$column}of#{$columns}-gutter-l {
-        @include calc('width', '#{$pctValue} - #{$gutter}');
-        margin-left: $gutter !important;
-      }
-
-      .l-margin-r#{$column}of#{$columns} {
-        margin-right: $pctValue !important;
-      }
-
-      .l-margin-l#{$column}of#{$columns} {
-        margin-left: $pctValue !important;
-      }
-    }
-  }
-
   // .l-{padding, margin}-{t,r,b,l,h,v}{1 ... 6}
   @each $type in padding, margin {
     @each $i in 25, 50, 75 {
       .l-#{$type}-#{$i}pct {
-        #{$type}: ($baseline * ($i/100)) ($base-width * ($i/100));
+        #{$type}: ($baseline * ($i/100)) ($base-width * ($i/100)) !important;
       }
+    }
 
-      .l-#{$type}-r#{$i}pct {
-        #{$type}-right: $base-width * ($i/100);
-      }
-
-      .l-#{$type}-l#{$i}pct {
-        #{$type}-left:  $base-width * ($i/100);
+    @each $i in 25, 50, 75 {
+      .l-#{$type}-v#{$i}pct {
+        #{$type}-top:    $baseline * ($i/100) !important;
+        #{$type}-bottom: $baseline * ($i/100) !important;
       }
 
       .l-#{$type}-h#{$i}pct {
-        #{$type}-left:  $base-width * ($i/100);
-        #{$type}-right: $base-width * ($i/100);
+        #{$type}-left:  $base-width * ($i/100) !important;
+        #{$type}-right: $base-width * ($i/100) !important;
+      }
+    }
+
+    @each $i in 25, 50, 75 {
+      .l-#{$type}-r#{$i}pct {
+        #{$type}-right: $base-width * ($i/100) !important;
+      }
+
+      .l-#{$type}-l#{$i}pct {
+        #{$type}-left:  $base-width * ($i/100) !important;
       }
 
       .l-#{$type}-t#{$i}pct {
-        #{$type}-top: $baseline * ($i/100);
+        #{$type}-top: $baseline * ($i/100) !important;
       }
 
       .l-#{$type}-b#{$i}pct {
-        #{$type}-bottom: $baseline * ($i/100);
-      }
-
-      .l-#{$type}-v#{$i}pct {
-        #{$type}-top:    $baseline * ($i/100);
-        #{$type}-bottom: $baseline * ($i/100);
+        #{$type}-bottom: $baseline * ($i/100) !important;
       }
     }
+
     @for $i from 0 through 6 {
       .l-#{$type}-#{$i} {
         #{$type}: ($baseline * $i) ($base-width * $i) !important;
       }
+    }
 
+    @for $i from 0 through 6 {
+      .l-#{$type}-h#{$i} {
+        #{$type}-left:  $base-width * $i !important;
+        #{$type}-right: $base-width * $i !important;
+      }
+
+      .l-#{$type}-v#{$i} {
+        #{$type}-top:    $baseline * $i !important;
+        #{$type}-bottom: $baseline * $i !important;
+      }
+    }
+
+    @for $i from 0 through 6 {
       .l-#{$type}-r#{$i} {
         #{$type}-right: $base-width * $i !important;
       }
@@ -93,21 +79,11 @@ html _deep_ {
         #{$type}-left:  $base-width * $i !important;
       }
 
-      .l-#{$type}-h#{$i} {
-        #{$type}-left:  $base-width * $i !important;
-        #{$type}-right: $base-width * $i !important;
-      }
-
       .l-#{$type}-t#{$i} {
         #{$type}-top: $baseline * $i !important;
       }
 
       .l-#{$type}-b#{$i} {
-        #{$type}-bottom: $baseline * $i !important;
-      }
-
-      .l-#{$type}-v#{$i} {
-        #{$type}-top:    $baseline * $i !important;
         #{$type}-bottom: $baseline * $i !important;
       }
     }

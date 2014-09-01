@@ -18,7 +18,7 @@
   core-toolbar(fit class='c-white l-block')
     template(if='{{!isSearching}}')
       paper-icon-button(icon='menu' on-tap='{{onRefresh}}')
-      span(flex class='l-margin-l1 t-normal') {{query.users}}
+      span(flex class='l-margin-l1 t-font-size-20 t-normal') {{query.users}}
       paper-icon-button(icon='refresh' on-tap='{{onRefresh}}')
       paper-icon-button(icon='search' on-tap='{{onShowSearch}}')
 

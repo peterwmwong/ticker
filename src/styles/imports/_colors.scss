@@ -1,4 +1,3 @@
-
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
 
@@ -13,11 +12,11 @@ $brand-primary-dark    :hsl(197,68%,31%); /* #196685 - dark blue */
 $brand-primary-light   :hsl(197,69%,50%); /* #28A6D7 - primary blue */
 $brand-primary-lighter :hsl(196,65%,90%); /* #D5EDF6 - light blue */
 
-$brand-secondary-dark  :hsl(325,78%,33%); /* #96135F */
-$brand-secondary-light :hsl(330,78%,60%); /* #E94999 */
-
 $confirm               :hsl(109,41%,56%); /* #72BD61 */
+$confirm-light         :lighten($confirm, 12%);
 $error                 :hsl(355,89%,62%); /* #F44856 */
+$error-light           :lighten($error, 15%);
 $warning               :hsl(34,97%,59%);  /* #FCA431 */
+$warning-light         :lighten($warning, 18%);
 $notify                :hsl(43,81%,83%);  /* #F7E3B1 */
 $highlight             :hsl(44,90%,96%);

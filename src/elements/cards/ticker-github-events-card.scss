@@ -1,26 +1,40 @@
 @import 'imports';
 
-.ticker-github-events-card__title {
-  // border-bottom: 1px solid $gray-lightest;
+.card {
+  background-color: white;
+  border: 1px solid transparentize($gray-dark, .8);
+  border-top-style: none;
+  border-bottom: 2px solid transparentize($gray-dark, .75);
 }
 
-.subject-background:before {
-  content: '';
-  display: block;
-  position: absolute;
-    top: -13px;
-    right: -11px;
-    bottom: -12px;
-    left: -11px;
-  // background: rgba(0,128,220,.025);
-  background: transparentize($gray-lightest,.7);
-  // background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKv3n38zwjjgzhiQvyMYAEYB8RmROaABAASlw/NHPn3mAAAAABJRU5ErkJggg==) repeat;
-  // border: 1px solid transparent;
-  border: 1px solid lighten($gray-lightest, 2%);
-  border-style: solid none;
-  z-index: 0;
+.title, .subject, .action {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
 }
 
-.subject-background--no-borders:before{
-  border-bottom-style: none;
+.title {
+  align-items: baseline;
+}
+
+.subject, .action {
+  line-height: 24px;
+}
+
+.subject {
+  background: lighten($gray-lightest,5%);
+  border-bottom: 1px solid $gray-lightest;
+  border-top: 1px solid $gray-lightest;
+  color: $gray-dark;
+  margin-bottom: $baseline;
+  padding: ($baseline*1.5) ($base-width*2);
+
+  &:last-child {
+    border-bottom-style: none;
+  }
+}
+
+.action {
+  // padding-top: $baseline;
+  padding: $baseline ($base-width*2) ($baseline*2) ($base-width*2);
 }
