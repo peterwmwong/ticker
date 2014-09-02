@@ -15,18 +15,18 @@
   .ticker-app__content.ticker-app__content--search(fit hidden?='{{!isSearching}}')
     ticker-search(fit searchText='{{}}')
 
-  core-toolbar(fit class='c-white l-block')
+  core-toolbar(fit class='c-white')
     template(if='{{!isSearching}}')
-      paper-icon-button(icon='menu' on-tap='{{onRefresh}}')
+      paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onRefresh}}')
       span(flex class='l-margin-l1 t-font-size-20 t-normal') {{query.users}}
-      paper-icon-button(icon='refresh' on-tap='{{onRefresh}}')
-      paper-icon-button(icon='search' on-tap='{{onShowSearch}}')
+      paper-icon-button(class='l-margin-r2' icon='refresh' on-tap='{{onRefresh}}')
+      paper-icon-button(class='l-margin-l0 l-margin-r2' icon='search' on-tap='{{onShowSearch}}')
 
     template(if='{{isSearching}}')
-      paper-icon-button(icon='arrow-back' on-tap='{{onHideSearch}}')
+      paper-icon-button(class='l-margin-l2 l-margin-r0' icon='arrow-back' on-tap='{{onHideSearch}}')
       paper-input#searchInput(
         flex
-        class='c-white l-padding-t2 t-normal'
+        class='c-white l-margin-l1 l-padding-t2 t-normal'
         inputValue='{{searchText}}'
       )
-      paper-icon-button(icon='close' on-tap='{{onClearSearch}}')
+      paper-icon-button(class='l-margin-l0 l-margin-r2' icon='close' on-tap='{{onClearSearch}}')

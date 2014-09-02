@@ -1,7 +1,7 @@
 import Event from '../models/github/Event';
 
 Polymer('ticker-app',{
-  query: {type:'users',users:'polymer'},
+  query: {type:'users',users:'Polymer'},
   isSearching: false,
   searchText: '',
 
