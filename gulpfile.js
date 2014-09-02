@@ -155,7 +155,7 @@ gulp.task('code-prod', function(done){
        '../node_modules/es6-module-loader/node_modules/.bin/traceur'+
        '  --modules=instantiate'+
        '  --async-functions=true'+
-       '  --out all.js $(find . -name "*.js");'+
+       '  --out all.js $(find . -name "*.js" | grep -v MOCK);'+
        'mv all.js ../build/', function(err, stdout, stderr){
     done(err);
   });

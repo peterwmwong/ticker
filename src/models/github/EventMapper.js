@@ -8,6 +8,7 @@ export default {
   query:(array,{type, [type]:typeRef})=>
     (
       loadJSON(`https://api.github.com/${type}/${typeRef}/events`)
+      // loadJSON(`https://api.github.com/users/peterwmwong/received_events`)
       // Promise.resolve(MOCKDATA)
     ).then(data=>
         array.$replace(
