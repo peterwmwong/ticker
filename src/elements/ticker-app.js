@@ -1,25 +1,44 @@
 import Event from '../models/github/Event';
+import EventStream from '../models/EventStream';
 
 Polymer('ticker-app',{
-  query: {type:'users',users:'Polymer'},
+  selectedEventStream: null,
   isSearching: false,
   searchText: '',
 
   ready(){
-    // this.githubEvents = Event.query({type:'repos', repos:'centro/centro-media-manager'});
-    this.githubEvents = Event.query(this.query);
+    this.eventStreams = EventStream.query();
+    this.eventStreams.$promise.then(_=>{
+      this.selectedEventStream = this.eventStreams[0];
+    })
   },
 
   focusSearchInput(){
-    this.job('focusSearchInput',_=>{
+    this.job('focusSearchInput', _=>{
       var searchInput = this.shadowRoot.querySelector('#searchInput');
       if(searchInput)
         searchInput.focus();
     }, 150);
   },
 
+  // Change Handlers
+  // ===============
+  selectedEventStreamChanged(_, selectedEventStream){
+    if(selectedEventStream)
+      this.events = selectedEventStream.events();
+  },
+
   // Event Handlers
   // ==============
+
+  onSelectEventStream(event){
+    this.selectedEventStream = event.target.templateInstance.model.eventStream;
+    this.job('closeDrawer', _=>this.$.drawerPanel.closeDrawer(), 10);
+  },
+
+  onOpenDrawer(){
+    this.$.drawerPanel.openDrawer();
+  },
 
   onRefresh(){
     this.githubEvents.$query(this.query);
