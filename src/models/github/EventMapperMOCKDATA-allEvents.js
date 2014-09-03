@@ -1,5 +1,63 @@
 export default [
   {
+    "id": "2266963359",
+    "type": "CommitCommentEvent",
+    "actor": {
+      "id": 690815,
+      "login": "tbosch",
+      "gravatar_id": "2735fe44c5f69fa5a1d2c256e051203a",
+      "url": "https://api.github.com/users/tbosch",
+      "avatar_url": "https://avatars.githubusercontent.com/u/690815?"
+    },
+    "repo": {
+      "id": 460078,
+      "name": "angular/angular.js",
+      "url": "https://api.github.com/repos/angular/angular.js"
+    },
+    "payload": {
+      "comment": {
+        "url": "https://api.github.com/repos/angular/angular.js/comments/7634254",
+        "html_url": "https://github.com/angular/angular.js/commit/bda87f606f41acbccb5f55fc4095c7d44337a713#commitcomment-7634254",
+        "id": 7634254,
+        "user": {
+          "login": "tbosch",
+          "id": 690815,
+          "avatar_url": "https://avatars.githubusercontent.com/u/690815?v=2",
+          "gravatar_id": "2735fe44c5f69fa5a1d2c256e051203a",
+          "url": "https://api.github.com/users/tbosch",
+          "html_url": "https://github.com/tbosch",
+          "followers_url": "https://api.github.com/users/tbosch/followers",
+          "following_url": "https://api.github.com/users/tbosch/following{/other_user}",
+          "gists_url": "https://api.github.com/users/tbosch/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/tbosch/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/tbosch/subscriptions",
+          "organizations_url": "https://api.github.com/users/tbosch/orgs",
+          "repos_url": "https://api.github.com/users/tbosch/repos",
+          "events_url": "https://api.github.com/users/tbosch/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/tbosch/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "position": null,
+        "line": null,
+        "path": null,
+        "commit_id": "bda87f606f41acbccb5f55fc4095c7d44337a713",
+        "created_at": "2014-09-03T00:55:33Z",
+        "updated_at": "2014-09-03T00:55:33Z",
+        "body": "@petebacondarwin Do we still need this paragraph? I just tests this and it does no more work with 1.3.0-rc0... And the methods described above this passage for creating external links seem to work as well..."
+      }
+    },
+    "public": true,
+    "created_at": "2014-09-03T00:55:33Z",
+    "org": {
+      "id": 139426,
+      "login": "angular",
+      "gravatar_id": "f0d91e5cf8ad1ce7972cc486baa20c42",
+      "url": "https://api.github.com/orgs/angular",
+      "avatar_url": "https://avatars.githubusercontent.com/u/139426?"
+    }
+  },
+  {
     "id": "2264940450",
     "type": "PullRequestReviewCommentEvent",
     "actor": {
