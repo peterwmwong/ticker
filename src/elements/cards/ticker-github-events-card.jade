@@ -117,6 +117,13 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         | "{{payload.issue.body}}"
 
 
+  template#CommitCommentEvent
+    template(ref='CardTitle' bind='{{}}')
+    .action
+      ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
+      .action__content(flex class='t-normal t-italic t-word-wrap-break-word')
+        | "{{payload.comment.body}}"
+
 
   template#WatchEvent
     .action(class='l-padding-t2')
