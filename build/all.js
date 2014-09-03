@@ -1325,7 +1325,7 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
           }), $__25);
         });
       })();
-      MOCKDATA = [mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'arv'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina')];
+      MOCKDATA = [mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react')];
       EventStream = (function($__super) {
         var EventStream = function EventStream() {
           $traceurRuntime.defaultSuperCall(this, EventStream.prototype, arguments);
@@ -1388,7 +1388,7 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
           var $__26 = this;
           this.eventStreams = EventStream.query();
           this.eventStreams.$promise.then((function(_) {
-            $__26.selectedEventStream = $__26.eventStreams[0];
+            return $__26.selectedEventStream = $__26.eventStreams[0];
           }));
         },
         focusSearchInput: function() {
@@ -1404,17 +1404,14 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
             this.events = selectedEventStream.events();
         },
         onSelectEventStream: function(event) {
-          var $__26 = this;
           this.selectedEventStream = event.target.templateInstance.model.eventStream;
-          this.job('closeDrawer', (function(_) {
-            return $__26.$.drawerPanel.closeDrawer();
-          }), 10);
+          this.$.drawerPanel.closeDrawer();
         },
         onOpenDrawer: function() {
           this.$.drawerPanel.openDrawer();
         },
         onRefresh: function() {
-          this.githubEvents.$query(this.query);
+          this.events = this.selectedEventStream.events();
         },
         onShowSearch: function() {
           this.isSearching = true;

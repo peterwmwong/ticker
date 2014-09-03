@@ -31,6 +31,9 @@ core-toolbar {
     height: 56px;
     padding: 0; }
 
+.toolbar__title {
+  line-height: 56px; }
+
 paper-input /deep/ #input {
   color: white; }
 paper-input /deep/ .focused-underline, paper-input /deep/ .unfocused-underline, paper-input /deep/ .cursor {
