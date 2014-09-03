@@ -138,6 +138,8 @@ html /deep/ .l-display-inline-block {
   display: inline-block !important; }
 html /deep/ .l-display-block {
   display: block !important; }
+html /deep/ .l-overflow-auto {
+  overflow: auto !important; }
 html /deep/ .l-position-static {
   position: static !important; }
 html /deep/ .l-position-relative {

@@ -15,7 +15,7 @@
 /* #F7E3B1 */
 .card {
   background-color: white;
-  border: 1px solid rgba(109, 138, 145, 0.2);
+  border: 1px solid rgba(109, 138, 145, 0.25);
   border-top-style: none;
   border-bottom: 2px solid rgba(109, 138, 145, 0.25); }
 
@@ -32,11 +32,11 @@
 
 .subject {
   background: #f9fafb;
-  border-bottom: 1px solid #eaeef1;
-  border-top: 1px solid #eaeef1;
+  border: 1px solid #f0f3f5;
+  border-style: solid none;
   color: #6e8a91;
   margin-bottom: 6px;
-  padding: 8px 10px 6px 10px; }
+  padding: 6px 10px 4px 10px; }
   .subject:last-child {
     border-bottom-style: none; }
 

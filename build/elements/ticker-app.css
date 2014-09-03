@@ -13,6 +13,12 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
+.drawer__item {
+  border-bottom: 1px solid #eaeef1;
+  line-height: 48px; }
+  .drawer__item--header {
+    line-height: 12px; }
+
 .ticker-app__content {
   padding: 66px 12px 0 12px;
   overflow: auto; }
