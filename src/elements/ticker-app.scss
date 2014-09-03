@@ -1,6 +1,16 @@
 @import 'bourbon';
 @import 'imports';
 
+.drawer__item {
+  border-bottom: 1px solid $gray-lightest;
+  line-height: $baseline * 8;
+
+  &--header {
+    line-height: $baseline * 2;
+  }
+}
+
+
 .ticker-app__content {
   padding: 66px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
   overflow: auto;
