@@ -10,7 +10,6 @@
   }
 }
 
-
 .ticker-app__content {
   padding: 66px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
   overflow: auto;
@@ -29,6 +28,10 @@ core-toolbar {
     height: 56px;
     padding: 0;
   }
+}
+
+.toolbar__title {
+  line-height: 56px;
 }
 
 // Override bordering and input color to white
