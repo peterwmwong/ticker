@@ -1,5 +1,5 @@
 import AttrMunger from 'helpers/AttrMunger';
-import Model from '../../helpers/model/Model';
+import Model from '../helpers/model/Model';
 import Event from './github/Event';
 
 // !!! TEMPORARY !!! //
