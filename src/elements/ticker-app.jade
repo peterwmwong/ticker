@@ -47,7 +47,7 @@
       core-toolbar(fit class='c-white')
         template(if='{{!isSearching}}')
           paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
-          span(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
+          span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
           paper-icon-button(class='l-margin-r2' icon='refresh' on-tap='{{onRefresh}}')
           paper-icon-button(class='l-margin-l0 l-margin-r2' icon='search' on-tap='{{onShowSearch}}')
 

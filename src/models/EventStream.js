@@ -21,12 +21,23 @@ var mockGithubES = (function(){
 var MOCKDATA = [
   mockGithubES('users', 'polymer'),
   mockGithubES('repos', 'centro/centro-media-manager'),
+  mockGithubES('users', 'googlewebcomponents'),
+  mockGithubES('repos', 'google/traceur-compiler'),
   mockGithubES('users', 'arv'),
+  mockGithubES('users', 'johnjbarton'),
+  mockGithubES('users', 'guybedford'),
+  mockGithubES('users', 'ebidel'),
+  mockGithubES('users', 'addyosmani'),
   mockGithubES('users', 'esprehn'),
   mockGithubES('users', 'abarth'),
-  mockGithubES('users', 'johnjbarton'),
+  mockGithubES('users', 'theefer'),
+  mockGithubES('users', 'btford'),
   mockGithubES('users', 'tbosch'),
   mockGithubES('users', 'vojtajina'),
+  mockGithubES('users', 'eisenbergeffect'),
+  mockGithubES('repos', 'jscs-dev/node-jscs'),
+  mockGithubES('repos', 'jshint/jshint'),
+  mockGithubES('repos', 'facebook/react'),
 ];
 // !!! TEMPORARY !!! //
 // !!! TEMPORARY !!! //

@@ -8,9 +8,8 @@ Polymer('ticker-app',{
 
   ready(){
     this.eventStreams = EventStream.query();
-    this.eventStreams.$promise.then(_=>{
-      this.selectedEventStream = this.eventStreams[0];
-    })
+    this.eventStreams.$promise.then(_=>
+      this.selectedEventStream = this.eventStreams[0]);
   },
 
   focusSearchInput(){
@@ -33,7 +32,7 @@ Polymer('ticker-app',{
 
   onSelectEventStream(event){
     this.selectedEventStream = event.target.templateInstance.model.eventStream;
-    this.job('closeDrawer', _=>this.$.drawerPanel.closeDrawer(), 10);
+    this.$.drawerPanel.closeDrawer();
   },
 
   onOpenDrawer(){
@@ -41,7 +40,7 @@ Polymer('ticker-app',{
   },
 
   onRefresh(){
-    this.githubEvents.$query(this.query);
+    this.events = this.selectedEventStream.events();
   },
 
   onShowSearch(){
