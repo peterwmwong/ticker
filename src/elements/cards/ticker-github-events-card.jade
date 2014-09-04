@@ -39,7 +39,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
   template#CreateOrDeleteEvent
     template(if='{{payload.refType === "repository"}}')
-      .action
+      .action(class='l-padding-t2')
         ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
         core-icon(
           class='{{type === "CreateEvent" ? "c-confirm-light" \
@@ -51,7 +51,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
     template(if='{{payload.refType !== "repository"}}')
       template(ref='CardTitle' bind='{{}}')
-      .action
+      .action(class='l-padding-t2')
         ticker-github-avatar(class='l-margin-r2' userid='{{actor.id}}')
         core-icon(
           class='{{type === "CreateEvent" ? "c-confirm-light" \
