@@ -1144,10 +1144,10 @@ System.register("helpers/load", ["./is"], function($__export) {
     }
   };
 });
-System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
+System.register("models/github/GithubEventMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
   "use strict";
   var $__20;
-  var __moduleName = "models/github/EventMapper";
+  var __moduleName = "models/github/GithubEventMapper";
   var AttrMunger,
       loadJSON;
   return ($__20 = {}, Object.defineProperty($__20, "setters", {
@@ -1181,33 +1181,33 @@ System.register("models/github/EventMapper", ["helpers/AttrMunger", "helpers/loa
     writable: true
   }), $__20);
 });
-System.register("models/github/Repo", ["../../helpers/model/Model"], function($__export) {
+System.register("models/github/GithubRepo", ["../../helpers/model/Model"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/Repo";
+  var __moduleName = "models/github/GithubRepo";
   var Model,
-      Repo;
+      GithubRepo;
   return {
     setters: [function(m) {
       Model = m.default;
     }],
     execute: function() {
-      Repo = (function($__super) {
-        var Repo = function Repo() {
-          $traceurRuntime.defaultSuperCall(this, Repo.prototype, arguments);
+      GithubRepo = (function($__super) {
+        var GithubRepo = function GithubRepo() {
+          $traceurRuntime.defaultSuperCall(this, GithubRepo.prototype, arguments);
         };
-        return ($traceurRuntime.createClass)(Repo, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(GithubRepo, {}, {}, $__super);
       }(Model));
-      Repo.create((function($) {
+      GithubRepo.create((function($) {
         $.attr('name', 'string');
         $.attr('url', 'string');
       }));
-      $__export('default', Repo);
+      $__export('default', GithubRepo);
     }
   };
 });
-System.register("models/github/UserMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
+System.register("models/github/GithubUserMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/UserMapper";
+  var __moduleName = "models/github/GithubUserMapper";
   var AttrMunger,
       loadJSON;
   return {
@@ -1226,131 +1226,93 @@ System.register("models/github/UserMapper", ["helpers/AttrMunger", "helpers/load
     }
   };
 });
-System.register("models/github/User", ["../../helpers/model/Model", "./UserMapper"], function($__export) {
+System.register("models/github/GithubUser", ["../../helpers/model/Model", "./GithubUserMapper"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/User";
+  var __moduleName = "models/github/GithubUser";
   var Model,
-      UserMapper,
-      User;
+      GithubUserMapper,
+      GithubUser;
   return {
     setters: [function(m) {
       Model = m.default;
     }, function(m) {
-      UserMapper = m.default;
+      GithubUserMapper = m.default;
     }],
     execute: function() {
-      User = (function($__super) {
-        var User = function User() {
-          $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
+      GithubUser = (function($__super) {
+        var GithubUser = function GithubUser() {
+          $traceurRuntime.defaultSuperCall(this, GithubUser.prototype, arguments);
         };
-        return ($traceurRuntime.createClass)(User, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(GithubUser, {}, {}, $__super);
       }(Model));
-      User.create((function($) {
-        $.mapper = UserMapper;
+      GithubUser.create((function($) {
+        $.mapper = GithubUserMapper;
         $.attr('avatarUrl', 'string');
         $.attr('gravatarId', 'string');
         $.attr('login', 'string');
         $.attr('url', 'string');
       }));
-      $__export('default', User);
+      $__export('default', GithubUser);
     }
   };
 });
-System.register("models/github/Event", ["../../helpers/model/Model", "./EventMapper", "./User", "./Repo"], function($__export) {
+System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./GithubEventMapper", "./GithubUser", "./GithubRepo"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/Event";
+  var __moduleName = "models/github/GithubEvent";
   var Model,
-      EventMapper,
-      User,
-      Repo,
-      Event;
+      GithubEventMapper,
+      GithubUser,
+      GithubRepo,
+      GithubEvent;
   return {
     setters: [function(m) {
       Model = m.default;
     }, function(m) {
-      EventMapper = m.default;
+      GithubEventMapper = m.default;
     }, function(m) {
-      User = m.default;
+      GithubUser = m.default;
     }, function(m) {
-      Repo = m.default;
+      GithubRepo = m.default;
     }],
     execute: function() {
-      Event = (function($__super) {
-        var Event = function Event() {
-          $traceurRuntime.defaultSuperCall(this, Event.prototype, arguments);
+      GithubEvent = (function($__super) {
+        var GithubEvent = function GithubEvent() {
+          $traceurRuntime.defaultSuperCall(this, GithubEvent.prototype, arguments);
         };
-        return ($traceurRuntime.createClass)(Event, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(GithubEvent, {}, {}, $__super);
       }(Model));
-      Event.create((function($) {
-        $.mapper = EventMapper;
+      GithubEvent.create((function($) {
+        $.mapper = GithubEventMapper;
         $.attr('type', 'string');
         $.attr('payload', 'identity');
         $.attr('createdAt', 'datetime');
-        $.hasOne('actor', 'User');
-        $.hasOne('repo', 'Repo');
+        $.hasOne('actor', 'GithubUser');
+        $.hasOne('repo', 'GithubRepo');
       }));
-      $__export('default', Event);
+      $__export('default', GithubEvent);
     }
   };
 });
-System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/Model", "./github/Event"], function($__export) {
+System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/Model", "./github/GithubEvent", "./github/GithubUser"], function($__export) {
   "use strict";
-  var $__26;
   var __moduleName = "models/EventStream";
   var AttrMunger,
       Model,
-      Event,
-      mockGithubES,
-      MOCKDATA,
+      GithubEvent,
+      GithubUser,
       EventStream,
       GithubEventStream;
-  return ($__26 = {}, Object.defineProperty($__26, "setters", {
-    value: [function(m) {
+  return {
+    setters: [function(m) {
       AttrMunger = m.default;
     }, function(m) {
       Model = m.default;
     }, function(m) {
-      Event = m.default;
+      GithubEvent = m.default;
+    }, function(m) {
+      GithubUser = m.default;
     }],
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), Object.defineProperty($__26, "execute", {
-    value: function() {
-      mockGithubES = (function() {
-        var nextId = 1;
-        return (function(type, value) {
-          var $__26,
-              $__27;
-          return ($__27 = {}, Object.defineProperty($__27, "id", {
-            value: nextId++,
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), Object.defineProperty($__27, "type", {
-            value: 'github',
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), Object.defineProperty($__27, "config", {
-            value: ($__26 = {}, Object.defineProperty($__26, "type", {
-              value: type,
-              configurable: true,
-              enumerable: true,
-              writable: true
-            }), Object.defineProperty($__26, type, {
-              value: value,
-              configurable: true,
-              enumerable: true,
-              writable: true
-            }), $__26),
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), $__27);
-        });
-      })();
-      MOCKDATA = [mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react')];
+    execute: function() {
       EventStream = (function($__super) {
         var EventStream = function EventStream() {
           $traceurRuntime.defaultSuperCall(this, EventStream.prototype, arguments);
@@ -1364,7 +1326,25 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
           }
         }, {}, $__super);
       }(Model));
-      GithubEventStream = (function($__super) {
+      EventStream.create((function($) {
+        $.attr('type', 'string');
+        $.attr('config', 'identity');
+        $.mapper = {query: (function(array, $__26) {
+            var term = $__26.term;
+            return GithubUser.query({q: term}).$promise.then((function(users) {
+              return array.$replace(users.map((function(user) {
+                return GithubEventStream.load({
+                  id: user.id,
+                  config: {
+                    type: 'users',
+                    users: user.login
+                  }
+                });
+              })));
+            }));
+          })};
+      }));
+      GithubEventStream = $__export("GithubEventStream", (function($__super) {
         var GithubEventStream = function GithubEventStream() {
           $traceurRuntime.defaultSuperCall(this, GithubEventStream.prototype, arguments);
         };
@@ -1373,48 +1353,125 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
             return this.config[this.config.type];
           },
           events: function() {
-            return Event.query(this.config);
+            return GithubEvent.query(this.config);
           }
         }, {}, $__super);
-      }(EventStream));
-      EventStream.create((function($) {
-        $.attr('type', 'string');
-        $.attr('config', 'identity');
-        $.mapper = {query: (function(array) {
-            return Promise.resolve(MOCKDATA).then((function(data) {
-              return array.$replace(GithubEventStream.loadAll(AttrMunger.camelize(data)));
-            }));
-          })};
-      }));
+      }(EventStream)));
       $__export('default', EventStream);
+    }
+  };
+});
+System.register("models/User", ["../helpers/model/Model", "./EventStream"], function($__export) {
+  "use strict";
+  var __moduleName = "models/User";
+  var Model,
+      EventStream,
+      User;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }, function(m) {
+      EventStream = m.default;
+    }],
+    execute: function() {
+      User = (function($__super) {
+        var User = function User() {
+          $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
+        };
+        return ($traceurRuntime.createClass)(User, {eventStreams: function() {
+            return EventStream.query();
+          }}, {}, $__super);
+      }(Model));
+      User.create((function($) {
+        $.attr('login', 'string');
+        $.attr('name', 'string');
+        $.hasMany('eventStreams', 'EventStream');
+      }));
+      $__export('default', User);
+    }
+  };
+});
+System.register("helpers/session", ["../models/User", "../models/EventStream"], function($__export) {
+  "use strict";
+  var $__29;
+  var __moduleName = "helpers/session";
+  var User,
+      GithubEventStream,
+      mockGithubES,
+      MOCKUSER;
+  return ($__29 = {}, Object.defineProperty($__29, "setters", {
+    value: [function(m) {
+      User = m.default;
+    }, function(m) {
+      GithubEventStream = m.GithubEventStream;
+    }],
+    configurable: true,
+    enumerable: true,
+    writable: true
+  }), Object.defineProperty($__29, "execute", {
+    value: function() {
+      mockGithubES = (function() {
+        var nextId = 1;
+        return (function(type, value) {
+          var $__29,
+              $__30;
+          return GithubEventStream.load(($__30 = {}, Object.defineProperty($__30, "id", {
+            value: nextId++,
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), Object.defineProperty($__30, "type", {
+            value: 'github',
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), Object.defineProperty($__30, "config", {
+            value: ($__29 = {}, Object.defineProperty($__29, "type", {
+              value: type,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            }), Object.defineProperty($__29, type, {
+              value: value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            }), $__29),
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), $__30));
+        });
+      })();
+      MOCKUSER = User.load({
+        id: 1,
+        login: 'peterwmwong',
+        name: 'Peter Wong'
+      });
+      MOCKUSER.addEventStreams(mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react'));
+      $__export('default', {user: MOCKUSER});
     },
     configurable: true,
     enumerable: true,
     writable: true
-  }), $__26);
+  }), $__29);
 });
-System.register("elements/ticker-app", ["../models/github/Event", "../models/EventStream"], function($__export) {
+System.register("elements/ticker-app", ["../helpers/session"], function($__export) {
   "use strict";
   var __moduleName = "elements/ticker-app";
-  var Event,
-      EventStream;
+  var session;
   return {
     setters: [function(m) {
-      Event = m.default;
-    }, function(m) {
-      EventStream = m.default;
+      session = m.default;
     }],
     execute: function() {
       Polymer('ticker-app', {
         selectedEventStream: null,
         isSearching: false,
         searchText: '',
+        session: session,
         ready: function() {
-          var $__28 = this;
-          this.eventStreams = EventStream.query();
-          this.eventStreams.$promise.then((function(_) {
-            return $__28.selectedEventStream = $__28.eventStreams[0];
-          }));
+          this.selectedEventStream = session.user.eventStreams[0];
         },
         selectedEventStreamChanged: function(_, selectedEventStream) {
           if (selectedEventStream) {
@@ -1423,6 +1480,10 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
         },
         onCloseSearch: function() {
           this.isSearching = false;
+        },
+        onSearchSelect: function(event, selectedEventStream) {
+          this.selectedEventStream = selectedEventStream;
+          this.onCloseSearch();
         },
         onSelectSearch: function() {
           this.isSearching = true;
@@ -1443,13 +1504,13 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
     }
   };
 });
-System.register("elements/ticker-search", ["../models/github/User"], function($__export) {
+System.register("elements/ticker-search", ["../models/EventStream"], function($__export) {
   "use strict";
   var __moduleName = "elements/ticker-search";
-  var User;
+  var EventStream;
   return {
     setters: [function(m) {
-      User = m.default;
+      EventStream = m.default;
     }],
     execute: function() {
       Polymer('ticker-search', {
@@ -1457,10 +1518,10 @@ System.register("elements/ticker-search", ["../models/github/User"], function($_
         results: [],
         suggestions: [],
         searchTextChanged: function(_, searchText) {
-          var $__29 = this;
+          var $__31 = this;
           this.job('search', (function() {
-            if ($__29.searchText)
-              $__29.searchResults = User.query({q: $__29.searchText});
+            if ($__31.searchText)
+              $__31.searchResults = EventStream.query({term: $__31.searchText});
           }), 100);
         },
         onClearSearch: function() {
@@ -1506,53 +1567,53 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__30 = 1; $__30 < arguments.length; $__30++)
-            args[$__30 - 1] = arguments[$__30];
-        },
-        get: function(model) {
-          for (var args = [],
-              $__31 = 1; $__31 < arguments.length; $__31++)
-            args[$__31 - 1] = arguments[$__31];
-        },
-        create: function(model) {
-          for (var args = [],
               $__32 = 1; $__32 < arguments.length; $__32++)
             args[$__32 - 1] = arguments[$__32];
         },
-        update: function(model) {
+        get: function(model) {
           for (var args = [],
               $__33 = 1; $__33 < arguments.length; $__33++)
             args[$__33 - 1] = arguments[$__33];
         },
-        delete: function(model) {
+        create: function(model) {
           for (var args = [],
               $__34 = 1; $__34 < arguments.length; $__34++)
             args[$__34 - 1] = arguments[$__34];
+        },
+        update: function(model) {
+          for (var args = [],
+              $__35 = 1; $__35 < arguments.length; $__35++)
+            args[$__35 - 1] = arguments[$__35];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__36 = 1; $__36 < arguments.length; $__36++)
+            args[$__36 - 1] = arguments[$__36];
         }
       });
     }
   };
 });
-System.register("models/github/Comment", ["../../helpers/model/Model", "./User"], function($__export) {
+System.register("models/github/GithubComment", ["../../helpers/model/Model", "./GithubUser"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/Comment";
+  var __moduleName = "models/github/GithubComment";
   var Model,
-      User,
-      Comment;
+      GithubUser,
+      GithubComment;
   return {
     setters: [function(m) {
       Model = m.default;
     }, function(m) {
-      User = m.default;
+      GithubUser = m.default;
     }],
     execute: function() {
-      Comment = (function($__super) {
-        var Comment = function Comment() {
-          $traceurRuntime.defaultSuperCall(this, Comment.prototype, arguments);
+      GithubComment = (function($__super) {
+        var GithubComment = function GithubComment() {
+          $traceurRuntime.defaultSuperCall(this, GithubComment.prototype, arguments);
         };
-        return ($traceurRuntime.createClass)(Comment, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(GithubComment, {}, {}, $__super);
       }(Model));
-      Comment.create((function($) {
+      Github.create((function($) {
         $.attr('body', 'datetime');
         $.attr('commitId', 'string');
         $.attr('createdAt', 'datetime');
@@ -1562,19 +1623,19 @@ System.register("models/github/Comment", ["../../helpers/model/Model", "./User"]
         $.attr('position', 'number');
         $.attr('updatedAt', 'datetime');
         $.attr('url', 'string');
-        $.hasOne('user', 'User');
+        $.hasOne('user', 'GithubUser');
       }));
-      $__export('default', Comment);
+      $__export('default', GithubComment);
     }
   };
 });
-System.register("models/github/EventPayloads", ["../../helpers/model/Model", "./Comment", "./Repo", "./User"], function($__export) {
+System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model", "./GithubComment", "./GithubRepo", "./GithubUser"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/EventPayloads";
+  var __moduleName = "models/github/GithubEventPayloads";
   var Model,
-      Comment,
-      Repo,
-      User,
+      GithubComment,
+      GithubRepo,
+      GithubUser,
       CommitCommentEvent,
       CreateEvent,
       DeleteEvent;
@@ -1582,11 +1643,11 @@ System.register("models/github/EventPayloads", ["../../helpers/model/Model", "./
     setters: [function(m) {
       Model = m.default;
     }, function(m) {
-      Comment = m.default;
+      GithubComment = m.default;
     }, function(m) {
-      Repo = m.default;
+      GithubRepo = m.default;
     }, function(m) {
-      User = m.default;
+      GithubUser = m.default;
     }],
     execute: function() {
       CommitCommentEvent = $__export("CommitCommentEvent", (function($__super) {
@@ -1596,9 +1657,9 @@ System.register("models/github/EventPayloads", ["../../helpers/model/Model", "./
         return ($traceurRuntime.createClass)(CommitCommentEvent, {}, {}, $__super);
       }(Model)));
       CommitCommentEvent.create((function($) {
-        $.hasOne('comment', 'Comment');
-        $.hasOne('repository', 'Repo');
-        $.hasOne('sender', 'User');
+        $.hasOne('comment', 'GithubComment');
+        $.hasOne('repository', 'GithubRepo');
+        $.hasOne('sender', 'GithubUser');
       }));
       CreateEvent = $__export("CreateEvent", (function($__super) {
         var CreateEvent = function CreateEvent() {
@@ -1612,8 +1673,8 @@ System.register("models/github/EventPayloads", ["../../helpers/model/Model", "./
         $.attr('pusherType', 'string');
         $.attr('ref', 'string');
         $.attr('refType', 'string');
-        $.hasOne('repository', 'Repo');
-        $.hasOne('sender', 'User');
+        $.hasOne('repository', 'GithubRepo');
+        $.hasOne('sender', 'GithubUser');
       }));
       DeleteEvent = $__export("DeleteEvent", (function($__super) {
         var DeleteEvent = function DeleteEvent() {
@@ -1627,8 +1688,8 @@ System.register("models/github/EventPayloads", ["../../helpers/model/Model", "./
         $.attr('pusherType', 'string');
         $.attr('ref', 'string');
         $.attr('refType', 'string');
-        $.hasOne('repository', 'Repo');
-        $.hasOne('sender', 'User');
+        $.hasOne('repository', 'GithubRepo');
+        $.hasOne('sender', 'GithubUser');
       }));
     }
   };
