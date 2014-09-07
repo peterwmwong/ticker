@@ -1,4 +1,4 @@
-import User from '../models/github/User';
+import EventStream from '../models/EventStream';
 
 Polymer('ticker-search',{
   searchText: '',
@@ -11,7 +11,7 @@ Polymer('ticker-search',{
   searchTextChanged(_, searchText){
     this.job('search',()=>{
       if(this.searchText)
-        this.searchResults = User.query({q:this.searchText});
+        this.searchResults = EventStream.query({term:this.searchText});
     },100);
   },
 

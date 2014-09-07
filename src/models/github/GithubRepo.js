@@ -1,9 +1,9 @@
 import Model from '../../helpers/model/Model';
 
-class Repo extends Model{}
-Repo.create($=>{
+class GithubRepo extends Model{}
+GithubRepo.create($=>{
   $.attr('name', 'string');
   $.attr('url', 'string');
 });
 
-export default Repo;
+export default GithubRepo;
