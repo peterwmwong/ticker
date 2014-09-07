@@ -14,28 +14,22 @@
 /* #FCA431 */
 /* #F7E3B1 */
 .drawer__item {
-  border-bottom: 1px solid #eaeef1;
-  line-height: 48px; }
+  color: #6e8a91;
+  font-weight: 400;
+  line-height: 48px;
+  padding: 0 10px; }
   .drawer__item--header {
-    line-height: 12px; }
+    line-height: 24px;
+    border: 1px solid #d9e0e3;
+    border-style: solid none; }
+  .drawer__item.is-selected, .drawer__item.is-selected .drawer__item__icon {
+    color: #05242e; }
+  .drawer__item .drawer__item__icon {
+    color: #b0c1c4;
+    margin-right: 10px; }
 
 .ticker-app__content {
-  padding: 66px 12px 0 12px;
-  overflow: auto; }
-  .ticker-app__content.ticker-app__content--search {
-    background: rgba(233, 237, 240, 0.8); }
-
-core-toolbar {
-  background: rgba(39, 165, 215, 0.8); }
-  core-toolbar, core-toolbar::shadow #topBar {
-    height: 56px;
-    padding: 0; }
+  padding-top: 66px; }
 
 .toolbar__title {
   line-height: 56px; }
-
-paper-input /deep/ #input {
-  color: white; }
-paper-input /deep/ .focused-underline, paper-input /deep/ .unfocused-underline, paper-input /deep/ .cursor {
-  background: white;
-  border-bottom-color: white; }

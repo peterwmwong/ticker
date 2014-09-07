@@ -1205,14 +1205,38 @@ System.register("models/github/Repo", ["../../helpers/model/Model"], function($_
     }
   };
 });
-System.register("models/github/User", ["../../helpers/model/Model"], function($__export) {
+System.register("models/github/UserMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/UserMapper";
+  var AttrMunger,
+      loadJSON;
+  return {
+    setters: [function(m) {
+      AttrMunger = m.default;
+    }, function(m) {
+      loadJSON = m.loadJSON;
+    }],
+    execute: function() {
+      $__export('default', {query: (function(array, $__23) {
+          var q = $__23.q;
+          return (loadJSON(("https://api.github.com/search/users?q=" + q))).then((function(data) {
+            return (data && data.items) && array.$replace(array.$class.loadAll(AttrMunger.camelize(data.items)));
+          }));
+        })});
+    }
+  };
+});
+System.register("models/github/User", ["../../helpers/model/Model", "./UserMapper"], function($__export) {
   "use strict";
   var __moduleName = "models/github/User";
   var Model,
+      UserMapper,
       User;
   return {
     setters: [function(m) {
       Model = m.default;
+    }, function(m) {
+      UserMapper = m.default;
     }],
     execute: function() {
       User = (function($__super) {
@@ -1222,6 +1246,7 @@ System.register("models/github/User", ["../../helpers/model/Model"], function($_
         return ($traceurRuntime.createClass)(User, {}, {}, $__super);
       }(Model));
       User.create((function($) {
+        $.mapper = UserMapper;
         $.attr('avatarUrl', 'string');
         $.attr('gravatarId', 'string');
         $.attr('login', 'string');
@@ -1270,7 +1295,7 @@ System.register("models/github/Event", ["../../helpers/model/Model", "./EventMap
 });
 System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/Model", "./github/Event"], function($__export) {
   "use strict";
-  var $__24;
+  var $__26;
   var __moduleName = "models/EventStream";
   var AttrMunger,
       Model,
@@ -1279,7 +1304,7 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
       MOCKDATA,
       EventStream,
       GithubEventStream;
-  return ($__24 = {}, Object.defineProperty($__24, "setters", {
+  return ($__26 = {}, Object.defineProperty($__26, "setters", {
     value: [function(m) {
       AttrMunger = m.default;
     }, function(m) {
@@ -1290,39 +1315,39 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
     configurable: true,
     enumerable: true,
     writable: true
-  }), Object.defineProperty($__24, "execute", {
+  }), Object.defineProperty($__26, "execute", {
     value: function() {
       mockGithubES = (function() {
         var nextId = 1;
         return (function(type, value) {
-          var $__24,
-              $__25;
-          return ($__25 = {}, Object.defineProperty($__25, "id", {
+          var $__26,
+              $__27;
+          return ($__27 = {}, Object.defineProperty($__27, "id", {
             value: nextId++,
             configurable: true,
             enumerable: true,
             writable: true
-          }), Object.defineProperty($__25, "type", {
+          }), Object.defineProperty($__27, "type", {
             value: 'github',
             configurable: true,
             enumerable: true,
             writable: true
-          }), Object.defineProperty($__25, "config", {
-            value: ($__24 = {}, Object.defineProperty($__24, "type", {
+          }), Object.defineProperty($__27, "config", {
+            value: ($__26 = {}, Object.defineProperty($__26, "type", {
               value: type,
               configurable: true,
               enumerable: true,
               writable: true
-            }), Object.defineProperty($__24, type, {
+            }), Object.defineProperty($__26, type, {
               value: value,
               configurable: true,
               enumerable: true,
               writable: true
-            }), $__24),
+            }), $__26),
             configurable: true,
             enumerable: true,
             writable: true
-          }), $__25);
+          }), $__27);
         });
       })();
       MOCKDATA = [mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react')];
@@ -1366,7 +1391,7 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
     configurable: true,
     enumerable: true,
     writable: true
-  }), $__24);
+  }), $__26);
 });
 System.register("elements/ticker-app", ["../models/github/Event", "../models/EventStream"], function($__export) {
   "use strict";
@@ -1385,25 +1410,26 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
         isSearching: false,
         searchText: '',
         ready: function() {
-          var $__26 = this;
+          var $__28 = this;
           this.eventStreams = EventStream.query();
           this.eventStreams.$promise.then((function(_) {
-            return $__26.selectedEventStream = $__26.eventStreams[0];
+            return $__28.selectedEventStream = $__28.eventStreams[0];
           }));
         },
-        focusSearchInput: function() {
-          var $__26 = this;
-          this.job('focusSearchInput', (function(_) {
-            var searchInput = $__26.shadowRoot.querySelector('#searchInput');
-            if (searchInput)
-              searchInput.focus();
-          }), 150);
-        },
         selectedEventStreamChanged: function(_, selectedEventStream) {
-          if (selectedEventStream)
+          if (selectedEventStream) {
             this.events = selectedEventStream.events();
+          }
+        },
+        onCloseSearch: function() {
+          this.isSearching = false;
+        },
+        onSelectSearch: function() {
+          this.isSearching = true;
+          this.$.drawerPanel.closeDrawer();
         },
         onSelectEventStream: function(event) {
+          this.isSearching = false;
           this.selectedEventStream = event.target.templateInstance.model.eventStream;
           this.$.drawerPanel.closeDrawer();
         },
@@ -1412,60 +1438,40 @@ System.register("elements/ticker-app", ["../models/github/Event", "../models/Eve
         },
         onRefresh: function() {
           this.events = this.selectedEventStream.events();
-        },
-        onShowSearch: function() {
-          this.isSearching = true;
-          this.focusSearchInput();
-        },
-        onHideSearch: function() {
-          this.isSearching = false;
-        },
-        onClearSearch: function() {
-          this.searchText = '';
-          this.focusSearchInput();
         }
       });
     }
   };
 });
-System.register("elements/ticker-search", ["../models/github/Repo", "../models/github/User"], function($__export) {
+System.register("elements/ticker-search", ["../models/github/User"], function($__export) {
   "use strict";
   var __moduleName = "elements/ticker-search";
-  var Repo,
-      User;
+  var User;
   return {
     setters: [function(m) {
-      Repo = m.default;
-    }, function(m) {
       User = m.default;
     }],
     execute: function() {
       Polymer('ticker-search', {
         searchText: '',
-        userResults: [],
-        repoResults: [],
-        search: function() {
-          var $__27 = this;
-          this.job('search', (function() {
-            var term = $__27.searchText;
-            $__27.repoResults = Repo.query({term: term});
-            $__27.userResults = User.query({term: term});
-          }));
-        },
+        results: [],
+        suggestions: [],
         searchTextChanged: function(_, searchText) {
-          if (searchText) {
-            this.onSearch();
-          }
-        },
-        onSearch: function() {
-          var $__27 = this;
+          var $__29 = this;
           this.job('search', (function() {
-            $__27.query = {
-              type: 'users',
-              users: $__27.searchText
-            };
-            $__27.onSearch();
+            if ($__29.searchText)
+              $__29.searchResults = User.query({q: $__29.searchText});
           }), 100);
+        },
+        onClearSearch: function() {
+          this.searchText = '';
+          this.searchResults = [];
+        },
+        onCloseSearch: function() {
+          this.fire('ticker-search-close');
+        },
+        onSearchResultSelected: function(event) {
+          this.fire('ticker-search-select', event.target.templateInstance.model.searchResult);
         }
       });
     }
@@ -1500,28 +1506,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__28 = 1; $__28 < arguments.length; $__28++)
-            args[$__28 - 1] = arguments[$__28];
-        },
-        get: function(model) {
-          for (var args = [],
-              $__29 = 1; $__29 < arguments.length; $__29++)
-            args[$__29 - 1] = arguments[$__29];
-        },
-        create: function(model) {
-          for (var args = [],
               $__30 = 1; $__30 < arguments.length; $__30++)
             args[$__30 - 1] = arguments[$__30];
         },
-        update: function(model) {
+        get: function(model) {
           for (var args = [],
               $__31 = 1; $__31 < arguments.length; $__31++)
             args[$__31 - 1] = arguments[$__31];
         },
-        delete: function(model) {
+        create: function(model) {
           for (var args = [],
               $__32 = 1; $__32 < arguments.length; $__32++)
             args[$__32 - 1] = arguments[$__32];
+        },
+        update: function(model) {
+          for (var args = [],
+              $__33 = 1; $__33 < arguments.length; $__33++)
+            args[$__33 - 1] = arguments[$__33];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__34 = 1; $__34 < arguments.length; $__34++)
+            args[$__34 - 1] = arguments[$__34];
         }
       });
     }

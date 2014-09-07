@@ -23,11 +23,39 @@ html /deep/ .t-smoothing-off {
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto; }
 
+/* note: the hex values are approximations and won't exactly match
+   what is in the Sketch files, but should be close */
+/* #05242E */
+/* #425357 */
+/* #6E8A91 */
+/* #B0C1C4 */
+/* #D9E0E3 */
+/* #EAEEF1 */
+/* #196685 - dark blue */
+/* #28A6D7 - primary blue */
+/* #D5EDF6 - light blue */
+/* #72BD61 */
+/* #F44856 */
+/* #FCA431 */
+/* #F7E3B1 */
+body, html /deep/ .t-smoothing-on {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+html /deep/ .t-smoothing-off {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto; }
+
 html /deep/ p, html /deep/ ul, html /deep/ li {
   margin: 0;
   padding: 0; }
 html /deep/ li {
   list-style-type: none; }
+html /deep/ core-toolbar {
+  background: rgba(39, 165, 215, 0.8); }
+  html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {
+    height: 56px;
+    padding: 0; }
 
 html, body {
   font-size: 10px; }
@@ -44,6 +72,107 @@ ticker-app {
   width: 100%;
   height: 100%;
   font-size: 1.4rem; }
+
+html /deep/ .u-border-0 {
+  border-width: 0px !important;
+  border-style: solid !important; }
+html /deep/ .u-border-1 {
+  border-width: 1px !important;
+  border-style: solid !important; }
+html /deep/ .u-border-2 {
+  border-width: 2px !important;
+  border-style: solid !important; }
+html /deep/ .u-border-4 {
+  border-width: 4px !important;
+  border-style: solid !important; }
+html /deep/ .u-border-h0 {
+  border-left-width: 0px !important;
+  border-left-style: solid !important;
+  border-right-width: 0px !important;
+  border-right-style: solid !important; }
+html /deep/ .u-border-h0 {
+  border-top-width: 0px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 0px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-h1 {
+  border-left-width: 1px !important;
+  border-left-style: solid !important;
+  border-right-width: 1px !important;
+  border-right-style: solid !important; }
+html /deep/ .u-border-h1 {
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-h2 {
+  border-left-width: 2px !important;
+  border-left-style: solid !important;
+  border-right-width: 2px !important;
+  border-right-style: solid !important; }
+html /deep/ .u-border-h2 {
+  border-top-width: 2px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-h4 {
+  border-left-width: 4px !important;
+  border-left-style: solid !important;
+  border-right-width: 4px !important;
+  border-right-style: solid !important; }
+html /deep/ .u-border-h4 {
+  border-top-width: 4px !important;
+  border-top-style: solid !important;
+  border-bottom-width: 4px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-r0 {
+  border-left-width: 0px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-l0 {
+  border-left-width: 0px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-t0 {
+  border-top-width: 0px !important;
+  border-top-style: solid !important; }
+html /deep/ .u-border-b0 {
+  border-bottom-width: 0px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-r1 {
+  border-left-width: 1px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-l1 {
+  border-left-width: 1px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-t1 {
+  border-top-width: 1px !important;
+  border-top-style: solid !important; }
+html /deep/ .u-border-b1 {
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-r2 {
+  border-left-width: 2px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-l2 {
+  border-left-width: 2px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-t2 {
+  border-top-width: 2px !important;
+  border-top-style: solid !important; }
+html /deep/ .u-border-b2 {
+  border-bottom-width: 2px !important;
+  border-bottom-style: solid !important; }
+html /deep/ .u-border-r4 {
+  border-left-width: 4px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-l4 {
+  border-left-width: 4px !important;
+  border-left-style: solid !important; }
+html /deep/ .u-border-t4 {
+  border-top-width: 4px !important;
+  border-top-style: solid !important; }
+html /deep/ .u-border-b4 {
+  border-bottom-width: 4px !important;
+  border-bottom-style: solid !important; }
 
 html /deep/ .c-transparent {
   color: transparent !important; }
@@ -121,6 +250,44 @@ html /deep/ .c-highlight {
   color: #fef9ec !important; }
 html /deep/ .c-bg-highlight {
   background-color: #fef9ec !important; }
+html /deep/ .c-border-transparent {
+  border-color: transparent !important; }
+html /deep/ .c-border-white {
+  border-color: white !important; }
+html /deep/ .c-border-gray-darkest {
+  border-color: #05242e !important; }
+html /deep/ .c-border-gray-darker {
+  border-color: #425357 !important; }
+html /deep/ .c-border-gray-dark {
+  border-color: #6e8a91 !important; }
+html /deep/ .c-border-gray-light {
+  border-color: #b0c1c4 !important; }
+html /deep/ .c-border-gray-lighter {
+  border-color: #d9e0e3 !important; }
+html /deep/ .c-border-gray-lightest {
+  border-color: #eaeef1 !important; }
+html /deep/ .c-border-brand-primary-dark {
+  border-color: #196685 !important; }
+html /deep/ .c-border-brand-primary-light {
+  border-color: #28a6d7 !important; }
+html /deep/ .c-border-brand-primary-lighter {
+  border-color: #d5edf6 !important; }
+html /deep/ .c-border-confirm {
+  border-color: #72bd61 !important; }
+html /deep/ .c-border-confirm-light {
+  border-color: #98cf8c !important; }
+html /deep/ .c-border-error {
+  border-color: #f44856 !important; }
+html /deep/ .c-border-error-light {
+  border-color: #f99099 !important; }
+html /deep/ .c-border-warning-light {
+  border-color: #fdcc8b !important; }
+html /deep/ .c-border-warning {
+  border-color: #fca431 !important; }
+html /deep/ .c-border-notify {
+  border-color: #f7e3b1 !important; }
+html /deep/ .c-border-highlight {
+  border-color: #fef9ec !important; }
 
 html /deep/ .l-clearfix:after {
   content: "";
@@ -140,6 +307,9 @@ html /deep/ .l-display-block {
   display: block !important; }
 html /deep/ .l-overflow-auto {
   overflow: auto !important; }
+html /deep/ .l-overflow-scroll-ios {
+  overflow: scroll !important;
+  -webkit-overflow-scrolling: touch !important; }
 html /deep/ .l-position-static {
   position: static !important; }
 html /deep/ .l-position-relative {
