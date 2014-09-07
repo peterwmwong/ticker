@@ -1,1 +1,36 @@
 @import 'imports';
+
+:host {
+  display: block;
+  background-color: $gray-lightest;
+}
+
+.search-result {
+  border-bottom: 1px solid $gray-lightest;
+  padding: $baseline $base-width;
+
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+
+.content {
+  padding-top: 66px; // Height of toolbar
+  line-height: $baseline * 5;
+}
+
+// Override bordering and input color to white
+paper-input _deep_ {
+  #input {
+    color: white;
+    height: 21px;
+  }
+
+  .focused-underline,
+  .unfocused-underline,
+  .cursor {
+    background: white;
+    border-bottom-color: white;
+  }
+}

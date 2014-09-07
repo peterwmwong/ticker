@@ -2,48 +2,40 @@
 @import 'imports';
 
 .drawer__item {
-  border-bottom: 1px solid $gray-lightest;
+  color: $gray-dark;
+  font-weight: $font-weight-normal;
   line-height: $baseline * 8;
+  padding: 0 ($base-width * 2);
 
+  // Variants
+  // --------
   &--header {
-    line-height: $baseline * 2;
+    line-height: $baseline * 4;
+    border: 1px solid $gray-lighter;
+    border-style: solid none;
+  }
+
+  // States
+  // ------
+  &.is-selected {
+    &,
+    .drawer__item__icon {
+      color: $gray-darkest;
+    }
+  }
+
+  // Children
+  // --------
+  .drawer__item__icon {
+    color: $gray-light;
+    margin-right: $base-width * 2;
   }
 }
 
 .ticker-app__content {
-  padding: 66px ($baseline * 2) 0 ($baseline * 2); // Height of toolbar
-  overflow: auto;
-
-  &.ticker-app__content--search {
-    background: transparentize($gray-lightest, .2);
-  }
-}
-
-// Override default background
-core-toolbar {
-  background: transparentize($brand-primary-light, .2);
-
-  &,
-  &::shadow #topBar {
-    height: 56px;
-    padding: 0;
-  }
+  padding-top: 66px; // Height of toolbar
 }
 
 .toolbar__title {
   line-height: 56px;
-}
-
-// Override bordering and input color to white
-paper-input _deep_ {
-  #input {
-    color: white;
-  }
-
-  .focused-underline,
-  .unfocused-underline,
-  .cursor {
-    background: white;
-    border-bottom-color: white;
-  }
 }

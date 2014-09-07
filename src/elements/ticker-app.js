@@ -7,30 +7,35 @@ Polymer('ticker-app',{
   searchText: '',
 
   ready(){
+    // TODO(pwong): Can't we assign eventStreams on promise resolve?
     this.eventStreams = EventStream.query();
     this.eventStreams.$promise.then(_=>
       this.selectedEventStream = this.eventStreams[0]);
   },
 
-  focusSearchInput(){
-    this.job('focusSearchInput', _=>{
-      var searchInput = this.shadowRoot.querySelector('#searchInput');
-      if(searchInput)
-        searchInput.focus();
-    }, 150);
-  },
-
   // Change Handlers
   // ===============
+
   selectedEventStreamChanged(_, selectedEventStream){
-    if(selectedEventStream)
+    if(selectedEventStream){
       this.events = selectedEventStream.events();
+    }
   },
 
   // Event Handlers
   // ==============
 
+  onCloseSearch(){
+    this.isSearching = false;
+  },
+
+  onSelectSearch(){
+    this.isSearching = true;
+    this.$.drawerPanel.closeDrawer();
+  },
+
   onSelectEventStream(event){
+    this.isSearching = false;
     this.selectedEventStream = event.target.templateInstance.model.eventStream;
     this.$.drawerPanel.closeDrawer();
   },
@@ -41,20 +46,6 @@ Polymer('ticker-app',{
 
   onRefresh(){
     this.events = this.selectedEventStream.events();
-  },
-
-  onShowSearch(){
-    this.isSearching = true;
-    this.focusSearchInput();
-  },
-
-  onHideSearch(){
-    this.isSearching = false;
-  },
-
-  onClearSearch(){
-    this.searchText = '';
-    this.focusSearchInput();
   }
 
 });
