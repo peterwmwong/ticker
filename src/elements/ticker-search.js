@@ -1,29 +1,34 @@
-import Repo from '../models/github/Repo';
 import User from '../models/github/User';
 
 Polymer('ticker-search',{
   searchText: '',
-  userResults: [],
-  repoResults: [],
+  results: [],
+  suggestions: [],
 
-  search(){
-    this.job('search',()=>{
-      var term = this.searchText;
-      this.repoResults = Repo.query({term});
-      this.userResults = User.query({term});
-    });
-  },
+  // Change Handlers
+  // ===============
 
   searchTextChanged(_, searchText){
-    if(searchText){
-      this.onSearch();
-    }
+    this.job('search',()=>{
+      if(this.searchText)
+        this.searchResults = User.query({q:this.searchText});
+    },100);
   },
 
-  onSearch(){
-    this.job('search',()=>{
-      this.query = {type:'users',users:this.searchText};
-      this.onSearch();
-    },100);
+  // Event Handlers
+  // ==============
+
+  onClearSearch(){
+    this.searchText = '';
+    this.searchResults = [];
+  },
+
+  onCloseSearch(){
+    this.fire('ticker-search-close');
+  },
+
+  onSearchResultSelected(event){
+    this.fire('ticker-search-select', event.target.templateInstance.model.searchResult);
   }
+
 });

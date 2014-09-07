@@ -9,23 +9,25 @@
 +polymer-element
   core-drawer-panel#drawerPanel
     //- TODO(pwong): extract to seperate element
-    ul(drawer class='c-bg-white l-overflow-auto')
+    ul(drawer class='c-bg-white l-overflow-scroll-ios')
+      li.drawer__item(
+        class='{{ isSearching && "is-selected" }}'
+        on-tap='{{onSelectSearch}}'
+      )
+        core-icon.drawer__item__icon(class='l-margin-r2' icon='search')
+        | Search
+
       li.drawer__item.drawer__item--header(
-        class='c-gray-darker c-bg-gray-lightest l-padding-2'
+        class='c-gray-darker c-bg-gray-lightest l-padding-h2'
       ) Favorites
 
       //- TODO(pwong): use core-selector? core-list? core-*?
       template(repeat='{{eventStream in eventStreams}}')
         li.drawer__item(
-          class='{{ eventStream === selectedEventStream ? "t-normal" \
-                                                        : "t-light" }} \
-                 c-gray-darker l-padding-h2'
+          class='{{ eventStream === selectedEventStream && "is-selected" }}'
           on-tap='{{onSelectEventStream}}'
         )
-          core-icon(
-            class='{{ eventStream === selectedEventStream ? "c-gray-darker"   \
-                                                          : "c-gray-lighter" }} \
-                   l-margin-r2'
+          core-icon.drawer__item__icon(
             icon='{{  eventStream.config.type === "repos" ? "github:repo"   \
                     : eventStream.config.type === "users" ? "github:person" \
                     : "github:star" }}'
@@ -34,28 +36,15 @@
 
     div(main)
       //- TODO(pwong): extract to seperate element
-      .ticker-app__content(fit class='l-padding-h2')
+      .ticker-app__content(fit class='l-padding-h2 l-overflow-scroll-ios')
         template(repeat='{{ event in events }}')
           ticker-github-events-card(block class='l-margin-b1' data='[[event]]')
 
-        template(if='{{isSearching}}')
+      core-toolbar(class='c-white')
+        paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
+        span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
+        paper-icon-button(class='l-margin-r2' icon='refresh' on-tap='{{onRefresh}}')
+        //- paper-icon-button(class='l-margin-r2' icon='more-vert' on-tap='{{onRefresh}}')
 
-      //- TODO(pwong): extract to seperate element
-      .ticker-app__content.ticker-app__content--search(fit hidden?='{{!isSearching}}')
-        ticker-search(fit searchText='{{}}')
-
-      core-toolbar(fit class='c-white')
-        template(if='{{!isSearching}}')
-          paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
-          span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
-          paper-icon-button(class='l-margin-r2' icon='refresh' on-tap='{{onRefresh}}')
-          paper-icon-button(class='l-margin-l0 l-margin-r2' icon='search' on-tap='{{onShowSearch}}')
-
-        template(if='{{isSearching}}')
-          paper-icon-button(class='l-margin-l2 l-margin-r0' icon='arrow-back' on-tap='{{onHideSearch}}')
-          paper-input#searchInput(
-            flex
-            class='c-white l-margin-l1 l-padding-t2 t-normal'
-            inputValue='{{searchText}}'
-          )
-          paper-icon-button(class='l-margin-l0 l-margin-r2' icon='close' on-tap='{{onClearSearch}}')
+      template(if='{{isSearching}}')
+        ticker-search(fit on-ticker-search-close='{{onCloseSearch}}')

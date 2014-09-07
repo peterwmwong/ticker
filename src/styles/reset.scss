@@ -1,3 +1,5 @@
+@import 'imports';
+
 html _deep_ {
 
   p , ul, li {
@@ -9,4 +11,14 @@ html _deep_ {
     list-style-type: none;
   }
 
+  // Override default background
+  core-toolbar {
+    background: transparentize($brand-primary-light, .2);
+
+    &,
+    &::shadow #topBar {
+      height: 56px;
+      padding: 0;
+    }
+  }
 }

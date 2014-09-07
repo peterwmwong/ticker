@@ -1,7 +1,47 @@
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/paper-input/paper-input.html')
++import('../../bower_components/paper-icon-button/paper-icon-button.html')
++import('../../bower_components/paper-item/paper-item.html')
++import('./ticker-card.html')
 
-+polymer-element(attributes='searchText' nocss)
-  .ticker-search__results
-    template(repeat='{{result in results}}')
-      | {{result}}
++polymer-element
+  .content(fit class='l-padding-h2 l-overflow-scroll-ios')
+    template(if='{{!searchText && !searchResults.length}}')
+      h2(class='c-gray-light t-align-center t-light t-italic')
+        | Search for GitHub Users, Organizations, or Repositories
+
+    template(if='{{searchText && searchResults.length}}')
+      ticker-card(block class='l-padding-h2 l-margin-b2')
+        template(repeat='{{searchResult in searchResults}}')
+          paper-item.search-result(
+            layout horizontal center
+            class='l-padding-h0'
+            on-tap='[[onSearchResultSelected]]'
+          )
+            core-icon(
+              class='c-gray-light l-margin-l1 l-margin-r2'
+              icon='[[  searchResult.type === "repos" ? "github:repo"   \
+                      : searchResult.login            ? "github:person" \
+                      : "github:star" ]]'
+            )
+            span(flex) [[searchResult.login]]
+            paper-icon-button(class='c-gray-lightest' icon='bookmark')
+
+
+  core-toolbar(class='c-white')
+    paper-icon-button(
+      class='l-margin-l2 l-margin-r0'
+      icon='arrow-back'
+      on-tap='{{onCloseSearch}}'
+    )
+    paper-input#searchInput(
+      flex
+      class='c-white l-margin-l1 l-padding-t2 t-normal'
+      inputValue='{{searchText}}'
+    )
+    template(if='{{searchText}}')
+      paper-icon-button(
+        class='l-margin-l0 l-margin-r2'
+        icon='close'
+        on-tap='{{onClearSearch}}'
+      )

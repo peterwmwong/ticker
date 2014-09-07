@@ -40,4 +40,23 @@ html _deep_ {
   .c-highlight{color: $highlight !important;}
   .c-bg-highlight{background-color: $highlight !important;}
 
+  .c-border-transparent{border-color: transparent !important;}
+  .c-border-white{border-color: white !important;}
+  .c-border-gray-darkest{border-color: $gray-darkest !important;}
+  .c-border-gray-darker{border-color: $gray-darker !important;}
+  .c-border-gray-dark{border-color: $gray-dark !important;}
+  .c-border-gray-light{border-color: $gray-light !important;}
+  .c-border-gray-lighter{border-color: $gray-lighter !important;}
+  .c-border-gray-lightest{border-color: $gray-lightest !important;}
+  .c-border-brand-primary-dark{border-color: $brand-primary-dark !important;}
+  .c-border-brand-primary-light{border-color: $brand-primary-light !important;}
+  .c-border-brand-primary-lighter{border-color: $brand-primary-lighter !important;}
+  .c-border-confirm{border-color: $confirm !important;}
+  .c-border-confirm-light{border-color: $confirm-light !important;}
+  .c-border-error{border-color: $error !important;}
+  .c-border-error-light{border-color: $error-light !important;}
+  .c-border-warning-light{border-color: $warning-light !important;}
+  .c-border-warning{border-color: $warning !important;}
+  .c-border-notify{border-color: $notify !important;}
+  .c-border-highlight{border-color: $highlight !important;}
 }
