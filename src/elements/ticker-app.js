@@ -1,16 +1,13 @@
-import Event from '../models/github/Event';
-import EventStream from '../models/EventStream';
+import session from '../helpers/session';
 
 Polymer('ticker-app',{
   selectedEventStream: null,
   isSearching: false,
   searchText: '',
+  session,
 
   ready(){
-    // TODO(pwong): Can't we assign eventStreams on promise resolve?
-    this.eventStreams = EventStream.query();
-    this.eventStreams.$promise.then(_=>
-      this.selectedEventStream = this.eventStreams[0]);
+    this.selectedEventStream = session.user.eventStreams[0];
   },
 
   // Change Handlers
@@ -27,6 +24,13 @@ Polymer('ticker-app',{
 
   onCloseSearch(){
     this.isSearching = false;
+  },
+
+  // When an event stream is selected from <ticker-search>
+  // TODO(pwong): better naming! bound to be confused with onSelectSearch!
+  onSearchSelect(event,selectedEventStream){
+    this.selectedEventStream = selectedEventStream;
+    this.onCloseSearch();
   },
 
   onSelectSearch(){

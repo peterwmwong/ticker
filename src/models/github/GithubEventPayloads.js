@@ -1,13 +1,13 @@
-import Model   from '../../helpers/model/Model';
-import Comment from './Comment';
-import Repo    from './Repo';
-import User    from './User';
+import Model         from '../../helpers/model/Model';
+import GithubComment from './GithubComment';
+import GithubRepo    from './GithubRepo';
+import GithubUser    from './GithubUser';
 
 export class CommitCommentEvent extends Model{}
 CommitCommentEvent.create($=>{
-  $.hasOne('comment',    'Comment');
-  $.hasOne('repository', 'Repo');
-  $.hasOne('sender',     'User');
+  $.hasOne('comment',    'GithubComment');
+  $.hasOne('repository', 'GithubRepo');
+  $.hasOne('sender',     'GithubUser');
 });
 
 
@@ -19,8 +19,8 @@ CreateEvent.create($=>{
   $.attr('ref',          'string');
   $.attr('refType',      'string');
 
-  $.hasOne('repository', 'Repo');
-  $.hasOne('sender',     'User');
+  $.hasOne('repository', 'GithubRepo');
+  $.hasOne('sender',     'GithubUser');
 });
 
 
@@ -32,6 +32,6 @@ DeleteEvent.create($=>{
   $.attr('ref',          'string');
   $.attr('refType',      'string');
 
-  $.hasOne('repository', 'Repo');
-  $.hasOne('sender',     'User');
+  $.hasOne('repository', 'GithubRepo');
+  $.hasOne('sender',     'GithubUser');
 });

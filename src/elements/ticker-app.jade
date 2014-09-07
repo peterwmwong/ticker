@@ -22,7 +22,7 @@
       ) Favorites
 
       //- TODO(pwong): use core-selector? core-list? core-*?
-      template(repeat='{{eventStream in eventStreams}}')
+      template(repeat='{{eventStream in session.user.eventStreams}}')
         li.drawer__item(
           class='{{ eventStream === selectedEventStream && "is-selected" }}'
           on-tap='{{onSelectEventStream}}'
@@ -47,4 +47,8 @@
         //- paper-icon-button(class='l-margin-r2' icon='more-vert' on-tap='{{onRefresh}}')
 
       template(if='{{isSearching}}')
-        ticker-search(fit on-ticker-search-close='{{onCloseSearch}}')
+        ticker-search(
+          fit
+          on-ticker-search-close='{{onCloseSearch}}'
+          on-ticker-search-select='{{onSearchSelect}}'
+        )

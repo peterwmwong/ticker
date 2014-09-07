@@ -1,8 +1,8 @@
 import Model from '../../helpers/model/Model';
-import User  from './User';
+import GithubUser  from './GithubUser';
 
-class Comment extends Model{}
-Comment.create($=>{
+class GithubComment extends Model{}
+Github.create($=>{
   $.attr('body',      'datetime');
   $.attr('commitId',  'string');
   $.attr('createdAt', 'datetime');
@@ -13,7 +13,7 @@ Comment.create($=>{
   $.attr('updatedAt', 'datetime');
   $.attr('url',       'string');
 
-  $.hasOne('user',   'User');
+  $.hasOne('user', 'GithubUser');
 });
 
-export default Comment;
+export default GithubComment;

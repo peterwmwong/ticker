@@ -1,9 +1,9 @@
 import Model from '../../helpers/model/Model';
-import UserMapper from './UserMapper';
+import GithubUserMapper from './GithubUserMapper';
 
-class User extends Model{}
-User.create($=>{
-  $.mapper = UserMapper;
+class GithubUser extends Model{}
+GithubUser.create($=>{
+  $.mapper = GithubUserMapper;
 
   $.attr('avatarUrl',  'string');
   $.attr('gravatarId', 'string');
@@ -11,4 +11,4 @@ User.create($=>{
   $.attr('url',         'string');
 });
 
-export default User;
+export default GithubUser;
