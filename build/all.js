@@ -1469,20 +1469,29 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
         selectedEventStream: null,
         isSearching: false,
         searchText: '',
+        events: [],
         session: session,
         ready: function() {
-          this.selectedEventStream = session.user.eventStreams[0];
+          this.selectEventStream(session.user.eventStreams[0], 0);
         },
-        selectedEventStreamChanged: function(_, selectedEventStream) {
-          if (selectedEventStream) {
-            this.events = selectedEventStream.events();
+        selectEventStream: function(newSelectedEventStream, renderDelay) {
+          var $__31 = this;
+          if (newSelectedEventStream) {
+            Promise.all([newSelectedEventStream.events().$promise, new Promise((function(resolve) {
+              return setTimeout(resolve, renderDelay);
+            }))]).then((function($__32) {
+              var events = $__32[0];
+              $__31.events = events;
+              $__31.injectBoundHTML("<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>", $__31.$.content);
+            }));
+            this.selectedEventStream = newSelectedEventStream;
           }
         },
         onCloseSearch: function() {
           this.isSearching = false;
         },
         onSearchSelect: function(event, selectedEventStream) {
-          this.selectedEventStream = selectedEventStream;
+          this.selectEventStream(selectedEventStream, 0);
           this.onCloseSearch();
         },
         onSelectSearch: function() {
@@ -1490,9 +1499,9 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
           this.$.drawerPanel.closeDrawer();
         },
         onSelectEventStream: function(event) {
-          this.isSearching = false;
-          this.selectedEventStream = event.target.templateInstance.model.eventStream;
           this.$.drawerPanel.closeDrawer();
+          this.isSearching = false;
+          this.selectEventStream(event.target.templateInstance.model.eventStream, 325);
         },
         onOpenDrawer: function() {
           this.$.drawerPanel.openDrawer();
@@ -1518,10 +1527,10 @@ System.register("elements/ticker-search", ["../models/EventStream"], function($_
         results: [],
         suggestions: [],
         searchTextChanged: function(_, searchText) {
-          var $__31 = this;
+          var $__34 = this;
           this.job('search', (function() {
-            if ($__31.searchText)
-              $__31.searchResults = EventStream.query({term: $__31.searchText});
+            if ($__34.searchText)
+              $__34.searchResults = EventStream.query({term: $__34.searchText});
           }), 100);
         },
         onClearSearch: function() {
@@ -1567,28 +1576,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__32 = 1; $__32 < arguments.length; $__32++)
-            args[$__32 - 1] = arguments[$__32];
-        },
-        get: function(model) {
-          for (var args = [],
-              $__33 = 1; $__33 < arguments.length; $__33++)
-            args[$__33 - 1] = arguments[$__33];
-        },
-        create: function(model) {
-          for (var args = [],
-              $__34 = 1; $__34 < arguments.length; $__34++)
-            args[$__34 - 1] = arguments[$__34];
-        },
-        update: function(model) {
-          for (var args = [],
               $__35 = 1; $__35 < arguments.length; $__35++)
             args[$__35 - 1] = arguments[$__35];
         },
-        delete: function(model) {
+        get: function(model) {
           for (var args = [],
               $__36 = 1; $__36 < arguments.length; $__36++)
             args[$__36 - 1] = arguments[$__36];
+        },
+        create: function(model) {
+          for (var args = [],
+              $__37 = 1; $__37 < arguments.length; $__37++)
+            args[$__37 - 1] = arguments[$__37];
+        },
+        update: function(model) {
+          for (var args = [],
+              $__38 = 1; $__38 < arguments.length; $__38++)
+            args[$__38 - 1] = arguments[$__38];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__39 = 1; $__39 < arguments.length; $__39++)
+            args[$__39 - 1] = arguments[$__39];
         }
       });
     }
