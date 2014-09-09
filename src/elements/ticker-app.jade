@@ -36,9 +36,7 @@
 
     div(main)
       //- TODO(pwong): extract to seperate element
-      .ticker-app__content(fit class='l-padding-h2 l-overflow-scroll-ios')
-        template(repeat='{{ event in events }}')
-          ticker-github-events-card(block class='l-margin-b1' data='[[event]]')
+      #content.ticker-app__content(fit class='l-padding-h2 l-overflow-scroll-ios')
 
       core-toolbar(class='c-white')
         paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')

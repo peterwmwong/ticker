@@ -4,20 +4,34 @@ Polymer('ticker-app',{
   selectedEventStream: null,
   isSearching: false,
   searchText: '',
+  events: [],
   session,
 
   ready(){
-    this.selectedEventStream = session.user.eventStreams[0];
+    this.selectEventStream(session.user.eventStreams[0], 0);
+  },
+
+  // Selects an EventStream and delays rendering of events by a specified amount.
+  // Delaying rendering allows for smooth, jank-free drawer close (see
+  // `onSelectEventStream()`).
+  selectEventStream(newSelectedEventStream, renderDelay){
+    if(newSelectedEventStream){
+      Promise.all([
+        newSelectedEventStream.events().$promise,
+        new Promise((resolve)=>setTimeout(resolve, renderDelay))
+      ]).then(([events])=>{
+        this.events = events;
+        this.injectBoundHTML(
+          "<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>",
+          this.$.content
+        );
+      });
+      this.selectedEventStream = newSelectedEventStream;
+    }
   },
 
   // Change Handlers
   // ===============
-
-  selectedEventStreamChanged(_, selectedEventStream){
-    if(selectedEventStream){
-      this.events = selectedEventStream.events();
-    }
-  },
 
   // Event Handlers
   // ==============
@@ -28,8 +42,8 @@ Polymer('ticker-app',{
 
   // When an event stream is selected from <ticker-search>
   // TODO(pwong): better naming! bound to be confused with onSelectSearch!
-  onSearchSelect(event,selectedEventStream){
-    this.selectedEventStream = selectedEventStream;
+  onSearchSelect(event, selectedEventStream){
+    this.selectEventStream(selectedEventStream, 0);
     this.onCloseSearch();
   },
 
@@ -39,9 +53,9 @@ Polymer('ticker-app',{
   },
 
   onSelectEventStream(event){
-    this.isSearching = false;
-    this.selectedEventStream = event.target.templateInstance.model.eventStream;
     this.$.drawerPanel.closeDrawer();
+    this.isSearching = false;
+    this.selectEventStream(event.target.templateInstance.model.eventStream, 325);
   },
 
   onOpenDrawer(){
