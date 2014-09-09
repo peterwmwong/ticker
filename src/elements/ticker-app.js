@@ -21,10 +21,10 @@ Polymer('ticker-app',{
         new Promise((resolve)=>setTimeout(resolve, renderDelay))
       ]).then(([events])=>{
         this.events = events;
-        this.injectBoundHTML(
-          "<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>",
-          this.$.content
-        );
+        // this.injectBoundHTML(
+        //   "<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>",
+        //   this.$.content
+        // );
       });
       this.selectedEventStream = newSelectedEventStream;
     }

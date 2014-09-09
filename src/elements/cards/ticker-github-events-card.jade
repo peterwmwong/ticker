@@ -168,6 +168,6 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       span(class='t-normal') [[payload.pages[0].title]]
 
   //- div.c-gray-light.l-margin-l2.l-margin-t2 [[data.type]]
-  template(repeat='[[data in events]]')
+  template(repeat='{{data in events}}')
     .card(class='l-margin-b1')
       template(ref='[[data.type]]' bind='[[data]]')
