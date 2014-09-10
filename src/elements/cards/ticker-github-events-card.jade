@@ -76,7 +76,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.pullRequest.state === "closed" ? "c-error-light"     \
                                                         : "c-warning-light"]] \
-              l-margin-r2'
+               l-margin-r2'
         icon='github:git-pull-request'
       )
       span(flex class='t-normal') [[payload.pullRequest.title]]
@@ -91,7 +91,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.issue.state === "closed" ? "c-error-light"     \
                                                   : "c-warning-light"]] \
-              l-margin-r2'
+               l-margin-r2'
         icon='[[payload.issue.pullRequest ? "github:git-pull-request" \
                                           : "github:issue-opened"     ]]'
       )
@@ -107,14 +107,14 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.action === "closed" ? "c-error-light"    \
                                              : "c-warning-light"]] \
-              l-margin-r2'
+               l-margin-r2'
         icon='github:issue-[[payload.action]]'
       )
       span(flex class='t-normal t-word-wrap-break-word') [[payload.issue.title]]
     .action
       ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
       p(flex)
-        span(block class='l-margin-b1') Opened this issue
+        span(block class='l-margin-b1') [[payload.action]] this issue
         template(ref='Comment' bind='[[payload.issue.body]]')
 
 
