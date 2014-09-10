@@ -1472,7 +1472,7 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
         events: [],
         session: session,
         ready: function() {
-          this.selectEventStream(session.user.eventStreams[2], 0);
+          this.selectEventStream(session.user.eventStreams[0], 0);
         },
         selectEventStream: function(newSelectedEventStream, renderDelay) {
           var $__31 = this;
