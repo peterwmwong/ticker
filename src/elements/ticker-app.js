@@ -8,7 +8,7 @@ Polymer('ticker-app',{
   session,
 
   ready(){
-    this.selectEventStream(session.user.eventStreams[2], 0);
+    this.selectEventStream(session.user.eventStreams[0], 0);
   },
 
   // Selects an EventStream and delays rendering of events by a specified amount.
