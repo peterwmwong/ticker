@@ -16,16 +16,15 @@ Polymer('ticker-app',{
   // `onSelectEventStream()`).
   selectEventStream(newSelectedEventStream, renderDelay){
     if(newSelectedEventStream){
-      Promise.all([
-        newSelectedEventStream.events().$promise,
-        new Promise((resolve)=>setTimeout(resolve, renderDelay))
-      ]).then(([events])=>{
-        this.events = events;
-        // this.injectBoundHTML(
-        //   "<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>",
-        //   this.$.content
-        // );
-      });
+      // TODO(pwong): This is is not optimal.  We'd like to kick off the request
+      //              for events AND THEN delay.  This is in response to jank that
+      //              is caused by the Model framework burning too many cycles
+      //              parsing the response during the drawer closing. T_T
+      setTimeout(()=>{
+        newSelectedEventStream.events().$promise.then((events)=>{
+          this.events = events;
+        });
+      }, renderDelay);
       this.selectedEventStream = newSelectedEventStream;
     }
   },
