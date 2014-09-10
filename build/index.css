@@ -46,11 +46,28 @@ html /deep/ .t-smoothing-off {
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: auto; }
 
+html /deep/ a {
+  color: #28a6d7; }
+html /deep/ blockquote {
+  margin: 0;
+  padding: 0 10px;
+  border-left: 4px solid #eaeef1; }
 html /deep/ p, html /deep/ ul, html /deep/ li {
   margin: 0;
   padding: 0; }
 html /deep/ li {
   list-style-type: none; }
+html /deep/ code, html /deep/ pre {
+  font-family: "Source Code Pro", monospace;
+  background-color: #f9fafb;
+  color: #425357;
+  line-height: 1.5; }
+html /deep/ code {
+  padding: 3px;
+  word-wrap: initial; }
+html /deep/ pre {
+  padding: 10px;
+  overflow: auto; }
 html /deep/ core-toolbar {
   background: rgba(39, 165, 215, 0.8); }
   html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {
@@ -62,7 +79,7 @@ html, body {
 
 body {
   background-color: #eaeef1;
-  color: #425357;
+  color: #6e8a91;
   font-family: "RobotoDraft", Helvetica, Arial, sans-serif;
   font-weight: 300;
   line-height: 1;

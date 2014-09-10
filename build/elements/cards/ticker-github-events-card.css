@@ -15,9 +15,10 @@
 /* #F7E3B1 */
 .card {
   background-color: white;
-  border: 1px solid rgba(109, 138, 145, 0.25);
+  border: 1px solid rgba(175, 192, 196, 0.35);
   border-top-style: none;
-  border-bottom: 2px solid rgba(109, 138, 145, 0.25); }
+  border-bottom: 2px solid rgba(175, 192, 196, 0.45);
+  border-radius: 2px; }
 
 .title, .subject, .action {
   display: -ms-flexbox;

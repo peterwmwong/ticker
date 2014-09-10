@@ -1472,18 +1472,16 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
         events: [],
         session: session,
         ready: function() {
-          this.selectEventStream(session.user.eventStreams[0], 0);
+          this.selectEventStream(session.user.eventStreams[2], 0);
         },
         selectEventStream: function(newSelectedEventStream, renderDelay) {
           var $__31 = this;
           if (newSelectedEventStream) {
-            Promise.all([newSelectedEventStream.events().$promise, new Promise((function(resolve) {
-              return setTimeout(resolve, renderDelay);
-            }))]).then((function($__32) {
-              var events = $__32[0];
-              $__31.events = events;
-              $__31.injectBoundHTML("<ticker-github-events-card block events='[[events]]'></ticker-github-events-card>", $__31.$.content);
-            }));
+            setTimeout((function() {
+              newSelectedEventStream.events().$promise.then((function(events) {
+                $__31.events = events;
+              }));
+            }), renderDelay);
             this.selectedEventStream = newSelectedEventStream;
           }
         },
@@ -1527,10 +1525,10 @@ System.register("elements/ticker-search", ["../models/EventStream"], function($_
         results: [],
         suggestions: [],
         searchTextChanged: function(_, searchText) {
-          var $__34 = this;
+          var $__32 = this;
           this.job('search', (function() {
-            if ($__34.searchText)
-              $__34.searchResults = EventStream.query({term: $__34.searchText});
+            if ($__32.searchText)
+              $__32.searchResults = EventStream.query({term: $__32.searchText});
           }), 100);
         },
         onClearSearch: function() {
@@ -1576,28 +1574,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
+              $__33 = 1; $__33 < arguments.length; $__33++)
+            args[$__33 - 1] = arguments[$__33];
+        },
+        get: function(model) {
+          for (var args = [],
+              $__34 = 1; $__34 < arguments.length; $__34++)
+            args[$__34 - 1] = arguments[$__34];
+        },
+        create: function(model) {
+          for (var args = [],
               $__35 = 1; $__35 < arguments.length; $__35++)
             args[$__35 - 1] = arguments[$__35];
         },
-        get: function(model) {
+        update: function(model) {
           for (var args = [],
               $__36 = 1; $__36 < arguments.length; $__36++)
             args[$__36 - 1] = arguments[$__36];
         },
-        create: function(model) {
+        delete: function(model) {
           for (var args = [],
               $__37 = 1; $__37 < arguments.length; $__37++)
             args[$__37 - 1] = arguments[$__37];
-        },
-        update: function(model) {
-          for (var args = [],
-              $__38 = 1; $__38 < arguments.length; $__38++)
-            args[$__38 - 1] = arguments[$__38];
-        },
-        delete: function(model) {
-          for (var args = [],
-              $__39 = 1; $__39 < arguments.length; $__39++)
-            args[$__39 - 1] = arguments[$__39];
         }
       });
     }

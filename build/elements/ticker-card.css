@@ -15,6 +15,4 @@
 /* #F7E3B1 */
 :host {
   background-color: white;
-  border: 1px solid rgba(109, 138, 145, 0.2);
-  border-top-style: none;
   border-bottom: 2px solid rgba(109, 138, 145, 0.25); }
