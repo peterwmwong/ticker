@@ -30,12 +30,10 @@ html _deep_ {
 
   code {
     padding: ($baseline / 2);
-    word-wrap: initial;
   }
 
   pre {
     padding: ($base-width * 2);
-    overflow: auto;
   }
 
   // Override default background
