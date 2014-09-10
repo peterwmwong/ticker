@@ -63,11 +63,9 @@ html /deep/ code, html /deep/ pre {
   color: #425357;
   line-height: 1.5; }
 html /deep/ code {
-  padding: 3px;
-  word-wrap: initial; }
+  padding: 3px; }
 html /deep/ pre {
-  padding: 10px;
-  overflow: auto; }
+  padding: 10px; }
 html /deep/ core-toolbar {
   background: rgba(39, 165, 215, 0.8); }
   html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {
