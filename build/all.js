@@ -1477,9 +1477,12 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
         selectEventStream: function(newSelectedEventStream, renderDelay) {
           var $__31 = this;
           if (newSelectedEventStream) {
+            this.$.content.style.opacity = 0;
             setTimeout((function() {
               newSelectedEventStream.events().$promise.then((function(events) {
                 $__31.events = events;
+                $__31.$.content.scrollTop = 0;
+                $__31.$.content.style.opacity = 1;
               }));
             }), renderDelay);
             this.selectedEventStream = newSelectedEventStream;
@@ -1499,7 +1502,7 @@ System.register("elements/ticker-app", ["../helpers/session"], function($__expor
         onSelectEventStream: function(event) {
           this.$.drawerPanel.closeDrawer();
           this.isSearching = false;
-          this.selectEventStream(event.target.templateInstance.model.eventStream, 325);
+          this.selectEventStream(event.target.templateInstance.model.eventStream, 450);
         },
         onOpenDrawer: function() {
           this.$.drawerPanel.openDrawer();
