@@ -1,12 +1,12 @@
 +import('../../bower_components/core-icons/core-icons.html')
 +import('../../bower_components/core-drawer-panel/core-drawer-panel.html')
-+import('../../bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/paper-icon-button/paper-icon-button.html')
 +import('./cards/ticker-github-events-card.html')
 +import('./ticker-search.html')
 
 +polymer-element
+
   core-drawer-panel#drawerPanel
     //- TODO(pwong): extract to seperate element
     ul(drawer class='c-bg-white l-overflow-scroll-ios')
@@ -21,8 +21,8 @@
         class='c-gray-darker c-bg-gray-lightest l-padding-h2'
       ) Favorites
 
-      //- TODO(pwong): use core-selector? core-list? core-*?
       template(repeat='{{eventStream in session.user.eventStreams}}')
+        //- TODO(pwong): use core-selector? core-list? core-*?
         li.drawer__item(
           class='{{ eventStream === selectedEventStream && "is-selected" }}'
           on-tap='{{onSelectEventStream}}'
@@ -35,14 +35,13 @@
           | {{eventStream.name}}
 
     div(main)
-      //- TODO(pwong): extract to seperate element
       #content.ticker-app__content(fit class='l-padding-h2 l-overflow-scroll-ios')
+        ticker-github-events-card(block events='{{events}}')
 
       core-toolbar(class='c-white')
         paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
         span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
         paper-icon-button(class='l-margin-r2' icon='refresh' on-tap='{{onRefresh}}')
-        //- paper-icon-button(class='l-margin-r2' icon='more-vert' on-tap='{{onRefresh}}')
 
       template(if='{{isSearching}}')
         ticker-search(

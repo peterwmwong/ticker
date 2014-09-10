@@ -2,6 +2,16 @@
 
 html _deep_ {
 
+  a {
+    color: $brand-primary-light;
+  }
+
+  blockquote {
+    margin: 0;
+    padding: 0 ($base-width * 2);
+    border-left: 4px solid $gray-lightest;
+  }
+
   p , ul, li {
     margin: 0;
     padding: 0;
@@ -9,6 +19,23 @@ html _deep_ {
 
   li {
     list-style-type: none;
+  }
+
+  code, pre {
+    font-family: $font-stack-monospace;
+    background-color: lighten($gray-lightest, 5%);
+    color: $gray-darker;
+    line-height: 1.5;
+  }
+
+  code {
+    padding: ($baseline / 2);
+    word-wrap: initial;
+  }
+
+  pre {
+    padding: ($base-width * 2);
+    overflow: auto;
   }
 
   // Override default background
