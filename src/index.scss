@@ -8,7 +8,7 @@ html, body {
 body {
   @extend %t-smoothing-on;
   background-color: $gray-lightest;
-  color: $gray-darker;
+  color: $gray-dark;
   font-family: $font-stack-proportional;
   font-weight: $font-weight-light;
   line-height: 1;

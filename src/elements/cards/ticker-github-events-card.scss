@@ -2,9 +2,10 @@
 
 .card {
   background-color: white;
-  border: 1px solid transparentize($gray-dark, .75);
+  border: 1px solid transparentize($gray-light, .65);
   border-top-style: none;
-  border-bottom: 2px solid transparentize($gray-dark, .75);
+  border-bottom: 2px solid transparentize($gray-light, .55);
+  border-radius: 2px;
 }
 
 .title, .subject, .action {
