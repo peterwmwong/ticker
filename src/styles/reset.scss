@@ -23,7 +23,7 @@ html _deep_ {
 
   code, pre {
     font-family: $font-stack-monospace;
-    background-color: lighten($gray-lightest, 5%);
+    background-color: $gray-lightester;
     color: $gray-darker;
     line-height: 1.5;
   }
@@ -34,6 +34,13 @@ html _deep_ {
 
   pre {
     padding: ($base-width * 2);
+  }
+
+  marked-element {
+    // Make sure the image doesn't explode out of the element
+    img {
+      width: 100%;
+    }
   }
 
   // Override default background

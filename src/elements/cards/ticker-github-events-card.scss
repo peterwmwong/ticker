@@ -13,7 +13,7 @@
   display: -webkit-flex;
   display: flex;
   padding: ($baseline*4) ($base-width*4);
-  background: lighten($gray-lightest,6%);
+  background: $gray-lightester;
 }
 
 .subject, .title {

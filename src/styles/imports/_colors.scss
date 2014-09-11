@@ -8,6 +8,9 @@ $gray-light            :hsl(191,15%,73%); /* #B0C1C4 */
 $gray-lighter          :hsl(198,16%,87%); /* #D9E0E3 */
 $gray-lightest         :hsl(206,19%,92%); /* #EAEEF1 */
 
+// TODO(pwong): aaaaaaa durrrr
+$gray-lightester       :lighten($gray-lightest,6%);
+
 $brand-primary-dark    :hsl(197,68%,31%); /* #196685 - dark blue */
 $brand-primary-light   :hsl(197,69%,50%); /* #28A6D7 - primary blue */
 $brand-primary-lighter :hsl(196,65%,90%); /* #D5EDF6 - light blue */
