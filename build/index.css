@@ -59,13 +59,15 @@ html /deep/ li {
   list-style-type: none; }
 html /deep/ code, html /deep/ pre {
   font-family: "Source Code Pro", monospace;
-  background-color: #f6f8f9;
+  background-color: #f9fafb;
   color: #425357;
   line-height: 1.5; }
 html /deep/ code {
   padding: 2px 4px; }
 html /deep/ pre {
   padding: 8px; }
+html /deep/ marked-element img {
+  width: 100%; }
 html /deep/ core-toolbar {
   background: #28a6d7; }
   html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {

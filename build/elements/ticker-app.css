@@ -25,7 +25,7 @@ core-drawer-panel[narrow] ticker-github-events-card {
   font-weight: 300;
   padding: 0 16px; }
   .drawer__item.is-selected, .drawer__item.is-selected .drawer__item__icon {
-    font-weight: 600;
+    font-weight: 400;
     color: #425357; }
 
 .drawer__item__icon {
