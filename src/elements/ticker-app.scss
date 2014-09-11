@@ -1,41 +1,50 @@
 @import 'bourbon';
 @import 'imports';
 
-.drawer__item {
-  color: $gray-dark;
-  font-weight: $font-weight-normal;
-  line-height: $baseline * 8;
-  padding: 0 ($base-width * 2);
-
-  // Variants
-  // --------
-  &--header {
-    line-height: $baseline * 4;
-    border: 1px solid $gray-lighter;
-    border-style: solid none;
+core-drawer-panel[narrow] {
+  core-header-panel[drawer] {
+    background: white;
   }
+
+  .ticker-app__content {
+    padding-top: $baseline * 3; // Height of toolbar
+  }
+
+  ticker-github-events-card {
+    margin-right: 0;
+  }
+}
+
+
+.drawer__item {
+  color: $gray-darker;
+  font-weight: $font-weight-light;
+  padding: 0 ($base-width * 4);
 
   // States
   // ------
   &.is-selected {
     &,
     .drawer__item__icon {
-      color: $gray-darkest;
+      font-weight: $font-weight-semibold;
+      color: $gray-darker;
     }
-  }
-
-  // Children
-  // --------
-  .drawer__item__icon {
-    color: $gray-light;
-    margin-right: $base-width * 2;
   }
 }
 
+.drawer__item__icon {
+  color: $gray-light;
+  margin-right: $base-width * 2;
+}
+
 .ticker-app__content {
-  padding-top: 66px; // Height of toolbar
+  padding-top: 56px; // Height of toolbar
 }
 
 .toolbar__title {
   line-height: 56px;
+}
+
+ticker-github-events-card {
+  margin-right: $base-width * 30;
 }
