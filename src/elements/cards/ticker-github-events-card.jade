@@ -22,7 +22,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
     )
 
   template#CardTitle
-    .title(class='t-font-size-16 l-padding-2 l-padding-t3')
+    .title(class='t-font-size-18')
       ticker-github-repo(flex repo='[[repo.name]]')
       template(ref='EventTimeAgo' bind='[[]]')
 
@@ -34,11 +34,11 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         class='[[   payload.pullRequest.state === "open" ? "c-warning-light"    \
                   : payload.pullRequest.merged           ? "c-confirm-light"    \
                                                          : "c-error-light"   ]] \
-               l-margin-r2'
+               l-margin-r3'
         icon='github:git-pull-request')
       span(flex class='t-normal') [[payload.pullRequest.title]]
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.pullRequest.body]]')
 
 
@@ -50,7 +50,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[type === "CreateEvent" ? "c-confirm-light" \
                                         : "c-error-light"]] \
-               l-margin-r2'
+               l-margin-r3'
         icon='github:[[payload.refType === "repository" ? "repo" : "git-branch"]]'
       )
       template(if='[[payload.refType === "repository"]]')
@@ -59,7 +59,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         span(flex class='t-normal') [[payload.ref]]
 
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       | {{ (type == 'CreateEvent') ? 'created' : 'deleted' }}
       | this [[ payload.refType ]]
 
@@ -76,12 +76,12 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.pullRequest.state === "closed" ? "c-error-light"     \
                                                         : "c-warning-light"]] \
-               l-margin-r2'
+               l-margin-r3'
         icon='github:git-pull-request'
       )
       span(flex class='t-normal') [[payload.pullRequest.title]]
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
 
 
@@ -91,13 +91,13 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.issue.state === "closed" ? "c-error-light"     \
                                                   : "c-warning-light"]] \
-               l-margin-r2'
+               l-margin-r3'
         icon='[[payload.issue.pullRequest ? "github:git-pull-request" \
                                           : "github:issue-opened"     ]]'
       )
       span(flex class='t-normal') [[payload.issue.title]]
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
 
 
@@ -107,12 +107,12 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       core-icon(
         class='[[payload.action === "closed" ? "c-error-light"    \
                                              : "c-warning-light"]] \
-               l-margin-r2'
+               l-margin-r3'
         icon='github:issue-[[payload.action]]'
       )
       span(flex class='t-normal t-word-wrap-break-word') [[payload.issue.title]]
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       p(flex)
         span(block class='l-margin-b1') [[payload.action]] this issue
         template(ref='Comment' bind='[[payload.issue.body]]')
@@ -121,19 +121,19 @@ script(src='../../../bower_components/time-elements/time-elements.js')
   template#CommitCommentEvent
     template(ref='CardTitle' bind='[[]]')
     .subject
-      core-icon(class='c-confirm-light l-margin-r2' icon='github:git-commit')
+      core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
       span(flex class='t-normal t-word-wrap-break-word t-truncate')
         | [[payload.comment.commitId]]
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
 
 
   template#WatchEvent
-    .action(class='l-padding-t2')
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+    .action
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       core-icon(
-        class='c-gray-lighter l-margin-r2'
+        class='c-gray-lighter l-margin-r3'
         icon='github:star'
       )
       ticker-github-repo(flex class='c-gray-dark t-truncate' repo='[[repo.name]]')
@@ -141,10 +141,10 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
 
   template#ForkEvent
-    .action(class='l-padding-t2')
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+    .action
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       core-icon(
-        class='c-gray-lighter l-margin-r2'
+        class='c-gray-lighter l-margin-r3'
         icon='github:repo-forked'
       )
       ticker-github-repo(flex class='c-gray-dark' repo='[[repo.name]]')
@@ -154,25 +154,25 @@ script(src='../../../bower_components/time-elements/time-elements.js')
   template#PushEvent
     template(ref='CardTitle' bind='[[]]')
     .subject
-      core-icon(class='c-gray-light l-margin-r2' icon='github:git-branch')
+      core-icon(class='c-gray-light l-margin-r3' icon='github:git-branch')
       ticker-github-branch(branch='[[payload.ref]]')
     .action
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       ul.action__content(flex)
         template(repeat='[[commit in limitArray(payload.commits, 3)]]')
           li(horizontal layout)
-            core-icon(class='c-confirm-light l-margin-r2' icon='github:git-commit')
+            core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
             span(flex class='t-normal t-word-wrap-break-word') [[commit.message]]
 
 
   template#GollumEvent
     template(ref='CardTitle' bind='[[]]')
-    .action(class='l-padding-t1')
-      ticker-github-avatar(class='l-margin-r2' userid='[[actor.id]]')
-      core-icon(class='c-confirm l-margin-r2' icon='github:book')
+    .action
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+      core-icon(class='c-confirm l-margin-r3' icon='github:book')
       span(class='t-normal') [[payload.pages[0].title]]
 
   template(repeat='{{data in events}}')
     //- div.c-gray-dark.l-margin-l2.l-margin-v4.l-margin-b2.t-normal [[data.type]]
-    .card(class='l-margin-b1')
+    .card(class='l-margin-b2')
       template(ref='[[data.type]]' bind='[[data]]')

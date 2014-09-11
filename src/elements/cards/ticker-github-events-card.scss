@@ -2,9 +2,9 @@
 
 .card {
   background-color: white;
-  border: 1px solid transparentize($gray-light, .65);
+  border: 1px solid transparentize($gray-dark, .7);
   border-top-style: none;
-  border-bottom: 2px solid transparentize($gray-light, .55);
+  border-bottom: 2px solid transparentize($gray-dark, .7);
   border-radius: 2px;
 }
 
@@ -12,23 +12,30 @@
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
+  padding: ($baseline*4) ($base-width*4);
+  background: lighten($gray-lightest,6%);
+}
+
+.subject, .title {
+  border-bottom: 1px solid $gray-lightest;
 }
 
 .title {
   align-items: baseline;
+  padding-top: ($baseline*6);
+  padding-bottom: ($baseline*4);
 }
 
 .subject, .action {
+  // Center align with the icon
   line-height: 24px;
 }
 
 .subject {
-  background: lighten($gray-lightest,5%);
-  border: 1px solid lighten($gray-lightest, 2%);
-  border-style: solid none;
   color: $gray-dark;
-  margin-bottom: $baseline;
-  padding: $baseline ($base-width*2) ($baseline - 2) ($base-width*2);
+  font-style: italic;
+  margin-top: -1px; // Prevent double border with the title
+  padding-top: ($baseline*1);
 
   &:last-child {
     border-bottom-style: none;
@@ -36,5 +43,5 @@
 }
 
 .action {
-  padding: $baseline ($base-width*2) ($baseline*2) ($base-width*2);
+  background: white;
 }

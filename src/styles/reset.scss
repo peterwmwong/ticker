@@ -29,7 +29,7 @@ html _deep_ {
   }
 
   code {
-    padding: ($baseline / 2);
+    padding: 2px ($baseline);
   }
 
   pre {
@@ -38,7 +38,10 @@ html _deep_ {
 
   // Override default background
   core-toolbar {
-    background: transparentize($brand-primary-light, .2);
+    // TODO(pwong): Consider add a subtle decorative top bar
+    // border-top: 6px solid $brand-primary-dark;
+    // border-top: 6px solid lighten($brand-primary-light, 15%);
+    background: $brand-primary-light;
 
     &,
     &::shadow #topBar {

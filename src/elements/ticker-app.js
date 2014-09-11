@@ -8,12 +8,14 @@ Polymer('ticker-app',{
   session,
 
   ready(){
+    // TODO(pwong): Store/retrieve the last viewed stream in localStorage
     this.selectEventStream(session.user.eventStreams[0], 0);
   },
 
   // Selects an EventStream and delays rendering of events by a specified amount.
   // Delaying rendering allows for smooth, jank-free drawer close (see
   // `onSelectEventStream()`).
+  // TODO(pwong): Maybe do something like #drawerPanel(on-transitionend='{{loadEventStream}}')
   selectEventStream(newSelectedEventStream, renderDelay){
     if(newSelectedEventStream){
       this.$.content.style.opacity = 0;
