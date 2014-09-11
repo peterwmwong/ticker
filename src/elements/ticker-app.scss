@@ -26,7 +26,7 @@ core-drawer-panel[narrow] {
   &.is-selected {
     &,
     .drawer__item__icon {
-      font-weight: $font-weight-semibold;
+      font-weight: $font-weight-normal;
       color: $gray-darker;
     }
   }
