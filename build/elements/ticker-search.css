@@ -15,18 +15,18 @@
 /* #F7E3B1 */
 :host {
   display: block;
-  background-color: #eaeef1; }
+  background-color: #e7ebee; }
 
 .search-result {
-  border-bottom: 1px solid #eaeef1;
-  padding: 6px 5px; }
+  border-bottom: 1px solid #e7ebee;
+  padding: 4px 4px; }
   .search-result:last-child {
     border-bottom: 0;
     margin-bottom: 0; }
 
 .content {
   padding-top: 66px;
-  line-height: 30px; }
+  line-height: 20px; }
 
 paper-input /deep/ #input {
   color: white;

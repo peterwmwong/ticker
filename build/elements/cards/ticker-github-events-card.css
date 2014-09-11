@@ -15,31 +15,36 @@
 /* #F7E3B1 */
 .card {
   background-color: white;
-  border: 1px solid rgba(175, 192, 196, 0.35);
+  border: 1px solid rgba(109, 138, 145, 0.3);
   border-top-style: none;
-  border-bottom: 2px solid rgba(175, 192, 196, 0.45);
+  border-bottom: 2px solid rgba(109, 138, 145, 0.3);
   border-radius: 2px; }
 
 .title, .subject, .action {
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex; }
+  display: flex;
+  padding: 16px 16px;
+  background: #f9fafb; }
+
+.subject, .title {
+  border-bottom: 1px solid #e7ebee; }
 
 .title {
-  align-items: baseline; }
+  align-items: baseline;
+  padding-top: 24px;
+  padding-bottom: 16px; }
 
 .subject, .action {
   line-height: 24px; }
 
 .subject {
-  background: #f9fafb;
-  border: 1px solid #f0f3f5;
-  border-style: solid none;
   color: #6e8a91;
-  margin-bottom: 6px;
-  padding: 6px 10px 4px 10px; }
+  font-style: italic;
+  margin-top: -1px;
+  padding-top: 4px; }
   .subject:last-child {
     border-bottom-style: none; }
 
 .action {
-  padding: 6px 10px 12px 10px; }
+  background: white; }
