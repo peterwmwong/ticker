@@ -1,11 +1,15 @@
+// TODO(pwong): Once these styles start to settle down, extract these out into
+//              reusable CSS components that can be used by other types of event
+//              cards.
 @import 'imports';
 
 .card {
-  background-color: white;
-  border: 1px solid transparentize($gray-dark, .7);
-  border-top-style: none;
-  border-bottom: 2px solid transparentize($gray-dark, .7);
+  // Faux Shadow
+  border: 1px solid rgba(0,0,0, .05);
+  border-top-color: rgba(0,0,0, .025);
+  border-bottom: 2px solid rgba(0,0,0, .1);
   border-radius: 2px;
+  overflow: hidden;
 }
 
 .title, .subject, .action {
@@ -13,29 +17,31 @@
   display: -webkit-flex;
   display: flex;
   padding: ($baseline*4) ($base-width*4);
-  background: $gray-lightester;
 }
 
 .subject, .title {
   border-bottom: 1px solid $gray-lightest;
+  background: transparentize($gray-lightester, .025);
 }
 
 .title {
   align-items: baseline;
-  padding-top: ($baseline*6);
+  padding-top: ($baseline*4);
   padding-bottom: ($baseline*4);
 }
 
 .subject, .action {
   // Center align with the icon
-  line-height: 24px;
+  line-height: 1.5;
 }
 
 .subject {
+  align-items: center;
   color: $gray-dark;
   font-style: italic;
   margin-top: -1px; // Prevent double border with the title
-  padding-top: ($baseline*1);
+  padding-top: 0;
+  padding-bottom: ($baseline*2);
 
   &:last-child {
     border-bottom-style: none;
@@ -43,5 +49,5 @@
 }
 
 .action {
-  background: white;
+  background: rgba(255,255,255, 0.975);
 }
