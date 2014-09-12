@@ -7,7 +7,7 @@ core-drawer-panel[narrow] {
   }
 
   .ticker-app__content {
-    padding-top: $baseline * 3; // Height of toolbar
+    padding-top: $baseline;
   }
 
   ticker-github-events-card {
@@ -43,7 +43,7 @@ core-drawer-panel[narrow] {
 }
 
 .ticker-app__content {
-  padding-top: 56px; // Height of toolbar
+  padding-top: $baseline * 2;
 }
 
 .toolbar__title {
