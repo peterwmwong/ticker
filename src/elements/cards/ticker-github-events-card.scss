@@ -7,7 +7,7 @@
   // Faux Shadow
   border: 1px solid rgba(0,0,0, .05);
   border-top-color: rgba(0,0,0, .025);
-  border-bottom: 2px solid rgba(0,0,0, .1);
+  border-bottom: 2px solid rgba(0,0,0, .075);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -31,12 +31,11 @@
 }
 
 .subject, .action {
-  // Center align with the icon
+  align-items: center;
   line-height: 1.5;
 }
 
 .subject {
-  align-items: center;
   color: $gray-dark;
   font-style: italic;
   margin-top: -1px; // Prevent double border with the title
@@ -50,4 +49,8 @@
 
 .action {
   background: rgba(255,255,255, 0.975);
+
+  ticker-github-avatar {
+    align-self: flex-start;
+  }
 }
