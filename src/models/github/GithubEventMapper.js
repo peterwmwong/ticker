@@ -11,7 +11,7 @@ export default {
     (
       loadJSON(`https://api.github.com/${type}/${typeRef}/events`)
       // loadJSON(`https://api.github.com/users/peterwmwong/received_events`)
-      // Promise.resolve((console.log(window.mockWat), window.mockWat = !window.mockWat, window.mockWat) ? MOCKDATA : MOCKDATA2)
+      // Promise.resolve(MOCKDATA)
     ).then(data=>
         array.$replace(
           array.$class.loadAll(

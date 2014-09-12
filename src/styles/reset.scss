@@ -24,16 +24,24 @@ html _deep_ {
   code, pre {
     font-family: $font-stack-monospace;
     background-color: $gray-lightester;
+    border: 1px solid $gray-lightest;
     color: $gray-darker;
+    border-radius: 3px;
     line-height: 1.5;
   }
 
   code {
-    padding: 2px ($baseline);
+    padding: 0px ($baseline);
   }
 
   pre {
     padding: ($base-width * 2);
+    
+    code {
+      border-radius: 0;
+      background-color: transparent;
+      border: none;
+    }
   }
 
   marked-element {

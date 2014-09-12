@@ -13,19 +13,19 @@
     template(if='{{searchText && searchResults.length}}')
       ticker-card(block class='l-padding-h2 l-margin-b2')
         template(repeat='{{searchResult in searchResults}}')
-          paper-item.search-result(
+          .search-result(
             layout horizontal center
-            class='l-padding-h0'
+            class='c-gray-darker l-padding-h0 l-padding-v3 t-light t-font-size-16'
             on-tap='[[onSearchResultSelected]]'
           )
             core-icon(
-              class='c-gray-light l-margin-l1 l-margin-r2'
-              icon='[[  searchResult.type === "repos" ? "github:repo"   \
-                      : searchResult.login            ? "github:person" \
+              class='c-gray-lighter l-margin-l1 l-margin-r2'
+              icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
+                      : searchResult.config.type === "users" ? "github:person" \
                       : "github:star" ]]'
             )
-            span(flex) [[searchResult.name]]
-            paper-icon-button(class='c-gray-lightest' icon='bookmark')
+            | [[searchResult.name]]
+            //- paper-icon-button(class='c-gray-lightest' icon='bookmark')
 
 
   core-toolbar(class='c-white')
