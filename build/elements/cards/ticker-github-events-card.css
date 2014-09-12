@@ -16,7 +16,7 @@
 .card {
   border: 1px solid rgba(0, 0, 0, 0.05);
   border-top-color: rgba(0, 0, 0, 0.025);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.075);
   border-radius: 2px;
   overflow: hidden; }
 
@@ -36,10 +36,10 @@
   padding-bottom: 16px; }
 
 .subject, .action {
+  align-items: center;
   line-height: 1.5; }
 
 .subject {
-  align-items: center;
   color: #6e8a91;
   font-style: italic;
   margin-top: -1px;
@@ -50,3 +50,5 @@
 
 .action {
   background: rgba(255, 255, 255, 0.975); }
+  .action ticker-github-avatar {
+    align-self: flex-start; }

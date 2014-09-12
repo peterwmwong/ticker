@@ -16,7 +16,7 @@
 core-drawer-panel[narrow] core-header-panel[drawer] {
   background: white; }
 core-drawer-panel[narrow] .ticker-app__content {
-  padding-top: 12px; }
+  padding-top: 4px; }
 core-drawer-panel[narrow] ticker-github-events-card {
   margin-right: 0; }
 
@@ -39,7 +39,7 @@ core-drawer-panel[narrow] ticker-github-events-card {
   margin-right: 8px; }
 
 .ticker-app__content {
-  padding-top: 56px; }
+  padding-top: 8px; }
 
 .toolbar__title {
   line-height: 56px; }
