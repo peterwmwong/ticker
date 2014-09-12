@@ -13,18 +13,17 @@
   ticker-session#session
 
   template(if='{{!$.session.isLoggedIn}}')
-    div(class='c-bg-brand-primary-light u-border-b1 c-border-white l-padding-h4 l-padding-v6 l-overflow-hidden')
-      div(class='l-margin-t3 l-overflow-hidden')
-      div(class='c-white l-margin-t6 l-padding-v6 t-normal t-font-size-32')
+    //- TODO(pwong): Refactor styles... srsly...
+    div(class='c-bg-brand-primary-light l-padding-h4' style='padding-top: 84px')
+      div(class='c-white t-normal t-font-size-32')
         | ticker
-        span(class='c-white l-margin-l2 t-font-size-16 t-normal')
-          | commits. pull requests. comments. tweets. forum posts.
-
+        span(class='t-font-size-16')
+          | &nbsp; commits. pull requests. comments. tweets. forum posts.
 
       //- Login panel
       //- TODO(pwong): extract to seperate element
       paper-button(
-        class='c-bg-white c-brand-primary-light l-padding-h2 t-normal t-font-size-16'
+        class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h2 l-padding-t1 t-normal t-font-size-16'
         icon='github:octoface'
         label='Login with GitHub'
         on-tap='{{onLogin}}'
