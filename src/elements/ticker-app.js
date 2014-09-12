@@ -9,7 +9,7 @@ Polymer('ticker-app',{
 
   ready(){
     // TODO(pwong): Store/retrieve the last viewed stream in localStorage
-    this.selectEventStream(session.user.eventStreams[0], 0);
+    // this.selectEventStream(session.user.eventStreams[0], 0);
   },
 
   // Selects an EventStream and delays rendering of events by a specified amount.
@@ -37,8 +37,20 @@ Polymer('ticker-app',{
   // Change Handlers
   // ===============
 
+  isLoggedInChanged(_, isLoggedIn){
+    if(isLoggedIn){
+      this.$.fbUserData.data = {
+        eventStreams:[]
+      };
+    }
+  },
+
   // Event Handlers
   // ==============
+
+  onLogin(){
+    this.$.session.login();
+  },
 
   onCloseSearch(){
     this.isSearching = false;
