@@ -12,16 +12,14 @@
     //- TODO(pwong): extract to seperate element
     core-header-panel(drawer mode='seamed')
       core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
-        .toolbar__title.bottom(
-          layout horizontal center
-          class='l-margin-l2 t-font-size-24 t-normal'
+        .bottom(
+          class='l-margin-l2 l-padding-t2 t-font-size-32 t-light'
         )
-          core-icon(icon='alarm' class='l-margin-r2')
-          | Ticker
+          | ticker
 
       .drawer
         template(if='{{narrow}}')
-          paper-item.drawer__item(
+          .drawer__item(
             class='{{ isSearching && "is-selected" }} \
                    u-border-b1 c-border-gray-lightest'
             on-tap='{{onSelectSearch}}'
@@ -30,9 +28,9 @@
             | Search
 
         template(repeat='{{eventStream, i in session.user.eventStreams}}')
-          paper-item.drawer__item(
+          .drawer__item(
             class='{{ { "is-selected": eventStream === selectedEventStream, \
-                        "l-padding-t2": i == 0 } | tokenList }}'
+                        "l-padding-t6": i == 0 } | tokenList }}'
             on-tap='{{onSelectEventStream}}'
           )
             core-icon.drawer__item__icon(

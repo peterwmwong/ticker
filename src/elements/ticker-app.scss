@@ -15,11 +15,16 @@ core-drawer-panel[narrow] {
   }
 }
 
-
 .drawer__item {
+  align-items: center;
+  cursor: pointer;
   color: $gray-darker;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
   font-weight: $font-weight-light;
-  padding: 0 ($base-width * 4);
+  font-size: 1.6rem;
+  padding: ($baseline*3) ($base-width*4);
 
   // States
   // ------
