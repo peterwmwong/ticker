@@ -158,11 +158,12 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       ticker-github-branch(branch='[[payload.ref]]')
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
-      ul.action__content(flex)
+      ul(flex)
         template(repeat='[[commit in limitArray(payload.commits, 3)]]')
-          li(horizontal layout)
-            core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
-            span(flex class='t-normal t-word-wrap-break-word') [[commit.message]]
+          li(horizontal layout center)
+            core-icon(self-start class='c-confirm-light l-margin-r3' icon='github:git-commit')
+            span(flex class='t-normal t-word-wrap-break-word')
+              | [[commit.message]]
 
 
   template#GollumEvent
