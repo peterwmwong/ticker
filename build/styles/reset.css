@@ -27,12 +27,18 @@ html /deep/ li {
 html /deep/ code, html /deep/ pre {
   font-family: "Source Code Pro", monospace;
   background-color: #f9fafb;
+  border: 1px solid #e7ebee;
   color: #425357;
+  border-radius: 3px;
   line-height: 1.5; }
 html /deep/ code {
-  padding: 2px 4px; }
+  padding: 0px 4px; }
 html /deep/ pre {
   padding: 8px; }
+  html /deep/ pre code {
+    border-radius: 0;
+    background-color: transparent;
+    border: none; }
 html /deep/ marked-element img {
   width: 100%; }
 html /deep/ core-toolbar {

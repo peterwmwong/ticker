@@ -14,37 +14,39 @@
 /* #FCA431 */
 /* #F7E3B1 */
 .card {
-  background-color: white;
-  border: 1px solid rgba(109, 138, 145, 0.3);
-  border-top-style: none;
-  border-bottom: 2px solid rgba(109, 138, 145, 0.3);
-  border-radius: 2px; }
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top-color: rgba(0, 0, 0, 0.025);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden; }
 
 .title, .subject, .action {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  padding: 16px 16px;
-  background: #f9fafb; }
+  padding: 16px 16px; }
 
 .subject, .title {
-  border-bottom: 1px solid #e7ebee; }
+  border-bottom: 1px solid #e7ebee;
+  background: rgba(248, 250, 250, 0.975); }
 
 .title {
   align-items: baseline;
-  padding-top: 24px;
+  padding-top: 16px;
   padding-bottom: 16px; }
 
 .subject, .action {
-  line-height: 24px; }
+  line-height: 1.5; }
 
 .subject {
+  align-items: center;
   color: #6e8a91;
   font-style: italic;
   margin-top: -1px;
-  padding-top: 4px; }
+  padding-top: 0;
+  padding-bottom: 8px; }
   .subject:last-child {
     border-bottom-style: none; }
 
 .action {
-  background: white; }
+  background: rgba(255, 255, 255, 0.975); }

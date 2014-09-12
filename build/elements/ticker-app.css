@@ -21,9 +21,15 @@ core-drawer-panel[narrow] ticker-github-events-card {
   margin-right: 0; }
 
 .drawer__item {
+  align-items: center;
+  cursor: pointer;
   color: #425357;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
   font-weight: 300;
-  padding: 0 16px; }
+  font-size: 1.6rem;
+  padding: 12px 16px; }
   .drawer__item.is-selected, .drawer__item.is-selected .drawer__item__icon {
     font-weight: 400;
     color: #425357; }
