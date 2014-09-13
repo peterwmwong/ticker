@@ -55,6 +55,49 @@ describe('services/model/Model', ()=>{
 
   afterEach(()=>Model.reset());
 
+  describe('Error handling', ()=>{
+    describe('Mapper errors', ()=>{
+      function rejectingMapperFun(){return new Promise((_, reject)=>reject())};
+      function failAndCall(done){
+        return ()=>{
+          expect(false).toBe(true);
+          done();
+        }
+      };
+      var TestModel;
+
+      beforeEach(()=>{
+        TestModel = class TestModel extends Model{}
+        TestModel.create($=>{
+          $.mapper = {
+            get:    rejectingMapperFun,
+            create: rejectingMapperFun,
+            query:  rejectingMapperFun,
+            update: rejectingMapperFun,
+            delete: rejectingMapperFun
+          }
+        });
+      });
+
+      it('get errors', (done)=>{
+        TestModel.get(1).$promise.then(failAndCall(done), done);
+      });
+
+      it('query errors', (done)=>{
+        TestModel.query().$promise.then(failAndCall(done), done);
+      });
+
+      it('create errors', (done)=>{
+        new TestModel().$save().$promise.then(failAndCall(done), done);
+      });
+
+      it('delete errors', (done)=>{
+        var model = TestModel.load({id:1});
+        model.$delete().$promise.then(failAndCall(done), done);
+      });
+    });
+  })
+
   describe('.className', ()=>{
     it('should return the name of the constructor function', ()=>{
       expect(BasicModel.className()).toBe('BasicModel');
