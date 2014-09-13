@@ -4,6 +4,13 @@ import GithubEvent from './github/GithubEvent';
 import GithubUser from './github/GithubUser';
 
 class EventStream extends Model {
+  static load(attrs){
+    return Model.load.call(
+      (attrs.type === 'github' ? GithubEventStream : EventStream),
+      attrs
+    );
+  }
+
   name(){ throw 'Implement me'; }
   events(){ throw 'Implement me'; }
 }

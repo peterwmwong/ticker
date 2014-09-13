@@ -1,6 +1,50 @@
+import User from '../models/User';
+import EventStream from '../models/EventStream';
+
+var data = {
+  // Map of service to access token
+  accessTokens: {},
+
+  // Current User model (see models/User).
+  user: undefined
+};
+
 Polymer('ticker-session',{
-  isLoggedIn: false,
+  fbUserDataReady: false,
+  data: data,
+
   login(){
-    this.isLoggedIn = true;
+    this.$.fbLogin.login();
+  },
+
+  logout(){
+    this.$.fbLogin.logout();
+  },
+
+  // Change Handlers
+  // ===============
+
+  fbUserChanged(_, fbUser){
+    if(fbUser){
+      data.accessTokens.github = fbUser.accessToken;
+      User.get(fbUser.id).$promise.
+        catch(error=>{
+          return new User({
+            id:fbUser.id,
+            eventStreams: [
+              new EventStream({
+                id: '1',
+                type: 'github',
+                config: {
+                  type: 'users',
+                  users: 'peterwmwong'
+                }
+              })
+            ]
+          }).$save().$promise
+        }).
+        then(user=>data.user = user)
+    }
   }
+
 });

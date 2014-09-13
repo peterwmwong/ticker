@@ -12,7 +12,7 @@
 
   ticker-session#session
 
-  template(if='{{!$.session.isLoggedIn}}')
+  template(if='{{!$.session.data.user}}')
     //- TODO(pwong): Refactor styles... srsly...
     div(class='c-bg-brand-primary-light l-padding-h4' style='padding-top: 84px')
       div(class='c-white t-normal t-font-size-32')
@@ -29,52 +29,51 @@
         on-tap='{{onLogin}}'
       )
 
-  template(if='{{$.session.isLoggedIn}}')
-    core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}')
-      //- TODO(pwong): extract to seperate element
-      core-header-panel(drawer mode='seamed')
+  core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}' hidden?='{{!$.session.data.user}}')
+    //- TODO(pwong): extract to seperate element
+    core-header-panel(drawer mode='seamed')
+      core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
+        .bottom(
+          class='l-margin-l2 l-padding-t2 t-font-size-32 t-normal'
+        )
+          | ticker
+
+      .drawer
+        template(if='{{narrow}}')
+          .drawer__item(
+            class='{{ isSearching && "is-selected" }} \
+                   u-border-b1 c-border-gray-lightest'
+            on-tap='{{onSelectSearch}}'
+          )
+            core-icon.drawer__item__icon(icon='search')
+            | Search
+
+        template(repeat='{{eventStream, i in $.session.data.user.eventStreams}}')
+          .drawer__item(
+            class='{{ { "is-selected": eventStream === selectedEventStream, \
+                        "l-padding-t6": i == 0 } | tokenList }}'
+            on-tap='{{onSelectEventStream}}'
+          )
+            core-icon.drawer__item__icon(
+              icon='{{  eventStream.config.type === "repos" ? "github:repo"   \
+                      : eventStream.config.type === "users" ? "github:person" \
+                      : "github:star" }}'
+            )
+            | {{eventStream.name}}
+
+    core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
+      #content.ticker-app__content(main fit class='l-padding-h2 l-overflow-scroll-ios')
+        ticker-github-events-card(block events='{{events}}')
+
+      template(if='{{!isSearching}}')
         core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
-          .bottom(
-            class='l-margin-l2 l-padding-t2 t-font-size-32 t-normal'
-          )
-            | ticker
-
-        .drawer
           template(if='{{narrow}}')
-            .drawer__item(
-              class='{{ isSearching && "is-selected" }} \
-                     u-border-b1 c-border-gray-lightest'
-              on-tap='{{onSelectSearch}}'
-            )
-              core-icon.drawer__item__icon(icon='search')
-              | Search
+            paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
+            span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
 
-          template(repeat='{{eventStream, i in session.user.eventStreams}}')
-            .drawer__item(
-              class='{{ { "is-selected": eventStream === selectedEventStream, \
-                          "l-padding-t6": i == 0 } | tokenList }}'
-              on-tap='{{onSelectEventStream}}'
-            )
-              core-icon.drawer__item__icon(
-                icon='{{  eventStream.config.type === "repos" ? "github:repo"   \
-                        : eventStream.config.type === "users" ? "github:person" \
-                        : "github:star" }}'
-              )
-              | {{eventStream.name}}
-
-      core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
-        #content.ticker-app__content(main fit class='l-padding-h2 l-overflow-scroll-ios')
-          ticker-github-events-card(block events='{{events}}')
-
-        template(if='{{!isSearching}}')
-          core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
-            template(if='{{narrow}}')
-              paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
-              span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
-
-        template(if='{{isSearching}}')
-          ticker-search(
-            fit
-            on-ticker-search-close='{{onCloseSearch}}'
-            on-ticker-search-select='{{onSearchSelect}}'
-          )
+      template(if='{{isSearching}}')
+        ticker-search(
+          fit
+          on-ticker-search-close='{{onCloseSearch}}'
+          on-ticker-search-select='{{onSearchSelect}}'
+        )
