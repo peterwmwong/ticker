@@ -21,7 +21,7 @@
 
 .subject, .title {
   border-bottom: 1px solid $gray-lightest;
-  background: transparentize($gray-lightester, .025);
+  background: $gray-lightester;
 }
 
 .title {
@@ -48,7 +48,7 @@
 }
 
 .action {
-  background: rgba(255,255,255, 0.975);
+  background: white;
 
   ticker-github-avatar {
     align-self: flex-start;
