@@ -5,6 +5,20 @@ class User extends Model {}
 
 User.create($=>{
   $.mapper = {
+    update: (user)=>
+      new Promise((resolve, reject)=>
+        new Firebase(`https://ticker-test.firebaseio.com/users/${user.id}`)
+          .set(
+            {
+              id: user.id,
+              eventStreams: user.eventStreams.map(es=>es.$attrs())
+            },
+            (error)=>{
+              if(error) reject(error);
+              else resolve(user);
+            }
+          )
+      ),
     create: (user)=>
       new Promise((resolve, reject)=>
         new Firebase(`https://ticker-test.firebaseio.com/users/${user.id}`)

@@ -1,13 +1,25 @@
 @import 'bourbon';
 @import 'imports';
 
+paper-fab {
+  position: fixed;
+  top: $baseline * 25;
+  right: $baseline * 9;
+  color: white;
+}
+
+core-header-panel _deep_ #dropShadow {
+  display: none;
+}
+
 core-drawer-panel[narrow] {
+  paper-fab {
+    top: auto;
+    right: $baseline * 4;
+    bottom: $baseline * 4;
+  }
   core-header-panel[drawer] {
     background: white;
-  }
-
-  .ticker-app__content {
-    padding-top: $baseline;
   }
 
   ticker-github-events-card {

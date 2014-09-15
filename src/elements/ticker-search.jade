@@ -4,44 +4,45 @@
 +import('../../bower_components/paper-item/paper-item.html')
 +import('./ticker-card.html')
 
-+polymer-element
-  .content(fit class='l-padding-h2 l-overflow-scroll-ios')
-    template(if='{{!searchText && !searchResults.length}}')
-      h2(class='c-gray-light t-align-center t-light t-italic')
-        | Search for GitHub Users, Organizations, or Repositories
-
-    template(if='{{searchText && searchResults.length}}')
-      ticker-card(block class='l-padding-h2 l-margin-b2')
-        template(repeat='{{searchResult in searchResults}}')
-          .search-result(
-            layout horizontal center
-            class='c-gray-darker l-padding-h0 l-padding-v3 t-light t-font-size-16'
-            on-tap='[[onSearchResultSelected]]'
++polymer-element(attributes='isNarrow')
+  div(fit layout vertical)
+    core-toolbar(class='{{!isNarrow ? "medium-tall" : ""}} c-white')
+      .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
+        paper-icon-button(
+          class='l-margin-r0 l-margin-t1'
+          icon='arrow-back'
+          on-tap='{{onCloseSearch}}'
+        )
+        paper-input#searchInput(
+          flex
+          class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
+          inputValue='{{searchText}}'
+        )
+        template(if='{{searchText}}')
+          paper-icon-button(
+            class='l-margin-l0 l-margin-r2'
+            icon='close'
+            on-tap='{{onClearSearch}}'
           )
-            core-icon(
-              class='c-gray-lighter l-margin-l1 l-margin-r2'
-              icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
-                      : searchResult.config.type === "users" ? "github:person" \
-                      : "github:star" ]]'
+
+    .content(flex class='l-padding-2 l-overflow-scroll-ios')
+      template(if='{{!searchText && !searchResults.length}}')
+        h2(class='c-gray-light t-align-center t-light t-italic')
+          | Search for GitHub Users, Organizations, or Repositories
+
+      template(if='{{searchText && searchResults.length}}')
+        ticker-card(block class='l-padding-h2 l-margin-b2')
+          template(repeat='{{searchResult in searchResults}}')
+            .search-result(
+              layout horizontal center
+              class='c-gray-darker l-padding-h0 l-padding-v3 t-light t-font-size-16'
+              on-tap='[[onSearchResultSelected]]'
             )
-            | [[searchResult.name]]
-            //- paper-icon-button(class='c-gray-lightest' icon='bookmark')
-
-
-  core-toolbar(class='c-white')
-    paper-icon-button(
-      class='l-margin-l2 l-margin-r0'
-      icon='arrow-back'
-      on-tap='{{onCloseSearch}}'
-    )
-    paper-input#searchInput(
-      flex
-      class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-      inputValue='{{searchText}}'
-    )
-    template(if='{{searchText}}')
-      paper-icon-button(
-        class='l-margin-l0 l-margin-r2'
-        icon='close'
-        on-tap='{{onClearSearch}}'
-      )
+              core-icon(
+                class='c-gray-lighter l-margin-l1 l-margin-r2'
+                icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
+                        : searchResult.config.type === "users" ? "github:person" \
+                        : "github:star" ]]'
+              )
+              | [[searchResult.name]]
+              //- paper-icon-button(class='c-gray-lightest' icon='bookmark')

@@ -2,10 +2,14 @@
 +import('../../bower_components/firebase-element/firebase-login.html')
 
 +polymer-element()(nocss)
-  firebase-login#fbLogin(
-    provider='github'
-    params='{"rememberMe": true}'
-    location='https://ticker-test.firebaseio.com'
-    user='{{fbUser}}'
-    statusKnown='{{statusKnown}}'
-  )
+  style.
+    :host{display:none;}
+
+  template(if='{{!data.user}}')
+    firebase-login#fbLogin(
+      provider='github'
+      params='{"rememberMe": true}'
+      location='https://ticker-test.firebaseio.com'
+      user='{{fbUser}}'
+      statusKnown='{{statusKnown}}'
+    )

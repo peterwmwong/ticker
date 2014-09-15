@@ -25,6 +25,7 @@ EventStream.create($=>{
           array.$replace(
             users.map(user=>
               GithubEventStream.load({
+                type: 'github',
                 id: user.id,
                 config: {
                   type: 'users',
