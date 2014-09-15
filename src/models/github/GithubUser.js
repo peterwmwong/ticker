@@ -7,8 +7,9 @@ GithubUser.create($=>{
 
   $.attr('avatarUrl',  'string');
   $.attr('gravatarId', 'string');
-  $.attr('login',       'string');
-  $.attr('url',         'string');
+  $.attr('login',      'string');
+  $.attr('url',        'string');
+  $.attr('score',      'number');
 });
 
 export default GithubUser;

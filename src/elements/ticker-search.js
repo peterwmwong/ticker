@@ -12,7 +12,7 @@ Polymer('ticker-search',{
     this.job('search',()=>{
       if(this.searchText)
         this.searchResults = EventStream.query({term:this.searchText});
-    },100);
+    }, 500);
   },
 
   // Event Handlers
