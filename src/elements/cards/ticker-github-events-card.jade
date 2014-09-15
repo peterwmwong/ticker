@@ -36,7 +36,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
                                                          : "c-error-light"   ]] \
                l-margin-r3'
         icon='github:git-pull-request')
-      span(flex class='t-normal') [[payload.pullRequest.title]]
+      | [[payload.pullRequest.title]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.pullRequest.body]]')
@@ -56,13 +56,11 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(if='[[payload.refType === "repository"]]')
         ticker-github-repo(repo='[[repo.name]]')
       template(if='[[payload.refType !== "repository"]]')
-        span(flex class='t-normal') [[payload.ref]]
+        | [[payload.ref]]
 
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
-      | {{ (type == 'CreateEvent') ? 'created' : 'deleted' }}
-      | this [[ payload.refType ]]
-
+      | [[ (type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.refType ]]
 
   template#CreateEvent
     template(ref='CreateOrDeleteEvent' bind='[[]]')
@@ -79,7 +77,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
                l-margin-r3'
         icon='github:git-pull-request'
       )
-      span(flex class='t-normal') [[payload.pullRequest.title]]
+      | [[payload.pullRequest.title]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
@@ -95,7 +93,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         icon='[[payload.issue.pullRequest ? "github:git-pull-request" \
                                           : "github:issue-opened"     ]]'
       )
-      span(flex class='t-normal') [[payload.issue.title]]
+      | [[payload.issue.title]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
@@ -110,7 +108,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
                l-margin-r3'
         icon='github:issue-[[payload.action]]'
       )
-      span(flex class='t-normal t-word-wrap-break-word') [[payload.issue.title]]
+      | [[payload.issue.title]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       p(flex)
@@ -122,8 +120,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
     template(ref='CardTitle' bind='[[]]')
     .subject
       core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
-      span(flex class='t-normal t-word-wrap-break-word t-truncate')
-        | [[payload.comment.commitId]]
+      | [[payload.comment.commitId]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
       template(ref='Comment' bind='[[payload.comment.body]]')
@@ -168,10 +165,12 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
   template#GollumEvent
     template(ref='CardTitle' bind='[[]]')
+    .subject
+      core-icon(class='c-gray-light l-margin-r3' icon='github:book')
+      | [[payload.pages[0].title]]
     .action
       ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
-      core-icon(class='c-confirm l-margin-r3' icon='github:book')
-      span(class='t-normal') [[payload.pages[0].title]]
+      | edited this wiki page
 
   template(repeat='{{data in events}}')
     //- div.c-gray-dark.l-margin-l2.l-margin-v4.l-margin-b2.t-normal [[data.type]]
