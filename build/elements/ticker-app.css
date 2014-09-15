@@ -13,10 +13,21 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
+paper-fab {
+  position: fixed;
+  top: 100px;
+  right: 36px;
+  color: white; }
+
+core-header-panel /deep/ #dropShadow {
+  display: none; }
+
+core-drawer-panel[narrow] paper-fab {
+  top: auto;
+  right: 16px;
+  bottom: 16px; }
 core-drawer-panel[narrow] core-header-panel[drawer] {
   background: white; }
-core-drawer-panel[narrow] .ticker-app__content {
-  padding-top: 4px; }
 core-drawer-panel[narrow] ticker-github-events-card {
   margin-right: 0; }
 

@@ -47,6 +47,86 @@ System.register("elements/cards/ticker-github-repo", [], function($__export) {
     }
   };
 });
+System.register("elements/ticker-app", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-app";
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-app', {
+        selectedEventStream: null,
+        isSearching: false,
+        searchText: '',
+        events: [],
+        observe: {'$.session.data.user': 'onUserChanged'},
+        isEventStreamFavorited: function(item) {
+          return this.$.session.data && this.$.session.data.user.eventStreams && (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
+        },
+        onUserChanged: function(_, user) {
+          if (user) {
+            if (user.eventStreams.length)
+              this.selectEventStream(user.eventStreams[0], 0);
+            else
+              this.isSearching = true;
+          }
+        },
+        selectEventStream: function(newSelectedEventStream, renderDelay) {
+          var $__1 = this;
+          if (newSelectedEventStream) {
+            this.$.content.style.opacity = 0;
+            setTimeout((function() {
+              newSelectedEventStream.events().$promise.then((function(events) {
+                $__1.events = events;
+                $__1.$.content.scrollTop = 0;
+                $__1.$.content.style.opacity = 1;
+              }));
+            }), renderDelay);
+            this.selectedEventStream = newSelectedEventStream;
+            this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newSelectedEventStream);
+          }
+        },
+        onToggleFavoriteEventStream: function(event) {
+          var user = this.$.session.data && this.$.session.data.user;
+          if (this.selectedEventStream && user && user.eventStreams) {
+            if (this.isEventStreamFavorited(this.selectedEventStream)) {
+              user.removeEventStreams(this.selectedEventStream);
+              this.isSelectedEventStreamFavorited = false;
+            } else {
+              user.addEventStreams(this.selectedEventStream);
+              this.isSelectedEventStreamFavorited = true;
+            }
+            user.$save();
+          }
+        },
+        onLogin: function() {
+          this.$.session.login();
+        },
+        onCloseSearch: function() {
+          this.isSearching = false;
+        },
+        onSearchSelect: function(event, selectedEventStream) {
+          this.selectEventStream(selectedEventStream, 0);
+          this.onCloseSearch();
+        },
+        onSelectSearch: function() {
+          this.isSearching = true;
+          this.$.drawerPanel.closeDrawer();
+        },
+        onSelectEventStream: function(event) {
+          this.$.drawerPanel.closeDrawer();
+          this.isSearching = false;
+          this.selectEventStream(event.target.templateInstance.model.eventStream, 450);
+        },
+        onOpenDrawer: function() {
+          this.$.drawerPanel.openDrawer();
+        },
+        onRefresh: function() {
+          this.events = this.selectedEventStream.events();
+        }
+      });
+    }
+  };
+});
 System.register("helpers/is", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/is";
@@ -353,9 +433,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       hasManyRemove.call(this, desc, [model], false);
   }
   function hasOneSet(desc, v, sync) {
-    var $__16 = desc,
-        name = $__16.name,
-        inverse = $__16.inverse;
+    var $__17 = desc,
+        name = $__17.name,
+        inverse = $__17.inverse;
     var key = ("__" + name + "__");
     var prev = this[key];
     if (v)
@@ -369,16 +449,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       inverseAdded.call(v, inverse, this);
   }
   function hasManySet(desc, a) {
-    var $__1 = this;
+    var $__2 = this;
     var name = desc.name;
     var prev = this[name];
     a.forEach(checkAssociatedType.bind(this, desc));
     if (desc.inverse) {
       prev.forEach((function(x) {
-        return inverseRemoved.call(x, desc.inverse, $__1);
+        return inverseRemoved.call(x, desc.inverse, $__2);
       }));
       a.forEach((function(x) {
-        return inverseAdded.call(x, desc.inverse, $__1);
+        return inverseAdded.call(x, desc.inverse, $__2);
       }));
     }
     this[("__" + desc.name + "__")] = a;
@@ -386,30 +466,30 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       setChange.call(this, name, prev);
   }
   function hasManyAdd(desc, models, sync) {
-    var $__1 = this;
+    var $__2 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      checkAssociatedType.call($__1, desc, m);
+      checkAssociatedType.call($__2, desc, m);
       if (sync && desc.inverse)
-        inverseAdded.call(m, desc.inverse, $__1);
-      $__1[name].push(m);
+        inverseAdded.call(m, desc.inverse, $__2);
+      $__2[name].push(m);
     }));
     if (desc.owner && this.$isLoaded)
       setChange.call(this, name, prev);
   }
   function hasManyRemove(desc, models, sync) {
-    var $__1 = this;
+    var $__2 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      var i = $__1[name].indexOf(m);
+      var i = $__2[name].indexOf(m);
       if (i >= 0) {
         if (sync && desc.inverse)
-          inverseRemoved.call(m, desc.inverse, $__1);
-        $__1[name].splice(i, 1);
-        if (desc.owner && $__1.$isLoaded)
-          setChange.call($__1, name, prev);
+          inverseRemoved.call(m, desc.inverse, $__2);
+        $__2[name].splice(i, 1);
+        if (desc.owner && $__2.$isLoaded)
+          setChange.call($__2, name, prev);
       }
     }));
   }
@@ -456,21 +536,25 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       $query: {
         value: function() {
           for (var args = [],
-              $__7 = 0; $__7 < arguments.length; $__7++)
-            args[$__7] = arguments[$__7];
-          var $__1 = this;
+              $__8 = 0; $__8 < arguments.length; $__8++)
+            args[$__8] = arguments[$__8];
+          var $__2 = this;
           if (isBusy) {
             queued = args;
           } else {
             isBusy = true;
             promise = ensurePromise(klass.mapper.query.apply(this, $traceurRuntime.spread([this], args)), '$query').then((function() {
-              return $__1;
-            }), (function() {})).then((function(result) {
-              var $__17;
+              var $__18;
               isBusy = false;
               if (queued)
-                ($__17 = $__1).$query.apply($__17, $traceurRuntime.spread(queued));
-              return result;
+                ($__18 = $__2).$query.apply($__18, $traceurRuntime.spread(queued));
+              return $__2;
+            }), (function(error) {
+              var $__18;
+              isBusy = false;
+              if (queued)
+                ($__18 = $__2).$query.apply($__18, $traceurRuntime.spread(queued));
+              throw error;
             }));
           }
           return this;
@@ -481,8 +565,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       },
       $replace: {
         value: function(a) {
-          var $__17;
-          ($__17 = this).splice.apply($__17, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
+          var $__18;
+          ($__18 = this).splice.apply($__18, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
           return this;
         },
         enumerable: false,
@@ -492,46 +576,51 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     });
   }
   function mapperGet(model) {
-    var $__17;
-    for (var args = [],
-        $__7 = 1; $__7 < arguments.length; $__7++)
-      args[$__7 - 1] = arguments[$__7];
-    model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).get.apply($__17, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
-      model.__$sourceState__ = LOADED;
-    }), (function() {
-      if (model.__$sourceState__ === EMPTY)
-        model.__$sourceState__ = NOTFOUND;
-    })).then((function() {
-      model.__$isBusy__ = false;
-    }));
-    return model;
-  }
-  function mapperCreate(model) {
-    var $__17;
+    var $__18;
     for (var args = [],
         $__8 = 1; $__8 < arguments.length; $__8++)
       args[$__8 - 1] = arguments[$__8];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).create.apply($__17, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
+    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).get.apply($__18, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
       model.__$sourceState__ = LOADED;
-      return model;
-    }), (function() {})).then((function() {
       model.__$isBusy__ = false;
       return model;
+    }), (function(error) {
+      if (model.__$sourceState__ === EMPTY)
+        model.__$sourceState__ = NOTFOUND;
+      model.__$isBusy__ = false;
+      throw error;
     }));
     return model;
   }
-  function mapperUpdate(model) {
-    var $__17;
+  function mapperCreate(model) {
+    var $__18;
     for (var args = [],
         $__9 = 1; $__9 < arguments.length; $__9++)
       args[$__9 - 1] = arguments[$__9];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__17 = model.constructor.mapper).update.apply($__17, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
+    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).create.apply($__18, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
+      model.__$sourceState__ = LOADED;
+      model.__$isBusy__ = false;
       return model;
-    }), (function() {})).then((function() {
-      return model.__$isBusy__ = false;
+    }), (function(error) {
+      model.__$isBusy__ = false;
+      throw error;
+    }));
+    return model;
+  }
+  function mapperUpdate(model) {
+    var $__18;
+    for (var args = [],
+        $__10 = 1; $__10 < arguments.length; $__10++)
+      args[$__10 - 1] = arguments[$__10];
+    model.__$isBusy__ = true;
+    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).update.apply($__18, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
+      model.__$isBusy__ = false;
+      return model;
+    }), (function(error) {
+      model.__$isBusy__ = false;
+      throw error;
     }));
     return model;
   }
@@ -541,9 +630,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     model.__$isBusy__ = false;
     setPristine.call(model);
     var associations = model.constructor.associations();
-    for (var $__3 = Object.keys(associations)[Symbol.iterator](),
-        $__4; !($__4 = $__3.next()).done; ) {
-      var name = $__4.value;
+    for (var $__4 = Object.keys(associations)[Symbol.iterator](),
+        $__5; !($__5 = $__4.next()).done; ) {
+      var name = $__5.value;
       {
         var desc = associations[name];
         var m = model[name];
@@ -560,19 +649,17 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperDelete(model) {
-    var $__17;
+    var $__18;
     for (var args = [],
-        $__10 = 1; $__10 < arguments.length; $__10++)
-      args[$__10 - 1] = arguments[$__10];
+        $__11 = 1; $__11 < arguments.length; $__11++)
+      args[$__11 - 1] = arguments[$__11];
     model.__$isBusy__ = true;
-    model.__$promise__ = ($__17 = model.constructor.mapper).delete.apply($__17, $traceurRuntime.spread([model], args));
-    ensurePromise(model.__$promise__, 'mapperDelete');
-    model.__$promise__.then((function() {
-      return mapperDeleteSuccess(model);
-    }), (function() {
-      return undefined;
-    })).then((function() {
-      return model.__$isBusy__ = false;
+    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).delete.apply($__18, $traceurRuntime.spread([model], args)), 'mapperDelete').then((function() {
+      model.__$isBusy__ = false;
+      mapperDeleteSuccess(model);
+    }), (function(error) {
+      model.__$isBusy__ = false;
+      throw error;
     }));
     return model;
   }
@@ -669,9 +756,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
               if (desc.owner) {
                 var assoc = this[desc.name];
                 if (desc.type === 'hasMany') {
-                  for (var $__3 = assoc[Symbol.iterator](),
-                      $__4; !($__4 = $__3.next()).done; ) {
-                    var o = $__4.value;
+                  for (var $__4 = assoc[Symbol.iterator](),
+                      $__5; !($__5 = $__4.next()).done; ) {
+                    var o = $__5.value;
                     if (o.$hasChanges())
                       return true;
                   }
@@ -704,16 +791,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $get: function() {
             for (var args = [],
-                $__11 = 0; $__11 < arguments.length; $__11++)
-              args[$__11] = arguments[$__11];
+                $__12 = 0; $__12 < arguments.length; $__12++)
+              args[$__12] = arguments[$__12];
             if ((!this.$isLoaded && !this.$isEmpty) || this.$isBusy)
               throw (this.$className() + "#$get: cannot get a model in the " + this.$stateString() + " state: " + this);
             return mapperGet.apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
           },
           $save: function() {
             for (var args = [],
-                $__12 = 0; $__12 < arguments.length; $__12++)
-              args[$__12] = arguments[$__12];
+                $__13 = 0; $__13 < arguments.length; $__13++)
+              args[$__13] = arguments[$__13];
             if ((!this.$isNew && !this.$isLoaded) || this.$isBusy)
               throw (this.$className() + "#$save: cannot save a model in the " + this.$stateString() + " state: " + this);
             (this.$isNew ? mapperCreate : mapperUpdate).apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
@@ -721,8 +808,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $delete: function() {
             for (var args = [],
-                $__13 = 0; $__13 < arguments.length; $__13++)
-              args[$__13] = arguments[$__13];
+                $__14 = 0; $__14 < arguments.length; $__14++)
+              args[$__14] = arguments[$__14];
             if (this.$isDeleted)
               return this;
             if (this.$isBusy)
@@ -870,14 +957,14 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             });
             this.prototype[("add" + cap)] = function() {
               for (var args = [],
-                  $__14 = 0; $__14 < arguments.length; $__14++)
-                args[$__14] = arguments[$__14];
+                  $__15 = 0; $__15 < arguments.length; $__15++)
+                args[$__15] = arguments[$__15];
               hasManyAdd.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("remove" + cap)] = function() {
               for (var args = [],
-                  $__15 = 0; $__15 < arguments.length; $__15++)
-                args[$__15] = arguments[$__15];
+                  $__16 = 0; $__16 < arguments.length; $__16++)
+                args[$__16] = arguments[$__16];
               hasManyRemove.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("clear" + cap)] = function() {
@@ -953,15 +1040,15 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
                 } else if (type === 'hasMany') {
                   var others = [],
                       o;
-                  for (var $__3 = data[Symbol.iterator](),
-                      $__4; !($__4 = $__3.next()).done; ) {
-                    o = $__4.value;
+                  for (var $__4 = data[Symbol.iterator](),
+                      $__5; !($__5 = $__4.next()).done; ) {
+                    o = $__5.value;
                     others.push(typeof o === 'object' ? klass.load(o) : IDMap.get(klass, o) || klass.empty(o));
                   }
                   model[name] = others;
-                  for (var $__5 = others[Symbol.iterator](),
-                      $__6; !($__6 = $__5.next()).done; ) {
-                    o = $__6.value;
+                  for (var $__6 = others[Symbol.iterator](),
+                      $__7; !($__7 = $__6.next()).done; ) {
+                    o = $__7.value;
                     setPristine.call(o);
                   }
                 }
@@ -973,17 +1060,17 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             return model;
           },
           loadAll: function(objects) {
-            var $__1 = this;
+            var $__2 = this;
             return objects.map((function(o) {
-              return $__1.load(o);
+              return $__2.load(o);
             }));
           },
           query: function() {
-            var $__17;
+            var $__18;
             for (var args = [],
-                $__14 = 0; $__14 < arguments.length; $__14++)
-              args[$__14] = arguments[$__14];
-            return ($__17 = this.buildQuery()).$query.apply($__17, $traceurRuntime.spread(args));
+                $__15 = 0; $__15 < arguments.length; $__15++)
+              args[$__15] = arguments[$__15];
+            return ($__18 = this.buildQuery()).$query.apply($__18, $traceurRuntime.spread(args));
           },
           buildQuery: function() {
             return buildQueryArray(this);
@@ -1006,8 +1093,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           extend: function() {
             for (var args = [],
-                $__15 = 0; $__15 < arguments.length; $__15++)
-              args[$__15] = arguments[$__15];
+                $__16 = 0; $__16 < arguments.length; $__16++)
+              args[$__16] = arguments[$__16];
             return extendMany(this, args);
           }
         });
@@ -1127,8 +1214,8 @@ System.register("helpers/load", ["./is"], function($__export) {
     });
   }
   function loadJSON(url) {
-    return loadResource("json", url).then(function($__18) {
-      var response = $__18.response;
+    return loadResource("json", url).then(function($__19) {
+      var response = $__19.response;
       if (!response)
         throw new Error("Not found");
       return is.aString(response) ? JSON.parse(response) : response;
@@ -1146,11 +1233,11 @@ System.register("helpers/load", ["./is"], function($__export) {
 });
 System.register("models/github/GithubEventMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
   "use strict";
-  var $__20;
+  var $__21;
   var __moduleName = "models/github/GithubEventMapper";
   var AttrMunger,
       loadJSON;
-  return ($__20 = {}, Object.defineProperty($__20, "setters", {
+  return ($__21 = {}, Object.defineProperty($__21, "setters", {
     value: [function(m) {
       AttrMunger = m.default;
     }, function(m) {
@@ -1159,14 +1246,14 @@ System.register("models/github/GithubEventMapper", ["helpers/AttrMunger", "helpe
     configurable: true,
     enumerable: true,
     writable: true
-  }), Object.defineProperty($__20, "execute", {
+  }), Object.defineProperty($__21, "execute", {
     value: function() {
-      var $__20;
-      $__export('default', ($__20 = {}, Object.defineProperty($__20, "query", {
-        value: (function(array, $__21) {
-          var $__22 = $__21,
-              type = $__22.type,
-              typeRef = $__22[type];
+      var $__21;
+      $__export('default', ($__21 = {}, Object.defineProperty($__21, "query", {
+        value: (function(array, $__22) {
+          var $__23 = $__22,
+              type = $__23.type,
+              typeRef = $__23[type];
           return (loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events"))).then((function(data) {
             return array.$replace(array.$class.loadAll(AttrMunger.camelize(data)));
           }));
@@ -1174,12 +1261,12 @@ System.register("models/github/GithubEventMapper", ["helpers/AttrMunger", "helpe
         configurable: true,
         enumerable: true,
         writable: true
-      }), $__20));
+      }), $__21));
     },
     configurable: true,
     enumerable: true,
     writable: true
-  }), $__20);
+  }), $__21);
 });
 System.register("models/github/GithubRepo", ["../../helpers/model/Model"], function($__export) {
   "use strict";
@@ -1217,8 +1304,8 @@ System.register("models/github/GithubUserMapper", ["helpers/AttrMunger", "helper
       loadJSON = m.loadJSON;
     }],
     execute: function() {
-      $__export('default', {query: (function(array, $__23) {
-          var q = $__23.q;
+      $__export('default', {query: (function(array, $__24) {
+          var q = $__24.q;
           return (loadJSON(("https://api.github.com/search/users?q=" + q))).then((function(data) {
             return (data && data.items) && array.$replace(array.$class.loadAll(AttrMunger.camelize(data.items)));
           }));
@@ -1324,16 +1411,19 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
           events: function() {
             throw 'Implement me';
           }
-        }, {}, $__super);
+        }, {load: function(attrs) {
+            return Model.load.call((attrs.type === 'github' ? GithubEventStream : EventStream), attrs);
+          }}, $__super);
       }(Model));
       EventStream.create((function($) {
         $.attr('type', 'string');
         $.attr('config', 'identity');
-        $.mapper = {query: (function(array, $__26) {
-            var term = $__26.term;
+        $.mapper = {query: (function(array, $__27) {
+            var term = $__27.term;
             return GithubUser.query({q: term}).$promise.then((function(users) {
               return array.$replace(users.map((function(user) {
                 return GithubEventStream.load({
+                  type: 'github',
                   id: user.id,
                   config: {
                     type: 'users',
@@ -1361,6 +1451,40 @@ System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/M
     }
   };
 });
+System.register("elements/ticker-search", ["../models/EventStream"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-search";
+  var EventStream;
+  return {
+    setters: [function(m) {
+      EventStream = m.default;
+    }],
+    execute: function() {
+      Polymer('ticker-search', {
+        searchText: '',
+        results: [],
+        suggestions: [],
+        searchTextChanged: function(_, searchText) {
+          var $__29 = this;
+          this.job('search', (function() {
+            if ($__29.searchText)
+              $__29.searchResults = EventStream.query({term: $__29.searchText});
+          }), 100);
+        },
+        onClearSearch: function() {
+          this.searchText = '';
+          this.searchResults = [];
+        },
+        onCloseSearch: function() {
+          this.fire('ticker-search-close');
+        },
+        onSearchResultSelected: function(event) {
+          this.fire('ticker-search-select', event.target.templateInstance.model.searchResult);
+        }
+      });
+    }
+  };
+});
 System.register("models/User", ["../helpers/model/Model", "./EventStream"], function($__export) {
   "use strict";
   var __moduleName = "models/User";
@@ -1378,171 +1502,103 @@ System.register("models/User", ["../helpers/model/Model", "./EventStream"], func
         var User = function User() {
           $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
         };
-        return ($traceurRuntime.createClass)(User, {eventStreams: function() {
-            return EventStream.query();
-          }}, {}, $__super);
+        return ($traceurRuntime.createClass)(User, {}, {}, $__super);
       }(Model));
       User.create((function($) {
-        $.attr('login', 'string');
-        $.attr('name', 'string');
+        $.mapper = {
+          update: (function(user) {
+            return new Promise((function(resolve, reject) {
+              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).set({
+                id: user.id,
+                eventStreams: user.eventStreams.map((function(es) {
+                  return es.$attrs();
+                }))
+              }, (function(error) {
+                if (error)
+                  reject(error);
+                else
+                  resolve(user);
+              }));
+            }));
+          }),
+          create: (function(user) {
+            return new Promise((function(resolve, reject) {
+              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).set({
+                id: user.id,
+                eventStreams: user.eventStreams.map((function(es) {
+                  return es.$attrs();
+                }))
+              }, (function(error) {
+                if (error)
+                  reject(error);
+                else
+                  resolve(user);
+              }));
+            }));
+          }),
+          get: (function(user) {
+            return new Promise((function(resolve, reject) {
+              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).once('value', (function(data) {
+                var val = data.val();
+                if (val)
+                  resolve(user.$load(val));
+                else
+                  reject("Couldn't find User");
+              }));
+            }));
+          })
+        };
         $.hasMany('eventStreams', 'EventStream');
       }));
       $__export('default', User);
     }
   };
 });
-System.register("helpers/session", ["../models/User", "../models/EventStream"], function($__export) {
+System.register("elements/ticker-session", ["../models/User", "../models/EventStream"], function($__export) {
   "use strict";
-  var $__29;
-  var __moduleName = "helpers/session";
+  var __moduleName = "elements/ticker-session";
   var User,
-      GithubEventStream,
-      mockGithubES,
-      MOCKUSER;
-  return ($__29 = {}, Object.defineProperty($__29, "setters", {
-    value: [function(m) {
+      EventStream,
+      data;
+  return {
+    setters: [function(m) {
       User = m.default;
     }, function(m) {
-      GithubEventStream = m.GithubEventStream;
-    }],
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), Object.defineProperty($__29, "execute", {
-    value: function() {
-      mockGithubES = (function() {
-        var nextId = 1;
-        return (function(type, value) {
-          var $__29,
-              $__30;
-          return GithubEventStream.load(($__30 = {}, Object.defineProperty($__30, "id", {
-            value: nextId++,
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), Object.defineProperty($__30, "type", {
-            value: 'github',
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), Object.defineProperty($__30, "config", {
-            value: ($__29 = {}, Object.defineProperty($__29, "type", {
-              value: type,
-              configurable: true,
-              enumerable: true,
-              writable: true
-            }), Object.defineProperty($__29, type, {
-              value: value,
-              configurable: true,
-              enumerable: true,
-              writable: true
-            }), $__29),
-            configurable: true,
-            enumerable: true,
-            writable: true
-          }), $__30));
-        });
-      })();
-      MOCKUSER = User.load({
-        id: 1,
-        login: 'peterwmwong',
-        name: 'Peter Wong'
-      });
-      MOCKUSER.addEventStreams(mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react'));
-      $__export('default', {user: MOCKUSER});
-    },
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), $__29);
-});
-System.register("elements/ticker-app", ["../helpers/session"], function($__export) {
-  "use strict";
-  var __moduleName = "elements/ticker-app";
-  var session;
-  return {
-    setters: [function(m) {
-      session = m.default;
-    }],
-    execute: function() {
-      Polymer('ticker-app', {
-        selectedEventStream: null,
-        isSearching: false,
-        searchText: '',
-        events: [],
-        session: session,
-        ready: function() {
-          this.selectEventStream(session.user.eventStreams[0], 0);
-        },
-        selectEventStream: function(newSelectedEventStream, renderDelay) {
-          var $__31 = this;
-          if (newSelectedEventStream) {
-            this.$.content.style.opacity = 0;
-            setTimeout((function() {
-              newSelectedEventStream.events().$promise.then((function(events) {
-                $__31.events = events;
-                $__31.$.content.scrollTop = 0;
-                $__31.$.content.style.opacity = 1;
-              }));
-            }), renderDelay);
-            this.selectedEventStream = newSelectedEventStream;
-          }
-        },
-        onCloseSearch: function() {
-          this.isSearching = false;
-        },
-        onSearchSelect: function(event, selectedEventStream) {
-          this.selectEventStream(selectedEventStream, 0);
-          this.onCloseSearch();
-        },
-        onSelectSearch: function() {
-          this.isSearching = true;
-          this.$.drawerPanel.closeDrawer();
-        },
-        onSelectEventStream: function(event) {
-          this.$.drawerPanel.closeDrawer();
-          this.isSearching = false;
-          this.selectEventStream(event.target.templateInstance.model.eventStream, 450);
-        },
-        onOpenDrawer: function() {
-          this.$.drawerPanel.openDrawer();
-        },
-        onRefresh: function() {
-          this.events = this.selectedEventStream.events();
-        }
-      });
-    }
-  };
-});
-System.register("elements/ticker-search", ["../models/EventStream"], function($__export) {
-  "use strict";
-  var __moduleName = "elements/ticker-search";
-  var EventStream;
-  return {
-    setters: [function(m) {
       EventStream = m.default;
     }],
     execute: function() {
-      Polymer('ticker-search', {
-        searchText: '',
-        results: [],
-        suggestions: [],
-        searchTextChanged: function(_, searchText) {
-          var $__32 = this;
-          this.job('search', (function() {
-            if ($__32.searchText)
-              $__32.searchResults = EventStream.query({term: $__32.searchText});
-          }), 100);
+      data = {
+        accessTokens: {},
+        user: undefined
+      };
+      Polymer('ticker-session', {
+        fbUserDataReady: false,
+        data: data,
+        login: function() {
+          this.$.fbLogin.login();
         },
-        onClearSearch: function() {
-          this.searchText = '';
-          this.searchResults = [];
+        logout: function() {
+          this.$.fbLogin.logout();
         },
-        onCloseSearch: function() {
-          this.fire('ticker-search-close');
-        },
-        onSearchResultSelected: function(event) {
-          this.fire('ticker-search-select', event.target.templateInstance.model.searchResult);
+        fbUserChanged: function(_, fbUser) {
+          if (fbUser) {
+            data.accessTokens.github = fbUser.accessToken;
+            User.get(fbUser.id).$promise.catch((function(error) {
+              return new User({
+                id: fbUser.id,
+                eventStreams: [new EventStream({
+                  id: '1',
+                  type: 'github',
+                  config: {
+                    type: 'users',
+                    users: 'peterwmwong'
+                  }
+                })]
+              }).$save().$promise;
+            })).then((function(user) {
+              return data.user = user;
+            }));
+          }
         }
       });
     }
@@ -1577,32 +1633,97 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__33 = 1; $__33 < arguments.length; $__33++)
-            args[$__33 - 1] = arguments[$__33];
+              $__30 = 1; $__30 < arguments.length; $__30++)
+            args[$__30 - 1] = arguments[$__30];
         },
         get: function(model) {
           for (var args = [],
-              $__34 = 1; $__34 < arguments.length; $__34++)
-            args[$__34 - 1] = arguments[$__34];
+              $__31 = 1; $__31 < arguments.length; $__31++)
+            args[$__31 - 1] = arguments[$__31];
         },
         create: function(model) {
           for (var args = [],
-              $__35 = 1; $__35 < arguments.length; $__35++)
-            args[$__35 - 1] = arguments[$__35];
+              $__32 = 1; $__32 < arguments.length; $__32++)
+            args[$__32 - 1] = arguments[$__32];
         },
         update: function(model) {
           for (var args = [],
-              $__36 = 1; $__36 < arguments.length; $__36++)
-            args[$__36 - 1] = arguments[$__36];
+              $__33 = 1; $__33 < arguments.length; $__33++)
+            args[$__33 - 1] = arguments[$__33];
         },
         delete: function(model) {
           for (var args = [],
-              $__37 = 1; $__37 < arguments.length; $__37++)
-            args[$__37 - 1] = arguments[$__37];
+              $__34 = 1; $__34 < arguments.length; $__34++)
+            args[$__34 - 1] = arguments[$__34];
         }
       });
     }
   };
+});
+System.register("helpers/session", ["../models/User", "../models/EventStream"], function($__export) {
+  "use strict";
+  var $__35;
+  var __moduleName = "helpers/session";
+  var User,
+      GithubEventStream,
+      mockGithubES,
+      MOCKUSER;
+  return ($__35 = {}, Object.defineProperty($__35, "setters", {
+    value: [function(m) {
+      User = m.default;
+    }, function(m) {
+      GithubEventStream = m.GithubEventStream;
+    }],
+    configurable: true,
+    enumerable: true,
+    writable: true
+  }), Object.defineProperty($__35, "execute", {
+    value: function() {
+      mockGithubES = (function() {
+        var nextId = 1;
+        return (function(type, value) {
+          var $__35,
+              $__36;
+          return GithubEventStream.load(($__36 = {}, Object.defineProperty($__36, "id", {
+            value: nextId++,
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), Object.defineProperty($__36, "type", {
+            value: 'github',
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), Object.defineProperty($__36, "config", {
+            value: ($__35 = {}, Object.defineProperty($__35, "type", {
+              value: type,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            }), Object.defineProperty($__35, type, {
+              value: value,
+              configurable: true,
+              enumerable: true,
+              writable: true
+            }), $__35),
+            configurable: true,
+            enumerable: true,
+            writable: true
+          }), $__36));
+        });
+      })();
+      MOCKUSER = User.load({
+        id: 1,
+        login: 'peterwmwong',
+        name: 'Peter Wong'
+      });
+      MOCKUSER.addEventStreams(mockGithubES('users', 'polymer'), mockGithubES('repos', 'centro/centro-media-manager'), mockGithubES('users', 'googlewebcomponents'), mockGithubES('repos', 'google/traceur-compiler'), mockGithubES('users', 'arv'), mockGithubES('users', 'johnjbarton'), mockGithubES('users', 'guybedford'), mockGithubES('users', 'ebidel'), mockGithubES('users', 'addyosmani'), mockGithubES('users', 'esprehn'), mockGithubES('users', 'abarth'), mockGithubES('users', 'theefer'), mockGithubES('users', 'btford'), mockGithubES('users', 'tbosch'), mockGithubES('users', 'vojtajina'), mockGithubES('users', 'eisenbergeffect'), mockGithubES('repos', 'jscs-dev/node-jscs'), mockGithubES('repos', 'jshint/jshint'), mockGithubES('repos', 'facebook/react'));
+      $__export('default', {user: MOCKUSER});
+    },
+    configurable: true,
+    enumerable: true,
+    writable: true
+  }), $__35);
 });
 System.register("models/github/GithubComment", ["../../helpers/model/Model", "./GithubUser"], function($__export) {
   "use strict";

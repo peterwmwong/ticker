@@ -328,6 +328,8 @@ html /deep/ .l-display-inline-block {
   display: inline-block !important; }
 html /deep/ .l-display-block {
   display: block !important; }
+html /deep/ .l-overflow-hidden {
+  overflow: hidden !important; }
 html /deep/ .l-overflow-auto {
   overflow: auto !important; }
 html /deep/ .l-overflow-scroll-ios {

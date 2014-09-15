@@ -28,7 +28,7 @@
 
 .subject, .title {
   border-bottom: 1px solid #e7ebee;
-  background: rgba(248, 250, 250, 0.975); }
+  background: #f9fafb; }
 
 .title {
   align-items: baseline;
@@ -49,6 +49,6 @@
     border-bottom-style: none; }
 
 .action {
-  background: rgba(255, 255, 255, 0.975); }
+  background: white; }
   .action ticker-github-avatar {
     align-self: flex-start; }

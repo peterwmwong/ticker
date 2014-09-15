@@ -25,7 +25,6 @@
     margin-bottom: 0; }
 
 .content {
-  padding-top: 66px;
   line-height: 20px; }
 
 paper-input /deep/ #input {
