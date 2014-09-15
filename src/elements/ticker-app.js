@@ -1,15 +1,26 @@
-import session from '../helpers/session';
-
-Polymer('ticker-app',{
+Polymer('ticker-app', {
   selectedEventStream: null,
   isSearching: false,
   searchText: '',
   events: [],
-  session,
 
-  ready(){
-    // TODO(pwong): Store/retrieve the last viewed stream in localStorage
-    this.selectEventStream(session.user.eventStreams[0], 0);
+  observe: {
+    '$.session.data.user': 'onUserChanged'
+  },
+
+  isEventStreamFavorited(item){
+    return this.$.session.data &&
+            this.$.session.data.user.eventStreams &&
+            (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
+  },
+
+  onUserChanged(_, user){
+    if(user){
+      if(user.eventStreams.length)
+        this.selectEventStream(user.eventStreams[0], 0);
+      else
+        this.isSearching = true;
+    }
   },
 
   // Selects an EventStream and delays rendering of events by a specified amount.
@@ -30,15 +41,33 @@ Polymer('ticker-app',{
           this.$.content.style.opacity = 1;
         });
       }, renderDelay);
+
       this.selectedEventStream = newSelectedEventStream;
+      this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newSelectedEventStream);
     }
   },
 
-  // Change Handlers
-  // ===============
-
   // Event Handlers
   // ==============
+
+  onToggleFavoriteEventStream(event){
+    var user = this.$.session.data && this.$.session.data.user;
+    if(this.selectedEventStream && user && user.eventStreams){
+      if(this.isEventStreamFavorited(this.selectedEventStream)){
+        user.removeEventStreams(this.selectedEventStream);
+        this.isSelectedEventStreamFavorited = false;
+      }else{
+        user.addEventStreams(this.selectedEventStream);
+        this.isSelectedEventStreamFavorited = true;
+      }
+      user.$save();
+    }
+  },
+
+
+  onLogin(){
+    this.$.session.login();
+  },
 
   onCloseSearch(){
     this.isSearching = false;

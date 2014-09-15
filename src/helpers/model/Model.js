@@ -170,12 +170,18 @@ function buildQueryArray(klass) {
         }else{
           isBusy = true;
           promise = ensurePromise(klass.mapper.query.apply(this, [this, ...args]), '$query')
-            .then(()=>this,()=>{})
-            .then((result)=>{
-              isBusy = false;
-              if(queued) this.$query(...queued);
-              return result;
-            });
+            .then(
+              ()=>{
+                isBusy = false;
+                if(queued) this.$query(...queued);
+                return this;
+              },
+              (error)=>{
+                isBusy = false;
+                if(queued) this.$query(...queued);
+                throw error;
+              }
+            );
         }
         return this;
       },
@@ -200,12 +206,18 @@ function mapperGet(model, ...args) {
   model.__$promise__ =
     ensurePromise(model.constructor.mapper.get(model, ...args), 'mapperGet')
       .then(
-        ()=>{model.__$sourceState__ = LOADED;},
         ()=>{
+          model.__$sourceState__ = LOADED;
+          model.__$isBusy__ = false;
+          return model;
+        },
+        error=>{
           if(model.__$sourceState__ === EMPTY)
             model.__$sourceState__ = NOTFOUND;
-        })
-      .then(()=>{model.__$isBusy__=false;});
+          model.__$isBusy__=false;
+          throw error;
+        }
+      );
   return model;
 }
 
@@ -219,14 +231,14 @@ function mapperCreate(model, ...args){
       .then(
         ()=>{
           model.__$sourceState__ = LOADED;
+          model.__$isBusy__ = false;
           return model;
         },
-        ()=>{})
-      .then(()=>{
-        model.__$isBusy__ = false;
-        return model;
-      });
-
+        (error)=>{
+          model.__$isBusy__ = false;
+          throw error;
+        }
+      );
   return model;
 }
 
@@ -234,9 +246,16 @@ function mapperUpdate(model, ...args) {
   model.__$isBusy__ = true;
   model.__$promise__ =
     ensurePromise(model.constructor.mapper.update(model, ...args), 'mapperUpdate')
-      .then(()=>model,()=>{})
-      .then(()=>model.__$isBusy__ = false);
-
+      .then(
+        ()=>{
+          model.__$isBusy__ = false;
+          return model;
+        },
+        (error)=>{
+          model.__$isBusy__ = false;
+          throw error;
+        }
+      );
   return model;
 }
 
@@ -265,12 +284,18 @@ function mapperDeleteSuccess(model) {
 
 function mapperDelete(model, ...args){
   model.__$isBusy__ = true;
-  model.__$promise__ = model.constructor.mapper.delete(model, ...args);
-  ensurePromise(model.__$promise__, 'mapperDelete');
-  model.__$promise__
-    .then(()=>mapperDeleteSuccess(model),()=>undefined)
-    .then(()=>model.__$isBusy__ = false);
-
+  model.__$promise__ =
+    ensurePromise(model.constructor.mapper.delete(model, ...args), 'mapperDelete')
+      .then(
+        ()=>{
+          model.__$isBusy__ = false;
+          mapperDeleteSuccess(model);
+        },
+        (error)=>{
+          model.__$isBusy__ = false;
+          throw error;
+        }
+      );
   return model;
 }
 

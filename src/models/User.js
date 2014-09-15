@@ -1,16 +1,48 @@
 import Model from '../helpers/model/Model';
 import EventStream from './EventStream';
 
-class User extends Model {
-  eventStreams(){
-    // TODO(pwong): TEMPORARY! Will eventually hit a user/${user.id}/event-streams
-    return EventStream.query();
-  }
-}
+class User extends Model {}
 
 User.create($=>{
-  $.attr('login', 'string');
-  $.attr('name', 'string');
+  $.mapper = {
+    update: (user)=>
+      new Promise((resolve, reject)=>
+        new Firebase(`https://ticker-test.firebaseio.com/users/${user.id}`)
+          .set(
+            {
+              id: user.id,
+              eventStreams: user.eventStreams.map(es=>es.$attrs())
+            },
+            (error)=>{
+              if(error) reject(error);
+              else resolve(user);
+            }
+          )
+      ),
+    create: (user)=>
+      new Promise((resolve, reject)=>
+        new Firebase(`https://ticker-test.firebaseio.com/users/${user.id}`)
+          .set(
+            {
+              id: user.id,
+              eventStreams: user.eventStreams.map(es=>es.$attrs())
+            },
+            (error)=>{
+              if(error) reject(error);
+              else resolve(user);
+            }
+          )
+      ),
+    get: (user)=>
+      new Promise((resolve, reject)=>
+        new Firebase(`https://ticker-test.firebaseio.com/users/${user.id}`).
+          once('value', (data)=>{
+            var val = data.val();
+            if(val) resolve(user.$load(val));
+            else reject("Couldn't find User");
+          })
+      )
+  };
   $.hasMany('eventStreams','EventStream');
 });
 

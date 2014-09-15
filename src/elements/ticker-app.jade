@@ -1,35 +1,56 @@
-+import('../../bower_components/core-icons/core-icons.html')
 +import('../../bower_components/core-drawer-panel/core-drawer-panel.html')
 +import('../../bower_components/core-header-panel/core-header-panel.html')
++import('../../bower_components/core-icons/core-icons.html')
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/paper-icon-button/paper-icon-button.html')
++import('../../bower_components/paper-button/paper-button.html')
++import('../../../bower_components/paper-fab/paper-fab.html')
 +import('./cards/ticker-github-events-card.html')
 +import('./ticker-search.html')
++import('./ticker-session.html')
 
 +polymer-element
 
-  core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}')
+  ticker-session#session
+
+  template(if='{{!$.session.data.user}}')
+    //- TODO(pwong): Refactor styles... srsly...
+    div(class='c-bg-brand-primary-light l-padding-h4' style='padding-top: 84px')
+      div(class='c-white t-normal t-font-size-32')
+        | ticker
+        span(class='t-font-size-16')
+          | &nbsp; commits. pull requests. comments. tweets. forum posts.
+
+      //- Login panel
+      //- TODO(pwong): extract to seperate element
+      paper-button(
+        class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h2 l-padding-t1 t-normal t-font-size-16'
+        icon='github:octoface'
+        label='Login with GitHub'
+        on-tap='{{onLogin}}'
+      )
+
+  core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}' hidden?='{{!$.session.data.user}}')
     //- TODO(pwong): extract to seperate element
     core-header-panel(drawer mode='seamed')
       core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
         .bottom(
-          class='l-margin-l2 l-padding-t2 t-font-size-32 t-light'
+          class='l-margin-l2 l-padding-t2 t-font-size-32 t-normal'
         )
           | ticker
 
       .drawer
-        template(if='{{narrow}}')
-          .drawer__item(
-            class='{{ isSearching && "is-selected" }} \
-                   u-border-b1 c-border-gray-lightest'
-            on-tap='{{onSelectSearch}}'
-          )
-            core-icon.drawer__item__icon(icon='search')
-            | Search
+        .drawer__item(
+          class='{{ isSearching && "is-selected" }} \
+                 u-border-b1 c-border-gray-lighter'
+          on-tap='{{onSelectSearch}}'
+        )
+          core-icon.drawer__item__icon(icon='search')
+          | Search
 
-        template(repeat='{{eventStream, i in session.user.eventStreams}}')
+        template(repeat='{{eventStream, i in $.session.data.user.eventStreams}}')
           .drawer__item(
-            class='{{ { "is-selected": eventStream === selectedEventStream, \
+            class='{{ { "is-selected": (!isSearching && eventStream === selectedEventStream), \
                         "l-padding-t6": i == 0 } | tokenList }}'
             on-tap='{{onSelectEventStream}}'
           )
@@ -42,7 +63,13 @@
 
     core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
       #content.ticker-app__content(main fit class='l-padding-h2 l-overflow-scroll-ios')
-        ticker-github-events-card(block events='{{events}}')
+        template(if='{{selectedEventStream}}')
+          ticker-github-events-card(block events='{{events}}')
+          paper-fab(
+            on-tap='{{onToggleFavoriteEventStream}}'
+            icon="favorite"
+            class='{{isSelectedEventStreamFavorited ? "c-bg-confirm" : "c-bg-error"}}'
+          )
 
       template(if='{{!isSearching}}')
         core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
@@ -53,6 +80,7 @@
       template(if='{{isSearching}}')
         ticker-search(
           fit
+          isNarrow='{{narrow}}'
           on-ticker-search-close='{{onCloseSearch}}'
           on-ticker-search-select='{{onSearchSelect}}'
         )
