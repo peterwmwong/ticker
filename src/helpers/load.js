@@ -1,11 +1,12 @@
 import is from './is';
+import {data} from '../elements/ticker-session';
 
 export function loadResource(type, url, headers){
   headers = headers == null ? {} : headers;
   return new Promise(function(fulfill, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.setRequestHeader('Authorization', 'token cd3cc5d471d59d6dce0095cf33e7c7f1ddaf23e6');
+    xhr.setRequestHeader('Authorization', 'token '+data.accessTokens.github);
     xhr.responseType = type;
     xhr.send();
     xhr.onload  = ()=>fulfill(xhr);

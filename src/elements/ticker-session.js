@@ -1,7 +1,7 @@
 import User from '../models/User';
 import EventStream from '../models/EventStream';
 
-var data = {
+export var data = {
   // Map of service to access token
   accessTokens: {},
 
