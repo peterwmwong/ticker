@@ -27,7 +27,7 @@
         class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h2 l-padding-t1 t-normal t-font-size-16'
         icon='github:octoface'
         label='Login with GitHub'
-        on-tap='{{onLogin}}'
+        on-click='{{onLogin}}'
       )
 
   core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}' hidden?='{{!$.session.data.user}}')
