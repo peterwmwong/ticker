@@ -1,5 +1,5 @@
 import is from './is';
-import {data} from '../elements/ticker-session';
+import {data} from './session';
 
 export function loadResource(type, url, headers){
   headers = headers == null ? {} : headers;
