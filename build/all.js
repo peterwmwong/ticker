@@ -1676,14 +1676,7 @@ System.register("elements/ticker-session", ["../models/User", "../models/EventSt
             User.get(fbUser.id).$promise.catch((function(error) {
               return new User({
                 id: fbUser.id,
-                eventStreams: [new EventStream({
-                  id: '1',
-                  type: 'github',
-                  config: {
-                    type: 'users',
-                    users: 'peterwmwong'
-                  }
-                })]
+                eventStreams: []
               }).$save().$promise;
             })).then((function(user) {
               return data.user = user;
