@@ -41,11 +41,29 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(ref='Comment' bind='[[payload.pullRequest.body]]')
 
 
-  template#CreateOrDeleteEvent
-    template(if='[[payload.refType !== "repository"]]')
-      template(ref='CardTitle' bind='[[]]')
-
+  template#ReleaseEvent
+    template(ref='CardTitle' bind='[[]]')
     .subject
+      core-icon(
+        class='l-margin-r3'
+        icon='github:versions')
+      | [[payload.release.name]]
+    .action
+      ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+      | published this release
+
+
+  template#TeamAddEvent
+    template(ref='CardTitle' bind='[[]]')
+
+    .action
+      span(class='t-normal') [[payload.team.name]]
+      | &nbsp;team was added
+
+  template#CreateOrDeleteEvent
+    template(ref='CardTitle' bind='[[]]' if='[[payload.refType !== "repository"]]')
+
+    .subject(class='[[payload.refType === "repository" && "l-padding-t4"]]')
       core-icon(
         class='[[type === "CreateEvent" ? "c-confirm-light" \
                                         : "c-error-light"]] \
