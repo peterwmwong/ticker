@@ -1,10 +1,12 @@
 import AttrMunger from 'helpers/AttrMunger';
 import {loadJSON} from 'helpers/load';
-// import MOCKDATA from './GithubEventMapperMOCKDATA';
-// import MOCKDATA2 from './GithubEventMapperMOCKDATA2';
-// import MOCKDATA from './GithubEventMapperMOCKDATA-allEvents';
-// var MOCKDATA = [];
-// window.mockWat = true;
+
+
+// !!! <MOCKDATA> !!!
+  // import MOCKDATA from './GithubEventMapperMOCKDATA';
+  // import MOCKDATA from './GithubEventMapperMOCKDATA2';
+  // import MOCKDATA from './GithubEventMapperMOCKDATA-allEvents';
+// !!! </MOCKDATA> !!!
 
 export default {
   query:(array,{type, [type]:typeRef})=>
