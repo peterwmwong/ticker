@@ -50,7 +50,7 @@
                  u-border-b1 c-border-gray-lighter'
           on-tap='{{onSelectSearch}}'
         )
-          core-icon.drawer__item__icon(icon='search')
+          core-icon.drawer__item__icon(class='c-gray-light l-margin-r2' icon='search')
           | Search
 
         template(repeat='{{eventStream, i in $.session.data.user.eventStreams}}')
@@ -60,6 +60,7 @@
             on-tap='{{onSelectEventStream}}'
           )
             core-icon.drawer__item__icon(
+              class='c-gray-light l-margin-r2'
               icon='{{  eventStream.config.type === "repos" ? "github:repo"   \
                       : eventStream.config.type === "users" ? "github:person" \
                       : "github:star" }}'
@@ -67,7 +68,7 @@
             | {{eventStream.name}}
 
     core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
-      #content.ticker-app__content(main fit class='l-padding-h2 l-overflow-scroll-ios')
+      #content(main fit class='l-padding-h2 l-padding-t2 l-overflow-scroll-ios')
         template(if='{{selectedEventStream}}')
           ticker-github-events-card(block events='{{events}}')
           paper-fab(

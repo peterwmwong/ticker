@@ -43,19 +43,10 @@ core-drawer-panel[narrow] {
   &.is-selected {
     &,
     .drawer__item__icon {
-      font-weight: $font-weight-normal;
-      color: $gray-darker;
+      font-weight: $font-weight-normal !important;
+      color: $gray-darker !important;
     }
   }
-}
-
-.drawer__item__icon {
-  color: $gray-light;
-  margin-right: $base-width * 2;
-}
-
-.ticker-app__content {
-  padding-top: $baseline * 2;
 }
 
 .toolbar__title {
