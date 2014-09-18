@@ -30,7 +30,12 @@
         on-click='{{onLogin}}'
       )
 
-  core-drawer-panel#drawerPanel(drawerWidth='320px' narrow='{{narrow}}' hidden?='{{!$.session.data.user}}')
+  core-drawer-panel#drawerPanel(
+    disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
+    drawerWidth='320px'
+    narrow='{{narrow}}'
+    hidden?='{{!$.session.data.user}}'
+  )
     //- TODO(pwong): extract to seperate element
     core-header-panel(drawer mode='seamed')
       core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
