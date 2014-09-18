@@ -1,4 +1,8 @@
 Polymer('ticker-app', {
+  DRAWER_SWIPE_DISABLED: (
+    /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&
+      !/Chrome/.test(navigator.userAgent)
+  ),
   selectedEventStream: null,
   isSearching: false,
   searchText: '',
