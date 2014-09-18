@@ -54,6 +54,7 @@ System.register("elements/ticker-app", [], function($__export) {
     setters: [],
     execute: function() {
       Polymer('ticker-app', {
+        DRAWER_SWIPE_DISABLED: (/AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)),
         selectedEventStream: null,
         isSearching: false,
         searchText: '',
