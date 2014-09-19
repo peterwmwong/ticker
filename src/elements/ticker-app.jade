@@ -67,26 +67,26 @@
             )
             | {{eventStream.name}}
 
-    core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
-      #content(main fit class='l-padding-h2 l-padding-t2 l-overflow-scroll-ios')
-        template(if='{{selectedEventStream}}')
-          ticker-github-events-card(block events='{{events}}')
-          paper-fab(
-            on-tap='{{onToggleFavoriteEventStream}}'
-            icon="favorite"
-            class='{{isSelectedEventStreamFavorited ? "c-bg-confirm" : "c-bg-error"}}'
-          )
-
-      template(if='{{!isSearching}}')
+    template(if='{{!isSearching}}')
+      core-header-panel(main mode="{{narrow ? 'waterfall' : 'cover'}}")
+        #content(main fit class='l-padding-h2 l-padding-t2 l-overflow-scroll-ios')
+          template(if='{{selectedEventStream}}')
+            ticker-github-events-card(block events='{{events}}')
+            paper-fab(
+              on-tap='{{onToggleFavoriteEventStream}}'
+              icon="favorite"
+              class='{{isSelectedEventStreamFavorited ? "c-bg-confirm" : "c-bg-error"}}'
+            )
         core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
           template(if='{{narrow}}')
             paper-icon-button(class='l-margin-l2 l-margin-r0' icon='menu' on-tap='{{onOpenDrawer}}')
             span.toolbar__title(flex class='l-margin-l1 t-font-size-20 t-normal t-truncate') {{selectedEventStream.name}}
 
-      template(if='{{isSearching}}')
-        ticker-search(
-          fit
-          isNarrow='{{narrow}}'
-          on-ticker-search-close='{{onCloseSearch}}'
-          on-ticker-search-select='{{onSearchSelect}}'
-        )
+    template(if='{{isSearching}}')
+      ticker-search(
+        main
+        fit
+        isNarrow='{{narrow}}'
+        on-ticker-search-close='{{onCloseSearch}}'
+        on-ticker-search-select='{{onSearchSelect}}'
+      )
