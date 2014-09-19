@@ -1,3 +1,54 @@
+## Deep linking
+
+## Card Details
+
+### Detailed Views
+- Pull Request
+  * Info
+    - Name
+    - Author
+    - Description
+    - CI
+  * Comments
+  * Diff
+- Issue
+  * Info
+    - Name
+    - Author
+    - Description
+  * Comments
+- Repo  
+  * Info
+    - Name
+    - Owner
+    - Description
+  * Files
+- Commit
+  * Diff
+
+
+### Event to Detail mapping
+
+- Commit
+  - CommitCommentEvent
+  - PushEvent
+- PR
+  - PullRequestEvent
+  - PullRequestReviewCommentEvent
+- Issue
+  - IssueCommentEvent
+  - IssuesEvent
+- Repo
+
+  - GollumEvent
+
+  - WatchEvent
+  - ForkEvent
+  - CreateOrDeleteEvent
+  - ReleaseEvent
+  - TeamAddEvent
+
+
 ## [Style] Consider splitting up `_layouts.scss` (margin, padding, width, height)
 
 
