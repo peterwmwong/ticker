@@ -33,7 +33,7 @@ Polymer('ticker-app', {
   // TODO(pwong): Maybe do something like #drawerPanel(on-transitionend='{{loadEventStream}}')
   selectEventStream(newSelectedEventStream, renderDelay){
     if(newSelectedEventStream){
-      this.$.content.style.opacity = 0;
+      this.$.content.style.visibility = 'hidden';
       // TODO(pwong): This is is not optimal.  We'd like to kick off the request
       //              for events AND THEN delay.  This is in response to jank that
       //              is caused by the Model framework burning too many cycles
@@ -42,7 +42,7 @@ Polymer('ticker-app', {
         newSelectedEventStream.events().$promise.then((events)=>{
           this.events = events;
           this.$.content.scrollTop = 0;
-          this.$.content.style.opacity = 1;
+          this.$.content.style.visibility = 'visible';
         });
       }, renderDelay);
 
