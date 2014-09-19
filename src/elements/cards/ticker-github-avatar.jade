@@ -1,13 +1,16 @@
-+polymer-element(attributes='userid' nocss)
-  style.
-    :host {
-      width: {{size}}px;
-      height: {{size}}px;
-    }
-    img { border-radius: 10%; }
+polymer-element(name='ticker-github-avatar' attributes='userid')
+  template
+    style.
+      :host {
+        width: {{size}}px;
+        height: {{size}}px;
+      }
+      img { border-radius: 10%; }
 
-  img(
-    width="{{size}}"
-    height="{{size}}"
-    _src='{{"https://avatars2.githubusercontent.com/u/"+userid+"?v=2&s="+size}}'
-  )
+    img(
+      width="{{size}}"
+      height="{{size}}"
+      _src='{{"https://avatars2.githubusercontent.com/u/"+userid+"?v=2&s="+size}}'
+    )
+  script.
+    Polymer({size: 24});
