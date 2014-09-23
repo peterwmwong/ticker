@@ -13,9 +13,15 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-paper-input /deep/ #input {
-  color: white;
-  height: 21px; }
-paper-input /deep/ .focused-underline, paper-input /deep/ .unfocused-underline, paper-input /deep/ .cursor {
-  background: white;
-  border-bottom-color: white; }
+core-header-panel[mode=waterfall] paper-fab {
+  top: auto;
+  right: 16px;
+  bottom: 16px; }
+core-header-panel[mode=waterfall] ticker-github-events-card {
+  margin-right: 0; }
+core-header-panel ticker-github-events-card {
+  margin-right: 120px; }
+core-header-panel paper-fab {
+  position: fixed;
+  top: 100px;
+  right: 36px; }

@@ -13,23 +13,8 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-paper-fab {
-  position: fixed;
-  top: 100px;
-  right: 36px;
-  color: white; }
-
-core-header-panel /deep/ #dropShadow {
-  display: none; }
-
-core-drawer-panel[narrow] paper-fab {
-  top: auto;
-  right: 16px;
-  bottom: 16px; }
 core-drawer-panel[narrow] core-header-panel[drawer] {
   background: white; }
-core-drawer-panel[narrow] ticker-github-events-card {
-  margin-right: 0; }
 
 .drawer__item {
   align-items: center;
@@ -41,19 +26,8 @@ core-drawer-panel[narrow] ticker-github-events-card {
   font-weight: 300;
   font-size: 1.6rem;
   padding: 12px 16px; }
+  .drawer__item .drawer__item__icon {
+    color: #b0c1c4; }
   .drawer__item.is-selected, .drawer__item.is-selected .drawer__item__icon {
-    font-weight: 400;
-    color: #425357; }
-
-.drawer__item__icon {
-  color: #b0c1c4;
-  margin-right: 8px; }
-
-.ticker-app__content {
-  padding-top: 8px; }
-
-.toolbar__title {
-  line-height: 56px; }
-
-ticker-github-events-card {
-  margin-right: 120px; }
+    font-weight: 400 !important;
+    color: #425357 !important; }

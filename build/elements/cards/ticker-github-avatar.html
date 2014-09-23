@@ -1,6 +1,6 @@
-<polymer-element attributes="userid" name="ticker-github-avatar"><template><style>:host {
+<polymer-element name="ticker-github-avatar" attributes="userid"><template><style>:host {
   width: {{size}}px;
   height: {{size}}px;
 }
 img { border-radius: 10%; }
-</style><img width="{{size}}" height="{{size}}" _src="{{&quot;https://avatars2.githubusercontent.com/u/&quot;+userid+&quot;?v=2&amp;s=&quot;+size}}"/></template><script>System.import('elements/cards/ticker-github-avatar');</script></polymer-element>
+</style><img width="{{size}}" height="{{size}}" _src="{{&quot;https://avatars2.githubusercontent.com/u/&quot;+userid+&quot;?v=2&amp;s=&quot;+size}}"/></template><script>Polymer({size: 24});</script></polymer-element>

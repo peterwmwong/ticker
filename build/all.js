@@ -1,13 +1,3 @@
-System.register("elements/cards/ticker-github-avatar", [], function($__export) {
-  "use strict";
-  var __moduleName = "elements/cards/ticker-github-avatar";
-  return {
-    setters: [],
-    execute: function() {
-      Polymer('ticker-github-avatar', {size: 24});
-    }
-  };
-});
 System.register("elements/cards/ticker-github-branch", [], function($__export) {
   "use strict";
   var __moduleName = "elements/cards/ticker-github-branch";
@@ -60,9 +50,6 @@ System.register("elements/ticker-app", [], function($__export) {
         searchText: '',
         events: [],
         observe: {'$.session.data.user': 'onUserChanged'},
-        isEventStreamFavorited: function(item) {
-          return this.$.session.data && this.$.session.data.user.eventStreams && (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
-        },
         onUserChanged: function(_, user) {
           if (user) {
             if (user.eventStreams.length)
@@ -74,29 +61,9 @@ System.register("elements/ticker-app", [], function($__export) {
         selectEventStream: function(newSelectedEventStream, renderDelay) {
           var $__1 = this;
           if (newSelectedEventStream) {
-            this.$.content.style.opacity = 0;
             setTimeout((function() {
-              newSelectedEventStream.events().$promise.then((function(events) {
-                $__1.events = events;
-                $__1.$.content.scrollTop = 0;
-                $__1.$.content.style.opacity = 1;
-              }));
+              $__1.selectedEventStream = newSelectedEventStream;
             }), renderDelay);
-            this.selectedEventStream = newSelectedEventStream;
-            this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newSelectedEventStream);
-          }
-        },
-        onToggleFavoriteEventStream: function(event) {
-          var user = this.$.session.data && this.$.session.data.user;
-          if (this.selectedEventStream && user && user.eventStreams) {
-            if (this.isEventStreamFavorited(this.selectedEventStream)) {
-              user.removeEventStreams(this.selectedEventStream);
-              this.isSelectedEventStreamFavorited = false;
-            } else {
-              user.addEventStreams(this.selectedEventStream);
-              this.isSelectedEventStreamFavorited = true;
-            }
-            user.$save();
           }
         },
         onLogin: function() {
@@ -116,13 +83,10 @@ System.register("elements/ticker-app", [], function($__export) {
         onSelectEventStream: function(event) {
           this.$.drawerPanel.closeDrawer();
           this.isSearching = false;
-          this.selectEventStream(event.target.templateInstance.model.eventStream, 450);
+          this.selectEventStream(event.target.templateInstance.model.eventStream, (this.narrow ? 450 : 0));
         },
         onOpenDrawer: function() {
           this.$.drawerPanel.openDrawer();
-        },
-        onRefresh: function() {
-          this.events = this.selectedEventStream.events();
         }
       });
     }
@@ -1688,6 +1652,49 @@ System.register("elements/ticker-session", ["../models/User", "../models/EventSt
     }
   };
 });
+System.register("elements/ticker-stream", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-stream";
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-stream', {
+        isLoaded: false,
+        stream: null,
+        events: null,
+        isEventStreamFavorited: function(item) {
+          return this.$.session.data && this.$.session.data.user.eventStreams && (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
+        },
+        streamChanged: function(_, newStream) {
+          var $__35 = this;
+          this.isLoaded = false;
+          this.events = null;
+          newStream.events().$promise.then((function(events) {
+            $__35.events = events;
+            $__35.isLoaded = true;
+          }));
+          this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newStream);
+        },
+        onOpenDrawer: function() {
+          this.fire('ticker-stream-open-drawer');
+        },
+        onToggleFavoriteEventStream: function(event) {
+          var user = this.$.session.data && this.$.session.data.user;
+          if (this.stream && user && user.eventStreams) {
+            if (this.isEventStreamFavorited(this.stream)) {
+              user.removeEventStreams(this.stream);
+              this.isSelectedEventStreamFavorited = false;
+            } else {
+              user.addEventStreams(this.stream);
+              this.isSelectedEventStreamFavorited = true;
+            }
+            user.$save();
+          }
+        }
+      });
+    }
+  };
+});
 System.register("helpers/KEYCODES", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/KEYCODES";
@@ -1717,28 +1724,28 @@ System.register("helpers/model/Mapper", [], function($__export) {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__35 = 1; $__35 < arguments.length; $__35++)
-            args[$__35 - 1] = arguments[$__35];
-        },
-        get: function(model) {
-          for (var args = [],
               $__36 = 1; $__36 < arguments.length; $__36++)
             args[$__36 - 1] = arguments[$__36];
         },
-        create: function(model) {
+        get: function(model) {
           for (var args = [],
               $__37 = 1; $__37 < arguments.length; $__37++)
             args[$__37 - 1] = arguments[$__37];
         },
-        update: function(model) {
+        create: function(model) {
           for (var args = [],
               $__38 = 1; $__38 < arguments.length; $__38++)
             args[$__38 - 1] = arguments[$__38];
         },
-        delete: function(model) {
+        update: function(model) {
           for (var args = [],
               $__39 = 1; $__39 < arguments.length; $__39++)
             args[$__39 - 1] = arguments[$__39];
+        },
+        delete: function(model) {
+          for (var args = [],
+              $__40 = 1; $__40 < arguments.length; $__40++)
+            args[$__40 - 1] = arguments[$__40];
         }
       });
     }
