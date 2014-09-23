@@ -13,6 +13,14 @@ import {data} from '../helpers/session';
   //         type: 'repos',
   //         repos: 'peterwmwong/ticker'
   //       }
+  //     }),
+  //     EventStream.load({
+  //       id: '2',
+  //       type: 'github',
+  //       config: {
+  //         type: 'repos',
+  //         repos: 'polymer/polymer'
+  //       }
   //     })
   //   ]
   // });

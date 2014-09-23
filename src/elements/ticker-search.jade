@@ -5,7 +5,7 @@
 +import('./ticker-card.html')
 
 +polymer-element(attributes='isNarrow')
-  div(fit layout vertical)
+  core-header-panel(fit mode="seamed")
     core-toolbar(class='{{!isNarrow ? "medium-tall" : ""}} c-white')
       .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
         paper-icon-button(
@@ -25,17 +25,17 @@
             on-tap='{{onClearSearch}}'
           )
 
-    .content(flex class='l-padding-2 l-overflow-scroll-ios')
+    div(class='l-padding-2 l-overflow-scroll-ios')
       template(if='{{!searchText && !searchResults.length}}')
-        h2(class='c-gray-light t-align-center t-light t-italic')
+        h2(class='l-padding-v2 c-gray-light t-align-center t-light t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
       template(if='{{searchText && searchResults.length}}')
-        ticker-card(block class='l-padding-h2 l-margin-b2')
+        ticker-card(block class='l-margin-b2')
           template(repeat='{{searchResult in searchResults}}')
             .search-result(
               layout horizontal center
-              class='c-gray-darker l-padding-h0 l-padding-v3 t-light t-font-size-16'
+              class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
               on-tap='[[onSearchResultSelected]]'
             )
               core-icon(

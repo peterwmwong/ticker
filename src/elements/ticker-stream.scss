@@ -1,0 +1,25 @@
+@import 'imports';
+
+core-header-panel {
+  &[mode=waterfall]{
+    paper-fab {
+      top: auto;
+      right: $baseline * 4;
+      bottom: $baseline * 4;
+    }
+
+    ticker-github-events-card {
+      margin-right: 0;
+    }
+  }
+
+  ticker-github-events-card {
+    margin-right: $base-width * 30;
+  }
+
+  paper-fab {
+    position: fixed;
+    top: $baseline * 25;
+    right: $baseline * 9;
+  }
+}
