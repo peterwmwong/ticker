@@ -1,29 +1,9 @@
 @import 'bourbon';
 @import 'imports';
 
-paper-fab {
-  position: fixed;
-  top: $baseline * 25;
-  right: $baseline * 9;
-  color: white;
-}
-
-core-header-panel _deep_ #dropShadow {
-  display: none;
-}
-
 core-drawer-panel[narrow] {
-  paper-fab {
-    top: auto;
-    right: $baseline * 4;
-    bottom: $baseline * 4;
-  }
   core-header-panel[drawer] {
     background: white;
-  }
-
-  ticker-github-events-card {
-    margin-right: 0;
   }
 }
 
@@ -38,6 +18,10 @@ core-drawer-panel[narrow] {
   font-size: 1.6rem;
   padding: ($baseline*3) ($base-width*4);
 
+  .drawer__item__icon {
+    color: $gray-light;
+  }
+
   // States
   // ------
   &.is-selected {
@@ -47,12 +31,4 @@ core-drawer-panel[narrow] {
       color: $gray-darker !important;
     }
   }
-}
-
-.toolbar__title {
-  line-height: 56px;
-}
-
-ticker-github-events-card {
-  margin-right: $base-width * 30;
 }

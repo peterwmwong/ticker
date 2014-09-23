@@ -12,12 +12,6 @@ Polymer('ticker-app', {
     '$.session.data.user': 'onUserChanged'
   },
 
-  isEventStreamFavorited(item){
-    return this.$.session.data &&
-            this.$.session.data.user.eventStreams &&
-            (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
-  },
-
   onUserChanged(_, user){
     if(user){
       if(user.eventStreams.length)
@@ -32,47 +26,19 @@ Polymer('ticker-app', {
   // `onSelectEventStream()`).
   // TODO(pwong): Maybe do something like #drawerPanel(on-transitionend='{{loadEventStream}}')
   selectEventStream(newSelectedEventStream, renderDelay){
-    var contentEl = this.getContentEl();
-    if(newSelectedEventStream && contentEl){
-      contentEl.style.visibility = 'hidden';
+    if(newSelectedEventStream){
       // TODO(pwong): This is is not optimal.  We'd like to kick off the request
       //              for events AND THEN delay.  This is in response to jank that
       //              is caused by the Model framework burning too many cycles
       //              parsing the response during the drawer closing. T_T
       setTimeout(()=>{
-        newSelectedEventStream.events().$promise.then((events)=>{
-          this.events = events;
-          contentEl.scrollTop = 0;
-          contentEl.style.visibility = 'visible';
-        });
+        this.selectedEventStream = newSelectedEventStream;
       }, renderDelay);
-
-      this.selectedEventStream = newSelectedEventStream;
-      this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newSelectedEventStream);
     }
-  },
-
-  getContentEl(){
-    return this.shadowRoot.querySelector('#content');
   },
 
   // Event Handlers
   // ==============
-
-  onToggleFavoriteEventStream(event){
-    var user = this.$.session.data && this.$.session.data.user;
-    if(this.selectedEventStream && user && user.eventStreams){
-      if(this.isEventStreamFavorited(this.selectedEventStream)){
-        user.removeEventStreams(this.selectedEventStream);
-        this.isSelectedEventStreamFavorited = false;
-      }else{
-        user.addEventStreams(this.selectedEventStream);
-        this.isSelectedEventStreamFavorited = true;
-      }
-      user.$save();
-    }
-  },
-
 
   onLogin(){
     this.$.session.login();
@@ -97,15 +63,14 @@ Polymer('ticker-app', {
   onSelectEventStream(event){
     this.$.drawerPanel.closeDrawer();
     this.isSearching = false;
-    this.selectEventStream(event.target.templateInstance.model.eventStream, 450);
+    this.selectEventStream(
+      event.target.templateInstance.model.eventStream,
+      (this.narrow ? 450 : 0)
+    );
   },
 
   onOpenDrawer(){
     this.$.drawerPanel.openDrawer();
-  },
-
-  onRefresh(){
-    this.events = this.selectedEventStream.events();
   }
 
 });
