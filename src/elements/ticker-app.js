@@ -9,7 +9,7 @@ Polymer('ticker-app', {
   events: [],
 
   observe: {
-    '$.session.data.user': 'onUserChanged'
+    '$.state.data.user': 'onUserChanged'
   },
 
   onUserChanged(_, user){

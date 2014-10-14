@@ -1,0 +1,27 @@
+@import 'imports';
+
+.drawer__item {
+  align-items: center;
+  cursor: pointer;
+  color: $gray-darker;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  font-weight: $font-weight-light;
+  font-size: 1.6rem;
+  padding: ($baseline*3) ($base-width*4);
+
+  .drawer__item__icon {
+    color: $gray-light;
+  }
+
+  // States
+  // ------
+  &.is-selected {
+    &,
+    .drawer__item__icon {
+      font-weight: $font-weight-normal !important;
+      color: $gray-darker !important;
+    }
+  }
+}

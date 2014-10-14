@@ -4,9 +4,9 @@ Polymer('ticker-stream', {
   events: null,
 
   isEventStreamFavorited(item){
-    return this.$.session.data &&
-            this.$.session.data.user.eventStreams &&
-            (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
+    return this.$.state.data &&
+            this.$.state.data.user.eventStreams &&
+            (this.$.state.data.user.eventStreams.indexOf(item) !== -1);
   },
 
   streamChanged(_, newStream){
@@ -28,7 +28,7 @@ Polymer('ticker-stream', {
   },
 
   onToggleFavoriteEventStream(event){
-    var user = this.$.session.data && this.$.session.data.user;
+    var user = this.$.state.data && this.$.state.data.user;
     if(this.stream && user && user.eventStreams){
       if(this.isEventStreamFavorited(this.stream)){
         user.removeEventStreams(this.stream);

@@ -3,5 +3,8 @@ export var data = {
   accessTokens: {},
 
   // Current User model (see models/User).
-  user: undefined
+  user: undefined,
+
+  // TODO(pwong): REMOVE ME
+  view: 'stream'
 };

@@ -1,0 +1,30 @@
+<polymer-element name='app-user-profile' attributes='userId'>
+  <template>
+    <h1>{{state.user.firstName}} {{state.user.lastName}}</h1>
+    <p>{{state.user.description}}</p>
+    <paper-tabs selected="{{selectedTab}}" valueAttr='label'>
+      <paper-tab value='info'>Info</paper-tab>
+      <paper-tab value='posts'>Posts</paper-tab>
+      <paper-tab value='pics'>Pics</paper-tab>
+    </paper-tabs>
+    <template id='info'>...</template>
+    <template id='posts'>...</template>
+    <template id='pics'>...</template>
+    <template ref='{{state.view}}' />
+  </template>
+  <script>
+    import PolymerStateful = '/PolymerStateful';
+
+    PolymerStateful({
+      attrs:{ 'user':({userId})=>User.get(userId) },
+      events:{
+        'selectedTabChanged': (_, newTab)=>newTab
+      },
+      states:{
+        'posts': { attrs:{ 'view':'posts' } }
+        'info':  { attrs:{ 'view':'info' } }
+        'pics':  { attrs:{ 'view':'pics' } }
+      }
+    })
+  </script>
+</polymer-element>

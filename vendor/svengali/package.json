@@ -1,0 +1,28 @@
+{
+  "name": "svengali",
+  "version": "0.0.0",
+  "description": "The mastermind behind your state...",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "es6-module-loader": "^0.8.2",
+    "gulp-changed": "^0.4.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-livereload": "^2.1.0",
+    "gulp-plumber": "^0.6.4",
+    "gulp-replace": "^0.4.0",
+    "gulp-sourcemaps": "^1.1.1",
+    "gulp-traceur": "^0.13.0",
+    "gulp-util": "^3.0.0",
+    "gulp": "^3.8.7",
+    "karma-chrome-launcher": "^0.1.4",
+    "karma-jasmine": "^0.2.2",
+    "statechart": "git://github.com/burrows/statechart.js",
+    "systemjs": "^0.8.0",
+    "tiny-lr": "^0.1.0"
+  }
+}
