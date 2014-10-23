@@ -84,10 +84,6 @@ describe('StateChart', ()=>{
               'waitingForLogin':{}
             }
           }
-        },
-        events:{
-          'wentOnline':'',
-          'wentOffline':''
         }
       });
 

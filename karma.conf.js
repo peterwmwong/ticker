@@ -24,6 +24,7 @@ module.exports = function(config) {
       'node_modules/systemjs/lib/extension-register.js',
 
       'spec/spec-utils/__spec-globals__.js',
+      'vendor/statechart.js',
       'test-main.js',
 
       {pattern: 'build/**/*',              included: false},

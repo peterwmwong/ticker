@@ -10,10 +10,10 @@ Examples
     defaultState: 'on',
     states:{
       off:{
-        attrs: {isOn: false}
+        attrs:{isOn: false}
       },
       on:{
-        attrs: {isOn: true}
+        attrs:{isOn: true}
       }
     }
   });
@@ -76,7 +76,7 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
+                              attrs:{
                                 isOn       : true,
                                 currentTab : 'profile'
                               }
@@ -88,16 +88,16 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
-                                createdAt: ()=>Date.now()
+                              attrs:{
+                                createdAt:()=>Date.now()
                               }
 
                           Attr initalizer functions receives the `params` object.
 
                           Example
 
-                              params: ['articleId'],
-                              attrs: {
+                              params:['articleId'],
+                              attrs:{
                                 article: ({articleId})=>Article.get(articleId)
                               }
 
@@ -108,10 +108,10 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
-                                article: ()=>new Promise(resolve=>
-                                           fetchArticle(resolve)
-                                         )
+                              attrs:{
+                                article:()=>new Promise(resolve=>
+                                          fetchArticle(resolve)
+                                        )
                               }
 
                           ### Attr values that are functions or Promises
@@ -121,7 +121,7 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
+                              attrs:{
                                 getGreeting: attrValue(()=>'Hello World'),
                                 taskPromise: ()=>attrValue(new Promise(...))
                               }
@@ -132,7 +132,7 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
+                              attrs:{
                                 user:    ()=>new User,
                                 address: ()=>this.user.address
                               }
@@ -143,7 +143,7 @@ export class StateChart {
 
                           Example
 
-                              attrs: {
+                              attrs:{
                                 user:    ()=>User.get(id:'1234'),
                                 address: ()=>this.resolveAttr('user').then(user=>
                                   user.address
@@ -156,7 +156,83 @@ export class StateChart {
             exit:       - a Function that is called when this state is exited
                           (optional).
 
-            events:     - an Object map defining event handlers (optional).
+            events:     - an Object map defining transitions and event handlers
+                          (optional).
+
+                          ## General Format
+
+                              events: {
+                                // Event transitions to a new state
+                                [Event Name]: [State Path String]
+
+                                // Transitioning to a state(s) with `params`
+                                [Event Name]: {
+
+                                  // Predetermined params
+                                  [State Path String]: [Params Object]
+
+                                  // Dynamicaly determined `params`
+                                  [State Path String]: [Function returning Params Object]
+                                }
+
+                                // Transitioning to a dynamically determined
+                                // state(s).
+                                [Event Name]: [Function returning an Object]
+
+                                // Event Handler (No transition)
+                                [Event Name]: [Function returning undefined]
+                              }
+
+                          ## Events that transition to a new state
+
+                          Example
+
+                              events:{
+                                // On `'selectIndex'` event, go to the `'index'`
+                                // state.
+                                'selectIndex':'./index'
+                              }
+
+                          ## Transitioning to a state with `params`
+
+                          Example
+
+                              events:{
+                                // On `'selectProduct'` event, go to `'productView'`
+                                // state with `productId` param.
+                                'selectProduct':{
+                                  './productView':(productId)=>({productId})
+                                }
+                              }
+
+                          ## Transitioning to a dynamically determined state
+
+                          Example
+
+                              events:{
+                                // On `'selectOption'` event, if the option is a
+                                // service, go to the `'serviceView'` state.
+                                // Otherwise go to the `'productView'` state.
+                                'selectOption'(option){
+                                  var nextState = undefined;
+                                  (option.isService)
+                                    ? { './serviceView':{ serviceId:option.id } }
+                                    : { './productView':{ productId:option.id } }
+                                }
+                              }
+
+                          ## Event handlers
+
+                          If you want to react to an event, but not transition to
+                          another state.
+
+                          Example
+
+                              events:{
+                                'optionMouseOvered'(option){
+                                  console.log('User moused over',option.name);
+                                }
+                              }
 
             states:     - an Object map defining sub-states (optional).
   */
@@ -167,6 +243,10 @@ export class StateChart {
 
   goto(path='.', params={}){
     this.rootState.scState.goto(path, {context:params});
+  }
+
+  fire(eventName, ...args){
+    this.rootState.scState.send(eventName, ...args);
   }
 }
 
@@ -213,7 +293,7 @@ export class State {
 
     if(events)
       Object.keys(events).
-        forEach(eventName=>scState.event(eventName, events[eventName]))
+        forEach(eventName=>this._registerEvent(eventName, events[eventName]));
 
     if(states)
       // Add the defaultState first, so the stateChart defaults to this state
@@ -228,11 +308,53 @@ export class State {
         );
   }
 
+  _getDestWithParams(destWithParams){
+    var dest = Object.keys(destWithParams)[0];
+    if(dest) return [dest, destWithParams[dest]];
+  }
+
+  _event_transitionToState(state){
+    return this.scState.goto.bind(this.scState, state);
+  }
+
+  _event_transitionToStatesWithParams(statesToParams){
+    var [dest, context] = this._getDestWithParams(statesToParams);
+    return (typeof context === 'function')
+        ? ()=>this.scState.goto(dest, {context:context()})
+        : this.scState.goto.bind(
+            this.scState,
+            dest,
+            {context}
+          );
+  }
+
+  _event_transitionToDynamicState(func){
+    return ()=>{
+      var result = func();
+      if(typeof result === 'string'){
+        this.scState.goto(result);
+      } else if(typeof result === 'object'){
+        var [dest, context] = this._getDestWithParams(result);
+        this.scState.goto(dest, {context});
+      }
+    }
+  }
+
+  _registerEvent(eventName, eventValue){
+    var type = typeof eventValue;
+    var callback =
+        (type === 'string')   ? this._event_transitionToState(eventValue)
+      : (type === 'object')   ? this._event_transitionToStatesWithParams(eventValue)
+      : (type === 'function') ? this._event_transitionToDynamicState(eventValue)
+      : undefined;
+
+    if(callback) this.scState.event(eventName, callback);
+  }
+
   _setAttrValue(name, val){ this.stateChart.attrs[name] = val }
 
   _canEnter_checkParams(params){
-    if(this.params)
-      return params ? this.params.every(p=>p in params) : false;
+    return !this.params || (params && this.params.every(p=>p in params));
   }
 
   _doEnter_setAttrs(context){

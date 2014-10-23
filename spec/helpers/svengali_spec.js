@@ -1,6 +1,6 @@
-import {StateChart, attrValue} from 'base/build/svengali';
+import {StateChart, attrValue} from 'base/build/helpers/svengali';
 
-describe('StateChart', ()=>{
+ddescribe('svengali/StateChart', ()=>{
 
   describe('attrs:', ()=>{
     it('simple values', ()=>{
@@ -57,7 +57,7 @@ describe('StateChart', ()=>{
       var stateChart = new StateChart({
         attrs:{
           funcVal: attrValue(funcVal),
-          promiseVal: ()=> attrValue(promiseVal)
+          promiseVal: ()=>attrValue(promiseVal)
         }
       });
 
@@ -100,7 +100,7 @@ describe('StateChart', ()=>{
     it('initializer functions with `params`', ()=>{
       var stateChart = new StateChart({
         params: ['a','b','c'],
-        attrs:{ one:(paramArgs)=>paramArgs }
+        attrs:{ one:paramArgs=>paramArgs }
       });
       var args = {a:1, b:2, c:3};
 
@@ -115,12 +115,12 @@ describe('StateChart', ()=>{
         states:{
           'on':{
             attrs:{
-              on_attr:()=>new Promise((resolve)=>onResolve = resolve)
+              on_attr:()=>new Promise(resolve=>onResolve=resolve)
             }
           },
           'off':{
             attrs:{
-              off_attr:()=>new Promise((resolve)=>offResolve = resolve)
+              off_attr:()=>new Promise(resolve=>offResolve=resolve)
             }
           }
         }
@@ -153,12 +153,12 @@ describe('StateChart', ()=>{
         states:{
           'on':{
             attrs:{
-              on_attr:()=>new Promise((resolve)=>onResolve = resolve)
+              on_attr:()=>new Promise(resolve=>onResolve=resolve)
             }
           },
           'off':{
             attrs:{
-              off_attr:()=>new Promise((resolve)=>offResolve = resolve)
+              off_attr:()=>new Promise(resolve=>offResolve=resolve)
             }
           }
         }
@@ -183,20 +183,79 @@ describe('StateChart', ()=>{
 
   });
 
+  describe('events:', ()=>{
+    var stateChart, eventHandlerCalled;
+
+    beforeEach(()=>{
+      eventHandlerCalled = false;
+
+      stateChart = new StateChart({
+        states:{
+          'one':{
+            attrs:{curState:'one'},
+            events:{
+              'simpleTransition':'../two',
+              'transitionWithParams':{'../three':{threeParam:3}},
+              'transitionWithDynamicParams':{'../four':()=>({fourParam:4})},
+              'transitionToDynamicState':()=>'../five',
+              'transitionToDynamicStateWithParams':()=>({'../six':{sixParam:6}}),
+              'eventHandler':()=>{eventHandlerCalled=true}
+            }
+          },
+          'two'   :{attrs:{curState:'two'} },
+          'three' :{attrs:{threeParams:params=>params}},
+          'four'  :{attrs:{fourParams:params=>params}},
+          'five'  :{attrs:{curState:'five'}},
+          'six'   :{attrs:{sixParams:params=>params}}
+        }
+      });
+
+      stateChart.goto('one');
+    });
+
+    it('transitions to a new state ',()=>{
+      stateChart.fire('simpleTransition');
+      expect(stateChart.attrs.curState).toBe('two');
+    });
+
+    it('transitions to a new state with params (predefined)',()=>{
+      stateChart.fire('transitionWithParams');
+      expect(stateChart.attrs.threeParams).toEqual({threeParam:3});
+    });
+
+    it('transitions to a new state with params (dynamic)',()=>{
+      stateChart.fire('transitionWithDynamicParams');
+      expect(stateChart.attrs.fourParams).toEqual({fourParam:4});
+    });
+
+    it('transitions to a dynamically determined state',()=>{
+      stateChart.fire('transitionToDynamicState');
+      expect(stateChart.attrs.curState).toEqual('five');
+    });
+
+    it('transitions to a dynamically determined state with params',()=>{
+      stateChart.fire('transitionToDynamicStateWithParams');
+      expect(stateChart.attrs.sixParams).toEqual({sixParam:6});
+    });
+
+    it('event handler',()=>{
+      expect(eventHandlerCalled).toBe(false);
+      stateChart.fire('eventHandler');
+      expect(eventHandlerCalled).toBe(true);
+      expect(stateChart.attrs.curState).toBe('one');
+    });
+  });
+
   describe('params:', ()=>{
     var stateChart;
 
     beforeEach(()=>{
       stateChart = new StateChart({
-        default: 'default',
         states:{
-          'default':{
-          },
+          'default':{},
           'withParams':{
-            params: ['reqParam1','reqParam2'],
-            attrs:{
-              'withParamsAttr': true
-            }
+            params:['reqParam1', 'reqParam2'],
+            attrs:{'withParamsAttr':true}
           }
         }
       });
@@ -217,7 +276,6 @@ describe('StateChart', ()=>{
       stateChart.goto('withParams', {reqParam1:1, reqParam2:2});
       expect(stateChart.attrs).toEqual({withParamsAttr:true});
     });
-
   })
 
   // describe('Login', ()=>{
