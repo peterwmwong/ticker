@@ -1,61 +1,9 @@
-import {StateChart} from '../helpers/svengali';
+import StatefulPolymer from '../StatefulPolymer';
+import tickerAppState from './ticker-app-state';
 
-Polymer('ticker-app', {
-  state:{
-    attrs:{
-      DRAWER_SWIPE_DISABLED:(
-        /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&
-          !/Chrome/.test(navigator.userAgent)
-      ),
-    },
-
-    states: {
-      'loggedIn':{
-        statesConcurrent:{
-          'mainView':{
-            states:{
-              'streams':{
-                states:{
-                  'index':{
-                    attrs:{ 'streams':()=>this.user }
-                  },
-                  'show':{
-                    params:[ 'streamId' ],
-                    attrs:{ 'stream':({streamId})=>Streams.get(streamId) }
-                  }
-                }
-              },
-
-              'search':{
-                attrs:{ 'isSearching':true },
-                events:{
-                  'selectStream':{ '../streams/show':streamId=>({streamId}) }
-                }
-              }
-            }
-          },
-          'drawerView':{
-            states:{
-              'expanded':{
-                attrs:{ 'isDrawerExpanded':true },
-                events:{
-                  'selectStream':{ '../../mainView/streams/show':streamId=>({streamId}) },
-                  'selectSearch':'../../mainView/search'
-                }
-              },
-              'collapsed':{}
-            }
-          }
-        }
-      },
-      'loggedOut':{
-        states:{
-          'attemptingLogin':{},
-          'waitingForLogin':{}
-        }
-      }
-    }
-  },
+StatefulPolymer('ticker-app', {
+  // state: tickerAppState,
+  state: {},
 
   DRAWER_SWIPE_DISABLED:(
     /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&

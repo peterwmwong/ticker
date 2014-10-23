@@ -239,6 +239,7 @@ export class StateChart {
   constructor(rootStateOptions){
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
+    this.goto();
   }
 
   goto(path='.', params={}){

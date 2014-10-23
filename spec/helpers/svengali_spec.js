@@ -24,7 +24,6 @@ ddescribe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto();
       expect(stateChart.attrs).toEqual({
         root_attr : 'root value',
         numZero   : 0,
@@ -61,8 +60,6 @@ ddescribe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto();
-
       expect(stateChart.attrs.funcVal).toBe(funcVal);
       expect(stateChart.attrs.promiseVal).toBe(promiseVal);
     })
@@ -81,7 +78,6 @@ ddescribe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto();
       expect(stateChart.attrs).toEqual({
         on_attr: 'on: 0'
       });
@@ -95,6 +91,27 @@ ddescribe('svengali/StateChart', ()=>{
        expect(stateChart.attrs).toEqual({
          on_attr: 'on: 2'
        });
+    });
+
+
+    it('initializer functions depending on other attrs', ()=>{
+      var id = 0;
+      var stateChart = new StateChart({
+        default: 'on',
+        states:{
+          'on':{
+            attrs:{
+              'name':'Grace',
+              'greeting':()=>`Hello ${this.attrs.name}!`
+            }
+          }
+        }
+      });
+
+      expect(stateChart.attrs).toEqual({
+        name: 'Grace',
+        greeting: 'Hello Grace'
+      });
     });
 
     it('initializer functions with `params`', ()=>{
@@ -126,7 +143,6 @@ ddescribe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto();
       expect(stateChart.attrs).toEqual({});
 
       Promise.resolve(onResolve('on resolved value'))
@@ -164,7 +180,6 @@ ddescribe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto();
       expect(stateChart.attrs).toEqual({});
       stateChart.goto('off');
 

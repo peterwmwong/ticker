@@ -3,27 +3,27 @@ import EventStream from '../models/EventStream';
 import {data}      from '../helpers/session';
 
 // !!! <MOCKDATA> !!!
-  data.user = new User({
-    id:12345,
-    eventStreams: [
-      EventStream.load({
-        id: '1',
-        type: 'github',
-        config: {
-          type: 'repos',
-          repos: 'peterwmwong/ticker'
-        }
-      }),
-      EventStream.load({
-        id: '2',
-        type: 'github',
-        config: {
-          type: 'repos',
-          repos: 'polymer/polymer'
-        }
-      })
-    ]
-  });
+  // data.user = new User({
+  //   id:12345,
+  //   eventStreams: [
+  //     EventStream.load({
+  //       id: '1',
+  //       type: 'github',
+  //       config: {
+  //         type: 'repos',
+  //         repos: 'peterwmwong/ticker'
+  //       }
+  //     }),
+  //     EventStream.load({
+  //       id: '2',
+  //       type: 'github',
+  //       config: {
+  //         type: 'repos',
+  //         repos: 'polymer/polymer'
+  //       }
+  //     })
+  //   ]
+  // });
 // !!! </MOCKDATA> !!!
 
 Polymer('ticker-state',{

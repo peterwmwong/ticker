@@ -4,12 +4,12 @@
 +import('./ticker-drawer.html')
 +import('./ticker-login.html')
 +import('./ticker-search.html')
-+import('./ticker-state.html')
+//- +import('./ticker-state.html')
 +import('./ticker-stream.html')
 
 +polymer-element
 
-  ticker-state#state
+  //- ticker-state#state
 
   template#stream
     ticker-stream(
@@ -33,6 +33,6 @@
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
       narrow='{{isNarrow}}')
-      
+
       template(ref='{{$.state.data.view}}' bind='[[]]')
       ticker-drawer(drawer)
