@@ -3,19 +3,19 @@ import tickerAppState from './ticker-app-state';
 
 StatefulPolymer('ticker-app', {
 
-  state: tickerAppState,
+  state:tickerAppState,
 
   DRAWER_SWIPE_DISABLED:(
     /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&
       !/Chrome/.test(navigator.userAgent)
   ),
 
-  selectedEventStream: null,
-  isSearching: false,
-  searchText: '',
-  events: [],
+  selectedEventStream:null,
+  isSearching:false,
+  searchText:'',
+  events:[],
 
-  observe: {
+  observe:{
     'state.stream': 'onStateStreamChanged'
   },
 
@@ -24,9 +24,7 @@ StatefulPolymer('ticker-app', {
   },
 
   onStateStreamChanged(_, stream){
-    if(stream){
-      this.selectEventStream(stream, 0);
-    }
+    if(stream) this.selectEventStream(stream, 0);
   },
 
   // Selects an EventStream and delays rendering of events by a specified amount.
