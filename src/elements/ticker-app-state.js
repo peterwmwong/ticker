@@ -1,6 +1,6 @@
-import User from '../models/User';
-import EventStream from '../models/EventStream';
-debugger;
+import {StateChart} from '../helpers/svengali';
+import User         from '../models/User';
+import EventStream  from '../models/EventStream';
 
 // !!! <MOCKDATA> !!!
   var MOCK_USER = new User({
@@ -26,21 +26,28 @@ debugger;
   });
 // !!! </MOCKDATA> !!!
 
-
-export default {
+export default new StateChart({
   states: {
     'loggedIn':{
       attrs:{'user':MOCK_USER},
-      statesConcurrent:{
+      concurrent: true,
+      states:{
         'mainView':{
           states:{
             'stream':{
-              params:['streamId'],
-              attrs:{'stream':({streamId})=>Streams.get(streamId)}
+              attrs:{
+                'mainView':'stream',
+                'stream'({streamId}){
+                  return streamId ? EventStream.get(streamId)
+                                  : this.attrs.user.eventStreams[0]
+                }
+              }
             },
-
             'search':{
-              attrs:{'isSearching':true},
+              attrs:{
+                'mainView':'search',
+                'isSearching':true
+              },
               events:{
                 'selectStream':{'../streams/show':streamId=>({streamId})}
               }
@@ -68,4 +75,4 @@ export default {
       }
     }
   }
-};
+});

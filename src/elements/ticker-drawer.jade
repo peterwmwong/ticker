@@ -2,37 +2,31 @@
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/core-icon/core-icon.html')
 
-+polymer-element(name='ticker-drawer' noscript)
-
-  ticker-state#state
-
++polymer-element(attributes='appState' noscript)
   //- TODO(pwong): extract to seperate element
   core-header-panel(fit mode='seamed')
     core-toolbar(class='{{!narrow && "medium-tall"}} c-white')
-      .bottom(
-        class='l-margin-l2 l-padding-t2 t-font-size-32 t-normal'
-      )
+      .bottom(class='l-margin-l2 l-padding-t2 t-font-size-32 t-normal')
         | ticker
 
     .drawer
       .drawer__item(
         class='{{ isSearching && "is-selected" }} \
                u-border-b1 c-border-gray-lighter'
-        on-tap='{{onSelectSearch}}'
-      )
+        on-tap='{{onSelectSearch}}')
+
         core-icon.drawer__item__icon(class='l-margin-r2' icon='search')
         | Search
 
-      template(repeat='{{eventStream, i in $.state.data.user.eventStreams}}')
+      template(repeat='{{eventStream, i in appState.user.eventStreams}}')
         .drawer__item(
-          class='{{ { "is-selected": (!isSearching && eventStream === selectedEventStream), \
-                      "l-padding-t6": i == 0 } | tokenList }}'
-          on-tap='{{onSelectEventStream}}'
-        )
+          class='{{ { "is-selected": (!isSearching && eventStream === appState.stream), \
+                      "l-padding-t6": i === 0 } | tokenList }}'
+          on-tap='{{onSelectEventStream}}')
+
           core-icon.drawer__item__icon(
             class='l-margin-r2'
             icon='{{  eventStream.config.type === "repos" ? "github:repo"   \
                     : eventStream.config.type === "users" ? "github:person" \
-                    : "github:star" }}'
-          )
+                    : "github:star" }}')
           | {{eventStream.name}}

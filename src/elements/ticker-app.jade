@@ -4,12 +4,9 @@
 +import('./ticker-drawer.html')
 +import('./ticker-login.html')
 +import('./ticker-search.html')
-//- +import('./ticker-state.html')
 +import('./ticker-stream.html')
 
 +polymer-element
-
-  //- ticker-state#state
 
   template#stream
     ticker-stream(
@@ -25,14 +22,14 @@
       on-ticker-search-close='[[onCloseSearch]]'
       on-ticker-search-select='[[onSearchSelect]]')
 
-  template(if='{{$.state.data.view === "login"}}')
+  template(if='{{state.mainView === "login"}}')
     ticker-login
 
-  template(if='{{$.state.data.view !== "login"}}')
+  template(if='{{state.mainView !== "login"}}')
     core-drawer-panel#drawerPanel(
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
       narrow='{{isNarrow}}')
 
-      template(ref='{{$.state.data.view}}' bind='[[]]')
-      ticker-drawer(drawer)
+      template(ref='{{state.mainView}}' bind='[[]]')
+      ticker-drawer(appState='[[state]]' drawer)

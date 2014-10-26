@@ -1,9 +1,9 @@
-import StatefulPolymer from '../StatefulPolymer';
+import StatefulPolymer from '../helpers/StatefulPolymer';
 import tickerAppState from './ticker-app-state';
 
 StatefulPolymer('ticker-app', {
-  // state: tickerAppState,
-  state: {},
+
+  state: tickerAppState,
 
   DRAWER_SWIPE_DISABLED:(
     /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&
@@ -16,15 +16,16 @@ StatefulPolymer('ticker-app', {
   events: [],
 
   observe: {
-    '$.state.data.user': 'onUserChanged'
+    'state.stream': 'onStateStreamChanged'
   },
 
-  onUserChanged(_, user){
-    if(user){
-      if(user.eventStreams.length)
-        this.selectEventStream(user.eventStreams[0], 0);
-      else
-        this.isSearching = true;
+  ready(){
+    this.onStateStreamChanged(undefined, this.state.stream);
+  },
+
+  onStateStreamChanged(_, stream){
+    if(stream){
+      this.selectEventStream(stream, 0);
     }
   },
 
