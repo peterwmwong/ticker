@@ -268,14 +268,19 @@ export class State {
     {concurrent, history, params, attrs, events, states, default:defaultState},
     name=nextStateUID++
   ){
-    this.attrs      = {};
-    this._attrs     = attrs || EMPTY_OBJ;
-    this._attrKeys  = Object.keys(this._attrs);
+    this._attrs = attrs || EMPTY_OBJ;
+    this._attrKeys = Object.keys(this._attrs);
     this._resolvedAttrValues = {};
-    this.params     = params;
-    this.stateChart = stateChart;
+    this.attrs = Object.create(
+      (parent && parent.attrs || null),
+      this._attrKeys.reduce((acc, attr)=>{
+        acc[attr] = {get:()=>this._resolveAttrValue(attr)}
+        return acc;
+      },{})
+    );
 
-    this._init_attrs();
+    this.params = params;
+    this.stateChart = stateChart;
 
     var scState = this.scState = statechart.State(name, {
       name       : name,
@@ -304,14 +309,6 @@ export class State {
   }
 
   get isCurrent(){return this.scState.__isCurrent__}
-
-  // TODO(pwong): optimize into one Object.defineProperties call
-  _init_attrs(){
-    Object.defineProperties(this.attrs, this._attrKeys.reduce((acc, attr)=>{
-      acc[attr] = {get:()=>this._resolveAttrValue(attr)}
-      return acc;
-    },{}));
-  }
 
   _doCanEnter(params){
     return !this.params || (params && this.params.every(p=>p in params));

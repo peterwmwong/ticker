@@ -98,22 +98,27 @@ describe('svengali/StateChart', ()=>{
       var id = 0;
       var resolveAsyncName;
       var stateChart = new StateChart({
-        default: 'on',
         states:{
-          'on':{
-            attrs:{
-              'name':'Grace',
-              'greeting'(){return `Hello ${this.attrs.name}!`},
-              'asyncName':new Promise(resolve=>resolveAsyncName=resolve),
-              'asyncGreeting'(){return this.attrs.asyncName.then(name=>`Async Hello ${name}!`)}
+          'parent':{
+            attrs:{'time':777},
+            states:{
+              'child':{
+                attrs:{
+                  'name':'Grace',
+                  'greeting'(){return `Hello ${this.attrs.name}! time: ${this.attrs.time}`},
+                  'asyncName':new Promise(resolve=>resolveAsyncName=resolve),
+                  'asyncGreeting'(){return this.attrs.asyncName.then(name=>`Async Hello ${name}!`)}
+                }
+              }
             }
           }
         }
       });
 
       expect(stateChart.attrs).toEqual({
+        time: 777,
         name: 'Grace',
-        greeting: 'Hello Grace!'
+        greeting: 'Hello Grace! time: 777'
       });
 
       resolveAsyncName('Peter');
@@ -124,8 +129,9 @@ describe('svengali/StateChart', ()=>{
       await Promise.resolve();
 
       expect(stateChart.attrs).toEqual({
+        time: 777,
         name: 'Grace',
-        greeting: 'Hello Grace!',
+        greeting: 'Hello Grace! time: 777',
         asyncName: 'Peter',
         asyncGreeting: 'Async Hello Peter!'
       });
@@ -182,13 +188,23 @@ describe('svengali/StateChart', ()=>{
     });
 
     it('initializer functions depending on another `attr`', async (done)=>{
-      var laterResolve;
+      var beforeResolve, laterResolve;
       var stateChart = new StateChart({
         states:{
-          'one':{
-            attrs:{
-              later_attr:()=>new Promise(resolve=>laterResolve=resolve),
-              now_attr(){return this.attrs.later_attr.then(later=>`now and ${later}`)}
+          'parent':{
+            attrs:{'beforeAttr':()=>new Promise(resolve=>beforeResolve=resolve)},
+            states:{
+              'one':{
+                attrs:{
+                  laterAttr:()=>new Promise(resolve=>laterResolve=resolve),
+                  nowAttr(){
+                    return Promise.all([
+                      this.attrs.beforeAttr,
+                      this.attrs.laterAttr
+                    ]).then(([before,later])=>`${before}, now and ${later}`)
+                  }
+                }
+              }
             }
           }
         }
@@ -196,16 +212,19 @@ describe('svengali/StateChart', ()=>{
 
       expect(stateChart.attrs).toEqual({});
 
+      beforeResolve('before');
       laterResolve('later');
       await Promise.resolve();
 
       // TODO(pwong): Figure out why this is needed for Chrome
       await Promise.resolve();
       await Promise.resolve();
+      await Promise.resolve();
 
       expect(stateChart.attrs).toEqual({
-        later_attr: 'later',
-        now_attr: 'now and later'
+        beforeAttr: 'before',
+        laterAttr: 'later',
+        nowAttr: 'before, now and later'
       });
 
       done();
