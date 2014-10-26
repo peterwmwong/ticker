@@ -150,12 +150,6 @@ export class StateChart {
                                 )
                               }
 
-            enter:      - a Function that is called when this state is entered
-                          (optional).
-
-            exit:       - a Function that is called when this state is exited
-                          (optional).
-
             events:     - an Object map defining transitions and event handlers
                           (optional).
 
@@ -272,14 +266,15 @@ export class State {
   constructor(
     parent,
     stateChart,
-    {concurrent, history, params, attrs, enter, exit, events, states, default:defaultState},
+    {concurrent, history, params, attrs, events, states, default:defaultState},
     name=nextStateUID++
   ){
+    this._attrs     = attrs || EMPTY_OBJ;
+    this._resolvedAttrValues = {};
     this.params     = params;
     this.stateChart = stateChart;
-    this.attrs      = attrs || EMPTY_OBJ;
-    this.enter      = enter || NOOP;
-    this.exit       = exit  || NOOP;
+
+    this._init_attrs();
 
     var scState = this.scState = statechart.State(name, {
       name       : name,
@@ -288,7 +283,8 @@ export class State {
     });
 
     if(params)
-      scState.canEnter = (states, params)=>this._canEnter_checkParams(params);
+      scState.canEnter = (states, params)=>this._doCanEnter(params);
+
     scState.enter(params=>this._doEnter(params));
     scState.exit(()=>this._doExit());
 
@@ -302,11 +298,33 @@ export class State {
         concat(Object.keys(states)).
         forEach(stateName=>
           scState.addSubstate(
-            new State(
-              this, stateChart, states[stateName], stateName
-            ).scState
-          )
-        );
+            new State(this, stateChart, states[stateName], stateName).scState)
+          );
+  }
+
+  get isCurrent(){return this.scState.__isCurrent__}
+
+  // TODO(pwong): optimize into one Object.defineProperties call
+  _init_attrs(){
+    var attrs = {};
+    Object.keys(this._attrs).forEach(attr=>
+      Object.defineProperty(attrs, attr, {get:()=>this._resolveAttrValue(attr)})
+    );
+    this.attrs = attrs;
+  }
+
+  _doCanEnter(params){
+    return !this.params || (params && this.params.every(p=>p in params));
+  }
+
+  _doEnter(params){
+    this._curParams = params;
+    Object.keys(this._attrs).forEach(a=>this._resolveAttrValue(a, params));
+  }
+
+  _doExit(){
+    this._resolvedAttrValues = {};
+    Object.keys(this._attrs).forEach(a=>delete this.stateChart.attrs[a]);
   }
 
   _getDestWithParams(destWithParams){
@@ -314,29 +332,29 @@ export class State {
     if(dest) return [dest, destWithParams[dest]];
   }
 
-  _event_transitionToState(state){
+  _transitionToState(state){
     return this.scState.goto.bind(this.scState, state);
   }
 
-  _event_transitionToStatesWithParams(statesToParams){
-    var [dest, context] = this._getDestWithParams(statesToParams);
-    return (typeof context === 'function')
-        ? ()=>this.scState.goto(dest, {context:context()})
+  _transitionToStatesWithParams(statesToParams){
+    var [dest, params] = this._getDestWithParams(statesToParams);
+    return (typeof params === 'function')
+        ? ()=>this.scState.goto(dest, {context:params()})
         : this.scState.goto.bind(
             this.scState,
             dest,
-            {context}
+            {context:params}
           );
   }
 
-  _event_transitionToDynamicState(func){
+  _transitionToDynamicState(func){
     return ()=>{
       var result = func();
       if(typeof result === 'string'){
         this.scState.goto(result);
       } else if(typeof result === 'object'){
-        var [dest, context] = this._getDestWithParams(result);
-        this.scState.goto(dest, {context});
+        var [dest, params] = this._getDestWithParams(result);
+        this.scState.goto(dest, {context:params});
       }
     }
   }
@@ -344,41 +362,35 @@ export class State {
   _registerEvent(eventName, eventValue){
     var type = typeof eventValue;
     var callback =
-        (type === 'string')   ? this._event_transitionToState(eventValue)
-      : (type === 'object')   ? this._event_transitionToStatesWithParams(eventValue)
-      : (type === 'function') ? this._event_transitionToDynamicState(eventValue)
+        type === 'string'   ? this._transitionToState(eventValue)
+      : type === 'object'   ? this._transitionToStatesWithParams(eventValue)
+      : type === 'function' ? this._transitionToDynamicState(eventValue)
       : undefined;
 
     if(callback) this.scState.event(eventName, callback);
   }
 
-  _setAttrValue(name, val){ this.stateChart.attrs[name] = val }
+  _resolveAttrValue(attrName, params){
+    if(this.isCurrent){
+      var result;
 
-  _canEnter_checkParams(params){
-    return !this.params || (params && this.params.every(p=>p in params));
-  }
+      if(attrName in this._resolvedAttrValues){
+        result = this._resolvedAttrValues[attrName];
+      }else{
+        var val = this._attrs[attrName];
+        val = (typeof val === 'function') ? val.call(this, params) : val;
 
-  _doEnter_setAttrs(context){
-    Object.keys(this.attrs).forEach(a=>{
-      var val = this.attrs[a];
-      val = (typeof val === 'function') ? val(context) : val;
+        if(!(val instanceof Promise))
+          result = this.stateChart.attrs[attrName] =
+            (val instanceof attrValue) ? val.val : val;
+        else
+          result = val.then(value=>{
+            if(this.isCurrent) this.stateChart.attrs[attrName] = value;
+            return value;
+          });
+      }
 
-      if(!(val instanceof Promise))
-        this._setAttrValue(a, (val instanceof attrValue ? val.val : val));
-      else
-        val.then(value=>{
-          if(this.scState.__isCurrent__) this._setAttrValue(a, value);
-        });
-    });
-  }
-
-  _doEnter(context){
-    this._doEnter_setAttrs(context);
-    this.enter();
-  }
-
-  _doExit(){
-    this.exit();
-    Object.keys(this.attrs).forEach(a=>delete this.stateChart.attrs[a]);
+      return this._resolvedAttrValues[attrName] = result;
+    }
   }
 }

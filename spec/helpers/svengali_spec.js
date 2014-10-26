@@ -1,6 +1,6 @@
 import {StateChart, attrValue} from 'base/build/helpers/svengali';
 
-ddescribe('svengali/StateChart', ()=>{
+describe('svengali/StateChart', ()=>{
 
   describe('attrs:', ()=>{
     it('simple values', ()=>{
@@ -94,15 +94,18 @@ ddescribe('svengali/StateChart', ()=>{
     });
 
 
-    it('initializer functions depending on other attrs', ()=>{
+    it('initializer functions depending on other attrs', async (done)=>{
       var id = 0;
+      var resolveAsyncName;
       var stateChart = new StateChart({
         default: 'on',
         states:{
           'on':{
             attrs:{
               'name':'Grace',
-              'greeting':()=>`Hello ${this.attrs.name}!`
+              'greeting'(){return `Hello ${this.attrs.name}!`},
+              'asyncName':new Promise(resolve=>resolveAsyncName=resolve),
+              'asyncGreeting'(){return this.attrs.asyncName.then(name=>`Async Hello ${name}!`)}
             }
           }
         }
@@ -110,8 +113,23 @@ ddescribe('svengali/StateChart', ()=>{
 
       expect(stateChart.attrs).toEqual({
         name: 'Grace',
-        greeting: 'Hello Grace'
+        greeting: 'Hello Grace!'
       });
+
+      resolveAsyncName('Peter');
+      await Promise.resolve();
+
+      // TODO(pwong): Figure out why this is needed for Chrome
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(stateChart.attrs).toEqual({
+        name: 'Grace',
+        greeting: 'Hello Grace!',
+        asyncName: 'Peter',
+        asyncGreeting: 'Async Hello Peter!'
+      });
+      done();
     });
 
     it('initializer functions with `params`', ()=>{
@@ -125,7 +143,7 @@ ddescribe('svengali/StateChart', ()=>{
       expect(stateChart.attrs.one).toEqual(args);
     });
 
-    it('initializer functions returning a Promise', (done)=>{
+    it('initializer functions returning a Promise', async (done)=>{
       var onResolve, offResolve;
       var stateChart = new StateChart({
         default: 'on',
@@ -145,24 +163,87 @@ ddescribe('svengali/StateChart', ()=>{
 
       expect(stateChart.attrs).toEqual({});
 
-      Promise.resolve(onResolve('on resolved value'))
-        .then(()=>{
-          expect(stateChart.attrs).toEqual({
-            on_attr: 'on resolved value'
-          });
+      onResolve('on resolved value');
+      await Promise.resolve();
 
-          stateChart.goto('off');
-          offResolve('off resolved value');
-        })
-        .then(()=>{
-          expect(stateChart.attrs).toEqual({
-            off_attr: 'off resolved value'
-          });
-        })
-        .then(done);
+      expect(stateChart.attrs).toEqual({
+        on_attr: 'on resolved value'
+      });
+
+      stateChart.goto('off');
+      offResolve('off resolved value');
+      await Promise.resolve();
+
+      expect(stateChart.attrs).toEqual({
+        off_attr: 'off resolved value'
+      });
+
+      done();
     });
 
-    it('initializer functions returning a Promise (no effect if state changes)', (done)=>{
+    it('initializer functions depending on another `attr`', async (done)=>{
+      var laterResolve;
+      var stateChart = new StateChart({
+        states:{
+          'one':{
+            attrs:{
+              later_attr:()=>new Promise(resolve=>laterResolve=resolve),
+              now_attr(){return this.attrs.later_attr.then(later=>`now and ${later}`)}
+            }
+          }
+        }
+      });
+
+      expect(stateChart.attrs).toEqual({});
+
+      laterResolve('later');
+      await Promise.resolve();
+
+      // TODO(pwong): Figure out why this is needed for Chrome
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(stateChart.attrs).toEqual({
+        later_attr: 'later',
+        now_attr: 'now and later'
+      });
+
+      done();
+    });
+
+    it('initializer functions are only called once per transition', ()=>{
+      var num = 0;
+      var stateChart = new StateChart({
+        states:{
+          'one':{
+            attrs:{
+              num:()=>++num,
+              message1(){return `msg1: ${this.attrs.num}`},
+              message2(){return `msg2: ${this.attrs.num}`}
+            }
+          },
+          'two':{}
+        }
+      });
+
+      expect(stateChart.attrs).toEqual({
+        num: 1,
+        message1: 'msg1: 1',
+        message2: 'msg2: 1'
+      });
+
+      stateChart.goto('two');
+      expect(stateChart.attrs).toEqual({});
+
+      stateChart.goto('one');
+      expect(stateChart.attrs).toEqual({
+        num: 2,
+        message1: 'msg1: 2',
+        message2: 'msg2: 2'
+      });
+    });
+
+    it('initializer functions returning a Promise (no effect if state changes)', async (done)=>{
       var onResolve, offResolve;
       var stateChart = new StateChart({
         default: 'on',
@@ -183,17 +264,18 @@ ddescribe('svengali/StateChart', ()=>{
       expect(stateChart.attrs).toEqual({});
       stateChart.goto('off');
 
-      Promise.resolve(onResolve('on resolved value'))
-        .then(()=>{
-          expect(stateChart.attrs).toEqual({});
-          offResolve('off resolved value');
-        })
-        .then(()=>{
-          expect(stateChart.attrs).toEqual({
-            off_attr: 'off resolved value'
-          });
-        })
-        .then(done);
+      onResolve('on resolved value');
+      await Promise.resolve();
+
+      expect(stateChart.attrs).toEqual({});
+      offResolve('off resolved value');
+
+      await Promise.resolve();
+      expect(stateChart.attrs).toEqual({
+        off_attr: 'off resolved value'
+      });
+
+      done();
     });
 
   });
@@ -214,7 +296,7 @@ ddescribe('svengali/StateChart', ()=>{
               'transitionWithDynamicParams':{'../four':()=>({fourParam:4})},
               'transitionToDynamicState':()=>'../five',
               'transitionToDynamicStateWithParams':()=>({'../six':{sixParam:6}}),
-              'eventHandler':()=>{eventHandlerCalled=true}
+              'eventHandler':()=>eventHandlerCalled=true
             }
           },
           'two'   :{attrs:{curState:'two'} },
