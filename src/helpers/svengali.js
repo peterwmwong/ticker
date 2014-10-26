@@ -247,7 +247,6 @@ export class StateChart {
 
 // TODO(pwong): should be `const`, waiting on traceur 0.0.66 upgrade.
 var EMPTY_OBJ    = {};
-var NOOP         = ()=> EMPTY_OBJ;
 var nextStateUID = 1;
 
 export function attrValue(val){
@@ -269,7 +268,9 @@ export class State {
     {concurrent, history, params, attrs, events, states, default:defaultState},
     name=nextStateUID++
   ){
+    this.attrs      = {};
     this._attrs     = attrs || EMPTY_OBJ;
+    this._attrKeys  = Object.keys(this._attrs);
     this._resolvedAttrValues = {};
     this.params     = params;
     this.stateChart = stateChart;
@@ -306,11 +307,10 @@ export class State {
 
   // TODO(pwong): optimize into one Object.defineProperties call
   _init_attrs(){
-    var attrs = {};
-    Object.keys(this._attrs).forEach(attr=>
-      Object.defineProperty(attrs, attr, {get:()=>this._resolveAttrValue(attr)})
-    );
-    this.attrs = attrs;
+    Object.defineProperties(this.attrs, this._attrKeys.reduce((acc, attr)=>{
+      acc[attr] = {get:()=>this._resolveAttrValue(attr)}
+      return acc;
+    },{}));
   }
 
   _doCanEnter(params){
@@ -319,12 +319,12 @@ export class State {
 
   _doEnter(params){
     this._curParams = params;
-    Object.keys(this._attrs).forEach(a=>this._resolveAttrValue(a, params));
+    this._attrKeys.forEach(a=>this._resolveAttrValue(a, params));
   }
 
   _doExit(){
     this._resolvedAttrValues = {};
-    Object.keys(this._attrs).forEach(a=>delete this.stateChart.attrs[a]);
+    this._attrKeys.forEach(a=>delete this.stateChart.attrs[a]);
   }
 
   _getDestWithParams(destWithParams){
@@ -371,26 +371,24 @@ export class State {
   }
 
   _resolveAttrValue(attrName, params){
-    if(this.isCurrent){
-      var result;
+    var result;
 
-      if(attrName in this._resolvedAttrValues){
-        result = this._resolvedAttrValues[attrName];
-      }else{
-        var val = this._attrs[attrName];
-        val = (typeof val === 'function') ? val.call(this, params) : val;
+    if(attrName in this._resolvedAttrValues){
+      result = this._resolvedAttrValues[attrName];
+    }else{
+      var val = this._attrs[attrName];
+      val = (typeof val === 'function') ? val.call(this, params) : val;
 
-        if(!(val instanceof Promise))
-          result = this.stateChart.attrs[attrName] =
-            (val instanceof attrValue) ? val.val : val;
-        else
-          result = val.then(value=>{
-            if(this.isCurrent) this.stateChart.attrs[attrName] = value;
-            return value;
-          });
-      }
-
-      return this._resolvedAttrValues[attrName] = result;
+      if(!(val instanceof Promise))
+        result = this.stateChart.attrs[attrName] =
+          (val instanceof attrValue) ? val.val : val;
+      else
+        result = val.then(value=>{
+          if(this.isCurrent) this.stateChart.attrs[attrName] = value;
+          return value;
+        });
     }
+
+    return this._resolvedAttrValues[attrName] = result;
   }
 }
