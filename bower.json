@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "core-elements": "Polymer/core-elements#~0.4.2",
+    "firebase": "~1.1.2",
     "jasmine": "2.0.4",
     "octicons": "*",
     "paper-elements": "Polymer/paper-elements#~0.4.2",
