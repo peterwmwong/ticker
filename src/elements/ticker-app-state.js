@@ -1,78 +1,83 @@
-import {StateChart} from '../helpers/svengali';
-import User         from '../models/User';
-import EventStream  from '../models/EventStream';
+import {StateChart, goto, reenter} from '../helpers/svengali';
+import User                        from '../models/User';
+import EventStream                 from '../models/EventStream';
 
-// !!! <MOCKDATA> !!!
-  var MOCK_USER = new User({
-    id:12345,
-    eventStreams: [
-      EventStream.load({
-        id: '1',
-        type: 'github',
-        config: {
-          type: 'repos',
-          repos: 'peterwmwong/ticker'
-        }
-      }),
-      EventStream.load({
-        id: '2',
-        type: 'github',
-        config: {
-          type: 'repos',
-          repos: 'polymer/polymer'
-        }
-      })
-    ]
-  });
-// !!! </MOCKDATA> !!!
-
-export default new StateChart({
-  states: {
-    'loggedIn':{
-      attrs:{'user':MOCK_USER},
-      concurrent: true,
-      states:{
-        'mainView':{
-          states:{
-            'stream':{
-              attrs:{
-                'mainView':'stream',
-                'stream'({streamId}){
-                  return streamId ? EventStream.get(streamId)
-                                  : this.attrs.user.eventStreams[0]
-                }
-              }
-            },
-            'search':{
-              attrs:{
-                'mainView':'search',
-                'isSearching':true
-              },
-              events:{
-                'selectStream':{'../streams/show':streamId=>({streamId})}
-              }
-            }
-          }
-        },
-        'drawerView':{
-          states:{
-            'expanded':{
-              attrs:{'isDrawerExpanded':true},
-              events:{
-                'selectStream':{'../../mainView/streams/show':streamId=>({streamId})},
-                'selectSearch':'../../mainView/search'
-              }
-            },
-            'collapsed':{}
-          }
-        }
+var appState = new StateChart({
+  attrs:{
+    'firebaseRef':()=>new Firebase("https://ticker-test.firebaseio.com")
+  },
+  enter(){
+    setTimeout(()=>{
+      this.attrs.firebaseRef.onAuth(authData=>{
+        var github = authData && authData.github;
+        if(github)
+          this.fire('authSuccessful', github.id, {github:github.accessToken});
+        else
+          this.fire('needAuth');
+      });
+    })
+  },
+  events:{
+    'needAuth':goto('./auth')
+  },
+  states:{
+    'determineAuth':{
+      events:{
+        'authSuccessful':(authId, accessTokens)=>
+          goto('../retrieveUser', {authId, accessTokens})
       }
     },
-    'loggedOut':{
+    'auth':{
+      events:{
+        'authWithGithub'(){this.attrs.firebaseRef.authWithOAuthPopup("github",()=>{})},
+        'authSuccessful':(authId, accessTokens)=>
+          goto('../retrieveUser', {authId, accessTokens})
+      }
+    },
+    'retrieveUser':{
+      enter({authId, accessTokens}){
+        User.get(authId).$promise.
+          // If user does not exist yet, create user with no streams.
+          catch(e=>new User({id:authId, eventStreams:[]}).$save().$promise).
+          then(user=>appState.fire('userRetrieved', user, accessTokens))
+      },
+      events:{
+        'userRetrieved':(user, accessTokens)=>
+          goto('../loggedIn', {user, accessTokens})
+      }
+    },
+    'loggedIn':{
+      attrs:{
+        'user':({user})=>user,
+        'accessTokens':({accessTokens})=>accessTokens
+      },
+      events:{
+        'selectSearch':'./search'
+      },
       states:{
-        'attemptingLogin':{},
-        'waitingForLogin':{}
+        'stream':{
+          params:['stream'],
+          attrs:{
+            'mainView':'stream',
+            'stream'({stream}){return stream || this.attrs.user.eventStreams[0]}
+          },
+          events:{
+            'selectStream':stream=>reenter({stream})
+          }
+        },
+        'search':{
+          attrs:{'mainView':'search'},
+          events:{
+            'selectStream':stream=>goto('../stream', {stream})
+          }
+        }
       }
     }
   }
 });
+
+//FIXME: Tests should be able to stop state bootstrapping... or something
+if(!('__karma__' in window))
+  appState.goto();
+
+export default appState;
