@@ -7,7 +7,7 @@ Examples
     attrs: ['root_attr'],
     enter(){ this.root_attr='root_attr value' },
 
-    defaultState: 'on',
+    default: 'on',
     states:{
       off:{
         attrs:{isOn: false}
@@ -233,7 +233,6 @@ export class StateChart {
   constructor(rootStateOptions){
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
-    this.goto();
   }
 
   goto(path='.', params={}){
@@ -245,16 +244,17 @@ export class StateChart {
   }
 }
 
-// TODO(pwong): should be `const`, waiting on traceur 0.0.66 upgrade.
-var EMPTY_OBJ    = {};
-var nextStateUID = 1;
+function Reenter(params){this.params = params}
+export function reenter(params){return new Reenter(params)}
 
-export function attrValue(val){
-  if(this instanceof attrValue)
-    this.val = val;
-  else
-    return new attrValue(val);
+function Goto(path, params){
+  this.path = path;
+  this.params = params;
 }
+export function goto(path, params){return new Goto(path, params)}
+
+function AttrValue(val){this.val = val}
+export function attrValue(val){return new AttrValue(val)}
 
 // Internal: Encapsulation of a State's attrs and behavior.  With helpers
 //           for transitioning in an out of this state.
@@ -265,7 +265,7 @@ export class State {
   constructor(
     parent,
     stateChart,
-    {concurrent, history, params, attrs, events, states, default:defaultState},
+    {enter, concurrent, history, params, attrs, events, states, default:defaultState},
     name=nextStateUID++
   ){
     this._attrs = attrs || EMPTY_OBJ;
@@ -279,13 +279,14 @@ export class State {
       },{})
     );
 
+    this.enter = enter;
     this.params = params;
     this.stateChart = stateChart;
 
     var scState = this.scState = statechart.State(name, {
-      name       : name,
-      concurrent : !!concurrent,
-      history    : !!history
+      name       : name//,
+      // concurrent : !!concurrent,
+      // history    : !!history
     });
 
     if(params)
@@ -308,6 +309,10 @@ export class State {
           );
   }
 
+  fire(eventName, ...args){
+    this.stateChart.fire(eventName, ...args);
+  }
+
   get isCurrent(){return this.scState.__isCurrent__}
 
   _doCanEnter(params){
@@ -315,53 +320,39 @@ export class State {
   }
 
   _doEnter(params){
-    this._curParams = params;
+    this._resolvedAttrValues = {};
     this._attrKeys.forEach(a=>this._resolveAttrValue(a, params));
+    if(this.enter) this.enter(params);
   }
 
   _doExit(){
-    this._resolvedAttrValues = {};
     this._attrKeys.forEach(a=>delete this.stateChart.attrs[a]);
   }
 
-  _getDestWithParams(destWithParams){
-    var dest = Object.keys(destWithParams)[0];
-    if(dest) return [dest, destWithParams[dest]];
+  _transitionToSameState(reenterObj){
+    return this._doEnter.bind(this, reenterObj.params || {});
   }
 
-  _transitionToState(state){
-    return this.scState.goto.bind(this.scState, state);
-  }
-
-  _transitionToStatesWithParams(statesToParams){
-    var [dest, params] = this._getDestWithParams(statesToParams);
-    return (typeof params === 'function')
-        ? ()=>this.scState.goto(dest, {context:params()})
-        : this.scState.goto.bind(
-            this.scState,
-            dest,
-            {context:params}
-          );
+  _transitionToState(gotoObj){
+    return this.scState.goto.bind(this.scState, gotoObj.path, {context:gotoObj.params});
   }
 
   _transitionToDynamicState(func){
-    return ()=>{
-      var result = func();
-      if(typeof result === 'string'){
-        this.scState.goto(result);
-      } else if(typeof result === 'object'){
-        var [dest, params] = this._getDestWithParams(result);
-        this.scState.goto(dest, {context:params});
-      }
+    return (...args)=>{
+      var result = func.apply(this, args);
+      if(result instanceof Goto)
+        this.scState.goto(result.path, {context:result.params || {}});
+      else if(result instanceof Reenter)
+        this._doEnter(result.params || {});
     }
   }
 
   _registerEvent(eventName, eventValue){
     var type = typeof eventValue;
     var callback =
-        type === 'string'   ? this._transitionToState(eventValue)
-      : type === 'object'   ? this._transitionToStatesWithParams(eventValue)
-      : type === 'function' ? this._transitionToDynamicState(eventValue)
+        eventValue instanceof Goto    ? this._transitionToState(eventValue)
+      : type === 'function'           ? this._transitionToDynamicState(eventValue)
+      : eventValue instanceof Reenter ? this._transitionToSameState(eventValue)
       : undefined;
 
     if(callback) this.scState.event(eventName, callback);
@@ -378,7 +369,7 @@ export class State {
 
       if(!(val instanceof Promise))
         result = this.stateChart.attrs[attrName] =
-          (val instanceof attrValue) ? val.val : val;
+          (val instanceof AttrValue) ? val.val : val;
       else
         result = val.then(value=>{
           if(this.isCurrent) this.stateChart.attrs[attrName] = value;
@@ -389,3 +380,7 @@ export class State {
     return this._resolvedAttrValues[attrName] = result;
   }
 }
+
+// TODO(pwong): should be `const`, waiting on traceur 0.0.66 upgrade.
+var EMPTY_OBJ    = {};
+var nextStateUID = 1;

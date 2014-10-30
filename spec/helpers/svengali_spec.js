@@ -1,13 +1,42 @@
-import {StateChart, attrValue} from 'base/build/helpers/svengali';
+import {StateChart, attrValue, goto, reenter} from 'base/build/helpers/svengali';
 
 describe('svengali/StateChart', ()=>{
+
+  describe('enter:', ()=>{
+    it('called when state is entered', ()=>{
+      var rootCalls = [];
+      var child1Calls = [];
+      var child2Calls = [];
+
+      var stateChart = new StateChart({
+        enter({a}){rootCalls.push(a)},
+        states:{
+          'child1':{
+            enter({b}){child1Calls.push(b)}
+          },
+          'child2':{
+            enter({c}){child2Calls.push(c)}
+          }
+        }
+      });
+      stateChart.goto('.', {a:1, b:2, c:3});
+
+      expect(rootCalls).toEqual([1]);
+      expect(child1Calls).toEqual([2]);
+      expect(child2Calls).toEqual([]);
+
+      stateChart.goto('child2', {a:777, b:777, c:4});
+
+      expect(rootCalls).toEqual([1]);
+      expect(child1Calls).toEqual([2]);
+      expect(child2Calls).toEqual([4]);
+    });
+  });
 
   describe('attrs:', ()=>{
     it('simple values', ()=>{
       var stateChart = new StateChart({
         attrs:{ root_attr:'root value' },
-
-        default: 'on',
         states:{
           'on':{
             attrs:{
@@ -23,6 +52,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({
         root_attr : 'root value',
@@ -59,6 +89,7 @@ describe('svengali/StateChart', ()=>{
           promiseVal: ()=>attrValue(promiseVal)
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs.funcVal).toBe(funcVal);
       expect(stateChart.attrs.promiseVal).toBe(promiseVal);
@@ -67,7 +98,6 @@ describe('svengali/StateChart', ()=>{
     it('initializer functions', ()=>{
       var id = 0;
       var stateChart = new StateChart({
-        default: 'on',
         states:{
           'on':{
             attrs:{ on_attr:()=>`on: ${id++}` }
@@ -77,6 +107,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({
         on_attr: 'on: 0'
@@ -114,6 +145,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({
         time: 777,
@@ -152,7 +184,6 @@ describe('svengali/StateChart', ()=>{
     it('initializer functions returning a Promise', async (done)=>{
       var onResolve, offResolve;
       var stateChart = new StateChart({
-        default: 'on',
         states:{
           'on':{
             attrs:{
@@ -166,6 +197,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({});
 
@@ -209,6 +241,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({});
 
@@ -244,6 +277,7 @@ describe('svengali/StateChart', ()=>{
           'two':{}
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({
         num: 1,
@@ -265,7 +299,6 @@ describe('svengali/StateChart', ()=>{
     it('initializer functions returning a Promise (no effect if state changes)', async (done)=>{
       var onResolve, offResolve;
       var stateChart = new StateChart({
-        default: 'on',
         states:{
           'on':{
             attrs:{
@@ -279,6 +312,7 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
+      stateChart.goto();
 
       expect(stateChart.attrs).toEqual({});
       stateChart.goto('off');
@@ -296,7 +330,6 @@ describe('svengali/StateChart', ()=>{
 
       done();
     });
-
   });
 
   describe('events:', ()=>{
@@ -308,14 +341,16 @@ describe('svengali/StateChart', ()=>{
       stateChart = new StateChart({
         states:{
           'one':{
-            attrs:{curState:'one'},
+            attrs:{curState:({num1, num2})=>`one${num1 || ''}${num2 || ''}`},
             events:{
-              'simpleTransition':'../two',
-              'transitionWithParams':{'../three':{threeParam:3}},
-              'transitionWithDynamicParams':{'../four':()=>({fourParam:4})},
-              'transitionToDynamicState':()=>'../five',
-              'transitionToDynamicStateWithParams':()=>({'../six':{sixParam:6}}),
-              'eventHandler':()=>eventHandlerCalled=true
+              'simpleTransition':goto('../two'),
+              'transitionWithParams':goto('../three', {threeParam:3}),
+              'transitionWithDynamicParams':(num1, num2)=>goto('../four', {fourParam:num1+num2}),
+              'transitionToDynamicState':()=>goto('../five'),
+              'transitionToDynamicStateWithParams':(num1, num2)=>goto('../six', {sixParam:num1+num2}),
+              'eventHandler':()=>eventHandlerCalled=true,
+              'reentry':reenter({num1:10, num2:20}),
+              'reentryDynamicParams':(num1, num2)=>reenter({num1, num2})
             }
           },
           'two'   :{attrs:{curState:'two'} },
@@ -340,7 +375,7 @@ describe('svengali/StateChart', ()=>{
     });
 
     it('transitions to a new state with params (dynamic)',()=>{
-      stateChart.fire('transitionWithDynamicParams');
+      stateChart.fire('transitionWithDynamicParams', 1, 3);
       expect(stateChart.attrs.fourParams).toEqual({fourParam:4});
     });
 
@@ -350,7 +385,7 @@ describe('svengali/StateChart', ()=>{
     });
 
     it('transitions to a dynamically determined state with params',()=>{
-      stateChart.fire('transitionToDynamicStateWithParams');
+      stateChart.fire('transitionToDynamicStateWithParams', 2, 4);
       expect(stateChart.attrs.sixParams).toEqual({sixParam:6});
     });
 
@@ -359,6 +394,16 @@ describe('svengali/StateChart', ()=>{
       stateChart.fire('eventHandler');
       expect(eventHandlerCalled).toBe(true);
       expect(stateChart.attrs.curState).toBe('one');
+    });
+
+    it('re-enter with params',()=>{
+      stateChart.fire('reentry');
+      expect(stateChart.attrs.curState).toBe('one1020');
+    });
+
+    it('re-enter with dynamic params',()=>{
+      stateChart.fire('reentryDynamicParams', 77, 88);
+      expect(stateChart.attrs.curState).toBe('one7788');
     });
   });
 
@@ -393,79 +438,4 @@ describe('svengali/StateChart', ()=>{
       expect(stateChart.attrs).toEqual({withParamsAttr:true});
     });
   })
-
-  // describe('Login', ()=>{
-  //   var stateChart;
-  //
-  //   beforeEach(()=>{
-  //     new Router([
-  //       path('/', redirectTo('loggedIn/streams')),
-  //       path('streams', 'loggedIn/streams/index', [
-  //         path(':streamId', 'loggedIn/streams/show')
-  //       ]),
-  //       path('login', 'loggedOut')
-  //     ]);
-  //
-  //     stateChart = new StateChart({
-  //       attrs:{
-  //         user:()=>User.currentUser().catch(err=>this.fire('logOut'))
-  //       },
-  //
-  //       events:{
-  //         'logOut': 'loggedOut'
-  //       },
-  //
-  //       states:{
-  //         'loggedIn':{
-  //           attrs:{
-  //             'user':()=>new FirebaseSimpleLogin(new Firebase(this.location), (error, fbUser)=>{
-  //               if(!error) resolve(User.get(fbUser.id).$promise);
-  //               else reject();
-  //             }).login('github', {rememberMe:true})
-  //           },
-  //           states:concurrent({
-  //             'main':{
-  //               states:{
-  //                 'streams':{
-  //                   states:{
-  //                     'index':{
-  //                       attrs:{
-  //                         'streams':()=>this.user
-  //                       }
-  //                     },
-  //                     'show':{
-  //                       params: ['streamId'],
-  //                       attrs:{
-  //                         'stream':({streamId})=>Streams.get(streamId)
-  //                       }
-  //                     }
-  //                   }
-  //                 },
-  //
-  //                 'streamSearch':{
-  //                   events:{
-  //                     'streamSelected': goto('../streams/show', (streamId)=>({streamId}))
-  //                   }
-  //                 }
-  //               }
-  //             },
-  //             'drawer':{
-  //               states:{
-  //                 'expanded':{},
-  //                 'collapsed':{},
-  //               }
-  //             }
-  //           })
-  //         },
-  //
-  //         'loggedOut':{
-  //           events:{
-  //             'login': goto('../loggedIn', ({user,pass})=>{user,pass})
-  //             }
-  //           }
-  //         }
-  //       }
-  //     });
-  //   });
-  // });
 });
