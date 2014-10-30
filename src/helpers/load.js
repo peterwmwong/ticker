@@ -1,12 +1,12 @@
 import is from './is';
-import {data} from './session';
+import appState from '../elements/ticker-app-state';
 
 export function loadResource(type, url, headers){
   headers = headers == null ? {} : headers;
   return new Promise(function(fulfill, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.setRequestHeader('Authorization', 'token '+data.accessTokens.github);
+    xhr.setRequestHeader('Authorization', 'token '+appState.attrs.accessTokens.github);
     xhr.responseType = type;
     xhr.send();
     xhr.onload  = ()=>fulfill(xhr);

@@ -304,3 +304,85 @@ export default class GithubUserEvent extends Model.init({
   }
 };
 ```
+
+## Proposal: Parameterized States and forced re-entry
+
+What defines a parameterized state?
+- has `params`
+
+What's different?
+- transitioning to parameterized state with different params (simple equals check?)
+  forces re-entry EVEN if it's the current state.
+
+Outstanding questions:
+- what about nested parameterized states?
+    ex. Should transitioning to child (again) re-enter the root aswell? (yes?)
+    ```
+    {
+      params:['a']
+      states:{
+        'child':{
+          params:['b']
+        }
+      }
+    }
+    ```
+- is the absence of a param considered a change?
+    ex. Should child be entered twice?
+    ```
+    var sc = new StateChart{
+      states:{
+        'child':{
+          params:['b'],
+          events:{'reenter':{'.':{}}}
+        }
+      }
+    };
+    sc.goto('child', {b:5});
+    sc.fire('reenter');
+    ```
+
+## [svengali] Should params block transition?
+
+So far it seems like param requirements are hard to use as a blocked transition
+are hard to rectify.  What to do I do now?  How can I tell the transition was
+blocked?
+
+
+## [svengali] Should transitions be forced? And should forced transitions be only run enters on leaves?  Or is re-entering the same state with different params (parameterized states) a big enough special case for a specific API?
+
+If we go leaf only re-entry, here's the testcase...
+
+```js
+it('does not call enter for non-leaf states being re-entered', ()=>{
+  var rootCount = 0;
+  var leafCount = 0;
+  var stateChart = new StateChart({
+    attrs:{'rootCount':()=>++rootCount},
+    events:{
+      'reenter':{
+        'leaf':()=>({'one':1})
+      }
+    },
+    states:{
+      'leaf':{
+        attrs:{'leafCount':()=>++leafCount}
+      }
+    }
+  });
+
+  stateChart.goto();
+
+  expect(stateChart.attrs).toEqual({
+    rootCount: 1,
+    leafCount: 1
+  });
+
+  stateChart.fire('reenter');
+
+  expect(stateChart.attrs).toEqual({
+    rootCount: 1,
+    leafCount: 2
+  });
+})
+```

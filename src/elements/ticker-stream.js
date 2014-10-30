@@ -1,12 +1,22 @@
-Polymer('ticker-stream', {
+import StatefulPolymer from '../helpers/StatefulPolymer';
+import tickerAppState from './ticker-app-state';
+
+StatefulPolymer('ticker-stream', {
+
+  state:tickerAppState,
+
   isLoaded: false,
   stream: null,
   events: null,
 
+  computed:{
+    'stream': 'state.stream'
+  },
+
   isEventStreamFavorited(item){
-    return this.$.state.data &&
-            this.$.state.data.user.eventStreams &&
-            (this.$.state.data.user.eventStreams.indexOf(item) !== -1);
+    return this.stream &&
+            this.state.user.eventStreams &&
+            (this.state.user.eventStreams.indexOf(item) !== -1);
   },
 
   streamChanged(_, newStream){

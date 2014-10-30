@@ -12,7 +12,6 @@
     ticker-stream(
       main
       isNarrow='{{isNarrow}}'
-      stream='{{selectedEventStream}}'
       on-ticker-stream-open-drawer='[[onOpenDrawer]]')
 
   template#search
@@ -22,10 +21,10 @@
       on-ticker-search-close='[[onCloseSearch]]'
       on-ticker-search-select='[[onSearchSelect]]')
 
-  template(if='{{state.mainView === "login"}}')
+  template(if='{{!state.user}}')
     ticker-login
 
-  template(if='{{state.mainView !== "login"}}')
+  template(if='{{state.user}}')
     core-drawer-panel#drawerPanel(
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'

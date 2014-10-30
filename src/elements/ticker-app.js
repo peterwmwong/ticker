@@ -10,38 +10,10 @@ StatefulPolymer('ticker-app', {
       !/Chrome/.test(navigator.userAgent)
   ),
 
-  selectedEventStream:null,
   isSearching:false,
   searchText:'',
   events:[],
 
-  observe:{
-    'state.stream': 'onStateStreamChanged'
-  },
-
-  ready(){
-    this.onStateStreamChanged(undefined, this.state.stream);
-  },
-
-  onStateStreamChanged(_, stream){
-    if(stream) this.selectEventStream(stream, 0);
-  },
-
-  // Selects an EventStream and delays rendering of events by a specified amount.
-  // Delaying rendering allows for smooth, jank-free drawer close (see
-  // `onSelectEventStream()`).
-  // TODO(pwong): Maybe do something like #drawerPanel(on-transitionend='{{loadEventStream}}')
-  selectEventStream(newSelectedEventStream, renderDelay){
-    if(newSelectedEventStream){
-      // TODO(pwong): This is is not optimal.  We'd like to kick off the request
-      //              for events AND THEN delay.  This is in response to jank that
-      //              is caused by the Model framework burning too many cycles
-      //              parsing the response during the drawer closing. T_T
-      setTimeout(()=>{
-        this.selectedEventStream = newSelectedEventStream;
-      }, renderDelay);
-    }
-  },
 
   // Event Handlers
   // ==============

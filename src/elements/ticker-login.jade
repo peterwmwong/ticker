@@ -1,20 +1,18 @@
 +import('../../bower_components/paper-button/paper-button.html')
 
-+polymer-element()(nocss noscript)
-
-  ticker-state#state
++polymer-element(nocss)
 
   //- TODO(pwong): Refactor styles... srsly...
   div(class='c-bg-brand-primary-light l-padding-h4' style='padding-top: 84px')
-  div(class='c-white t-normal t-font-size-32')
-    | ticker
-    span(class='t-font-size-16')
-      | &nbsp; commits. pull requests. comments. tweets. forum posts.
+    div(class='c-white t-normal t-font-size-32')
+      | ticker
+      span(class='t-font-size-16')
+        | &nbsp; commits. pull requests. comments. tweets. forum posts.
 
-  //- TODO(pwong): extract to seperate element
-  paper-button(
-    class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h2 l-padding-t1 t-normal t-font-size-16'
-    icon='github:octoface'
-    label='Login with GitHub'
-    on-click='{{onLogin}}'
-  )
+    //- TODO(pwong): extract to seperate element
+    paper-button(
+      class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h4 t-normal t-font-size-16'
+      icon='github:octoface'
+      on-click='{{onLogin}}'
+    )
+      | Login with GitHub
