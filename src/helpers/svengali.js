@@ -34,9 +34,6 @@ export class StateChart {
   Public: Creates a StateChart from the definition of the root state.
 
   options - an Object defining the root state (default: {})
-            concurrent: - a Boolean, if true, makes a concurrent state
-                          (default: true).
-
             history:    - a Boolean, if true, makes a history state.
                           (default: false).
 
@@ -228,11 +225,15 @@ export class StateChart {
                                 }
                               }
 
-            states:     - an Object map defining sub-states (optional).
+            states:         - an Object map defining sub-states (optional).
+
+            parallelStates: - an Object map defining parallel sub-states
+                              (optional). If specified, overrides `states`.
   */
   constructor(rootStateOptions){
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
+    // this.rootState.scState.trace = true;
   }
 
   goto(path='.', params={}){
@@ -265,7 +266,7 @@ export class State {
   constructor(
     parent,
     stateChart,
-    {enter, concurrent, history, params, attrs, events, states, default:defaultState},
+    {attrs, enter, events, history, parallelStates, params, states},
     name=nextStateUID++
   ){
     this._attrs = attrs || EMPTY_OBJ;
@@ -284,9 +285,9 @@ export class State {
     this.stateChart = stateChart;
 
     var scState = this.scState = statechart.State(name, {
-      name       : name//,
-      // concurrent : !!concurrent,
-      // history    : !!history
+      name       : name,
+      concurrent : !!parallelStates,
+      history    : !!history
     });
 
     if(params)
@@ -299,19 +300,16 @@ export class State {
       Object.keys(events).
         forEach(eventName=>this._registerEvent(eventName, events[eventName]));
 
+    states = parallelStates || states;
     if(states)
       // Add the defaultState first, so the stateChart defaults to this state
-      (defaultState && states[defaultState] ? [defaultState] : []).
-        concat(Object.keys(states)).
-        forEach(stateName=>
-          scState.addSubstate(
-            new State(this, stateChart, states[stateName], stateName).scState)
-          );
+      Object.keys(states).forEach(stateName=>
+        scState.addSubstate(
+          new State(this, stateChart, states[stateName], stateName).scState)
+      );
   }
 
-  fire(eventName, ...args){
-    this.stateChart.fire(eventName, ...args);
-  }
+  fire(eventName, ...args){this.stateChart.fire(eventName, ...args)}
 
   get isCurrent(){return this.scState.__isCurrent__}
 

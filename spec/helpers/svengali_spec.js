@@ -2,13 +2,34 @@ import {StateChart, attrValue, goto, reenter} from 'base/build/helpers/svengali'
 
 describe('svengali/StateChart', ()=>{
 
+  describe('parallelStates:', ()=>{
+    it('states are all entered', ()=>{
+      var sc = new StateChart({
+        parallelStates:{
+          'one':{
+            attrs:{'oneAttr':1}
+          },
+          'two':{
+            attrs:{'twoAttr':2}
+          }
+        }
+      })
+      sc.goto();
+
+      expect(sc.attrs).toEqual({
+        oneAttr: 1,
+        twoAttr: 2
+      });
+    });
+  });
+
   describe('enter:', ()=>{
     it('called when state is entered', ()=>{
       var rootCalls = [];
       var child1Calls = [];
       var child2Calls = [];
 
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         enter({a}){rootCalls.push(a)},
         states:{
           'child1':{
@@ -19,13 +40,13 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
-      stateChart.goto('.', {a:1, b:2, c:3});
+      sc.goto('.', {a:1, b:2, c:3});
 
       expect(rootCalls).toEqual([1]);
       expect(child1Calls).toEqual([2]);
       expect(child2Calls).toEqual([]);
 
-      stateChart.goto('child2', {a:777, b:777, c:4});
+      sc.goto('child2', {a:777, b:777, c:4});
 
       expect(rootCalls).toEqual([1]);
       expect(child1Calls).toEqual([2]);
@@ -35,7 +56,7 @@ describe('svengali/StateChart', ()=>{
 
   describe('attrs:', ()=>{
     it('simple values', ()=>{
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         attrs:{ root_attr:'root value' },
         states:{
           'on':{
@@ -52,9 +73,9 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         root_attr : 'root value',
         numZero   : 0,
         numOne    : 1,
@@ -63,14 +84,14 @@ describe('svengali/StateChart', ()=>{
         object    : {a:1, b:2, c:3}
       });
 
-       stateChart.goto('off');
-       expect(stateChart.attrs).toEqual({
+       sc.goto('off');
+       expect(sc.attrs).toEqual({
          root_attr : 'root value',
          off_attr  : 'off value'
        });
 
-       stateChart.goto('./on');
-       expect(stateChart.attrs).toEqual({
+       sc.goto('./on');
+       expect(sc.attrs).toEqual({
          root_attr : 'root value',
          numZero   : 0,
          numOne    : 1,
@@ -83,43 +104,47 @@ describe('svengali/StateChart', ()=>{
     it('Promise and function values', ()=>{
       var funcVal = ()=>{};
       var promiseVal = Promise.resolve(5);
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         attrs:{
           funcVal: attrValue(funcVal),
           promiseVal: ()=>attrValue(promiseVal)
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs.funcVal).toBe(funcVal);
-      expect(stateChart.attrs.promiseVal).toBe(promiseVal);
+      expect(sc.attrs.funcVal).toBe(funcVal);
+      expect(sc.attrs.promiseVal).toBe(promiseVal);
     })
 
     it('initializer functions', ()=>{
       var id = 0;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         states:{
           'on':{
             attrs:{ on_attr:()=>`on: ${id++}` }
           },
           'off':{
-            attrs:{ off_attr:()=>`off: ${id++}` }
+            attrs:{
+              off_attr:params=>`off: ${id++}`,
+              off_params:params=>params
+            }
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         on_attr: 'on: 0'
       });
 
-       stateChart.goto('off');
-       expect(stateChart.attrs).toEqual({
-         off_attr: 'off: 1'
-       });
+       sc.goto('off');
+       expect(sc.attrs).toEqual({
+         off_attr: 'off: 1',
+         off_params: {}
+       })
 
-       stateChart.goto('./on');
-       expect(stateChart.attrs).toEqual({
+       sc.goto('./on');
+       expect(sc.attrs).toEqual({
          on_attr: 'on: 2'
        });
     });
@@ -128,7 +153,7 @@ describe('svengali/StateChart', ()=>{
     it('initializer functions depending on other attrs', async (done)=>{
       var id = 0;
       var resolveAsyncName;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         states:{
           'parent':{
             attrs:{'time':777},
@@ -138,16 +163,16 @@ describe('svengali/StateChart', ()=>{
                   'name':'Grace',
                   'greeting'(){return `Hello ${this.attrs.name}! time: ${this.attrs.time}`},
                   'asyncName':new Promise(resolve=>resolveAsyncName=resolve),
-                  'asyncGreeting'(){return this.attrs.asyncName.then(name=>`Async Hello ${name}!`)}
+                  async 'asyncGreeting'(){return `Async Hello ${await this.attrs.asyncName}!`}
                 }
               }
             }
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         time: 777,
         name: 'Grace',
         greeting: 'Hello Grace! time: 777'
@@ -160,7 +185,7 @@ describe('svengali/StateChart', ()=>{
       await Promise.resolve();
       await Promise.resolve();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         time: 777,
         name: 'Grace',
         greeting: 'Hello Grace! time: 777',
@@ -171,19 +196,19 @@ describe('svengali/StateChart', ()=>{
     });
 
     it('initializer functions with `params`', ()=>{
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         params: ['a','b','c'],
         attrs:{ one:paramArgs=>paramArgs }
       });
       var args = {a:1, b:2, c:3};
 
-      stateChart.goto('.', args);
-      expect(stateChart.attrs.one).toEqual(args);
+      sc.goto('.', args);
+      expect(sc.attrs.one).toEqual(args);
     });
 
     it('initializer functions returning a Promise', async (done)=>{
       var onResolve, offResolve;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         states:{
           'on':{
             attrs:{
@@ -197,22 +222,22 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({});
+      expect(sc.attrs).toEqual({});
 
       onResolve('on resolved value');
       await Promise.resolve();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         on_attr: 'on resolved value'
       });
 
-      stateChart.goto('off');
+      sc.goto('off');
       offResolve('off resolved value');
       await Promise.resolve();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         off_attr: 'off resolved value'
       });
 
@@ -221,29 +246,22 @@ describe('svengali/StateChart', ()=>{
 
     it('initializer functions depending on another `attr`', async (done)=>{
       var beforeResolve, laterResolve;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
+        attrs:{'beforeAttr':()=>new Promise(resolve=>beforeResolve=resolve)},
         states:{
-          'parent':{
-            attrs:{'beforeAttr':()=>new Promise(resolve=>beforeResolve=resolve)},
-            states:{
-              'one':{
-                attrs:{
-                  laterAttr:()=>new Promise(resolve=>laterResolve=resolve),
-                  nowAttr(){
-                    return Promise.all([
-                      this.attrs.beforeAttr,
-                      this.attrs.laterAttr
-                    ]).then(([before,later])=>`${before}, now and ${later}`)
-                  }
-                }
+          'one':{
+            attrs:{
+              laterAttr:()=>new Promise(resolve=>laterResolve=resolve),
+              async nowAttr(){
+                return `${await this.attrs.beforeAttr}, now and ${await this.attrs.laterAttr}`;
               }
             }
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({});
+      expect(sc.attrs).toEqual({});
 
       beforeResolve('before');
       laterResolve('later');
@@ -254,7 +272,7 @@ describe('svengali/StateChart', ()=>{
       await Promise.resolve();
       await Promise.resolve();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         beforeAttr: 'before',
         laterAttr: 'later',
         nowAttr: 'before, now and later'
@@ -265,7 +283,7 @@ describe('svengali/StateChart', ()=>{
 
     it('initializer functions are only called once per transition', ()=>{
       var num = 0;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         states:{
           'one':{
             attrs:{
@@ -277,19 +295,19 @@ describe('svengali/StateChart', ()=>{
           'two':{}
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         num: 1,
         message1: 'msg1: 1',
         message2: 'msg2: 1'
       });
 
-      stateChart.goto('two');
-      expect(stateChart.attrs).toEqual({});
+      sc.goto('two');
+      expect(sc.attrs).toEqual({});
 
-      stateChart.goto('one');
-      expect(stateChart.attrs).toEqual({
+      sc.goto('one');
+      expect(sc.attrs).toEqual({
         num: 2,
         message1: 'msg1: 2',
         message2: 'msg2: 2'
@@ -298,7 +316,7 @@ describe('svengali/StateChart', ()=>{
 
     it('initializer functions returning a Promise (no effect if state changes)', async (done)=>{
       var onResolve, offResolve;
-      var stateChart = new StateChart({
+      var sc = new StateChart({
         states:{
           'on':{
             attrs:{
@@ -312,19 +330,19 @@ describe('svengali/StateChart', ()=>{
           }
         }
       });
-      stateChart.goto();
+      sc.goto();
 
-      expect(stateChart.attrs).toEqual({});
-      stateChart.goto('off');
+      expect(sc.attrs).toEqual({});
+      sc.goto('off');
 
       onResolve('on resolved value');
       await Promise.resolve();
 
-      expect(stateChart.attrs).toEqual({});
+      expect(sc.attrs).toEqual({});
       offResolve('off resolved value');
 
       await Promise.resolve();
-      expect(stateChart.attrs).toEqual({
+      expect(sc.attrs).toEqual({
         off_attr: 'off resolved value'
       });
 
@@ -333,12 +351,12 @@ describe('svengali/StateChart', ()=>{
   });
 
   describe('events:', ()=>{
-    var stateChart, eventHandlerCalled;
+    var sc, eventHandlerCalled;
 
     beforeEach(()=>{
       eventHandlerCalled = false;
 
-      stateChart = new StateChart({
+      sc = new StateChart({
         states:{
           'one':{
             attrs:{curState:({num1, num2})=>`one${num1 || ''}${num2 || ''}`},
@@ -361,57 +379,57 @@ describe('svengali/StateChart', ()=>{
         }
       });
 
-      stateChart.goto('one');
+      sc.goto('one');
     });
 
     it('transitions to a new state ',()=>{
-      stateChart.fire('simpleTransition');
-      expect(stateChart.attrs.curState).toBe('two');
+      sc.fire('simpleTransition');
+      expect(sc.attrs.curState).toBe('two');
     });
 
     it('transitions to a new state with params (predefined)',()=>{
-      stateChart.fire('transitionWithParams');
-      expect(stateChart.attrs.threeParams).toEqual({threeParam:3});
+      sc.fire('transitionWithParams');
+      expect(sc.attrs.threeParams).toEqual({threeParam:3});
     });
 
     it('transitions to a new state with params (dynamic)',()=>{
-      stateChart.fire('transitionWithDynamicParams', 1, 3);
-      expect(stateChart.attrs.fourParams).toEqual({fourParam:4});
+      sc.fire('transitionWithDynamicParams', 1, 3);
+      expect(sc.attrs.fourParams).toEqual({fourParam:4});
     });
 
     it('transitions to a dynamically determined state',()=>{
-      stateChart.fire('transitionToDynamicState');
-      expect(stateChart.attrs.curState).toEqual('five');
+      sc.fire('transitionToDynamicState');
+      expect(sc.attrs.curState).toEqual('five');
     });
 
     it('transitions to a dynamically determined state with params',()=>{
-      stateChart.fire('transitionToDynamicStateWithParams', 2, 4);
-      expect(stateChart.attrs.sixParams).toEqual({sixParam:6});
+      sc.fire('transitionToDynamicStateWithParams', 2, 4);
+      expect(sc.attrs.sixParams).toEqual({sixParam:6});
     });
 
     it('event handler',()=>{
       expect(eventHandlerCalled).toBe(false);
-      stateChart.fire('eventHandler');
+      sc.fire('eventHandler');
       expect(eventHandlerCalled).toBe(true);
-      expect(stateChart.attrs.curState).toBe('one');
+      expect(sc.attrs.curState).toBe('one');
     });
 
     it('re-enter with params',()=>{
-      stateChart.fire('reentry');
-      expect(stateChart.attrs.curState).toBe('one1020');
+      sc.fire('reentry');
+      expect(sc.attrs.curState).toBe('one1020');
     });
 
     it('re-enter with dynamic params',()=>{
-      stateChart.fire('reentryDynamicParams', 77, 88);
-      expect(stateChart.attrs.curState).toBe('one7788');
+      sc.fire('reentryDynamicParams', 77, 88);
+      expect(sc.attrs.curState).toBe('one7788');
     });
   });
 
   describe('params:', ()=>{
-    var stateChart;
+    var sc;
 
     beforeEach(()=>{
-      stateChart = new StateChart({
+      sc = new StateChart({
         states:{
           'default':{},
           'withParams':{
@@ -423,19 +441,19 @@ describe('svengali/StateChart', ()=>{
     });
 
     it('block transition when not all params are supplied', ()=>{
-      stateChart.goto('withParams');
-      expect(stateChart.attrs).toEqual({});
+      sc.goto('withParams');
+      expect(sc.attrs).toEqual({});
 
-      stateChart.goto('withParams', {reqParam1:1});
-      expect(stateChart.attrs).toEqual({});
+      sc.goto('withParams', {reqParam1:1});
+      expect(sc.attrs).toEqual({});
 
-      stateChart.goto('withParams', {reqParam2:2});
-      expect(stateChart.attrs).toEqual({});
+      sc.goto('withParams', {reqParam2:2});
+      expect(sc.attrs).toEqual({});
     });
 
     it('allows transition when all params are supplied', ()=>{
-      stateChart.goto('withParams', {reqParam1:1, reqParam2:2});
-      expect(stateChart.attrs).toEqual({withParamsAttr:true});
+      sc.goto('withParams', {reqParam1:1, reqParam2:2});
+      expect(sc.attrs).toEqual({withParamsAttr:true});
     });
   })
 });
