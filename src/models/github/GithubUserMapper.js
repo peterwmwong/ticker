@@ -1,5 +1,5 @@
 import AttrMunger from 'helpers/AttrMunger';
-import {loadJSON} from 'helpers/load';
+import loadJSON from 'helpers/load';
 // import QueryMOCKDATA from './GithubUserMapperQueryMOCKDATA';
 
 export default {

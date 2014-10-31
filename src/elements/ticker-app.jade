@@ -28,7 +28,8 @@
     core-drawer-panel#drawerPanel(
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
-      narrow='{{isNarrow}}')
+      narrow='{{isNarrow}}'
+      selected='{{state.appDrawerExpanded | expandedToSelected}}')
 
       template(ref='{{state.mainView}}' bind='[[]]')
       ticker-drawer(drawer)

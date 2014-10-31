@@ -1,9 +1,10 @@
 +import('../../bower_components/core-header-panel/core-header-panel.html')
 +import('../../bower_components/core-toolbar/core-toolbar.html')
 +import('../../bower_components/paper-fab/paper-fab.html')
++import('../../bower_components/paper-icon-button/paper-icon-button.html')
 +import('./cards/ticker-github-events-card.html')
 
-+polymer-element(attributes='isLoaded isNarrow')
++polymer-element(attributes='isNarrow')
 
   core-header-panel(fit mode='{{isNarrow ? "waterfall" : "cover"}}')
     div(fit class='l-padding-h2 l-padding-t2 l-overflow-scroll-ios')
@@ -12,7 +13,7 @@
         paper-fab(
           on-tap='[[onToggleFavoriteEventStream]]'
           icon="favorite"
-          class='{{isSelectedEventStreamFavorited ? "c-bg-confirm" : "c-bg-error"}} \
+          class='{{state.isStreamFavorited ? "c-bg-confirm" : "c-bg-error"}} \
                  {{isNarrow && "is-on-bottom"}} \
                  c-white')
 

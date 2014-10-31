@@ -14,7 +14,7 @@ export function loadResource(type, url, headers){
   });
 }
 
-export function loadJSON(url){
+export default function loadJSON(url){
   return loadResource("json", url).then(function({response}){
     if(!response)
       throw new Error("Not found");

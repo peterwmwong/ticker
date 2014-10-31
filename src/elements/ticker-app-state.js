@@ -1,49 +1,78 @@
+// !!! <MOCKDATA> !!!
+  // import MOCK_FIREBASE from '../helpers/MOCK_FIREBASE';
+// !!! <MOCKDATA> !!!
+
 import {StateChart, goto, reenter} from '../helpers/svengali';
 import User                        from '../models/User';
 import EventStream                 from '../models/EventStream';
 
-var appState = new StateChart({
+var appstate = new StateChart({
   attrs:{
     'firebaseRef':()=>new Firebase("https://ticker-test.firebaseio.com")
   },
   enter(){
+    // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
+    // statechart trying to transition while in a transition...
+    // TODO(pwong): The statechart should be able to handle transition requests
+    //              while in a transition.
     setTimeout(()=>{
       this.attrs.firebaseRef.onAuth(authData=>{
         var github = authData && authData.github;
-        if(github)
-          this.fire('authSuccessful', github.id, {github:github.accessToken});
-        else
+        if(github){
+          this.fire('authSuccessful', github.id, github.username,{github:github.accessToken});
+        }else
           this.fire('needAuth');
       });
     })
   },
   events:{
-    'needAuth':goto('./auth')
+    'needAuth':goto('./loggedOut/auth')
   },
   states:{
-    'determineAuth':{
-      events:{
-        'authSuccessful':(authId, accessTokens)=>
-          goto('../retrieveUser', {authId, accessTokens})
-      }
-    },
-    'auth':{
-      events:{
-        'authWithGithub'(){this.attrs.firebaseRef.authWithOAuthPopup("github",()=>{})},
-        'authSuccessful':(authId, accessTokens)=>
-          goto('../retrieveUser', {authId, accessTokens})
-      }
-    },
-    'retrieveUser':{
-      enter({authId, accessTokens}){
-        User.get(authId).$promise.
-          // If user does not exist yet, create user with no streams.
-          catch(e=>new User({id:authId, eventStreams:[]}).$save().$promise).
-          then(user=>appState.fire('userRetrieved', user, accessTokens))
-      },
-      events:{
-        'userRetrieved':(user, accessTokens)=>
-          goto('../loggedIn', {user, accessTokens})
+    'loggedOut':{
+      states:{
+        'determineAuth':{
+          events:{
+            'authSuccessful':(authId, githubUsername, accessTokens)=>
+              goto('../retrieveUser', {authId, githubUsername, accessTokens})
+          }
+        },
+        'auth':{
+          events:{
+            'authWithGithub'(){this.attrs.firebaseRef.authWithOAuthPopup("github",()=>{})},
+            'authSuccessful':(authId, githubUsername, accessTokens)=>
+              goto('../retrieveUser', {authId, githubUsername, accessTokens})
+          }
+        },
+        'retrieveUser':{
+          async enter({authId, githubUsername, accessTokens}){
+            var user = User.get(authId);
+            try{await user.$promise}
+            // If the user does not exist yet, create the user with atleast one
+            // stream.
+            catch(e){
+              user = await new User({
+                githubUsername,
+                id:authId,
+                eventStreams:[
+                  EventStream.load({
+                    type:'github',
+                    id:'users:2159051',
+                    config:{
+                      type:'users',
+                      users:'Polymer'
+                    }
+                  })
+                ]
+              }).$save().$promise;
+            }
+            this.fire('userRetrieved', user, accessTokens);
+          },
+          events:{
+            'userRetrieved':(user, accessTokens)=>
+              goto('../../loggedIn', {user, accessTokens})
+          }
+        }
       }
     },
     'loggedIn':{
@@ -52,23 +81,45 @@ var appState = new StateChart({
         'accessTokens':({accessTokens})=>accessTokens
       },
       events:{
-        'selectSearch':'./search'
+        'selectSearch':goto('./search')
       },
-      states:{
-        'stream':{
-          params:['stream'],
-          attrs:{
-            'mainView':'stream',
-            'stream'({stream}){return stream || this.attrs.user.eventStreams[0]}
-          },
+      parallelStates:{
+        'appDrawer':{
+          attrs:{'appDrawerExpanded':({appDrawerExpanded})=>!!appDrawerExpanded},
           events:{
-            'selectStream':stream=>reenter({stream})
+            'selectStream':()=>reenter({appDrawerExpanded:false}),
+            'toggleAppDrawer'(){
+              return reenter({appDrawerExpanded:!this.attrs.appDrawerExpanded})
+            }
           }
         },
-        'search':{
-          attrs:{'mainView':'search'},
-          events:{
-            'selectStream':stream=>goto('../stream', {stream})
+        'appView':{
+          states:{
+            'stream':{
+              params:['stream'],
+              attrs:{
+                'mainView':'stream',
+                'stream'({stream}){return stream || this.attrs.user.eventStreams[0]},
+                'isStreamFavorited'(){
+                  return this.attrs.user.eventStreams.indexOf(this.attrs.stream) !== -1;
+                },
+              },
+              events:{
+                'selectStream':stream=>reenter({stream}),
+                'toggleFavoriteStream'(){
+                  var {user, stream} = this.attrs;
+                  user[`${this.attrs.isStreamFavorited ? 'remove': 'add'}EventStreams`](stream)
+                  user.$save();
+                  return reenter({stream});
+                }
+              }
+            },
+            'search':{
+              attrs:{'mainView':'search'},
+              events:{
+                'selectStream':stream=>goto('../stream', {stream})
+              }
+            }
           }
         }
       }
@@ -76,8 +127,10 @@ var appState = new StateChart({
   }
 });
 
-//FIXME: Tests should be able to stop state bootstrapping... or something
-if(!('__karma__' in window))
-  appState.goto();
+// TODO(pwong): Only add this in dev
+window.appstate = appstate.attrs;
 
-export default appState;
+//FIXME: Tests should be able to stop state bootstrapping... or something
+if(!('__karma__' in window)) appstate.goto();
+
+export default appstate;
