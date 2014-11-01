@@ -2,6 +2,63 @@ import {StateChart, attrValue, goto, reenter} from 'base/build/helpers/svengali'
 
 describe('svengali/StateChart', ()=>{
 
+  xdescribe('[Parameterized States] Downsides of `force` flag with `goto()`', ()=>{
+    it('[Parameterized States] Problems with force: enters of ancestors are called', ()=>{
+      var childEnterCount = 0;
+      var parentEnterCount = 0;
+
+      var child = statechart.State('child');
+      child.enter(()=>{++childEnterCount});
+
+      var parent = statechart.State('parent');
+      parent.enter(()=>{++parentEnterCount});
+      parent.addSubstate(child);
+
+      parent.goto('./child');
+      expect(childEnterCount).toBe(1);
+      expect(parentEnterCount).toBe(1);
+
+      parent.goto('./child', {force:true});
+      expect(childEnterCount).toBe(2);
+      expect(parentEnterCount).toBe(1);
+    })
+
+    it('[Parameterized States] Problems with force: exits not called', ()=>{
+      var parentExitCount = 0;
+
+      var parent = statechart.State('parent');
+      parent.exit(()=>{++parentExitCount});
+
+      parent.goto('.');
+      expect(parentExitCount).toBe(0);
+
+      parent.goto('.', {force:true});
+      expect(parentExitCount).toBe(1);
+    })
+  })
+
+  describe('@events', ()=>{
+    it('list of all events', ()=>{
+      var sc = new StateChart({
+        parallelStates:{
+          'one':{
+            events:{
+              'a':goto('../two')
+            }
+          },
+          'two':{
+            events:{
+              'b':goto('../one')
+            }
+          }
+        }
+      })
+
+      expect(sc.events).toEqual(['a','b']);
+    });
+  });
+
+
   describe('parallelStates:', ()=>{
     it('states are all entered', ()=>{
       var sc = new StateChart({
@@ -351,15 +408,18 @@ describe('svengali/StateChart', ()=>{
   });
 
   describe('events:', ()=>{
-    var sc, eventHandlerCalled;
+    var sc, eventHandlerCalled, enterCount, exitCount;
 
     beforeEach(()=>{
       eventHandlerCalled = false;
+      enterCount = exitCount = 0;
 
       sc = new StateChart({
         states:{
           'one':{
             attrs:{curState:({num1, num2})=>`one${num1 || ''}${num2 || ''}`},
+            enter(){++enterCount},
+            exit(){++exitCount},
             events:{
               'simpleTransition':goto('../two'),
               'transitionWithParams':goto('../three', {threeParam:3}),
@@ -384,44 +444,59 @@ describe('svengali/StateChart', ()=>{
 
     it('transitions to a new state ',()=>{
       sc.fire('simpleTransition');
+      expect(exitCount).toBe(1);
       expect(sc.attrs.curState).toBe('two');
     });
 
     it('transitions to a new state with params (predefined)',()=>{
       sc.fire('transitionWithParams');
+      expect(exitCount).toBe(1);
       expect(sc.attrs.threeParams).toEqual({threeParam:3});
     });
 
     it('transitions to a new state with params (dynamic)',()=>{
       sc.fire('transitionWithDynamicParams', 1, 3);
+      expect(exitCount).toBe(1);
       expect(sc.attrs.fourParams).toEqual({fourParam:4});
     });
 
     it('transitions to a dynamically determined state',()=>{
       sc.fire('transitionToDynamicState');
+      expect(exitCount).toBe(1);
       expect(sc.attrs.curState).toEqual('five');
     });
 
     it('transitions to a dynamically determined state with params',()=>{
       sc.fire('transitionToDynamicStateWithParams', 2, 4);
+      expect(exitCount).toBe(1);
       expect(sc.attrs.sixParams).toEqual({sixParam:6});
     });
 
     it('event handler',()=>{
       expect(eventHandlerCalled).toBe(false);
+
       sc.fire('eventHandler');
+      expect(exitCount).toBe(0);
       expect(eventHandlerCalled).toBe(true);
       expect(sc.attrs.curState).toBe('one');
     });
 
-    it('re-enter with params',()=>{
+    it('re-enters with params',()=>{
+      expect(enterCount).toBe(1);
+
       sc.fire('reentry');
+      expect(exitCount).toBe(1);
       expect(sc.attrs.curState).toBe('one1020');
+      expect(enterCount).toBe(2);
     });
 
-    it('re-enter with dynamic params',()=>{
+    it('re-enters with dynamic params',()=>{
+      expect(enterCount).toBe(1);
+
       sc.fire('reentryDynamicParams', 77, 88);
+      expect(exitCount).toBe(1);
       expect(sc.attrs.curState).toBe('one7788');
+      expect(enterCount).toBe(2);
     });
   });
 

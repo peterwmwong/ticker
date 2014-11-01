@@ -243,6 +243,17 @@ export class StateChart {
   fire(eventName, ...args){
     this.rootState.scState.send(eventName, ...args);
   }
+
+  _getStateEvents(scState){
+    return scState.substates.reduce(
+      (acc,s)=>acc.concat(this._getStateEvents(s)),
+      Object.keys(scState.events)
+    );
+  }
+
+  get events(){
+    return this._getStateEvents(this.rootState.scState);
+  }
 }
 
 function Reenter(params){this.params = params}
@@ -266,7 +277,7 @@ export class State {
   constructor(
     parent,
     stateChart,
-    {attrs, enter, events, history, parallelStates, params, states},
+    {attrs, enter, exit, events, history, parallelStates, params, states},
     name=nextStateUID++
   ){
     this._attrs = attrs || EMPTY_OBJ;
@@ -281,6 +292,7 @@ export class State {
     );
 
     this.enter = enter;
+    this.exit = exit;
     this.params = params;
     this.stateChart = stateChart;
 
@@ -317,18 +329,24 @@ export class State {
     return !this.params || (params && this.params.every(p=>p in params));
   }
 
-  _doEnter(params){
+  _doEnter(params = {}){
     this._resolvedAttrValues = {};
     this._attrKeys.forEach(a=>this._resolveAttrValue(a, params));
     if(this.enter) this.enter(params);
   }
 
   _doExit(){
+    if(this.exit) this.exit();
     this._attrKeys.forEach(a=>delete this.stateChart.attrs[a]);
   }
 
+  _doReenter(reenterObj){
+    this._doExit();
+    this._doEnter(reenterObj.params);
+  }
+
   _transitionToSameState(reenterObj){
-    return this._doEnter.bind(this, reenterObj.params || {});
+    return this._doReenter.bind(this, reenterObj);
   }
 
   _transitionToState(gotoObj){
@@ -341,7 +359,7 @@ export class State {
       if(result instanceof Goto)
         this.scState.goto(result.path, {context:result.params || {}});
       else if(result instanceof Reenter)
-        this._doEnter(result.params || {});
+        this._doReenter(result);
     }
   }
 
@@ -363,11 +381,11 @@ export class State {
       result = this._resolvedAttrValues[attrName];
     }else{
       var val = this._attrs[attrName];
-      val = (typeof val === 'function') ? val.call(this, params) : val;
+      val = typeof val === 'function' ? val.call(this, params) : val;
 
       if(!(val instanceof Promise))
         result = this.stateChart.attrs[attrName] =
-          (val instanceof AttrValue) ? val.val : val;
+          val instanceof AttrValue ? val.val : val;
       else
         result = val.then(value=>{
           if(this.isCurrent) this.stateChart.attrs[attrName] = value;
