@@ -1,4 +1,4 @@
-## Deep linking
+## [Feature] Deep linking
 
 ## Card Details
 
@@ -194,12 +194,12 @@ element for each of these?
 ## [Style] Consider splitting up `_layouts.scss` (margin, padding, width, height)
 
 
-## [Data] Github/Events/PushEvent
+## [Feature, Data] Github/Events/PushEvent
 
 Need associated PullRequest for the branch being pushed to
 
 
-## [Design] Data Source
+## [API Design] Data Source
 
 Provides Data that can be Rendered as a card.
 
@@ -304,43 +304,6 @@ export default class GithubUserEvent extends Model.init({
   }
 };
 ```
-
-## Proposal: Parameterized States and forced re-entry
-
-What defines a parameterized state?
-- has `params`
-
-What's different?
-- transitioning to parameterized state with different params (simple equals check?)
-  forces re-entry EVEN if it's the current state.
-
-Outstanding questions:
-- what about nested parameterized states?
-    ex. Should transitioning to child (again) re-enter the root aswell? (yes?)
-    ```
-    {
-      params:['a']
-      states:{
-        'child':{
-          params:['b']
-        }
-      }
-    }
-    ```
-- is the absence of a param considered a change?
-    ex. Should child be entered twice?
-    ```
-    var sc = new StateChart{
-      states:{
-        'child':{
-          params:['b'],
-          events:{'reenter':{'.':{}}}
-        }
-      }
-    };
-    sc.goto('child', {b:5});
-    sc.fire('reenter');
-    ```
 
 ## [svengali] Should params block transition?
 
