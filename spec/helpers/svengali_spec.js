@@ -2,62 +2,30 @@ import {StateChart, attrValue, goto, reenter} from 'base/build/helpers/svengali'
 
 describe('svengali/StateChart', ()=>{
 
-  xdescribe('[Parameterized States] Downsides of `force` flag with `goto()`', ()=>{
-    it('[Parameterized States] Problems with force: enters of ancestors are called', ()=>{
-      var childEnterCount = 0;
-      var parentEnterCount = 0;
-
-      var child = statechart.State('child');
-      child.enter(()=>{++childEnterCount});
-
-      var parent = statechart.State('parent');
-      parent.enter(()=>{++parentEnterCount});
-      parent.addSubstate(child);
-
-      parent.goto('./child');
-      expect(childEnterCount).toBe(1);
-      expect(parentEnterCount).toBe(1);
-
-      parent.goto('./child', {force:true});
-      expect(childEnterCount).toBe(2);
-      expect(parentEnterCount).toBe(1);
-    })
-
-    it('[Parameterized States] Problems with force: exits not called', ()=>{
-      var parentExitCount = 0;
-
-      var parent = statechart.State('parent');
-      parent.exit(()=>{++parentExitCount});
-
-      parent.goto('.');
-      expect(parentExitCount).toBe(0);
-
-      parent.goto('.', {force:true});
-      expect(parentExitCount).toBe(1);
-    })
-  })
-
   describe('@events', ()=>{
     it('list of all events', ()=>{
       var sc = new StateChart({
         parallelStates:{
           'one':{
-            events:{
-              'a':goto('../two')
-            }
+            events:{'a':goto('../two')}
           },
           'two':{
-            events:{
-              'b':goto('../one')
+            events:{'b':goto('../one')},
+            parallelStates:{
+              'three':{
+                events:{'c':goto('../../one')}
+              },
+              'four':{
+                events:{'d':goto('../../one')}
+              }
             }
           }
         }
-      })
+      });
 
-      expect(sc.events).toEqual(['a','b']);
+      expect(sc.events).toEqual(['a','b','c','d']);
     });
   });
-
 
   describe('parallelStates:', ()=>{
     it('states are all entered', ()=>{

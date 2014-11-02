@@ -10,6 +10,8 @@ context.
 
 ### Problems with current solution
 
+(See `/spec/helpers/statechart_issues_specs.js` for specs exposing these issues)
+
 1. All ancestors are reentered (see testcase)
   - Maybe unintuitive and lead to unintended side-effects
     - ex. An ancestor state that creates a new model.  This ancestor state may
