@@ -1,3 +1,63 @@
+## [svengali] Make writing state attr mutating -> parameterized easier
+
+
+### Currently...
+
+```js
+// states/appState.js
+  ...
+  'appDrawer':{
+    attrs:{'appDrawerOpened':({appDrawerOpened})=>!!appDrawerOpened},
+    events:{
+      'toggleAppDrawer'(){
+        return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
+      }
+    }
+  },
+  ...
+```
+
+```js
+// elements/ticker-app-state.js
+  ...
+  openedToSelected:{
+    toDOM:drawerOpened=>drawerOpened ? 'drawer' : 'main',
+    toModel(selected){
+      if(this.state.appDrawerOpened != (selected === 'drawer'))
+        this.stateEvent('toggleAppDrawer');
+      return this.state.appDrawerOpened;
+    }
+  }
+  ...
+
+```
+
+
+### Proposal: Parameterized State
+
+```js
+// states/appState.js
+  ...
+  'appDrawer':{
+    parameters:{
+      'appDrawerOpened':({appDrawerOpened})=>!!appDrawerOpened
+    }
+    // If you wanted to listen for a parameter changing
+    // parametersChanged:{
+    //   'appDrawerOpened':(isOpened)=>reenter({appDrawerOpened:isOpened})
+    // }
+  },
+  ...
+```
+
+```js
+state.appDrawerOpened = !state.appDrawerOpened;
+// What happens...
+//   1. `set appDrawerOpened()`{ this.fire('appDrawerOpened') }
+//   2. event appDrawerOpened:(appDrawerOpened)=>reenter({appDrawerOpened})
+```
+
+
 ## [Feature] Deep linking
 
 ## Card Details
