@@ -9,20 +9,19 @@
       .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
         paper-icon-button(
           class='l-margin-r0 l-margin-t1'
-          icon='arrow-back'
-          on-tap='{{onCloseSearch}}'
-        )
+          icon='menu'
+          on-tap='[[stateFire.toggleAppDrawer]]')
+          
         paper-input#searchInput(
           flex
           class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-          inputValue='{{searchText}}'
-        )
+          inputValue='{{searchText}}')
+          
         template(if='{{searchText}}')
           paper-icon-button(
             class='l-margin-l0 l-margin-r2 l-margin-t1'
             icon='close'
-            on-tap='{{onClearSearch}}'
-          )
+            on-tap='[[onClearSearch]]')
 
     div(class='l-padding-2 l-overflow-scroll-ios')
       template(if='{{!searchText && !searchResults.length}}')
@@ -35,13 +34,12 @@
             .search-result(
               layout horizontal center
               class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
-              on-tap='[[onSearchResultSelected]]'
-            )
+              on-tap='[[stateFire.selectStream]]'
+              fire-arg='searchResult')
+              
               core-icon(
                 class='c-gray-lighter l-margin-l1 l-margin-r2'
                 icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
                         : searchResult.config.type === "users" ? "github:person" \
-                        : "github:star" ]]'
-              )
+                        : "github:star" ]]')
               | [[searchResult.name]]
-              //- paper-icon-button(class='c-gray-lightest' icon='bookmark')

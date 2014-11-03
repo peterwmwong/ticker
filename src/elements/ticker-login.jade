@@ -1,6 +1,6 @@
 +import('../../bower_components/paper-button/paper-button.html')
 
-+polymer-element(nocss)
++polymer-element()(nocss)
 
   //- TODO(pwong): Refactor styles... srsly...
   div(class='c-bg-brand-primary-light l-padding-h4' style='padding-top: 84px')
@@ -13,6 +13,5 @@
     paper-button(
       class='c-bg-white c-brand-primary-light l-margin-v6 l-padding-h4 t-normal t-font-size-16'
       icon='github:octoface'
-      on-click='{{stateFire.authWithGithub}}'
-    )
+      on-click='[[stateFire.authWithGithub]]')
       | Login with GitHub

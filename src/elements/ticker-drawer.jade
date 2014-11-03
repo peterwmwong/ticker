@@ -13,7 +13,7 @@
       .drawer__item(
         class='{{ isSearching && "is-selected" }} \
                u-border-b1 c-border-gray-lighter'
-        on-tap='{{onSelectSearch}}')
+        on-tap='[[stateFire.selectSearch]]')
 
         core-icon.drawer__item__icon(class='l-margin-r2' icon='search')
         | Search
@@ -22,7 +22,7 @@
         .drawer__item(
           class='{{ { "is-selected": (!isSearching && eventStream === state.stream), \
                       "l-padding-t6": i === 0 } | tokenList }}'
-          on-tap='{{stateFire.selectStream}}' fire-arg='eventStream')
+          on-tap='[[stateFire.selectStream]]' fire-arg='eventStream')
 
           core-icon.drawer__item__icon(
             class='l-margin-r2'

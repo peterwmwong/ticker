@@ -1,6 +1,6 @@
 import StatefulPolymer from '../helpers/StatefulPolymer';
-import tickerAppState from './ticker-app-state';
+import appState from '../states/appState';
 
 StatefulPolymer('ticker-drawer', {
-  state:tickerAppState
+  state:appState
 });

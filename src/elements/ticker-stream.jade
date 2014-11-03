@@ -8,10 +8,10 @@
 
   core-header-panel(fit mode='{{isNarrow ? "waterfall" : "cover"}}')
     div(fit class='l-padding-h2 l-padding-t2 l-overflow-scroll-ios')
-      template(if='{{events}}')
-        ticker-github-events-card(block events='[[events]]')
+      template(if='{{state.streamEvents}}')
+        ticker-github-events-card(block events='[[state.streamEvents]]')
         paper-fab(
-          on-tap='[[onToggleFavoriteEventStream]]'
+          on-tap='[[stateFire.toggleFavoriteStream]]'
           icon="favorite"
           class='{{state.isStreamFavorited ? "c-bg-confirm" : "c-bg-error"}} \
                  {{isNarrow && "is-on-bottom"}} \
@@ -22,6 +22,6 @@
         paper-icon-button(
           class='l-margin-l2 l-margin-r0'
           icon='menu'
-          on-tap='{{onOpenDrawer}}')
+          on-tap='{{stateFire.toggleAppDrawer}}')
         span(flex class='l-margin-l1 t-font-size-20 t-normal')
-          | {{stream.name}}
+          | {{state.stream.name}}

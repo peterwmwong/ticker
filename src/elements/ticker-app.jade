@@ -9,17 +9,10 @@
 +polymer-element
 
   template#stream
-    ticker-stream(
-      main
-      isNarrow='{{isNarrow}}'
-      on-ticker-stream-open-drawer='[[onOpenDrawer]]')
+    ticker-stream(isNarrow='{{isNarrow}}' main)
 
   template#search
-    ticker-search(
-      main
-      isNarrow='{{isNarrow}}'
-      on-ticker-search-close='[[onCloseSearch]]'
-      on-ticker-search-select='[[onSearchSelect]]')
+    ticker-search(isNarrow='{{isNarrow}}' main)
 
   template(if='{{!state.user}}')
     ticker-login
@@ -29,7 +22,7 @@
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
       narrow='{{isNarrow}}'
-      selected='{{state.appDrawerExpanded | expandedToSelected}}')
+      selected='{{state.appDrawerOpened | openedToSelected}}')
 
       template(ref='{{state.mainView}}' bind='[[]]')
       ticker-drawer(drawer)

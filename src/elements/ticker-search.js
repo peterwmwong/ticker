@@ -1,6 +1,9 @@
 import EventStream from '../models/EventStream';
+import StatefulPolymer from '../helpers/StatefulPolymer';
+import appState from '../states/appState';
 
-Polymer('ticker-search',{
+StatefulPolymer('ticker-search', {
+  state:appState,
   searchText: '',
   results: [],
   suggestions: [],

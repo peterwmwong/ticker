@@ -1,20 +1,18 @@
 import StatefulPolymer from '../helpers/StatefulPolymer';
-import tickerAppState from './ticker-app-state';
+import appState from '../states/appState';
 
 StatefulPolymer('ticker-app', {
-  state:tickerAppState,
+  state:appState,
 
-  DRAWER_SWIPE_DISABLED:(
-    /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) &&
-      !/Chrome/.test(navigator.userAgent)
-  ),
+  DRAWER_SWIPE_DISABLED: !/Chrome/.test(navigator.userAgent) &&
+    /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent),
 
-  expandedToSelected:{
-    toDOM:drawerExpanded=>drawerExpanded ? 'drawer' : 'main',
+  openedToSelected:{
+    toDOM:drawerOpened=>drawerOpened ? 'drawer' : 'main',
     toModel(selected){
-      if(this.state.appDrawerExpanded != (selected === 'drawer'))
+      if(this.state.appDrawerOpened != (selected === 'drawer'))
         this.stateEvent('toggleAppDrawer');
-      return this.state.appDrawerExpanded;
+      return this.state.appDrawerOpened;
     }
   }
 });

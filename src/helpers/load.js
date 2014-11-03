@@ -1,12 +1,10 @@
 import is from './is';
-import appState from '../elements/ticker-app-state';
 
-export function loadResource(type, url, headers){
-  headers = headers == null ? {} : headers;
+export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.setRequestHeader('Authorization', 'token '+appState.attrs.accessTokens.github);
+    xhr.setRequestHeader('Authorization', `token ${accessToken}`);
     xhr.responseType = type;
     xhr.send();
     xhr.onload  = ()=>fulfill(xhr);
@@ -15,9 +13,8 @@ export function loadResource(type, url, headers){
 }
 
 export default function loadJSON(url){
-  return loadResource("json", url).then(function({response}){
-    if(!response)
-      throw new Error("Not found");
+  return loadResource("json", url, loadJSON.accessToken).then(function({response}){
+    if(!response) throw new Error("Not found");
     return is.aString(response) ? JSON.parse(response) : response;
   });
 }

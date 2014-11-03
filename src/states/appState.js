@@ -3,13 +3,13 @@
 // !!! <MOCKDATA> !!!
 
 import {StateChart, goto, reenter} from '../helpers/svengali';
+import load                        from '../helpers/load';
 import User                        from '../models/User';
 import EventStream                 from '../models/EventStream';
 
-var appstate = new StateChart({
-  attrs:{
-    'firebaseRef':()=>new Firebase("https://ticker-test.firebaseio.com")
-  },
+var appState;
+export default appState = new StateChart({
+  attrs:{'firebaseRef':()=>new Firebase("https://ticker-test.firebaseio.com")},
   enter(){
     // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
     // statechart trying to transition while in a transition...
@@ -19,7 +19,7 @@ var appstate = new StateChart({
       this.attrs.firebaseRef.onAuth(authData=>{
         var github = authData && authData.github;
         if(github){
-          this.fire('authSuccessful', github.id, github.username,{github:github.accessToken});
+          this.fire('authSuccessful', github.id, github.username, {github:github.accessToken});
         }else
           this.fire('needAuth');
       });
@@ -78,33 +78,41 @@ var appstate = new StateChart({
     'loggedIn':{
       attrs:{
         'user':({user})=>user,
-        'accessTokens':({accessTokens})=>accessTokens
-      },
-      events:{
-        'selectSearch':goto('./search')
+        'accessTokens':({accessTokens})=>{
+          // TODO: This is to break a cycle between:
+          //         *appState* ->
+          //         EventStrea ->
+          //         GithubEvent ->
+          //         GithubEventMapper ->
+          //         load ->
+          //         *appState*
+          load.accessToken = accessTokens.github;
+          return accessTokens;
+        }
       },
       parallelStates:{
         'appDrawer':{
-          attrs:{'appDrawerExpanded':({appDrawerExpanded})=>!!appDrawerExpanded},
+          attrs:{'appDrawerOpened':({appDrawerOpened})=>!!appDrawerOpened},
           events:{
-            'selectStream':()=>reenter({appDrawerExpanded:false}),
+            'selectSearch, selectStream':reenter({appDrawerOpened:false}),
             'toggleAppDrawer'(){
-              return reenter({appDrawerExpanded:!this.attrs.appDrawerExpanded})
+              return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
             }
           }
         },
         'appView':{
           states:{
             'stream':{
-              params:['stream'],
               attrs:{
-                'mainView':'stream',
-                'stream'({stream}){return stream || this.attrs.user.eventStreams[0]},
                 'isStreamFavorited'(){
                   return this.attrs.user.eventStreams.indexOf(this.attrs.stream) !== -1;
                 },
+                'mainView':'stream',
+                'stream'({stream}){return stream || this.attrs.user.eventStreams[0]},
+                'streamEvents'(){return this.attrs.stream.events().$promise}
               },
               events:{
+                'selectSearch':goto('../search'),
                 'selectStream':stream=>reenter({stream}),
                 'toggleFavoriteStream'(){
                   var {user, stream} = this.attrs;
@@ -117,7 +125,7 @@ var appstate = new StateChart({
             'search':{
               attrs:{'mainView':'search'},
               events:{
-                'selectStream':stream=>goto('../stream', {stream})
+                'selectStream':(stream)=>goto('../stream', {stream})
               }
             }
           }
@@ -128,9 +136,7 @@ var appstate = new StateChart({
 });
 
 // TODO(pwong): Only add this in dev
-window.appstate = appstate.attrs;
+window.appState = appState;
 
 //FIXME: Tests should be able to stop state bootstrapping... or something
-if(!('__karma__' in window)) appstate.goto();
-
-export default appstate;
+if(!('__karma__' in window)) appState.goto();

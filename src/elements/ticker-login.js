@@ -1,5 +1,5 @@
 import StatefulPolymer from '../helpers/StatefulPolymer';
-import appState from './ticker-app-state';
+import appState from '../states/appState';
 
 StatefulPolymer('ticker-login', {
   state:appState
