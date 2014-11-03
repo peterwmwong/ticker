@@ -309,8 +309,11 @@ export class State {
     scState.exit(()=>this._doExit());
 
     if(events)
-      Object.keys(events).
-        forEach(eventName=>this._registerEvent(eventName, events[eventName]));
+      Object.keys(events).forEach(eventName=>{
+        eventName.split(',').forEach(ename=>{
+          this._registerEvent(ename.trim(), events[eventName])
+        })
+      });
 
     states = parallelStates || states;
     if(states)
@@ -330,8 +333,9 @@ export class State {
   }
 
   _doEnter(params = {}){
+    this._currentParams = params;
     this._resolvedAttrValues = {};
-    this._attrKeys.forEach(a=>this._resolveAttrValue(a, params));
+    this._attrKeys.forEach(a=>this._resolveAttrValue(a));
     if(this.enter) this.enter(params);
   }
 
@@ -374,7 +378,8 @@ export class State {
     if(callback) this.scState.event(eventName, callback);
   }
 
-  _resolveAttrValue(attrName, params){
+  _resolveAttrValue(attrName){
+    var params = this._currentParams;
     var result;
 
     if(attrName in this._resolvedAttrValues){

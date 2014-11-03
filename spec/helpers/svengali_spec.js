@@ -185,22 +185,22 @@ describe('svengali/StateChart', ()=>{
             states:{
               'child':{
                 attrs:{
-                  'name':'Grace',
                   'greeting'(){return `Hello ${this.attrs.name}! time: ${this.attrs.time}`},
                   'asyncName':new Promise(resolve=>resolveAsyncName=resolve),
-                  async 'asyncGreeting'(){return `Async Hello ${await this.attrs.asyncName}!`}
+                  async 'asyncGreeting'(){return `Async Hello ${await this.attrs.asyncName}!`},
+                  'name':({lname})=>`Grace ${lname}`
                 }
               }
             }
           }
         }
       });
-      sc.goto();
+      sc.goto('.', {lname:'Moo'});
 
       expect(sc.attrs).toEqual({
         time: 777,
-        name: 'Grace',
-        greeting: 'Hello Grace! time: 777'
+        name: 'Grace Moo',
+        greeting: 'Hello Grace Moo! time: 777'
       });
 
       resolveAsyncName('Peter');
@@ -212,8 +212,8 @@ describe('svengali/StateChart', ()=>{
 
       expect(sc.attrs).toEqual({
         time: 777,
-        name: 'Grace',
-        greeting: 'Hello Grace! time: 777',
+        name: 'Grace Moo',
+        greeting: 'Hello Grace Moo! time: 777',
         asyncName: 'Peter',
         asyncGreeting: 'Async Hello Peter!'
       });
@@ -396,14 +396,16 @@ describe('svengali/StateChart', ()=>{
               'transitionToDynamicStateWithParams':(num1, num2)=>goto('../six', {sixParam:num1+num2}),
               'eventHandler':()=>eventHandlerCalled=true,
               'reentry':reenter({num1:10, num2:20}),
-              'reentryDynamicParams':(num1, num2)=>reenter({num1, num2})
+              'reentryDynamicParams':(num1, num2)=>reenter({num1, num2}),
+              'firstEvent, secondEvent':goto('../seven')
             }
           },
           'two'   :{attrs:{curState:'two'} },
           'three' :{attrs:{threeParams:params=>params}},
           'four'  :{attrs:{fourParams:params=>params}},
           'five'  :{attrs:{curState:'five'}},
-          'six'   :{attrs:{sixParams:params=>params}}
+          'six'   :{attrs:{sixParams:params=>params}},
+          'seven' :{attrs:{curState:'seven'}}
         }
       });
 
@@ -465,6 +467,19 @@ describe('svengali/StateChart', ()=>{
       expect(exitCount).toBe(1);
       expect(sc.attrs.curState).toBe('one7788');
       expect(enterCount).toBe(2);
+    });
+
+    it('multiple events with the same outcome specified as a comma delimited list', ()=>{
+      expect(sc.attrs.curState).toBe('one');
+
+      sc.fire('firstEvent');
+      expect(sc.attrs.curState).toBe('seven');
+
+      sc.goto('./one');
+      expect(sc.attrs.curState).toBe('one');
+
+      sc.fire('secondEvent');
+      expect(sc.attrs.curState).toBe('seven');
     });
   });
 
