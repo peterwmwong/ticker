@@ -38,7 +38,7 @@ export default {
             'toggleFavoriteStream'(){
               var user = this.attrs.user;
               var stream = this.attrs.stream;
-              user[`${this.attrs.isStreamFavorited ? 'remove': 'add'}EventStreams`](stream)
+              user[`${this.attrs.isStreamFavorited ? 'remove' : 'add'}EventStreams`](stream)
               user.$save();
               return reenter({stream});
             }

@@ -20,17 +20,16 @@ var appState = window.appState = new StateChart({
         if(github)
           this.fire('authSuccessful', github.id, github.username, {github:github.accessToken});
         else
-          this.fire('needAuth');
+          this.fire('authFailed');
       });
     });
   },
   events:{
-    'needAuth':goto('loggedOut/auth'),
-    'userRetrieved':(user, accessTokens)=>goto('loggedIn', {user, accessTokens})
+    'userLoggedIn':(user, accessTokens)=>goto('loggedIn', {user, accessTokens})
   },
   states:{
     'loggedOut':loggedOutState,
-    'loggedIn':loggedInState
+    'loggedIn' :loggedInState
   }
 });
 

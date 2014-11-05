@@ -6,6 +6,7 @@ export default {
   states:{
     'determineAuth':{
       events:{
+        'authFailed':goto('../auth'),
         'authSuccessful':(authId, githubUsername, accessTokens)=>
           goto('../retrieveUser', {authId, githubUsername, accessTokens})
       }
@@ -29,7 +30,7 @@ export default {
           // stream.
           user = await createUserWithDefaults({id:authId, githubUsername});
         }
-        this.fire('userRetrieved', user, accessTokens);
+        this.fire('userLoggedIn', user, accessTokens);
       }
     }
   }
