@@ -1,3 +1,10 @@
+
+## `goto` as a return type
+
+## `params`
+
+## `attrs`
+
 ## Parameterized States and `reenter`
 
 Parameterized States are different than usual states in that they can be

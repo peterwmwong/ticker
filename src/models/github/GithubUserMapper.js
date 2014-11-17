@@ -1,15 +1,17 @@
-import AttrMunger from 'helpers/AttrMunger';
-import loadJSON from 'helpers/load';
+import loadJSON        from 'helpers/load';
+import {load, loadAll} from 'helpers/MapperUtils';
 // import QueryMOCKDATA from './GithubUserMapperQueryMOCKDATA';
 
 export default {
-  query:(array,{q})=>
-    (
-      loadJSON(`https://api.github.com/search/users?q=${q}`)
+  get(model){
+    return (
+      loadJSON(`https://api.github.com/users/${model.id}`)
+    ).then(data=>load(model, data));
+  },
+  query(array, {term}){
+    return (
+      loadJSON(`https://api.github.com/search/users?q=${term}`)
       // Promise.resolve(QueryMOCKDATA)
-    ).then(data=>
-      (data && data.items) &&
-        array.$replace(
-          array.$class.loadAll(
-            AttrMunger.camelize(data.items))))
+    ).then(data=>loadAll(array, data && data.items));
+  }
 };

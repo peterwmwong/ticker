@@ -1,5 +1,7 @@
 import {goto, reenter} from '../helpers/svengali';
 import load            from '../helpers/load';
+import Source          from '../models/sources/Source';
+import sourceState     from './sourceState';
 
 export default {
   params:['user', 'accessTokens'],
@@ -15,39 +17,28 @@ export default {
     'appDrawer':{
       attrs:{'appDrawerOpened':({appDrawerOpened})=>!!appDrawerOpened},
       events:{
-        'selectSearch, selectStream':reenter({appDrawerOpened:false}),
+        'selectSearch, selectSource':reenter({appDrawerOpened:false}),
         'toggleAppDrawer'(){
           return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
         }
       }
     },
     'appView':{
+      events:{
+        'selectSource':source=>goto('./source', {source}),
+        'selectSearch':goto('./search')
+      },
       states:{
-        'stream':{
+        'source':sourceState,
+        'search':{
           attrs:{
-            'isStreamFavorited'(){
-              return this.attrs.user.eventStreams.indexOf(this.attrs.stream) !== -1;
-            },
-            'mainView':'stream',
-            'stream'({stream}){return stream || this.attrs.user.eventStreams[0]},
-            'streamEvents'(){return this.attrs.stream.events().$promise}
+            'appView':'search',
+            'searchText':({searchText})=>searchText || '',
+            'searchResults'(){return Source.query({term:this.attrs.searchText})}
           },
           events:{
-            'selectSearch':goto('../search'),
-            'selectStream':stream=>reenter({stream}),
-            'toggleFavoriteStream'(){
-              var user = this.attrs.user;
-              var stream = this.attrs.stream;
-              user[`${this.attrs.isStreamFavorited ? 'remove' : 'add'}EventStreams`](stream)
-              user.$save();
-              return reenter({stream});
-            }
-          }
-        },
-        'search':{
-          attrs:{'mainView':'search'},
-          events:{
-            'selectStream':(stream)=>goto('../stream', {stream})
+            'clearSearchText':()=>reenter({searchText:''}),
+            'searchTextChanged':searchText=>reenter({searchText})
           }
         }
       }

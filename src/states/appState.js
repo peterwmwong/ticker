@@ -7,8 +7,8 @@ import loggedInState      from './loggedInState';
 import loggedOutState     from './loggedOutState';
 
 // TODO(pwong): Only add to window if in dev?
-var appState = window.appState = new StateChart({
-  attrs:{'firebaseRef':()=>new window.Firebase("https://ticker-test.firebaseio.com")},
+var appState = new StateChart({
+  attrs:{'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl)},
   enter(){
     // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
     // statechart trying to transition while in a transition...
@@ -32,6 +32,8 @@ var appState = window.appState = new StateChart({
     'loggedIn' :loggedInState
   }
 });
+
+window.appState = appState;
 
 //FIXME: Tests should be able to stop state bootstrapping... or something
 if(!('__karma__' in window)) appState.goto();

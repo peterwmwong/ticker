@@ -169,7 +169,7 @@ function buildQueryArray(klass) {
           queued = args;
         }else{
           isBusy = true;
-          promise = ensurePromise(klass.mapper.query.apply(this, [this, ...args]), '$query')
+          promise = ensurePromise(klass.mapper.query(...[this, ...args]), '$query')
             .then(
               ()=>{
                 isBusy = false;
@@ -569,7 +569,7 @@ class Model {
     var klass = this.$className();
     var state = this.$stateString();
     if(this.$isEmpty)
-      return `#<${klass} (${state}) ${JSON.stringify({id:this.id})}>`;
+      return `#<${klass} (${state}) `+JSON.stringify({id:this.id})+'>';
 
     var attrs = this.$attrs();
     var associations = this.constructor.associations();

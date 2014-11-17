@@ -38,7 +38,7 @@ describe('svengali/StateChart', ()=>{
             attrs:{'twoAttr':2}
           }
         }
-      })
+      });
       sc.goto();
 
       expect(sc.attrs).toEqual({
@@ -139,7 +139,7 @@ describe('svengali/StateChart', ()=>{
 
       expect(sc.attrs.funcVal).toBe(funcVal);
       expect(sc.attrs.promiseVal).toBe(promiseVal);
-    })
+    });
 
     it('initializer functions', ()=>{
       var id = 0;
@@ -150,7 +150,7 @@ describe('svengali/StateChart', ()=>{
           },
           'off':{
             attrs:{
-              off_attr:params=>`off: ${id++}`,
+              off_attr:()=>`off: ${id++}`,
               off_params:params=>params
             }
           }
@@ -166,7 +166,7 @@ describe('svengali/StateChart', ()=>{
        expect(sc.attrs).toEqual({
          off_attr: 'off: 1',
          off_params: {}
-       })
+       });
 
        sc.goto('./on');
        expect(sc.attrs).toEqual({

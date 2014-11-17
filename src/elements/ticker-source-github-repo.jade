@@ -1,0 +1,28 @@
++import('../../bower_components/core-scroll-header-panel/core-scroll-header-panel.html')
++import('../../bower_components/core-toolbar/core-toolbar.html')
++import('../../bower_components/paper-fab/paper-fab.html')
++import('../../bower_components/paper-icon-button/paper-icon-button.html')
++import('./cards/ticker-github-events-card.html')
+
++polymer-element
+
+  core-scroll-header-panel(fit mode='waterfall' on-core-header-transform='{{onHeaderTransform}}')
+    core-toolbar#toolbar(class='c-white tall')
+      .middle
+        div(class='l-padding-l3 l-margin-l6 t-font-size-20 t-normal')
+          //!!!! START HERE: stream.name?
+          | {{state.stream.name}}
+        div(class='l-padding-l3 l-margin-l6 t-font-size-20 t-normal')
+          | {{state.stream.name}}
+        
+    div(content class='l-padding-h2 l-padding-t2')
+      template(if='{{state.streamEvents}}')
+        ticker-github-events-card(block events='[[state.streamEvents]]')
+
+  core-toolbar(class='c-white c-bg-transparent')
+    paper-icon-button(
+      class='l-margin-l2 l-margin-r0'
+      icon='menu'
+      on-tap='{{stateFire.toggleAppDrawer}}')
+    span#titleText(flex class='l-margin-l1 t-font-size-20 t-normal')
+      | {{state.stream.name}}

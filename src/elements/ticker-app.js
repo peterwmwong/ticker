@@ -4,8 +4,8 @@ import appState from '../states/appState';
 StatefulPolymer('ticker-app', {
   state:appState,
 
-  DRAWER_SWIPE_DISABLED: !/Chrome/.test(navigator.userAgent) &&
-    /AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent),
+  DRAWER_SWIPE_DISABLED: !/Chrome/.test(window.navigator.userAgent) &&
+    /AppleWebKit.*Mobile.*Safari/.test(window.navigator.userAgent),
 
   openedToSelected:{
     toDOM:drawerOpened=>drawerOpened ? 'drawer' : 'main',

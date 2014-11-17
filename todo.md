@@ -1,5 +1,91 @@
-## [svengali] Make writing state attr mutating -> parameterized easier
+## [svengali] Problem: Events are used for too many communication patterns
 
+1. View -> State
+1. Child State -> Parent State
+1. State -> State
+
+Would it be better (clearer) to have seperate mechanisms for some/each of the
+above?  Or is it enough
+
+
+## [svengali] Problem: Fragile imported states
+
+Imported states can have fragile/hidden dependencies on parent states.
+
+Example...
+
+```js
+// ChildState.js
+export default {
+  attrs:{
+    'num2'(){return this.attrs.num1 + 100}
+  }
+}
+
+// ParentState.js
+import ChildState from './ChildState';
+export default {
+  attrs:{
+    'num1': 777
+  },
+  states:{
+    'child': ChildState
+  }
+}
+```
+
+`ChildState` has a dependency on a `attrs.num1`.  This dependency is buried in
+the attr initializer for `num2`.
+
+### Possible Solution: `substate(mySubstate).transfer('attr1','attr2')`
+
+!!! - We cannot transfer as params otherwise reentering would need to resend the
+      param, which means it would have to store that param as an attr.
+
+```js
+// ChildState.js
+export default {
+  attrs:{
+    'num2'(){return this.attrs.num1 + 100}
+  }
+}
+
+// ParentState.js
+import ChildState from './ChildState';
+export default {
+  attrs:{
+    'num1': 777
+  },
+  states:{
+    'child': substate(ChildState).transfer('num1')
+  }
+}
+```
+
+#### Concerns
+
+- [ ] Boilerplate: Try converting appState, logoutState, and loginState
+
+## [svengali] Make writing parameterized states easier
+
+## [Design] Github Entity Page
+
+- Collapsable Header
+  - Title: User/Repo
+  - [Repo] URL
+  - [Repo] Description
+  - Num Followers
+  - Num Favorited
+- Hideable 2nd Header Bar (Tabs)
+  - Nav: Info
+    - Readme
+    - Stats
+      - Activity (Line Graph)
+        - Commits
+        - PR
+        - Issues
+  - Nav: Code
+  - Nav: Updates (stream)
 
 ### Currently...
 
@@ -182,6 +268,23 @@ state.appDrawerOpened = !state.appDrawerOpened;
 
 ### Issue Detailed View
 
+
+- Collapsable Header
+  - Back Button
+  - Title: "#${Issue Num}: #{Description}"
+  - Collapseable Content:
+    - [Repo] URL
+    - [Repo] Description
+    - Num Watchers
+- Content
+  - Author
+  - Description
+  - Comments
+    - Author icon
+    - Author name
+    - Date
+    - Body
+
 - Header
   - back button
   - Issue Name
@@ -199,6 +302,7 @@ state.appDrawerOpened = !state.appDrawerOpened;
     - Body
 
 ### Detailed Views
+
 - Pull Request
   * Info
     - Name
@@ -370,42 +474,3 @@ export default class GithubUserEvent extends Model.init({
 So far it seems like param requirements are hard to use as a blocked transition
 are hard to rectify.  What to do I do now?  How can I tell the transition was
 blocked?
-
-
-## [svengali] Should transitions be forced? And should forced transitions be only run enters on leaves?  Or is re-entering the same state with different params (parameterized states) a big enough special case for a specific API?
-
-If we go leaf only re-entry, here's the testcase...
-
-```js
-it('does not call enter for non-leaf states being re-entered', ()=>{
-  var rootCount = 0;
-  var leafCount = 0;
-  var stateChart = new StateChart({
-    attrs:{'rootCount':()=>++rootCount},
-    events:{
-      'reenter':{
-        'leaf':()=>({'one':1})
-      }
-    },
-    states:{
-      'leaf':{
-        attrs:{'leafCount':()=>++leafCount}
-      }
-    }
-  });
-
-  stateChart.goto();
-
-  expect(stateChart.attrs).toEqual({
-    rootCount: 1,
-    leafCount: 1
-  });
-
-  stateChart.fire('reenter');
-
-  expect(stateChart.attrs).toEqual({
-    rootCount: 1,
-    leafCount: 2
-  });
-})
-```

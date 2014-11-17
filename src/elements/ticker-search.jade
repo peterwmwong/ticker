@@ -21,16 +21,16 @@
           paper-icon-button(
             class='l-margin-l0 l-margin-r2 l-margin-t1'
             icon='close'
-            on-tap='[[onClearSearch]]')
+            on-tap='[[stateFire.clearSearchText]]')
 
     div(class='l-padding-2 l-overflow-scroll-ios')
-      template(if='{{!searchText && !searchResults.length}}')
+      template(if='{{!searchText && !state.searchResults.length}}')
         h2(class='l-padding-v2 c-gray-light t-align-center t-light t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
-      template(if='{{searchText && searchResults.length}}')
+      template(if='{{state.searchText && state.searchResults && state.searchResults.length}}')
         ticker-card(block class='l-margin-b2')
-          template(repeat='{{searchResult in searchResults}}')
+          template(repeat='{{searchResult in state.searchResults}}')
             .search-result(
               layout horizontal center
               class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
@@ -42,4 +42,4 @@
                 icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
                         : searchResult.config.type === "users" ? "github:person" \
                         : "github:star" ]]')
-              | [[searchResult.name]]
+              | [[searchResult.data.name]]

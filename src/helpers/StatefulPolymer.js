@@ -1,20 +1,17 @@
 import {StateChart} from 'helpers/svengali';
 
-function stateFire(statechart, stateEvent, event){
+function stateFire(statechart, stateEvent, {currentTarget}){
   // Get fire args
-  var fireArg = event.currentTarget.getAttribute('fire-arg');
-  if(fireArg) statechart.fire(stateEvent, event.currentTarget.templateInstance.model[fireArg]);
+  var fireArg = currentTarget.getAttribute('fire-arg');
+  if(fireArg) statechart.fire(stateEvent, currentTarget.templateInstance.model[fireArg]);
   else statechart.fire(stateEvent);
 }
 
 // Add stateFire[eventName](fire-arg) functions on element
 function addFireFuncs(object, statechart){
   var events = statechart.events;
-  var event;
-  for(var i=0; i<events.length; ++i){
-    event = events[i];
-    object[`stateFire.${event}`] = stateFire.bind(null, statechart, event);
-  }
+  for(var i=0; i<events.length; ++i)
+    object[`stateFire.${events[i]}`] = stateFire.bind(null, statechart, events[i]);
 }
 
 export default function StatefulPolymer(name,options){
@@ -39,4 +36,4 @@ export default function StatefulPolymer(name,options){
   }
 
   window.Polymer(name, options);
-};
+}

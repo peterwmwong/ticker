@@ -9,7 +9,6 @@ html(lang='en')
 
     title ticker
 
-    link(rel='shortcut icon' href='../favicon.ico?v=1' type="image/x-icon")
     link(rel='stylesheet' href='index.css' shim-shadowdom)
 
     script(src='../bower_components/platform/platform.js')
@@ -20,9 +19,10 @@ html(lang='en')
     //- this needs to be added to apply the extension
     script register(System);
     script(src='../vendor/statechart.js')
-    script(src='../bower_components/firebase/firebase-debug.js')
-
-    - if(isProd)
+    script(src='../bower_components/firebase/firebase.js')
+    
+    script!='window.CONFIG=' + JSON.stringify(CONFIG) + ';'
+    - if(ENVIRONMENT == 'production')
       script(src='all.js')
 
     +import('../bower_components/polymer/polymer.html')
@@ -31,10 +31,9 @@ html(lang='en')
   body(fullbleed)
     ticker-app
 
-    //- Dev
-    //- ---
-    - if(!isProd)
-
+    - if(ENVIRONMENT == 'development')
       //- Livereload
       script.
-        document.write("<script src='http://" + (location.host || 'localhost').split(':')[0] + ":35729/livereload.js?snipver=1'></" + "script>");
+        document.write(
+          "<script src='http://"+(location.host || 'localhost').split(':')[0]+
+            ":35729/livereload.js?snipver=1'></"+"script>");

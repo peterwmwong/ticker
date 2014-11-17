@@ -21,14 +21,17 @@ var traceur    = require('gulp-traceur');
 var exec       = require('child_process').exec;
 var vulcanize  = require('vulcanize');
 
+
 // Constants
 // ---------
 
-var IS_PROD        = process.argv[2] === 'prod';
+var ENVIRONMENT    = process.argv[2] === 'production' ? 'production' : 'development';
 var SRC_DIR        = './src/';
 var BUILD_DIR      = './build/';
 var SPEC_SRC_DIR   = './spec/';
 var SPEC_BUILD_DIR = './spec_build/';
+var CONFIG         = require('./config/' + ENVIRONMENT + '.js');
+
 
 // Cleanup Tasks
 // -------------
@@ -70,7 +73,7 @@ gulp.task('iconsets', function(){
                      var translateX = (1024 - width)/2;
                      svg.correctiveTransform = "translate("+translateX+",0)";
                    }
-                 })
+                 });
                  return data;
                },
                mode: "defs",
@@ -83,7 +86,7 @@ gulp.task('iconsets', function(){
                }
              }))
              .pipe(gulp.dest(BUILD_DIR+"/iconsets"));
-})
+});
 
 // Currently, libSass cannot handle /deep/, so we use _deep_ in our source files
 // and replace it with /deep/ after compilation.
@@ -109,7 +112,7 @@ gulp.task('templates', function(){
              .pipe(changed(BUILD_DIR, {extension:'.html'}))
              .pipe(plumber())
              .pipe(jade({
-                pretty:!IS_PROD,
+                pretty:(ENVIRONMENT == 'development'),
                 basedir:'src/template/',
                 parser:(function(){
                   var includeMixinsSrc = fs.readdirSync('src/template/mixins')
@@ -117,12 +120,15 @@ gulp.task('templates', function(){
                                               return acc+'include /mixins/'+mixinFn.replace(/.jade$/,'')+'\n';
                                             }, '');
                   var NewParser = function(str, filename, options){
-                    jadeLib.Parser.call(this, includeMixinsSrc + str, filename, options);
-                  };
+                                    jadeLib.Parser.call(this, includeMixinsSrc + str, filename, options);
+                                  };
                   NewParser.prototype = jadeLib.Parser.prototype;
                   return NewParser;
                 })(),
-                locals:{isProd:IS_PROD}
+                locals:{
+                  ENVIRONMENT:ENVIRONMENT,
+                  CONFIG:CONFIG
+                }
               }))
              .pipe(gulp.dest(BUILD_DIR));
 });
@@ -196,9 +202,7 @@ gulp.task('watch', function(){
 
 gulp.task('livereload', function(){
   var server = livereload({liveCss:false});
-  function handleChanged(file){
-    server.changed(file.path);
-  }
+  function handleChanged(file){server.changed(file.path);}
 
   gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
   gulp.watch(SPEC_BUILD_DIR+'**/*.js', handleChanged);
@@ -224,7 +228,7 @@ gulp.task('compile-watch', ['compile','iconsets'], function(){
   gulp.start('watch', 'livereload', 'spec-run');
 });
 
-gulp.task('prod', ['clean', 'spec-clean'], function(){
+gulp.task('production', ['clean', 'spec-clean'], function(){
   gulp.start('prod-compile');
 });
 gulp.task('prod-compile', ['templates', 'styles', 'code-prod', 'iconsets'], function(){
