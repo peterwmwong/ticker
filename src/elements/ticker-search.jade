@@ -5,7 +5,7 @@
 
 +polymer-element(attributes='isNarrow')
   core-header-panel(fit mode="seamed")
-    core-toolbar(class='{{!isNarrow ? "medium-tall" : ""}} c-white')
+    core-toolbar(class='c-white')
       .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
         paper-icon-button(
           class='l-margin-r0 l-margin-t1'
@@ -15,7 +15,7 @@
         paper-input#searchInput(
           flex
           class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-          inputValue='{{searchText}}')
+          inputValue='{{state.searchText | onSearchTextChanged}}')
           
         template(if='{{searchText}}')
           paper-icon-button(
@@ -34,7 +34,7 @@
             .search-result(
               layout horizontal center
               class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
-              on-tap='[[stateFire.selectStream]]'
+              on-tap='[[stateFire.selectSource]]'
               fire-arg='searchResult')
               
               core-icon(
@@ -42,4 +42,4 @@
                 icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
                         : searchResult.config.type === "users" ? "github:person" \
                         : "github:star" ]]')
-              | [[searchResult.data.name]]
+              | [[searchResult.name]]

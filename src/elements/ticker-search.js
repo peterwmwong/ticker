@@ -10,7 +10,9 @@ StatefulPolymer('ticker-search', {
   onSearchTextChanged:{
     toDOM:searchText=>searchText,
     toModel(searchText){
-      this.stateEvent('searchTextChanged', searchText);
+      this.job('ticker-search',()=>{
+        this.stateEvent('searchTextChanged', searchText);
+      }, 500);
       return this.state.searchText;
     }
   }
