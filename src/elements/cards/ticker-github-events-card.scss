@@ -21,15 +21,16 @@
 }
 
 .subject, .title {
+  background: white;
   border-bottom: 1px solid $gray-lightest;
-  background: $gray-lightester;
+  color: $gray-darker;
 }
 
 .title {
   align-items: baseline;
+  font-size: 1.8rem;
   padding-top: ($baseline*4);
   padding-bottom: ($baseline*4);
-  font-size: 1.8rem;
 }
 
 .subject, .action {
@@ -38,8 +39,6 @@
 }
 
 .subject {
-  color: $gray-dark;
-  font-style: italic;
   margin-top: -1px; // Prevent double border with the title
   padding-top: 0;
   padding-bottom: ($baseline*2);
@@ -50,7 +49,8 @@
 }
 
 .action {
-  background: white;
+  background: $gray-lightester;
+  color: $gray-darker;
 
   ticker-github-avatar {
     align-self: flex-start;

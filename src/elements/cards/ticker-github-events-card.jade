@@ -15,7 +15,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 +polymer-element(attributes='events')
 
   template#Comment
-    .action__content(flex class='t-normal t-word-wrap-break-word')
+    .action__content(flex class='t-word-wrap-break-word')
       marked-element(text='[[]]')
 
   template#EventTimeAgo
@@ -66,7 +66,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(ref='CardTitle' bind='[[]]')
 
       .action
-        span(class='t-normal') [[payload.team.name]]
+        span [[payload.team.name]]
         | &nbsp;team was added
 
 
@@ -74,7 +74,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
     .card
       template(ref='CardTitle' bind='[[]]' if='[[payload.refType !== "repository"]]')
 
-      .subject(class='[[payload.refType === "repository" && "l-padding-t4"]]')
+      .subject(class='[[payload.refType === "repository" && "l-padding-t4 l-padding-b3"]]')
         core-icon(
           class='[[type === "CreateEvent" ? "c-confirm-light" \
                                           : "c-error-light"]] \
@@ -167,7 +167,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           class='c-gray-lighter l-margin-r3'
           icon='github:star'
         )
-        ticker-github-repo(flex class='c-gray-dark t-truncate' repo='[[repo.name]]')
+        ticker-github-repo(flex class='c-gray-darker t-truncate' repo='[[repo.name]]')
         template(ref='EventTimeAgo' bind='[[]]')
 
 
@@ -179,7 +179,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           class='c-gray-lighter l-margin-r3'
           icon='github:repo-forked'
         )
-        ticker-github-repo(flex class='c-gray-dark' repo='[[repo.name]]')
+        ticker-github-repo(flex class='c-gray-darker' repo='[[repo.name]]')
         template(ref='EventTimeAgo' bind='[[]]')
 
 
@@ -195,7 +195,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           template(repeat='[[commit in limitArray(payload.commits, 3)]]')
             li(horizontal layout center)
               core-icon(self-start class='c-confirm-light l-margin-r3' icon='github:git-commit')
-              span(flex class='t-normal t-word-wrap-break-word')
+              span(flex class='t-word-wrap-break-word')
                 | [[commit.message]]
 
 
