@@ -12,9 +12,8 @@ export function loadResource(type, url, accessToken){
   });
 }
 
-export default function loadJSON(url){
-  return loadResource("json", url, loadJSON.accessToken).then(function({response}){
-    if(!response) throw new Error("Not found");
-    return is.aString(response) ? JSON.parse(response) : response;
-  });
+export default async function loadJSON(url){
+  var result = await loadResource("json", url, loadJSON.accessToken);
+  if(!result.response) throw new Error("Not found");
+  return is.aString(result.response) ? JSON.parse(result.response) : result.response;
 }
