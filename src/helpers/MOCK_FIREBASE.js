@@ -1,4 +1,3 @@
-// DEV ONLY
 window.Firebase = class {
   constructor(url){this.url = url}
   onAuth(cb){return cb({github:{id:"284734", accessToken:'123'}})}
@@ -16,4 +15,3 @@ window.Firebase = class {
     })
   }
 }
-// DEV ONLY

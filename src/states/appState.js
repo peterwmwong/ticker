@@ -1,7 +1,3 @@
-// !!! <MOCKDATA> !!!
-  import MOCK_FIREBASE from '../helpers/MOCK_FIREBASE';
-// !!! <MOCKDATA> !!!
-
 import {StateChart, goto} from '../helpers/svengali';
 import loggedInState      from './loggedInState';
 import loggedOutState     from './loggedOutState';

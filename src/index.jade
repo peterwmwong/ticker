@@ -16,16 +16,26 @@ html(lang='en')
 
     script(src='../node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js')
     script(src='../node_modules/systemjs/lib/extension-register.js')
-    //- this needs to be added to apply the extension
     script register(System);
+    
     script(src='../vendor/statechart.js')
-    - if(ENVIRONMENT == 'development')  
-      script.
-        window.System.paths['helpers/load'] = 'helpers/loadMOCK.js';
     script(src='../bower_components/firebase/firebase.js')
     
+    //- Injects config JSON (see `config/development.js`)
     script!='window.CONFIG=' + JSON.stringify(CONFIG) + ';'
-    - if(ENVIRONMENT == 'production')
+    
+    if ENVIRONMENT == 'development'
+      script.
+        // Allow complete offline development. Add '#offline' to the url to enable.
+        if(location.hash === '#offline'){
+          System.paths['helpers/load'] = 'helpers/loadMOCK.js';
+          System.import('helpers/MOCK_FIREBASE');
+        }
+        
+        // Livereload
+        document.write("<script src='http://"+(location.host || 'localhost').split(':')[0]+":35729/livereload.js?snipver=1'></"+"script>");
+        
+    else if ENVIRONMENT == 'production'
       script(src='all.js')
 
     +import('../bower_components/polymer/polymer.html')
@@ -33,10 +43,3 @@ html(lang='en')
 
   body(fullbleed)
     ticker-app
-
-    - if(ENVIRONMENT == 'development')
-      //- Livereload
-      script.
-        document.write(
-          "<script src='http://"+(location.host || 'localhost').split(':')[0]+
-            ":35729/livereload.js?snipver=1'></"+"script>");
