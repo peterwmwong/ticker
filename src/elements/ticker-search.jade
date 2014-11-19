@@ -15,7 +15,7 @@ link(rel='import' href='./ticker-card.html')
         paper-input#searchInput(
           flex
           class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-          inputValue='{{state.searchText | onSearchTextChanged}}')
+          value='{{state.searchText | onSearchTextChanged}}')
           
         template(if='{{searchText}}')
           paper-icon-button(
