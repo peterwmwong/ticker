@@ -8,18 +8,8 @@ window.Firebase = class {
         val:()=>({
           "id": "284734",
           "githubUsername": "peterwmwong",
-          "dataRefs": [
-            {
-              "config": {
-                "login": "p",
-                "id": 125612,
-                "avatar_url": "https://avatars.githubusercontent.com/u/125612?v=2",
-                "gravatar_id": "1c7bded9fd1b6e5ca8e9f77a6222302c",
-                "url": "https://api.github.com/users/p"
-              },
-              "id": 2975912,
-              "type": "GithubUser"
-            }
+          "sources": [
+            {"type": "GithubUserSource", "config":{"login": "polymer"}}
           ]
         })
       })

@@ -1,5 +1,5 @@
 // !!! <MOCKDATA> !!!
-  // import MOCK_FIREBASE from '../helpers/MOCK_FIREBASE';
+  import MOCK_FIREBASE from '../helpers/MOCK_FIREBASE';
 // !!! <MOCKDATA> !!!
 
 import {StateChart, goto} from '../helpers/svengali';

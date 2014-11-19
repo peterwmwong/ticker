@@ -15,7 +15,7 @@ export default {
     'auth':{
       events:{
         'authWithGithub'(){
-          this.attrs.firebaseRef.authWithOAuthRedirect("github", _=>_)
+          this.attrs.firebaseRef.authWithOAuthPopup("github", _=>_)
         },
 
         'authSuccessful':(authId, githubUsername, accessTokens)=>
