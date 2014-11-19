@@ -10,8 +10,6 @@ link(rel='import' href='./ticker-github-avatar.html')
 //-              speed could be improve with a slimmer purpose made time element.
 script(src='../../../bower_components/time-elements/time-elements.js')
 
-//- TODO(pwong): May not need need `bind='[[]]'`
-
 +polymer-element(attributes='events')
 
   template#Comment
@@ -209,7 +207,5 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
         | edited this wiki page
 
-  //- TODO(pwong): repeat='{{events}}'
-  template(repeat='{{data in events}}')
-    //- div.c-gray-dark.l-margin-l2.l-margin-v4.l-margin-b2.t-normal [[data.type]]
-    template(ref='[[data.type]]' bind='[[data]]')
+  template(repeat='{{events}}')
+    template(ref='[[type]]' bind='[[]]')

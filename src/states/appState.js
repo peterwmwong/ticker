@@ -2,7 +2,6 @@ import {StateChart, goto} from '../helpers/svengali';
 import loggedInState      from './loggedInState';
 import loggedOutState     from './loggedOutState';
 
-// TODO(pwong): Only add to window if in dev?
 var appState = new StateChart({
   attrs:{'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl)},
   enter(){

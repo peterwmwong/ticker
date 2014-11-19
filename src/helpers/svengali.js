@@ -1,3 +1,6 @@
+const EMPTY_OBJ  = {};
+var nextStateUID = 1;
+
 /*
 Public: An encapsulation of a state chart's attrs and behavior
 
@@ -401,7 +404,3 @@ export class State {
     return this._resolvedAttrValues[attrName] = result;
   }
 }
-
-// TODO(pwong): should be `const`, waiting on traceur 0.0.66 upgrade.
-var EMPTY_OBJ    = {};
-var nextStateUID = 1;

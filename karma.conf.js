@@ -18,7 +18,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'spec/spec-utils/force-shadowdom-polyfill.js',
-      'bower_components/platform/platform.js',
+      'bower_components/webcomponentjs/webcomponents.js',
       'node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
       'node_modules/systemjs/lib/extension-register.js',

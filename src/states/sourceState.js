@@ -11,9 +11,7 @@ export default {
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      // TODO(pwong): After traceur upgrade, should be `{user,sourceRef}=this.attrs`
-      var user = this.attrs.user;
-      var source = this.attrs.source;
+      var {user,source} = this.attrs;
       if(this.attrs.isStreamFavorited){
         if(user.sources.indexOf(source) !== -1) user.sources.push(source);
       }else{

@@ -13,7 +13,7 @@ export function loadResource(type, url, accessToken){
 }
 
 export default async function loadJSON(url){
-  var result = await loadResource("json", url, loadJSON.accessToken);
-  if(!result.response) throw new Error("Not found");
-  return is.aString(result.response) ? JSON.parse(result.response) : result.response;
+  var {response} = await loadResource("json", url, loadJSON.accessToken);
+  if(!response) throw new Error("Not found");
+  return is.aString(response) ? JSON.parse(response) : response;
 }
