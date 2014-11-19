@@ -21,7 +21,7 @@ html(lang='en')
     script(src='../vendor/statechart.js')
     script(src='../bower_components/firebase/firebase.js')
     
-    //- Injects config JSON (see `config/development.js`)
+    //- Injects environment specific config (ex. `config/development.js`)
     script!='window.CONFIG=' + JSON.stringify(CONFIG) + ';'
     
     if ENVIRONMENT == 'development'
@@ -38,8 +38,8 @@ html(lang='en')
     else if ENVIRONMENT == 'production'
       script(src='all.js')
 
-    +import('../bower_components/polymer/polymer.html')
-    +import('elements/ticker-app.html')
+    link(rel='import' href='../bower_components/polymer/polymer.html')
+    link(rel='import' href='elements/ticker-app.html')
 
   body(fullbleed)
     ticker-app
