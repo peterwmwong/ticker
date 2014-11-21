@@ -5,19 +5,17 @@ link(rel='import' href='../../bower_components/paper-icon-button/paper-icon-butt
 link(rel='import' href='./cards/ticker-github-events-card.html')
 
 +polymer-element(attributes='isNarrow')
-
-  //- core-header-panel(fit)
-  core-scroll-header-panel(fit on-core-header-transform='{{onHeaderTransform}}')
-  
+  core-scroll-header-panel(fit)
     .content(class='l-padding-h2 l-padding-t2')
       template(if='{{state.source.events.length}}')
         ticker-github-events-card(block events='[[state.source.events]]')
           
-    core-toolbar.top(class='c-white')
+    core-toolbar(class='c-white')
       paper-icon-button(
         class='l-margin-l2 l-margin-r0'
         icon='menu'
         on-tap='{{stateFire.toggleAppDrawer}}')
+        
       span#titleText(flex class='l-margin-l1 t-font-size-20 t-normal')
         | {{state.source.name}}
         
