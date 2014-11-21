@@ -9,29 +9,29 @@ link(rel='import' href='./ticker-source-github-user.html')
 link(rel='import' href='./ticker-stream.html')
 
 +polymer-element
-
-  //- App Views
-  //- =========
+  //- Logged In Views
+  //- ===============
   template#source-GithubRepoSource
     ticker-source-github-repo(isNarrow='{{isNarrow}}' main)
   
   template#source-GithubUserSource
     ticker-source-github-user(isNarrow='{{isNarrow}}' main)
-
+  
   template#search
     ticker-search(isNarrow='{{isNarrow}}' main)
-
+  
   //- Logged In
+  //- =========
   template(if='{{state.user}}')
     core-drawer-panel#drawerPanel(
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
-      responsiveWidth='1200px'
       selected='{{ state.appDrawerOpened | openedToSelected }}')
-
+  
       template(ref='{{state.appView}}' bind='[[]]')
       ticker-drawer(drawer)
-
+  
   //- Logged Out
+  //- ==========
   template(if='{{!state.user}}')
     ticker-login
