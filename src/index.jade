@@ -13,7 +13,6 @@ html(lang='en')
 
     script(src='../bower_components/webcomponentjs/webcomponents.js')
     script(src='../node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js')
-
     script(src='../node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js')
     script(src='../node_modules/systemjs/lib/extension-register.js')
     script register(System);
@@ -32,7 +31,7 @@ html(lang='en')
           System.import('helpers/MOCK_FIREBASE');
         }
         
-        // Livereload
+        // Add Livereload
         document.write("<script src='http://"+(location.host || 'localhost').split(':')[0]+":35729/livereload.js?snipver=1'></"+"script>");
         
     else if ENVIRONMENT == 'production'
