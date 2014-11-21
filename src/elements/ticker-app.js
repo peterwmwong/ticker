@@ -1,6 +1,9 @@
 import StatefulPolymer from '../helpers/StatefulPolymer';
 import appState from '../states/appState';
 
+// Load Global Filters
+import limitArray from '../filters/limitArray';
+
 StatefulPolymer('ticker-app', {
   state:appState,
 
