@@ -42,6 +42,9 @@ function createUserWithDefaults({id, githubUsername}){
   return new User({
     githubUsername,
     id,
-    sources:[new GithubUserSource({login:`Polymer`})]
+    sources:[
+      new GithubUserSource({login:`Polymer`}),
+      new GithubUserSource({login:`web-animations`})
+    ]
   }).$save().$promise;
 }
