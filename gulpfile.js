@@ -201,7 +201,7 @@ gulp.task('watch', function(){
 });
 
 gulp.task('livereload', function(){
-  var server = livereload({liveCss:false});
+  var server = livereload({liveCSS:false});
   function handleChanged(file){server.changed(file.path);}
 
   gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
