@@ -1,3 +1,17 @@
+## [svengali debugging]: Attr where?
+
+```
+appState.$.attrs.myAttr
+=> root/child declares `myAttr`
+
+appState.$.states.root.child()
+=> states (parallel):
+=>   grandChild1 (default)
+=>   grandChild2
+=> events:
+=>   onClick      => *
+=>   onTextChange => reenter
+
 ## [svengali] Problem: Events are used for too many communication patterns
 
 1. View -> State
