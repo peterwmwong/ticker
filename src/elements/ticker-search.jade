@@ -4,31 +4,28 @@ link(rel='import' href='../../bower_components/paper-input/paper-input.html')
 link(rel='import' href='./ticker-card.html')
 
 +polymer-element(attributes='isNarrow')
-  core-header-panel(fit mode="seamed")
+  core-header-panel(fit)
     core-toolbar(class='c-white')
-      .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
+      paper-icon-button(
+        icon='menu'
+        on-tap='[[stateFire.toggleAppDrawer]]')
+        
+      paper-input#searchInput(
+        flex
+        class='c-white'
+        value='{{ state.searchText | bindInputToState("searchText") }}')
+        
+      template(if='{{state.searchText}}')
         paper-icon-button(
-          class='l-margin-r0 l-margin-t1'
-          icon='menu'
-          on-tap='[[stateFire.toggleAppDrawer]]')
-          
-        paper-input#searchInput(
-          flex
-          class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-          value='{{state.searchText | onSearchTextChanged}}')
-          
-        template(if='{{searchText}}')
-          paper-icon-button(
-            class='l-margin-l0 l-margin-r2 l-margin-t1'
-            icon='close'
-            on-tap='[[stateFire.clearSearchText]]')
+          icon='close'
+          on-tap='[[stateFire.clearSearchText]]')
 
     div(class='l-padding-2 l-overflow-scroll-ios')
-      template(if='{{!searchText && !state.searchResults.length}}')
-        h2(class='l-padding-v2 c-gray-light t-align-center t-light t-italic')
+      template(if='{{!state.searchText && !state.searchResults.length}}')
+        h2(class='l-padding-t6 c-gray-light t-align-center t-light t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
-      template(if='{{state.searchText && state.searchResults && state.searchResults.length}}')
+      template(if='{{state.searchText && state.searchResults.length}}')
         ticker-card(block class='l-margin-b2')
           template(repeat='{{searchResult in state.searchResults}}')
             .search-result(
@@ -39,7 +36,7 @@ link(rel='import' href='./ticker-card.html')
               
               core-icon(
                 class='c-gray-lighter l-margin-l1 l-margin-r2'
-                icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
-                        : searchResult.config.type === "users" ? "github:person" \
+                icon='[[  searchResult.constructor.name === "GithubRepoSource" ? "github:repo"   \
+                        : searchResult.constructor.name === "GithubUserSource" ? "github:person" \
                         : "github:star" ]]')
               | [[searchResult.name]]

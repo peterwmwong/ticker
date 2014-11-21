@@ -2,15 +2,9 @@
 
 // Override bordering and input color to white
 paper-input _deep_ {
-  #input {
-    color: white;
-    height: 21px;
-  }
-
   .focused-underline,
   .unfocused-underline,
   .cursor {
     background: white;
-    border-bottom-color: white;
   }
 }
