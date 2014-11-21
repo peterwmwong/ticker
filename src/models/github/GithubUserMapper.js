@@ -1,17 +1,10 @@
 import loadJSON        from 'helpers/load';
 import {load, loadAll} from 'helpers/MapperUtils';
-// import QueryMOCKDATA from './GithubUserMapperQueryMOCKDATA';
 
 export default {
-  get(model){
-    return (
-      loadJSON(`https://api.github.com/users/${model.id}`)
-    ).then(data=>load(model, data));
-  },
-  query(array, {term}){
-    return (
-      loadJSON(`https://api.github.com/search/users?q=${term}`)
-      // Promise.resolve(QueryMOCKDATA)
-    ).then(data=>loadAll(array, data && data.items));
-  }
+  get: async (model)=>
+    load(model, await loadJSON(`https://api.github.com/users/${model.id}`)),
+
+  query: async (array, {term})=>
+    loadAll(array, (await loadJSON(`https://api.github.com/search/users?q=${term}`)).items)
 };
