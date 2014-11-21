@@ -28,9 +28,13 @@ var appState = new StateChart({
   }
 });
 
-window.appState = appState;
 
 //FIXME: Tests should be able to stop state bootstrapping... or something
 if(!('__karma__' in window)) appState.goto();
+
+if(window.CONFIG.statechartTrace){
+  appState.rootState.scState.trace = true;
+  window.appState = appState;
+}
 
 export default appState;

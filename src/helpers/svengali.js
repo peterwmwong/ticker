@@ -236,7 +236,6 @@ export class StateChart {
   constructor(rootStateOptions){
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
-    // this.rootState.scState.trace = true;
   }
 
   goto(path='.', params={}){
