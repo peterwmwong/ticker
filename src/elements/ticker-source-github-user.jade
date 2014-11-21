@@ -8,7 +8,7 @@ link(rel='import' href='./cards/ticker-github-events-card.html')
   core-scroll-header-panel(fit)
     .content(class='l-padding-h2 l-padding-t2')
       template(if='{{state.source.events.length}}')
-        ticker-github-events-card(block events='[[state.source.events]]')
+        ticker-github-events-card(events='{{state.source.events}}')
           
     core-toolbar(class='c-white')
       paper-icon-button(
