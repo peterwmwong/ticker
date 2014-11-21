@@ -33,8 +33,8 @@ export default {
         'search':{
           attrs:{
             'appView':'search',
-            'searchText':({searchText})=>searchText,
-            'searchResults'({searchText}){return searchText ? Source.query({term:searchText}) : []}
+            'searchText':({searchText})=>searchText || '',
+            'searchResults'(){return this.attrs.searchText ? Source.query({term:this.attrs.searchText}) : []}
           },
           events:{
             'clearSearchText':()=>reenter({searchText:''}),

@@ -22,6 +22,16 @@ export default function StatefulPolymer(name,options){
   if(stateConfig instanceof StateChart) addFireFuncs(options, stateConfig);
 
   options.created = function(){
+    // `bindInputToState(attr)` Filter
+    this.bindInputToState = {
+      toDOM(val, attr){return this.state[attr]},
+      toModel(val, attr){
+        this.stateEvent(`${attr}Changed`, val);
+        window.event.target.value = this.state[attr];
+        return this.state[attr];
+      }
+    };
+
     this._statechart = (stateConfig instanceof StateChart) ? stateConfig
                         : new StateChart(stateConfig);
 
