@@ -1,3 +1,48 @@
+/*
+
+Statechart integration for Polymer elements.
+
+1. Add a Statechart to a Polymer element
+
+```js
+// Instead of Polymer({...}), use StatefulPolymer({...})
+StatefulPolymer({
+  state: {
+    states:{
+      'lightOn':{
+        attrs: { 'light':'on'                      },
+        events:{ 'toggleLight':goto('../lightOff') }
+      },
+      'lightOff':{
+        attrs: {  'light':'off'                   },
+        events:{ 'toggleLight':goto('../lightOn') }
+      }
+    }
+  }
+})
+```
+
+2. Bind Statechart `attrs` to your template using `state`
+
+```html
+<polymer-element name='my-element'>
+  <template>
+    Light is {{state.light}}
+  </template>
+  ...
+</polymer-element>
+```
+
+3. Fire state events
+
+```html
+<!-- in the template... -->
+<button on-tap='{{stateFire.toggleLight}}'>Switch</button>
+```
+
+
+*/
+
 import {StateChart} from 'helpers/svengali';
 
 function stateFire(statechart, stateEvent, {currentTarget}){
