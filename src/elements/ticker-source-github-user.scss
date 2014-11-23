@@ -4,3 +4,9 @@
   -webkit-transform-origin: 0;
   transform-origin: 0;
 }
+
+paper-fab {
+  position: fixed;
+  bottom: $baseline * 6;
+  right: $baseline * 6;
+}

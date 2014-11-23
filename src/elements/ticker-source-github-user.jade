@@ -15,6 +15,13 @@ link(rel='import' href='./cards/ticker-github-events-card.html')
           events='{{state.source.events}}'
           style='max-width: 640px; width: 100%')
           
+        paper-fab(
+          on-tap='[[stateFire.toggleFavoriteSource]]'
+          icon="favorite"
+          class='{{state.isSourceFavorited ? "c-bg-confirm" : "c-bg-error"}} \
+                 {{isNarrow && "is-on-bottom"}} \
+                 c-white')
+          
     core-toolbar(class='c-white')
       paper-icon-button(
         class='l-margin-l2 l-margin-r0'
