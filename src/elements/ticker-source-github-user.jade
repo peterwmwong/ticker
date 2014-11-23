@@ -6,9 +6,14 @@ link(rel='import' href='./cards/ticker-github-events-card.html')
 
 +polymer-element(attributes='isNarrow')
   core-scroll-header-panel(fit)
-    .content(class='l-padding-h2 l-padding-t2')
+    .content(
+      layout vertical center
+      class='l-padding-h2 l-padding-t2')
       template(if='{{state.source.events.length}}')
-        ticker-github-events-card(events='{{state.source.events}}')
+        ticker-github-events-card(
+          class='l-display-block'
+          events='{{state.source.events}}'
+          style='max-width: 640px; width: 100%')
           
     core-toolbar(class='c-white')
       paper-icon-button(

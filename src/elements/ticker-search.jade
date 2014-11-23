@@ -20,13 +20,13 @@ link(rel='import' href='./ticker-card.html')
           icon='close'
           on-tap='[[stateFire.clearSearchText]]')
 
-    div(class='l-padding-2 l-overflow-scroll-ios')
+    div(layout vertical center class='l-padding-2')
       template(if='{{!state.searchText && !state.searchResults.length}}')
         h2(class='l-padding-t6 c-gray-light t-align-center t-light t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
       template(if='{{state.searchText && state.searchResults.length}}')
-        ticker-card(block class='l-margin-b2')
+        ticker-card(block class='l-margin-b2' style='max-width: 640px; width: 100%')
           template(repeat='{{searchResult in state.searchResults}}')
             .search-result(
               layout horizontal center

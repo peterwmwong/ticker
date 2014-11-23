@@ -1,3 +1,3 @@
 module.exports = {
-  firebaseUrl:'https://ticker-test.firebaseio.com/'
+  firebaseUrl:'https://ticker-dev.firebaseio.com/'
 };

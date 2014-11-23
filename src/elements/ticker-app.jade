@@ -25,6 +25,7 @@ link(rel='import' href='./ticker-source-github-user.html')
     core-drawer-panel#drawerPanel(
       disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
+      responsiveWidth='9999px'
       selected='{{ state.appDrawerOpened | openedToSelected }}')
   
       template(ref='{{state.appView}}' bind='[[]]')
