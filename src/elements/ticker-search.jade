@@ -2,6 +2,7 @@ link(rel='import' href='../../bower_components/core-header-panel/core-header-pan
 link(rel='import' href='../../bower_components/core-toolbar/core-toolbar.html')
 link(rel='import' href='../../bower_components/paper-input/paper-input.html')
 link(rel='import' href='./ticker-card.html')
+link(rel='import' href='./cards/ticker-github-avatar.html')
 
 +polymer-element(attributes='isNarrow')
   core-header-panel(fit)
@@ -34,9 +35,5 @@ link(rel='import' href='./ticker-card.html')
               on-tap='[[stateFire.selectSource]]'
               fire-arg='searchResult')
               
-              core-icon(
-                class='c-gray-lighter l-margin-l1 l-margin-r2'
-                icon='[[  searchResult.constructor.name === "GithubRepoSource" ? "github:repo"   \
-                        : searchResult.constructor.name === "GithubUserSource" ? "github:person" \
-                        : "github:star" ]]')
+              ticker-github-avatar(class='l-margin-l1 l-margin-r2' userid='[[searchResult.details.id]]')
               | [[searchResult.name]]
