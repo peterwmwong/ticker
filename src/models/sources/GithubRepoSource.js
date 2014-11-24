@@ -1,10 +1,11 @@
 import GithubRepo from 'models/github/GithubRepo';
+import GithubEvent from 'models/github/GithubEvent';
 import Source from './Source';
 
-class GithubUserSource extends Source {
+class GithubRepoSource extends Source {
   static query({term}){
     return GithubRepo.query({term}).$promise.then(repos=>
-      repos.map(repo=>new this({fullName:repo.full_name, details:repo}))
+      repos.map(repo=>new this({fullName:repo.fullName, details:repo}))
     )
   }
 
@@ -17,10 +18,15 @@ class GithubUserSource extends Source {
   get details(){
     return this._details || (this._details = GithubRepo.get(this.fullName));
   }
+  get events(){
+    return this._events ||
+    (this._events = GithubEvent.query({type:'repos', id:this.fullName}));
+  }
+
 
   toJSON(){return {fullName:this.fullName}}
 }
 
-Source.registerSource(GithubUserSource);
+Source.registerSource(GithubRepoSource);
 
-export default GithubUserSource;
+export default GithubRepoSource;

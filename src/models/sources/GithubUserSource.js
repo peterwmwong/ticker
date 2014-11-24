@@ -18,7 +18,6 @@ class GithubUserSource extends Source {
   get details(){
     return this._details || (this._details = GithubUser.get(this.login));
   }
-
   get events(){
     return this._events ||
       (this._events = GithubEvent.query({type:'users', id:this.login}));
