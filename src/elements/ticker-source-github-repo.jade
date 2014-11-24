@@ -4,25 +4,30 @@ link(rel='import' href='../../bower_components/paper-fab/paper-fab.html')
 link(rel='import' href='../../bower_components/paper-icon-button/paper-icon-button.html')
 link(rel='import' href='./cards/ticker-github-events-card.html')
 
-+polymer-element
-
-  core-scroll-header-panel(fit mode='waterfall' on-core-header-transform='{{onHeaderTransform}}')
-    core-toolbar#toolbar(class='c-white tall')
-      .middle
-        div(class='l-padding-l3 l-margin-l6 t-font-size-20 t-normal')
-          //!!!! START HERE: stream.name?
-          | {{state.stream.name}}
-        div(class='l-padding-l3 l-margin-l6 t-font-size-20 t-normal')
-          | {{state.stream.name}}
++polymer-element(attributes='isNarrow')
+  core-scroll-header-panel(fit)
+    .content(
+      layout vertical center
+      class='l-padding-h2 l-padding-t2')
+      template(if='{{state.source.events.length}}')
+        ticker-github-events-card(
+          class='l-display-block'
+          events='{{state.source.events}}'
+          style='max-width: 640px; width: 100%')
+          
+        paper-fab(
+          on-tap='[[stateFire.toggleFavoriteSource]]'
+          icon="favorite"
+          class='{{state.isSourceFavorited ? "c-bg-confirm" : "c-bg-error"}} \
+                 {{isNarrow && "is-on-bottom"}} \
+                 c-white')
+          
+    core-toolbar(class='c-white')
+      paper-icon-button(
+        class='l-margin-l2 l-margin-r0'
+        icon='menu'
+        on-tap='{{stateFire.toggleAppDrawer}}')
         
-    div(content class='l-padding-h2 l-padding-t2')
-      template(if='{{state.streamEvents}}')
-        ticker-github-events-card(block events='[[state.streamEvents]]')
-
-  core-toolbar(class='c-white c-bg-transparent')
-    paper-icon-button(
-      class='l-margin-l2 l-margin-r0'
-      icon='menu'
-      on-tap='{{stateFire.toggleAppDrawer}}')
-    span#titleText(flex class='l-margin-l1 t-font-size-20 t-normal')
-      | {{state.stream.name}}
+      span#titleText(flex class='l-margin-l1 t-font-size-20 t-normal')
+        | {{state.source.name}}
+        
