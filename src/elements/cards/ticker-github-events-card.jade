@@ -42,7 +42,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           icon='github:git-pull-request')
         | [[payload.pullRequest.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         template(ref='Comment' bind='[[payload.pullRequest.body]]')
 
 
@@ -55,7 +55,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           icon='github:versions')
         | [[payload.release.name]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         | published this release
 
 
@@ -85,7 +85,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           | [[payload.ref]]
 
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         | [[ (type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.refType ]]
 
   template#CreateEvent
@@ -107,7 +107,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         )
         | [[payload.pullRequest.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
@@ -124,7 +124,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         )
         | [[payload.issue.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
@@ -140,7 +140,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         )
         | [[payload.issue.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         p(flex)
           span(block class='l-margin-b1') [[payload.action]] this issue
           template(ref='Comment' bind='[[payload.issue.body]]')
@@ -153,14 +153,14 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
         | [[payload.comment.commitId]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
   template#WatchEvent
     .card
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
           icon='github:star'
@@ -172,7 +172,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
   template#ForkEvent
     .card
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
           icon='github:repo-forked'
@@ -188,7 +188,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         core-icon(class='c-gray-light l-margin-r3' icon='github:git-branch')
         ticker-github-branch(branch='[[payload.ref]]')
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         ul(flex)
           template(repeat='[[commit in limitArray(payload.commits, 3)]]')
             li(horizontal layout center)
@@ -204,7 +204,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         core-icon(class='c-gray-light l-margin-r3' icon='github:book')
         | [[payload.pages[0].title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' userid='[[actor.id]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
         | edited this wiki page
 
   template(repeat='{{events}}')

@@ -35,5 +35,8 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
               on-tap='[[stateFire.selectSource]]'
               fire-arg='searchResult')
               
-              ticker-github-avatar(class='l-margin-l1 l-margin-r2' userid='[[searchResult.details.id]]')
+              template(if='{{searchResult.constructor.name === "GithubRepoSource"}}')
+                core-icon(class='c-gray-light l-margin-l1 l-margin-r2' icon='github:repo')
+              template(if='{{searchResult.constructor.name === "GithubUserSource"}}')
+                ticker-github-avatar(class='l-margin-l1 l-margin-r2' avatarUrl='{{searchResult.details.avatarUrl}}')
               | [[searchResult.name]]

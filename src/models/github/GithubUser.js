@@ -11,9 +11,11 @@ GithubUser.create($=>{
   $.attr('score',      'number');
 
   $.mapper = {
-    get:model=>
-      loadJSON(`https://api.github.com/users/${model.id}`)
-        .then(data=>load(model, data)),
+    get: async (model)=>{
+      var response = await loadJSON(`https://api.github.com/users/${model.id}`);
+      response.id = model.id;
+      return load(model, response);
+    },
 
     query:(array, {term})=>
       (
