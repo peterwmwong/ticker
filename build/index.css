@@ -59,10 +59,10 @@ html /deep/ li {
   list-style-type: none; }
 html /deep/ code, html /deep/ pre {
   font-family: "Source Code Pro", monospace;
-  background-color: #f9fafb;
-  border: 1px solid #e7ebee;
-  color: #425357;
-  border-radius: 3px;
+  background-color: #f0f3f5;
+  border: 1px solid #dee5e7;
+  color: #586f74;
+  border-radius: 2px;
   line-height: 1.5; }
 html /deep/ code {
   padding: 0px 4px; }
@@ -210,9 +210,9 @@ html /deep/ .c-gray-darkest {
 html /deep/ .c-bg-gray-darkest {
   background-color: #05242e !important; }
 html /deep/ .c-gray-darker {
-  color: #425357 !important; }
+  color: #586f74 !important; }
 html /deep/ .c-bg-gray-darker {
-  background-color: #425357 !important; }
+  background-color: #586f74 !important; }
 html /deep/ .c-gray-dark {
   color: #6e8a91 !important; }
 html /deep/ .c-bg-gray-dark {
@@ -280,7 +280,7 @@ html /deep/ .c-border-white {
 html /deep/ .c-border-gray-darkest {
   border-color: #05242e !important; }
 html /deep/ .c-border-gray-darker {
-  border-color: #425357 !important; }
+  border-color: #586f74 !important; }
 html /deep/ .c-border-gray-dark {
   border-color: #6e8a91 !important; }
 html /deep/ .c-border-gray-light {

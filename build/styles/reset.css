@@ -26,10 +26,10 @@ html /deep/ li {
   list-style-type: none; }
 html /deep/ code, html /deep/ pre {
   font-family: "Source Code Pro", monospace;
-  background-color: #f9fafb;
-  border: 1px solid #e7ebee;
-  color: #425357;
-  border-radius: 3px;
+  background-color: #f0f3f5;
+  border: 1px solid #dee5e7;
+  color: #586f74;
+  border-radius: 2px;
   line-height: 1.5; }
 html /deep/ code {
   padding: 0px 4px; }

@@ -13,5 +13,11 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-core-drawer-panel[narrow] ticker-drawer {
-  background: white; }
+#titleText {
+  -webkit-transform-origin: 0;
+  transform-origin: 0; }
+
+paper-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px; }

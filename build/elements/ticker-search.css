@@ -13,9 +13,5 @@
 /* #F44856 */
 /* #FCA431 */
 /* #F7E3B1 */
-paper-input /deep/ #input {
-  color: white;
-  height: 21px; }
 paper-input /deep/ .focused-underline, paper-input /deep/ .unfocused-underline, paper-input /deep/ .cursor {
-  background: white;
-  border-bottom-color: white; }
+  background: white; }

@@ -18,7 +18,8 @@
   border-top-color: rgba(0, 0, 0, 0.025);
   border-bottom: 2px solid rgba(0, 0, 0, 0.075);
   border-radius: 2px;
-  overflow: hidden; }
+  overflow: hidden;
+  margin-bottom: 4px; }
 
 .title, .subject, .action {
   display: -ms-flexbox;
@@ -27,11 +28,13 @@
   padding: 16px 16px; }
 
 .subject, .title {
+  background: white;
   border-bottom: 1px solid #e7ebee;
-  background: #f9fafb; }
+  color: #586f74; }
 
 .title {
   align-items: baseline;
+  font-size: 1.8rem;
   padding-top: 16px;
   padding-bottom: 16px; }
 
@@ -40,8 +43,6 @@
   line-height: 1.5; }
 
 .subject {
-  color: #6e8a91;
-  font-style: italic;
   margin-top: -1px;
   padding-top: 0;
   padding-bottom: 8px; }
@@ -49,6 +50,7 @@
     border-bottom-style: none; }
 
 .action {
-  background: white; }
+  background: #f9fafb;
+  color: #586f74; }
   .action ticker-github-avatar {
     align-self: flex-start; }

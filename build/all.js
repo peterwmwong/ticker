@@ -1,6 +1,9 @@
 System.register("elements/cards/ticker-github-branch", [], function($__export) {
   "use strict";
   var __moduleName = "elements/cards/ticker-github-branch";
+  function require(path) {
+    return $traceurRuntime.require("elements/cards/ticker-github-branch", path);
+  }
   return {
     setters: [],
     execute: function() {
@@ -10,91 +13,12 @@ System.register("elements/cards/ticker-github-branch", [], function($__export) {
     }
   };
 });
-System.register("elements/cards/ticker-github-events-card", [], function($__export) {
-  "use strict";
-  var __moduleName = "elements/cards/ticker-github-events-card";
-  return {
-    setters: [],
-    execute: function() {
-      PolymerExpressions.prototype.limitArray = function(array, size) {
-        return array && array.slice(0, size);
-      };
-      Polymer('ticker-github-events-card', {});
-    }
-  };
-});
-System.register("elements/cards/ticker-github-repo", [], function($__export) {
-  "use strict";
-  var __moduleName = "elements/cards/ticker-github-repo";
-  return {
-    setters: [],
-    execute: function() {
-      Polymer('ticker-github-repo', {repoChanged: function(_, repo) {
-          var $__0;
-          if (repo)
-            ($__0 = repo.split('/'), this.repoOwner = $__0[0], this.repoName = $__0[1], $__0);
-        }});
-    }
-  };
-});
-System.register("elements/ticker-app", [], function($__export) {
-  "use strict";
-  var __moduleName = "elements/ticker-app";
-  return {
-    setters: [],
-    execute: function() {
-      Polymer('ticker-app', {
-        DRAWER_SWIPE_DISABLED: (/AppleWebKit.*Mobile.*Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)),
-        selectedEventStream: null,
-        isSearching: false,
-        searchText: '',
-        events: [],
-        observe: {'$.session.data.user': 'onUserChanged'},
-        onUserChanged: function(_, user) {
-          if (user) {
-            if (user.eventStreams.length)
-              this.selectEventStream(user.eventStreams[0], 0);
-            else
-              this.isSearching = true;
-          }
-        },
-        selectEventStream: function(newSelectedEventStream, renderDelay) {
-          var $__1 = this;
-          if (newSelectedEventStream) {
-            setTimeout((function() {
-              $__1.selectedEventStream = newSelectedEventStream;
-            }), renderDelay);
-          }
-        },
-        onLogin: function() {
-          this.$.session.login();
-        },
-        onCloseSearch: function() {
-          this.isSearching = false;
-        },
-        onSearchSelect: function(event, selectedEventStream) {
-          this.selectEventStream(selectedEventStream, 0);
-          this.onCloseSearch();
-        },
-        onSelectSearch: function() {
-          this.isSearching = true;
-          this.$.drawerPanel.closeDrawer();
-        },
-        onSelectEventStream: function(event) {
-          this.$.drawerPanel.closeDrawer();
-          this.isSearching = false;
-          this.selectEventStream(event.target.templateInstance.model.eventStream, (this.narrow ? 450 : 0));
-        },
-        onOpenDrawer: function() {
-          this.$.drawerPanel.openDrawer();
-        }
-      });
-    }
-  };
-});
 System.register("helpers/is", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/is";
+  function require(path) {
+    return $traceurRuntime.require("helpers/is", path);
+  }
   return {
     setters: [],
     execute: function() {
@@ -127,6 +51,9 @@ System.register("helpers/is", [], function($__export) {
 System.register("helpers/isEqual", ["./is"], function($__export) {
   "use strict";
   var __moduleName = "helpers/isEqual";
+  function require(path) {
+    return $traceurRuntime.require("helpers/isEqual", path);
+  }
   var is;
   function isEqual(o1, o2) {
     if (o1 === o2)
@@ -177,7 +104,6 @@ System.register("helpers/isEqual", ["./is"], function($__export) {
     }
     return false;
   }
-  $__export("isEqual", isEqual);
   $__export("default", isEqual);
   return {
     setters: [function(m) {
@@ -190,10 +116,12 @@ System.register("helpers/isEqual", ["./is"], function($__export) {
 System.register("helpers/singularize", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/singularize";
+  function require(path) {
+    return $traceurRuntime.require("helpers/singularize", path);
+  }
   function singularize(word) {
     return word.replace(/s$/, '');
   }
-  $__export("singularize", singularize);
   $__export("default", singularize);
   return {
     setters: [],
@@ -204,6 +132,9 @@ System.register("helpers/singularize", [], function($__export) {
 System.register("helpers/model/IDMap", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/model/IDMap";
+  function require(path) {
+    return $traceurRuntime.require("helpers/model/IDMap", path);
+  }
   var nextClassId,
       models;
   return {
@@ -214,7 +145,7 @@ System.register("helpers/model/IDMap", [], function($__export) {
       $__export('default', {
         insert: function(model) {
           model.constructor.__classId__ = model.constructor.__classId__ || nextClassId++;
-          var id = $__export("id", model.id);
+          var id = model.id;
           var map = models[model.constructor.__classId__] = (models[model.constructor.__classId__] || {});
           if (map[id])
             throw (model.$className() + ": a model with id '" + id + "' already exists");
@@ -241,6 +172,9 @@ System.register("helpers/model/IDMap", [], function($__export) {
 System.register("helpers/model/attrs", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/model/attrs";
+  function require(path) {
+    return $traceurRuntime.require("helpers/model/attrs", path);
+  }
   var IdentityAttr,
       StringAttr,
       NumberAttr,
@@ -333,6 +267,9 @@ System.register("helpers/model/attrs", [], function($__export) {
 System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize", "./attrs"], function($__export) {
   "use strict";
   var __moduleName = "helpers/model/Model";
+  function require(path) {
+    return $traceurRuntime.require("helpers/model/Model", path);
+  }
   var IDMap,
       isEqual,
       singularize,
@@ -398,9 +335,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       hasManyRemove.call(this, desc, [model], false);
   }
   function hasOneSet(desc, v, sync) {
-    var $__17 = desc,
-        name = $__17.name,
-        inverse = $__17.inverse;
+    var $__15 = desc,
+        name = $__15.name,
+        inverse = $__15.inverse;
     var key = ("__" + name + "__");
     var prev = this[key];
     if (v)
@@ -414,16 +351,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       inverseAdded.call(v, inverse, this);
   }
   function hasManySet(desc, a) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name];
     a.forEach(checkAssociatedType.bind(this, desc));
     if (desc.inverse) {
       prev.forEach((function(x) {
-        return inverseRemoved.call(x, desc.inverse, $__2);
+        return inverseRemoved.call(x, desc.inverse, $__0);
       }));
       a.forEach((function(x) {
-        return inverseAdded.call(x, desc.inverse, $__2);
+        return inverseAdded.call(x, desc.inverse, $__0);
       }));
     }
     this[("__" + desc.name + "__")] = a;
@@ -431,30 +368,30 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       setChange.call(this, name, prev);
   }
   function hasManyAdd(desc, models, sync) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      checkAssociatedType.call($__2, desc, m);
+      checkAssociatedType.call($__0, desc, m);
       if (sync && desc.inverse)
-        inverseAdded.call(m, desc.inverse, $__2);
-      $__2[name].push(m);
+        inverseAdded.call(m, desc.inverse, $__0);
+      $__0[name].push(m);
     }));
     if (desc.owner && this.$isLoaded)
       setChange.call(this, name, prev);
   }
   function hasManyRemove(desc, models, sync) {
-    var $__2 = this;
+    var $__0 = this;
     var name = desc.name;
     var prev = this[name].slice();
     models.forEach((function(m) {
-      var i = $__2[name].indexOf(m);
+      var i = $__0[name].indexOf(m);
       if (i >= 0) {
         if (sync && desc.inverse)
-          inverseRemoved.call(m, desc.inverse, $__2);
-        $__2[name].splice(i, 1);
-        if (desc.owner && $__2.$isLoaded)
-          setChange.call($__2, name, prev);
+          inverseRemoved.call(m, desc.inverse, $__0);
+        $__0[name].splice(i, 1);
+        if (desc.owner && $__0.$isLoaded)
+          setChange.call($__0, name, prev);
       }
     }));
   }
@@ -500,25 +437,26 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       },
       $query: {
         value: function() {
+          var $__16;
           for (var args = [],
-              $__8 = 0; $__8 < arguments.length; $__8++)
-            args[$__8] = arguments[$__8];
-          var $__2 = this;
+              $__6 = 0; $__6 < arguments.length; $__6++)
+            args[$__6] = arguments[$__6];
+          var $__0 = this;
           if (isBusy) {
             queued = args;
           } else {
             isBusy = true;
-            promise = ensurePromise(klass.mapper.query.apply(this, $traceurRuntime.spread([this], args)), '$query').then((function() {
-              var $__18;
+            promise = ensurePromise(($__16 = klass.mapper).query.apply($__16, $traceurRuntime.spread($traceurRuntime.spread([this], args))), '$query').then((function() {
+              var $__17;
               isBusy = false;
               if (queued)
-                ($__18 = $__2).$query.apply($__18, $traceurRuntime.spread(queued));
-              return $__2;
+                ($__17 = $__0).$query.apply($__17, $traceurRuntime.spread(queued));
+              return $__0;
             }), (function(error) {
-              var $__18;
+              var $__17;
               isBusy = false;
               if (queued)
-                ($__18 = $__2).$query.apply($__18, $traceurRuntime.spread(queued));
+                ($__17 = $__0).$query.apply($__17, $traceurRuntime.spread(queued));
               throw error;
             }));
           }
@@ -530,8 +468,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
       },
       $replace: {
         value: function(a) {
-          var $__18;
-          ($__18 = this).splice.apply($__18, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
+          var $__16;
+          ($__16 = this).splice.apply($__16, $traceurRuntime.spread($traceurRuntime.spread([0, this.length], a)));
           return this;
         },
         enumerable: false,
@@ -541,12 +479,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     });
   }
   function mapperGet(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__8 = 1; $__8 < arguments.length; $__8++)
-      args[$__8 - 1] = arguments[$__8];
+        $__6 = 1; $__6 < arguments.length; $__6++)
+      args[$__6 - 1] = arguments[$__6];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).get.apply($__18, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).get.apply($__16, $traceurRuntime.spread([model], args)), 'mapperGet').then((function() {
       model.__$sourceState__ = LOADED;
       model.__$isBusy__ = false;
       return model;
@@ -559,12 +497,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperCreate(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__9 = 1; $__9 < arguments.length; $__9++)
-      args[$__9 - 1] = arguments[$__9];
+        $__7 = 1; $__7 < arguments.length; $__7++)
+      args[$__7 - 1] = arguments[$__7];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).create.apply($__18, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).create.apply($__16, $traceurRuntime.spread([model], args)), 'mapperCreate').then((function() {
       model.__$sourceState__ = LOADED;
       model.__$isBusy__ = false;
       return model;
@@ -575,12 +513,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperUpdate(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__10 = 1; $__10 < arguments.length; $__10++)
-      args[$__10 - 1] = arguments[$__10];
+        $__8 = 1; $__8 < arguments.length; $__8++)
+      args[$__8 - 1] = arguments[$__8];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).update.apply($__18, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).update.apply($__16, $traceurRuntime.spread([model], args)), 'mapperUpdate').then((function() {
       model.__$isBusy__ = false;
       return model;
     }), (function(error) {
@@ -595,9 +533,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     model.__$isBusy__ = false;
     setPristine.call(model);
     var associations = model.constructor.associations();
-    for (var $__4 = Object.keys(associations)[Symbol.iterator](),
-        $__5; !($__5 = $__4.next()).done; ) {
-      var name = $__5.value;
+    for (var $__2 = Object.keys(associations)[$traceurRuntime.toProperty(Symbol.iterator)](),
+        $__3; !($__3 = $__2.next()).done; ) {
+      var name = $__3.value;
       {
         var desc = associations[name];
         var m = model[name];
@@ -614,12 +552,12 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     return model;
   }
   function mapperDelete(model) {
-    var $__18;
+    var $__16;
     for (var args = [],
-        $__11 = 1; $__11 < arguments.length; $__11++)
-      args[$__11 - 1] = arguments[$__11];
+        $__9 = 1; $__9 < arguments.length; $__9++)
+      args[$__9 - 1] = arguments[$__9];
     model.__$isBusy__ = true;
-    model.__$promise__ = ensurePromise(($__18 = model.constructor.mapper).delete.apply($__18, $traceurRuntime.spread([model], args)), 'mapperDelete').then((function() {
+    model.__$promise__ = ensurePromise(($__16 = model.constructor.mapper).delete.apply($__16, $traceurRuntime.spread([model], args)), 'mapperDelete').then((function() {
       model.__$isBusy__ = false;
       mapperDeleteSuccess(model);
     }), (function(error) {
@@ -684,7 +622,7 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             var klass = this.$className();
             var state = this.$stateString();
             if (this.$isEmpty)
-              return ("#<" + klass + " (" + state + ") " + JSON.stringify({id: this.id}) + ">");
+              return ("#<" + klass + " (" + state + ") ") + JSON.stringify({id: this.id}) + '>';
             var attrs = this.$attrs();
             var associations = this.constructor.associations();
             for (var name in associations) {
@@ -721,9 +659,9 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
               if (desc.owner) {
                 var assoc = this[desc.name];
                 if (desc.type === 'hasMany') {
-                  for (var $__4 = assoc[Symbol.iterator](),
-                      $__5; !($__5 = $__4.next()).done; ) {
-                    var o = $__5.value;
+                  for (var $__2 = assoc[$traceurRuntime.toProperty(Symbol.iterator)](),
+                      $__3; !($__3 = $__2.next()).done; ) {
+                    var o = $__3.value;
                     if (o.$hasChanges())
                       return true;
                   }
@@ -756,16 +694,16 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $get: function() {
             for (var args = [],
-                $__12 = 0; $__12 < arguments.length; $__12++)
-              args[$__12] = arguments[$__12];
+                $__10 = 0; $__10 < arguments.length; $__10++)
+              args[$__10] = arguments[$__10];
             if ((!this.$isLoaded && !this.$isEmpty) || this.$isBusy)
               throw (this.$className() + "#$get: cannot get a model in the " + this.$stateString() + " state: " + this);
             return mapperGet.apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
           },
           $save: function() {
             for (var args = [],
-                $__13 = 0; $__13 < arguments.length; $__13++)
-              args[$__13] = arguments[$__13];
+                $__11 = 0; $__11 < arguments.length; $__11++)
+              args[$__11] = arguments[$__11];
             if ((!this.$isNew && !this.$isLoaded) || this.$isBusy)
               throw (this.$className() + "#$save: cannot save a model in the " + this.$stateString() + " state: " + this);
             (this.$isNew ? mapperCreate : mapperUpdate).apply(null, $traceurRuntime.spread($traceurRuntime.spread([this], args)));
@@ -773,8 +711,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           $delete: function() {
             for (var args = [],
-                $__14 = 0; $__14 < arguments.length; $__14++)
-              args[$__14] = arguments[$__14];
+                $__12 = 0; $__12 < arguments.length; $__12++)
+              args[$__12] = arguments[$__12];
             if (this.$isDeleted)
               return this;
             if (this.$isBusy)
@@ -922,14 +860,14 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             });
             this.prototype[("add" + cap)] = function() {
               for (var args = [],
-                  $__15 = 0; $__15 < arguments.length; $__15++)
-                args[$__15] = arguments[$__15];
+                  $__13 = 0; $__13 < arguments.length; $__13++)
+                args[$__13] = arguments[$__13];
               hasManyAdd.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("remove" + cap)] = function() {
               for (var args = [],
-                  $__16 = 0; $__16 < arguments.length; $__16++)
-                args[$__16] = arguments[$__16];
+                  $__14 = 0; $__14 < arguments.length; $__14++)
+                args[$__14] = arguments[$__14];
               hasManyRemove.call(this, desc, (1 <= args.length ? args : []), true);
             };
             this.prototype[("clear" + cap)] = function() {
@@ -1005,15 +943,15 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
                 } else if (type === 'hasMany') {
                   var others = [],
                       o;
-                  for (var $__4 = data[Symbol.iterator](),
-                      $__5; !($__5 = $__4.next()).done; ) {
-                    o = $__5.value;
+                  for (var $__2 = data[$traceurRuntime.toProperty(Symbol.iterator)](),
+                      $__3; !($__3 = $__2.next()).done; ) {
+                    o = $__3.value;
                     others.push(typeof o === 'object' ? klass.load(o) : IDMap.get(klass, o) || klass.empty(o));
                   }
                   model[name] = others;
-                  for (var $__6 = others[Symbol.iterator](),
-                      $__7; !($__7 = $__6.next()).done; ) {
-                    o = $__7.value;
+                  for (var $__4 = others[$traceurRuntime.toProperty(Symbol.iterator)](),
+                      $__5; !($__5 = $__4.next()).done; ) {
+                    o = $__5.value;
                     setPristine.call(o);
                   }
                 }
@@ -1025,17 +963,17 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
             return model;
           },
           loadAll: function(objects) {
-            var $__2 = this;
+            var $__0 = this;
             return objects.map((function(o) {
-              return $__2.load(o);
+              return $__0.load(o);
             }));
           },
           query: function() {
-            var $__18;
+            var $__16;
             for (var args = [],
-                $__15 = 0; $__15 < arguments.length; $__15++)
-              args[$__15] = arguments[$__15];
-            return ($__18 = this.buildQuery()).$query.apply($__18, $traceurRuntime.spread(args));
+                $__13 = 0; $__13 < arguments.length; $__13++)
+              args[$__13] = arguments[$__13];
+            return ($__16 = this.buildQuery()).$query.apply($__16, $traceurRuntime.spread(args));
           },
           buildQuery: function() {
             return buildQueryArray(this);
@@ -1058,8 +996,8 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
           },
           extend: function() {
             for (var args = [],
-                $__16 = 0; $__16 < arguments.length; $__16++)
-              args[$__16] = arguments[$__16];
+                $__14 = 0; $__14 < arguments.length; $__14++)
+              args[$__14] = arguments[$__14];
             return extendMany(this, args);
           }
         });
@@ -1080,9 +1018,106 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     }
   };
 });
+System.register("models/github/GithubIssueMapperMOCKDATA", [], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubIssueMapperMOCKDATA";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubIssueMapperMOCKDATA", path);
+  }
+  return {
+    setters: [],
+    execute: function() {
+      $__export('default', {
+        "url": "https://api.github.com/repos/Polymer/polymer/issues/1",
+        "labels_url": "https://api.github.com/repos/Polymer/polymer/issues/1/labels{/name}",
+        "comments_url": "https://api.github.com/repos/Polymer/polymer/issues/1/comments",
+        "events_url": "https://api.github.com/repos/Polymer/polymer/issues/1/events",
+        "html_url": "https://github.com/Polymer/polymer/pull/1",
+        "id": 7493278,
+        "number": 1,
+        "title": "Initial Components",
+        "user": {
+          "login": "sjmiles",
+          "id": 98045,
+          "avatar_url": "https://avatars.githubusercontent.com/u/98045?v=2",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/sjmiles",
+          "html_url": "https://github.com/sjmiles",
+          "followers_url": "https://api.github.com/users/sjmiles/followers",
+          "following_url": "https://api.github.com/users/sjmiles/following{/other_user}",
+          "gists_url": "https://api.github.com/users/sjmiles/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/sjmiles/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/sjmiles/subscriptions",
+          "organizations_url": "https://api.github.com/users/sjmiles/orgs",
+          "repos_url": "https://api.github.com/users/sjmiles/repos",
+          "events_url": "https://api.github.com/users/sjmiles/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/sjmiles/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "labels": [],
+        "state": "closed",
+        "locked": false,
+        "assignee": {
+          "login": "sorvell",
+          "id": 78891,
+          "avatar_url": "https://avatars.githubusercontent.com/u/78891?v=2",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/sorvell",
+          "html_url": "https://github.com/sorvell",
+          "followers_url": "https://api.github.com/users/sorvell/followers",
+          "following_url": "https://api.github.com/users/sorvell/following{/other_user}",
+          "gists_url": "https://api.github.com/users/sorvell/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/sorvell/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/sorvell/subscriptions",
+          "organizations_url": "https://api.github.com/users/sorvell/orgs",
+          "repos_url": "https://api.github.com/users/sorvell/repos",
+          "events_url": "https://api.github.com/users/sorvell/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/sorvell/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "milestone": null,
+        "comments": 0,
+        "created_at": "2012-10-10T19:37:06Z",
+        "updated_at": "2012-10-10T19:55:53Z",
+        "closed_at": "2012-10-10T19:55:53Z",
+        "pull_request": {
+          "url": "https://api.github.com/repos/Polymer/polymer/pulls/1",
+          "html_url": "https://github.com/Polymer/polymer/pull/1",
+          "diff_url": "https://github.com/Polymer/polymer/pull/1.diff",
+          "patch_url": "https://github.com/Polymer/polymer/pull/1.patch"
+        },
+        "body": "",
+        "closed_by": {
+          "login": "sorvell",
+          "id": 78891,
+          "avatar_url": "https://avatars.githubusercontent.com/u/78891?v=2",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/sorvell",
+          "html_url": "https://github.com/sorvell",
+          "followers_url": "https://api.github.com/users/sorvell/followers",
+          "following_url": "https://api.github.com/users/sorvell/following{/other_user}",
+          "gists_url": "https://api.github.com/users/sorvell/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/sorvell/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/sorvell/subscriptions",
+          "organizations_url": "https://api.github.com/users/sorvell/orgs",
+          "repos_url": "https://api.github.com/users/sorvell/repos",
+          "events_url": "https://api.github.com/users/sorvell/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/sorvell/received_events",
+          "type": "User",
+          "site_admin": false
+        }
+      });
+    }
+  };
+});
 System.register("helpers/AttrMunger", ["./is"], function($__export) {
   "use strict";
   var __moduleName = "helpers/AttrMunger";
+  function require(path) {
+    return $traceurRuntime.require("helpers/AttrMunger", path);
+  }
   var is;
   function copy(obj) {
     return is.aArray(obj) ? obj.map(copy) : is.aObject(obj) ? copyObj(obj) : obj;
@@ -1158,31 +1193,18 @@ System.register("helpers/AttrMunger", ["./is"], function($__export) {
     }
   };
 });
-System.register("helpers/session", [], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/session";
-  var data;
-  return {
-    setters: [],
-    execute: function() {
-      data = $__export("data", {
-        accessTokens: {},
-        user: undefined
-      });
-    }
-  };
-});
-System.register("helpers/load", ["./is", "./session"], function($__export) {
+System.register("helpers/load", ["./is"], function($__export) {
   "use strict";
   var __moduleName = "helpers/load";
-  var is,
-      data;
-  function loadResource(type, url, headers) {
-    headers = headers == null ? {} : headers;
+  function require(path) {
+    return $traceurRuntime.require("helpers/load", path);
+  }
+  var is;
+  function loadResource(type, url, accessToken) {
     return new Promise(function(fulfill, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open("GET", url);
-      xhr.setRequestHeader('Authorization', 'token ' + data.accessTokens.github);
+      xhr.setRequestHeader('Authorization', ("token " + accessToken));
       xhr.responseType = type;
       xhr.send();
       xhr.onload = (function() {
@@ -1193,87 +1215,678 @@ System.register("helpers/load", ["./is", "./session"], function($__export) {
       });
     });
   }
-  function loadJSON(url) {
-    return loadResource("json", url).then(function($__19) {
-      var response = $__19.response;
-      if (!response)
-        throw new Error("Not found");
-      return is.aString(response) ? JSON.parse(response) : response;
-    });
-  }
   $__export("loadResource", loadResource);
-  $__export("loadJSON", loadJSON);
   return {
     setters: [function(m) {
       is = m.default;
+    }],
+    execute: function() {
+      $__export('default', function loadJSON(url) {
+        var response,
+            $__1,
+            $__2,
+            $__3,
+            $__4;
+        return $traceurRuntime.asyncWrap(function($ctx) {
+          while (true)
+            switch ($ctx.state) {
+              case 0:
+                $__1 = loadJSON.accessToken;
+                $__2 = loadResource("json", url, $__1);
+                $ctx.state = 5;
+                break;
+              case 5:
+                Promise.resolve($__2).then($ctx.createCallback(3), $ctx.errback);
+                return;
+              case 3:
+                $__3 = $ctx.value;
+                $ctx.state = 2;
+                break;
+              case 2:
+                $__4 = $__3.response;
+                response = $__4;
+                $ctx.state = 7;
+                break;
+              case 7:
+                if (!response)
+                  throw new Error("Not found");
+                $ctx.state = 12;
+                break;
+              case 12:
+                $ctx.returnValue = is.aString(response) ? JSON.parse(response) : response;
+                $ctx.state = 9;
+                break;
+              case 9:
+                $ctx.state = -2;
+                break;
+              default:
+                return $ctx.end();
+            }
+        }, this);
+      });
+    }
+  };
+});
+System.register("models/github/GithubIssueMapper", ["helpers/AttrMunger", "helpers/load", "./GithubIssueMapperMOCKDATA"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubIssueMapper";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubIssueMapper", path);
+  }
+  var AttrMunger,
+      loadJSON,
+      MOCKDATA;
+  return {
+    setters: [function(m) {
+      AttrMunger = m.default;
     }, function(m) {
-      data = m.data;
+      loadJSON = m.default;
+    }, function(m) {
+      MOCKDATA = m.default;
+    }],
+    execute: function() {
+      $__export('default', {get: (function(model, $__0) {
+          var $__1 = $__0,
+              repo = $__1.repo,
+              issueNumber = $__1.issueNumber;
+          return (Promise.resolve(MOCKDATA)).then((function(data) {
+            if (!data)
+              throw "No Data";
+            model.$load(AttrMunger.camelize(data));
+          }));
+        })});
+    }
+  };
+});
+System.register("models/github/GithubIssue", ["../../helpers/model/Model", "./GithubIssueMapper"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubIssue";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubIssue", path);
+  }
+  var Model,
+      GithubIssueMapper,
+      GithubIssue;
+  return {
+    setters: [function(m) {
+      Model = m.default;
+    }, function(m) {
+      GithubIssueMapper = m.default;
+    }],
+    execute: function() {
+      GithubIssue = (function($__super) {
+        var GithubIssue = function GithubIssue() {
+          $traceurRuntime.superConstructor(GithubIssue).apply(this, arguments);
+        };
+        return ($traceurRuntime.createClass)(GithubIssue, {}, {}, $__super);
+      }(Model));
+      GithubIssue.create((function($) {
+        $.mapper = GithubIssueMapper;
+        $.attr('fullName', 'string');
+        $.attr('name', 'string');
+        $.attr('url', 'string');
+        $.attr('score', 'number');
+      }));
+      $__export('default', GithubIssue);
+    }
+  };
+});
+System.register("elements/cards/ticker-github-events-card", ["../../models/github/GithubIssue"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/cards/ticker-github-events-card";
+  function require(path) {
+    return $traceurRuntime.require("elements/cards/ticker-github-events-card", path);
+  }
+  var GithubIssue;
+  return {
+    setters: [function(m) {
+      GithubIssue = m.default;
+    }],
+    execute: function() {
+      Polymer('ticker-github-events-card', {onOpenIssueDetails: function(event) {
+          var $__0 = this;
+          var $__1 = event.target.templateInstance.model,
+              payload = $__1.payload,
+              repo = $__1.repo;
+          GithubIssue.get(undefined, {
+            issueNumber: payload.issue.number,
+            repo: repo.name
+          }).$promise.then((function(issue) {
+            return $__0.issue = issue;
+          }));
+        }});
+    }
+  };
+});
+System.register("elements/cards/ticker-github-repo", [], function($__export) {
+  "use strict";
+  var __moduleName = "elements/cards/ticker-github-repo";
+  function require(path) {
+    return $traceurRuntime.require("elements/cards/ticker-github-repo", path);
+  }
+  return {
+    setters: [],
+    execute: function() {
+      Polymer('ticker-github-repo', {repoChanged: function(_, repo) {
+          var $__0;
+          if (repo)
+            ($__0 = repo.split('/'), this.repoOwner = $__0[0], this.repoName = $__0[1], $__0);
+        }});
+    }
+  };
+});
+System.register("filters/limitArray", [], function($__export) {
+  "use strict";
+  var __moduleName = "filters/limitArray";
+  function require(path) {
+    return $traceurRuntime.require("filters/limitArray", path);
+  }
+  function limitArray(array, size) {
+    return array && array.slice(0, size);
+  }
+  $__export("default", limitArray);
+  return {
+    setters: [],
+    execute: function() {
+      PolymerExpressions.prototype.limitArray = limitArray;
+    }
+  };
+});
+System.register("helpers/svengali", [], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/svengali";
+  function require(path) {
+    return $traceurRuntime.require("helpers/svengali", path);
+  }
+  var EMPTY_OBJ,
+      nextStateUID,
+      StateChart,
+      State;
+  function Reenter(params) {
+    this.params = params;
+  }
+  function reenter(params) {
+    return new Reenter(params);
+  }
+  function Goto(path, params) {
+    this.path = path;
+    this.params = params;
+  }
+  function goto(path, params) {
+    return new Goto(path, params);
+  }
+  function AttrValue(val) {
+    this.val = val;
+  }
+  function attrValue(val) {
+    return new AttrValue(val);
+  }
+  $__export("reenter", reenter);
+  $__export("goto", goto);
+  $__export("attrValue", attrValue);
+  return {
+    setters: [],
+    execute: function() {
+      EMPTY_OBJ = {};
+      nextStateUID = 1;
+      StateChart = $__export("StateChart", (function() {
+        var StateChart = function StateChart(rootStateOptions) {
+          this.attrs = {};
+          this.rootState = new State(null, this, rootStateOptions);
+        };
+        return ($traceurRuntime.createClass)(StateChart, {
+          goto: function() {
+            var path = arguments[0] !== (void 0) ? arguments[0] : '.';
+            var params = arguments[1] !== (void 0) ? arguments[1] : {};
+            this.rootState.scState.goto(path, {context: params});
+          },
+          fire: function(eventName) {
+            var $__6;
+            for (var args = [],
+                $__2 = 1; $__2 < arguments.length; $__2++)
+              args[$__2 - 1] = arguments[$__2];
+            ($__6 = this.rootState.scState).send.apply($__6, $traceurRuntime.spread([eventName], args));
+          },
+          _getStateEvents: function(scState) {
+            var $__0 = this;
+            return scState.substates.reduce((function(acc, s) {
+              return acc.concat($__0._getStateEvents(s));
+            }), Object.keys(scState.events));
+          },
+          get events() {
+            return this._getStateEvents(this.rootState.scState);
+          }
+        }, {});
+      }()));
+      State = $__export("State", (function() {
+        var State = function State(parent, stateChart, $__4) {
+          var $__5 = $__4,
+              attrs = $__5.attrs,
+              enter = $__5.enter,
+              exit = $__5.exit,
+              events = $__5.events,
+              history = $__5.history,
+              parallelStates = $__5.parallelStates,
+              params = $__5.params,
+              states = $__5.states;
+          var name = arguments[3] !== (void 0) ? arguments[3] : nextStateUID++;
+          var $__0 = this;
+          this._attrs = attrs || EMPTY_OBJ;
+          this._attrKeys = Object.keys(this._attrs);
+          this._resolvedAttrValues = {};
+          this.attrs = Object.create((parent && parent.attrs || null), this._attrKeys.reduce((function(acc, attr) {
+            acc[attr] = {get: (function() {
+                return $__0._resolveAttrValue(attr);
+              })};
+            return acc;
+          }), {}));
+          this.enter = enter;
+          this.exit = exit;
+          this.params = params;
+          this.stateChart = stateChart;
+          var scState = this.scState = statechart.State(name, {
+            name: name,
+            concurrent: !!parallelStates,
+            history: !!history
+          });
+          if (params)
+            scState.canEnter = (function(states, params) {
+              return $__0._doCanEnter(params);
+            });
+          scState.enter((function(params) {
+            return $__0._doEnter(params);
+          }));
+          scState.exit((function() {
+            return $__0._doExit();
+          }));
+          if (events)
+            Object.keys(events).forEach((function(eventName) {
+              eventName.split(',').forEach((function(ename) {
+                $__0._registerEvent(ename.trim(), events[eventName]);
+              }));
+            }));
+          states = parallelStates || states;
+          if (states)
+            Object.keys(states).forEach((function(stateName) {
+              return scState.addSubstate(new State($__0, stateChart, states[stateName], stateName).scState);
+            }));
+        };
+        return ($traceurRuntime.createClass)(State, {
+          fire: function(eventName) {
+            var $__6;
+            for (var args = [],
+                $__2 = 1; $__2 < arguments.length; $__2++)
+              args[$__2 - 1] = arguments[$__2];
+            ($__6 = this.stateChart).fire.apply($__6, $traceurRuntime.spread([eventName], args));
+          },
+          get isCurrent() {
+            return this.scState.__isCurrent__;
+          },
+          _doCanEnter: function(params) {
+            return !this.params || (params && this.params.every((function(p) {
+              return p in params;
+            })));
+          },
+          _doEnter: function() {
+            var params = arguments[0] !== (void 0) ? arguments[0] : {};
+            var $__0 = this;
+            this._currentParams = params;
+            this._resolvedAttrValues = {};
+            this._attrKeys.forEach((function(a) {
+              return $__0._resolveAttrValue(a);
+            }));
+            if (this.enter)
+              this.enter(params);
+          },
+          _doExit: function() {
+            var $__0 = this;
+            if (this.exit)
+              this.exit();
+            this._attrKeys.forEach((function(a) {
+              return delete $__0.stateChart.attrs[a];
+            }));
+          },
+          _doReenter: function(reenterObj) {
+            this._doExit();
+            this._doEnter(reenterObj.params);
+          },
+          _transitionToSameState: function(reenterObj) {
+            return this._doReenter.bind(this, reenterObj);
+          },
+          _transitionToState: function(gotoObj) {
+            return this.scState.goto.bind(this.scState, gotoObj.path, {context: gotoObj.params});
+          },
+          _transitionToDynamicState: function(func) {
+            var $__0 = this;
+            return (function() {
+              for (var args = [],
+                  $__3 = 0; $__3 < arguments.length; $__3++)
+                args[$__3] = arguments[$__3];
+              var result = func.apply($__0, args);
+              if (result instanceof Goto)
+                $__0.scState.goto(result.path, {context: result.params || {}});
+              else if (result instanceof Reenter)
+                $__0._doReenter(result);
+            });
+          },
+          _registerEvent: function(eventName, eventValue) {
+            var type = typeof eventValue;
+            var callback = eventValue instanceof Goto ? this._transitionToState(eventValue) : type === 'function' ? this._transitionToDynamicState(eventValue) : eventValue instanceof Reenter ? this._transitionToSameState(eventValue) : undefined;
+            if (callback)
+              this.scState.event(eventName, callback);
+          },
+          _resolveAttrValue: function(attrName) {
+            var $__0 = this;
+            var params = this._currentParams;
+            var result;
+            if (attrName in this._resolvedAttrValues) {
+              result = this._resolvedAttrValues[attrName];
+            } else {
+              var val = this._attrs[attrName];
+              val = typeof val === 'function' ? val.call(this, params) : val;
+              if (!(val instanceof Promise))
+                result = this.stateChart.attrs[attrName] = val instanceof AttrValue ? val.val : val;
+              else
+                result = val.then((function(value) {
+                  if ($__0.isCurrent)
+                    $__0.stateChart.attrs[attrName] = value;
+                  return value;
+                }));
+            }
+            return this._resolvedAttrValues[attrName] = result;
+          }
+        }, {});
+      }()));
+    }
+  };
+});
+System.register("helpers/StatefulPolymer", ["helpers/svengali"], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/StatefulPolymer";
+  function require(path) {
+    return $traceurRuntime.require("helpers/StatefulPolymer", path);
+  }
+  var StateChart;
+  function stateFire(statechart, stateEvent, $__0) {
+    var currentTarget = $__0.currentTarget;
+    var fireArg = currentTarget.getAttribute('fire-arg');
+    if (fireArg)
+      statechart.fire(stateEvent, currentTarget.templateInstance.model[fireArg]);
+    else
+      statechart.fire(stateEvent);
+  }
+  function addFireFuncs(object, statechart) {
+    var events = statechart.events;
+    for (var i = 0; i < events.length; ++i)
+      object[("stateFire." + events[i])] = stateFire.bind(null, statechart, events[i]);
+  }
+  function StatefulPolymer(name, options) {
+    var stateConfig = options.state;
+    var originalCreated = options.created;
+    options.state = null;
+    if (stateConfig instanceof StateChart)
+      addFireFuncs(options, stateConfig);
+    options.created = function() {
+      this.bindInputToState = {
+        toDOM: function(val, attr) {
+          return this.state[attr];
+        },
+        toModel: function(val, attr) {
+          this.stateEvent((attr + "Changed"), val);
+          if (window.event.target.value !== this.state[attr])
+            window.event.target.value = this.state[attr];
+          return this.state[attr];
+        }
+      };
+      this._statechart = (stateConfig instanceof StateChart) ? stateConfig : new StateChart(stateConfig);
+      if (!(stateConfig instanceof StateChart))
+        addFireFuncs(this, this._statechart);
+      this.state = this._statechart.attrs;
+      if (originalCreated)
+        originalCreated.call(this);
+    };
+    options.stateEvent = function(eventName, params) {
+      this._statechart.fire(eventName, params);
+    };
+    window.Polymer(name, options);
+  }
+  $__export("default", StatefulPolymer);
+  return {
+    setters: [function(m) {
+      StateChart = m.StateChart;
     }],
     execute: function() {
     }
   };
 });
-System.register("models/github/GithubEventMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
+System.register("models/sources/Source", [], function($__export) {
   "use strict";
-  var $__21;
-  var __moduleName = "models/github/GithubEventMapper";
-  var AttrMunger,
-      loadJSON;
-  return ($__21 = {}, Object.defineProperty($__21, "setters", {
-    value: [function(m) {
-      AttrMunger = m.default;
-    }, function(m) {
-      loadJSON = m.loadJSON;
-    }],
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), Object.defineProperty($__21, "execute", {
-    value: function() {
-      var $__21;
-      $__export('default', ($__21 = {}, Object.defineProperty($__21, "query", {
-        value: (function(array, $__22) {
-          var $__23 = $__22,
-              type = $__23.type,
-              typeRef = $__23[type];
-          return (loadJSON(("https://api.github.com/" + type + "/" + typeRef + "/events"))).then((function(data) {
-            return array.$replace(array.$class.loadAll(AttrMunger.camelize(data)));
+  var __moduleName = "models/sources/Source";
+  function require(path) {
+    return $traceurRuntime.require("models/sources/Source", path);
+  }
+  var SOURCE_CLASSES;
+  return {
+    setters: [],
+    execute: function() {
+      SOURCE_CLASSES = {};
+      $__export('default', (($traceurRuntime.createClass)(function() {}, {
+        toSourceJSON: function() {
+          return {
+            type: this.constructor.name,
+            config: this.toJSON()
+          };
+        },
+        get name() {
+          throw 'Subclasses should implement `get name()`';
+        },
+        toJSON: function() {
+          throw 'Subclasses should implement `toJSON()`';
+        }
+      }, {
+        load: function($__2) {
+          var $__3 = $__2,
+              type = $__3.type,
+              config = $__3.config;
+          return new SOURCE_CLASSES[type](config);
+        },
+        query: function($__2) {
+          var term = $__2.term;
+          return Promise.all(Object.keys(SOURCE_CLASSES).map((function(key) {
+            return SOURCE_CLASSES[key].query({term: term});
+          }))).then((function(allSources) {
+            var $__4;
+            return ($__4 = []).concat.apply($__4, $traceurRuntime.spread(allSources));
           }));
-        }),
-        configurable: true,
-        enumerable: true,
-        writable: true
-      }), $__21));
-    },
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), $__21);
+        },
+        registerSource: function(SourceClass) {
+          SOURCE_CLASSES[SourceClass.name] = SourceClass;
+        }
+      })));
+    }
+  };
 });
-System.register("models/github/GithubRepoMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
+System.register("helpers/MapperUtils", ["./AttrMunger"], function($__export) {
   "use strict";
-  var __moduleName = "models/github/GithubRepoMapper";
-  var AttrMunger,
-      loadJSON;
+  var __moduleName = "helpers/MapperUtils";
+  function require(path) {
+    return $traceurRuntime.require("helpers/MapperUtils", path);
+  }
+  var AttrMunger;
+  function load(model, data) {
+    return data && model.$load(AttrMunger.camelize(data));
+  }
+  function loadAll(modelArray, data) {
+    return data && modelArray.$replace(modelArray.$class.loadAll(AttrMunger.camelize(data)));
+  }
+  $__export("load", load);
+  $__export("loadAll", loadAll);
   return {
     setters: [function(m) {
       AttrMunger = m.default;
-    }, function(m) {
-      loadJSON = m.loadJSON;
     }],
     execute: function() {
-      $__export('default', {query: (function(array, $__24) {
-          var q = $__24.q;
-          return (loadJSON(("https://api.github.com/search/repositories?q=" + q))).then((function(data) {
-            return (data && data.items) && array.$replace(array.$class.loadAll(AttrMunger.camelize(data.items)));
-          }));
+    }
+  };
+});
+System.register("models/github/GithubEventMapper", ["helpers/load", "helpers/MapperUtils"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubEventMapper";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubEventMapper", path);
+  }
+  var loadJSON,
+      load,
+      loadAll;
+  return {
+    setters: [function(m) {
+      loadJSON = m.default;
+    }, function(m) {
+      load = m.load;
+      loadAll = m.loadAll;
+    }],
+    execute: function() {
+      $__export('default', {query: (function(array, $__0) {
+          var $__1,
+              type,
+              id,
+              $__2,
+              $__3,
+              $__4;
+          return $traceurRuntime.asyncWrap(function($ctx) {
+            while (true)
+              switch ($ctx.state) {
+                case 0:
+                  $__1 = $__0, type = $__1.type, id = $__1.id;
+                  $ctx.state = 12;
+                  break;
+                case 12:
+                  $__2 = loadJSON(("https://api.github.com/" + type + "/" + id + "/events"));
+                  $ctx.state = 5;
+                  break;
+                case 5:
+                  Promise.resolve($__2).then($ctx.createCallback(3), $ctx.errback);
+                  return;
+                case 3:
+                  $__3 = $ctx.value;
+                  $ctx.state = 2;
+                  break;
+                case 2:
+                  $__4 = loadAll(array, $__3);
+                  $ctx.state = 7;
+                  break;
+                case 7:
+                  $ctx.returnValue = $__4;
+                  $ctx.state = 9;
+                  break;
+                case 9:
+                  $ctx.state = -2;
+                  break;
+                default:
+                  return $ctx.end();
+              }
+          }, this);
         })});
+    }
+  };
+});
+System.register("models/github/GithubRepoMapper", ["helpers/load", "helpers/MapperUtils"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubRepoMapper";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubRepoMapper", path);
+  }
+  var loadJSON,
+      load,
+      loadAll;
+  return {
+    setters: [function(m) {
+      loadJSON = m.default;
+    }, function(m) {
+      load = m.load;
+      loadAll = m.loadAll;
+    }],
+    execute: function() {
+      $__export('default', {
+        get: (function(model) {
+          var response;
+          return $traceurRuntime.asyncWrap(function($ctx) {
+            while (true)
+              switch ($ctx.state) {
+                case 0:
+                  Promise.resolve(loadJSON(("https://api.github.com/repos/" + model.id))).then($ctx.createCallback(3), $ctx.errback);
+                  return;
+                case 3:
+                  response = $ctx.value;
+                  $ctx.state = 2;
+                  break;
+                case 2:
+                  response.id = model.id;
+                  $ctx.state = 8;
+                  break;
+                case 8:
+                  $ctx.returnValue = load(model, response);
+                  $ctx.state = 5;
+                  break;
+                case 5:
+                  $ctx.state = -2;
+                  break;
+                default:
+                  return $ctx.end();
+              }
+          }, this);
+        }),
+        query: (function(array, $__0) {
+          var term,
+              $__2,
+              $__3,
+              $__4,
+              $__5;
+          return $traceurRuntime.asyncWrap(function($ctx) {
+            while (true)
+              switch ($ctx.state) {
+                case 0:
+                  term = $__0.term;
+                  $ctx.state = 12;
+                  break;
+                case 12:
+                  $__2 = loadJSON(("https://api.github.com/search/repositories?q=" + term));
+                  $ctx.state = 5;
+                  break;
+                case 5:
+                  Promise.resolve($__2).then($ctx.createCallback(3), $ctx.errback);
+                  return;
+                case 3:
+                  $__3 = $ctx.value;
+                  $ctx.state = 2;
+                  break;
+                case 2:
+                  $__4 = $__3.items;
+                  $__5 = loadAll(array, $__4);
+                  $ctx.state = 7;
+                  break;
+                case 7:
+                  $ctx.returnValue = $__5;
+                  $ctx.state = 9;
+                  break;
+                case 9:
+                  $ctx.state = -2;
+                  break;
+                default:
+                  return $ctx.end();
+              }
+          }, this);
+        })
+      });
     }
   };
 });
 System.register("models/github/GithubRepo", ["../../helpers/model/Model", "./GithubRepoMapper"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubRepo";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubRepo", path);
+  }
   var Model,
       GithubRepoMapper,
       GithubRepo;
@@ -1286,7 +1899,7 @@ System.register("models/github/GithubRepo", ["../../helpers/model/Model", "./Git
     execute: function() {
       GithubRepo = (function($__super) {
         var GithubRepo = function GithubRepo() {
-          $traceurRuntime.defaultSuperCall(this, GithubRepo.prototype, arguments);
+          $traceurRuntime.superConstructor(GithubRepo).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(GithubRepo, {}, {}, $__super);
       }(Model));
@@ -1301,65 +1914,92 @@ System.register("models/github/GithubRepo", ["../../helpers/model/Model", "./Git
     }
   };
 });
-System.register("models/github/GithubUserMapper", ["helpers/AttrMunger", "helpers/load"], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/GithubUserMapper";
-  var AttrMunger,
-      loadJSON;
-  return {
-    setters: [function(m) {
-      AttrMunger = m.default;
-    }, function(m) {
-      loadJSON = m.loadJSON;
-    }],
-    execute: function() {
-      $__export('default', {query: (function(array, $__26) {
-          var q = $__26.q;
-          return (loadJSON(("https://api.github.com/search/users?q=" + q))).then((function(data) {
-            return (data && data.items) && array.$replace(array.$class.loadAll(AttrMunger.camelize(data.items)));
-          }));
-        })});
-    }
-  };
-});
-System.register("models/github/GithubUser", ["../../helpers/model/Model", "./GithubUserMapper"], function($__export) {
+System.register("models/github/GithubUser", ["../../helpers/load", "../../helpers/MapperUtils", "../../helpers/model/Model"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubUser";
-  var Model,
-      GithubUserMapper,
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubUser", path);
+  }
+  var loadJSON,
+      load,
+      loadAll,
+      Model,
       GithubUser;
   return {
     setters: [function(m) {
-      Model = m.default;
+      loadJSON = m.default;
     }, function(m) {
-      GithubUserMapper = m.default;
+      load = m.load;
+      loadAll = m.loadAll;
+    }, function(m) {
+      Model = m.default;
     }],
     execute: function() {
       GithubUser = (function($__super) {
         var GithubUser = function GithubUser() {
-          $traceurRuntime.defaultSuperCall(this, GithubUser.prototype, arguments);
+          $traceurRuntime.superConstructor(GithubUser).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(GithubUser, {}, {}, $__super);
       }(Model));
       GithubUser.create((function($) {
-        $.mapper = GithubUserMapper;
         $.attr('avatarUrl', 'string');
         $.attr('gravatarId', 'string');
         $.attr('login', 'string');
         $.attr('url', 'string');
         $.attr('score', 'number');
+        $.mapper = {
+          get: (function(model) {
+            var response;
+            return $traceurRuntime.asyncWrap(function($ctx) {
+              while (true)
+                switch ($ctx.state) {
+                  case 0:
+                    Promise.resolve(loadJSON(("https://api.github.com/users/" + model.id))).then($ctx.createCallback(3), $ctx.errback);
+                    return;
+                  case 3:
+                    response = $ctx.value;
+                    $ctx.state = 2;
+                    break;
+                  case 2:
+                    response.id = model.id;
+                    $ctx.state = 8;
+                    break;
+                  case 8:
+                    $ctx.returnValue = load(model, response);
+                    $ctx.state = 5;
+                    break;
+                  case 5:
+                    $ctx.state = -2;
+                    break;
+                  default:
+                    return $ctx.end();
+                }
+            }, this);
+          }),
+          query: (function(array, $__0) {
+            var term = $__0.term;
+            return (loadJSON(("https://api.github.com/search/users?q=" + term))).then((function($__2) {
+              var items = $__2.items;
+              return loadAll(array, items);
+            }));
+          })
+        };
       }));
       $__export('default', GithubUser);
     }
   };
 });
-System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./GithubEventMapper", "./GithubUser", "./GithubRepo"], function($__export) {
+System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./GithubEventMapper", "./GithubUser", "./GithubRepo", "./GithubIssue"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubEvent";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubEvent", path);
+  }
   var Model,
       GithubEventMapper,
       GithubUser,
       GithubRepo,
+      GithubIssue,
       GithubEvent;
   return {
     setters: [function(m) {
@@ -1370,13 +2010,17 @@ System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./Gi
       GithubUser = m.default;
     }, function(m) {
       GithubRepo = m.default;
+    }, function(m) {
+      GithubIssue = m.default;
     }],
     execute: function() {
       GithubEvent = (function($__super) {
         var GithubEvent = function GithubEvent() {
-          $traceurRuntime.defaultSuperCall(this, GithubEvent.prototype, arguments);
+          $traceurRuntime.superConstructor(GithubEvent).apply(this, arguments);
         };
-        return ($traceurRuntime.createClass)(GithubEvent, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(GithubEvent, {fetchDetails: function() {
+            GithubIssue.get();
+          }}, {}, $__super);
       }(Model));
       GithubEvent.create((function($) {
         $.mapper = GithubEventMapper;
@@ -1390,314 +2034,679 @@ System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./Gi
     }
   };
 });
-System.register("models/EventStream", ["helpers/AttrMunger", "../helpers/model/Model", "./github/GithubEvent", "./github/GithubUser", "./github/GithubRepo"], function($__export) {
+System.register("models/sources/GithubRepoSource", ["models/github/GithubRepo", "models/github/GithubEvent", "./Source"], function($__export) {
   "use strict";
-  var $__29;
-  var __moduleName = "models/EventStream";
-  var AttrMunger,
-      Model,
-      GithubEvent,
-      GithubUser,
-      GithubRepo,
-      EventStream,
-      GithubEventStream;
-  function mergeResults(users, repos) {
-    return users.concat(repos).sort((function(a, b) {
-      return b.score - a.score;
-    }));
+  var __moduleName = "models/sources/GithubRepoSource";
+  function require(path) {
+    return $traceurRuntime.require("models/sources/GithubRepoSource", path);
   }
-  return ($__29 = {}, Object.defineProperty($__29, "setters", {
-    value: [function(m) {
-      AttrMunger = m.default;
-    }, function(m) {
-      Model = m.default;
+  var GithubRepo,
+      GithubEvent,
+      Source,
+      GithubRepoSource;
+  return {
+    setters: [function(m) {
+      GithubRepo = m.default;
     }, function(m) {
       GithubEvent = m.default;
     }, function(m) {
-      GithubUser = m.default;
-    }, function(m) {
-      GithubRepo = m.default;
-    }],
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), Object.defineProperty($__29, "execute", {
-    value: function() {
-      EventStream = (function($__super) {
-        var EventStream = function EventStream() {
-          $traceurRuntime.defaultSuperCall(this, EventStream.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(EventStream, {
-          name: function() {
-            throw 'Implement me';
-          },
-          events: function() {
-            throw 'Implement me';
-          }
-        }, {load: function(attrs) {
-            return Model.load.call((attrs.type === 'github' ? GithubEventStream : EventStream), attrs);
-          }}, $__super);
-      }(Model));
-      EventStream.create((function($) {
-        var $__29;
-        $.attr('type', 'string');
-        $.attr('config', 'identity');
-        $.mapper = ($__29 = {}, Object.defineProperty($__29, "query", {
-          value: (function(array, $__31) {
-            var term = $__31.term;
-            return Promise.all([GithubUser.query({q: term}).$promise, GithubRepo.query({q: term}).$promise]).then((function($__32) {
-              var $__33 = $__32,
-                  users = $__33[0],
-                  repos = $__33[1];
-              return array.$replace(mergeResults(users, repos).map((function(result) {
-                var $__29,
-                    $__30;
-                var type = result.login ? 'users' : 'repos';
-                var name = result.login || result.fullName;
-                return GithubEventStream.load(($__30 = {}, Object.defineProperty($__30, "type", {
-                  value: 'github',
-                  configurable: true,
-                  enumerable: true,
-                  writable: true
-                }), Object.defineProperty($__30, "id", {
-                  value: (type + ':' + result.id),
-                  configurable: true,
-                  enumerable: true,
-                  writable: true
-                }), Object.defineProperty($__30, "config", {
-                  value: ($__29 = {}, Object.defineProperty($__29, "type", {
-                    value: type,
-                    configurable: true,
-                    enumerable: true,
-                    writable: true
-                  }), Object.defineProperty($__29, type, {
-                    value: name,
-                    configurable: true,
-                    enumerable: true,
-                    writable: true
-                  }), $__29),
-                  configurable: true,
-                  enumerable: true,
-                  writable: true
-                }), $__30));
-              })));
-            }));
-          }),
-          configurable: true,
-          enumerable: true,
-          writable: true
-        }), $__29);
-      }));
-      GithubEventStream = $__export("GithubEventStream", (function($__super) {
-        var GithubEventStream = function GithubEventStream() {
-          $traceurRuntime.defaultSuperCall(this, GithubEventStream.prototype, arguments);
-        };
-        return ($traceurRuntime.createClass)(GithubEventStream, {
-          get name() {
-            return this.config[this.config.type];
-          },
-          events: function() {
-            return GithubEvent.query(this.config);
-          }
-        }, {}, $__super);
-      }(EventStream)));
-      $__export('default', EventStream);
-    },
-    configurable: true,
-    enumerable: true,
-    writable: true
-  }), $__29);
-});
-System.register("elements/ticker-search", ["../models/EventStream"], function($__export) {
-  "use strict";
-  var __moduleName = "elements/ticker-search";
-  var EventStream;
-  return {
-    setters: [function(m) {
-      EventStream = m.default;
+      Source = m.default;
     }],
     execute: function() {
-      Polymer('ticker-search', {
-        searchText: '',
-        results: [],
-        suggestions: [],
-        searchTextChanged: function(_, searchText) {
-          var $__34 = this;
-          this.job('search', (function() {
-            if ($__34.searchText)
-              $__34.searchResults = EventStream.query({term: $__34.searchText});
-          }), 500);
+      GithubRepoSource = (function($__super) {
+        var GithubRepoSource = function GithubRepoSource($__2) {
+          var $__3 = $__2,
+              fullName = $__3.fullName,
+              details = $__3.details;
+          this.fullName = fullName;
+          this._details = details;
+        };
+        return ($traceurRuntime.createClass)(GithubRepoSource, {
+          get name() {
+            return this.fullName;
+          },
+          get details() {
+            return this._details || (this._details = GithubRepo.get(this.fullName));
+          },
+          get events() {
+            return this._events || (this._events = GithubEvent.query({
+              type: 'repos',
+              id: this.fullName
+            }));
+          },
+          toJSON: function() {
+            return {fullName: this.fullName};
+          }
+        }, {query: function($__2) {
+            var term = $__2.term;
+            var $__0 = this;
+            return GithubRepo.query({term: term}).$promise.then((function(repos) {
+              return repos.map((function(repo) {
+                return new $__0({
+                  fullName: repo.fullName,
+                  details: repo
+                });
+              }));
+            }));
+          }}, $__super);
+      }(Source));
+      Source.registerSource(GithubRepoSource);
+      $__export('default', GithubRepoSource);
+    }
+  };
+});
+System.register("states/searchState", ["../helpers/svengali", "../models/sources/Source", "../models/sources/GithubRepoSource"], function($__export) {
+  "use strict";
+  var __moduleName = "states/searchState";
+  function require(path) {
+    return $traceurRuntime.require("states/searchState", path);
+  }
+  var reenter,
+      Source,
+      GithubRepoSource,
+      currentQuery;
+  function delayedSourceQuery(term) {
+    if (currentQuery)
+      currentQuery.term = term;
+    else
+      currentQuery = {
+        term: term,
+        promise: new Promise(function(resolve) {
+          setTimeout((function() {
+            resolve(Source.query({term: currentQuery.term}).then(function(results) {
+              currentQuery = null;
+              return results;
+            }));
+          }), 300);
+        })
+      };
+    return currentQuery.promise;
+  }
+  return {
+    setters: [function(m) {
+      reenter = m.reenter;
+    }, function(m) {
+      Source = m.default;
+    }, function(m) {
+      GithubRepoSource = m.default;
+    }],
+    execute: function() {
+      currentQuery = null;
+      $__export('default', {
+        attrs: {
+          'appView': 'search',
+          'searchText': (function($__0) {
+            var searchText = $__0.searchText;
+            return searchText || '';
+          }),
+          'searchResults': function() {
+            return this.attrs.searchText ? delayedSourceQuery(this.attrs.searchText) : [];
+          }
         },
-        onClearSearch: function() {
-          this.searchText = '';
-          this.searchResults = [];
-        },
-        onCloseSearch: function() {
-          this.fire('ticker-search-close');
-        },
-        onSearchResultSelected: function(event) {
-          this.fire('ticker-search-select', event.target.templateInstance.model.searchResult);
+        events: {
+          'clearSearchText': reenter({searchText: ''}),
+          'searchTextChanged': (function(searchText) {
+            return reenter({searchText: searchText});
+          })
         }
       });
     }
   };
 });
-System.register("models/User", ["../helpers/model/Model", "./EventStream"], function($__export) {
+System.register("states/sourceState", ["../helpers/svengali"], function($__export) {
+  "use strict";
+  var __moduleName = "states/sourceState";
+  function require(path) {
+    return $traceurRuntime.require("states/sourceState", path);
+  }
+  var reenter;
+  return {
+    setters: [function(m) {
+      reenter = m.reenter;
+    }],
+    execute: function() {
+      $__export('default', {
+        attrs: {
+          'appView': function() {
+            return ("source-" + this.attrs.source.constructor.name);
+          },
+          'isSourceFavorited': function() {
+            return this.attrs.user.sources.indexOf(this.attrs.source) !== -1;
+          },
+          'source': function($__0) {
+            var s = $__0.source;
+            return s || this.attrs.user.sources[0];
+          }
+        },
+        events: {
+          'selectSource': (function(source) {
+            return reenter({source: source});
+          }),
+          'toggleFavoriteSource': function() {
+            var $__0 = this.attrs,
+                user = $__0.user,
+                source = $__0.source;
+            if (!this.attrs.isSourceFavorited) {
+              if (user.sources.indexOf(source) === -1)
+                user.sources.push(source);
+            } else {
+              var index = user.sources.indexOf(source);
+              if (index !== -1)
+                user.sources.splice(index, 1);
+            }
+            user.$save();
+            return reenter({source: source});
+          }
+        },
+        states: {'tab': {
+            attrs: {'tab': (function($__0) {
+                var tab = $__0.tab;
+                return tab || 'info';
+              })},
+            events: {'selectTab': (function(tab) {
+                return reenter({tab: tab});
+              })}
+          }}
+      });
+    }
+  };
+});
+System.register("states/loggedInState", ["../helpers/svengali", "../helpers/load", "./sourceState", "./searchState"], function($__export) {
+  "use strict";
+  var __moduleName = "states/loggedInState";
+  function require(path) {
+    return $traceurRuntime.require("states/loggedInState", path);
+  }
+  var goto,
+      reenter,
+      load,
+      sourceState,
+      searchState;
+  return {
+    setters: [function(m) {
+      goto = m.goto;
+      reenter = m.reenter;
+    }, function(m) {
+      load = m.default;
+    }, function(m) {
+      sourceState = m.default;
+    }, function(m) {
+      searchState = m.default;
+    }],
+    execute: function() {
+      $__export('default', {
+        params: ['user', 'accessTokens'],
+        attrs: {
+          'user': (function($__0) {
+            var user = $__0.user;
+            return user;
+          }),
+          'accessTokens': (function($__0) {
+            var accessTokens = $__0.accessTokens;
+            load.accessToken = accessTokens.github;
+            return accessTokens;
+          })
+        },
+        parallelStates: {
+          'appDrawer': {
+            attrs: {'appDrawerOpened': (function($__0) {
+                var appDrawerOpened = $__0.appDrawerOpened;
+                return !!appDrawerOpened;
+              })},
+            events: {
+              'selectSearch, selectSource': reenter({appDrawerOpened: false}),
+              'toggleAppDrawer': function() {
+                return reenter({appDrawerOpened: !this.attrs.appDrawerOpened});
+              }
+            }
+          },
+          'appView': {
+            events: {
+              'selectSource': (function(source) {
+                return goto('./source', {source: source});
+              }),
+              'selectSearch': goto('./search')
+            },
+            states: {
+              'source': sourceState,
+              'search': searchState
+            }
+          }
+        }
+      });
+    }
+  };
+});
+System.register("models/User", ["helpers/model/Model", "models/sources/Source"], function($__export) {
   "use strict";
   var __moduleName = "models/User";
+  function require(path) {
+    return $traceurRuntime.require("models/User", path);
+  }
   var Model,
-      EventStream,
+      Source,
       User;
+  function updateCreate(user) {
+    return new Promise((function(resolve, reject) {
+      return new Firebase((CONFIG.firebaseUrl + "/users/" + user.id)).set({
+        id: user.id,
+        githubUsername: user.githubUsername,
+        sources: user.sources.map((function(s) {
+          return s.toSourceJSON();
+        }))
+      }, (function(error) {
+        return error ? reject(error) : resolve(user);
+      }));
+    }));
+  }
   return {
     setters: [function(m) {
       Model = m.default;
     }, function(m) {
-      EventStream = m.default;
+      Source = m.default;
     }],
     execute: function() {
       User = (function($__super) {
-        var User = function User() {
-          $traceurRuntime.defaultSuperCall(this, User.prototype, arguments);
+        var User = function User(attrs) {
+          this._sources = attrs.sources;
+          $traceurRuntime.superConstructor(User).call(this, attrs);
         };
-        return ($traceurRuntime.createClass)(User, {}, {}, $__super);
+        return ($traceurRuntime.createClass)(User, {get sources() {
+            return this._sources;
+          }}, {}, $__super);
       }(Model));
       User.create((function($) {
+        $.attr('githubUsername', 'string');
         $.mapper = {
-          update: (function(user) {
-            return new Promise((function(resolve, reject) {
-              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).set({
-                id: user.id,
-                eventStreams: user.eventStreams.map((function(es) {
-                  return es.$attrs();
-                }))
-              }, (function(error) {
-                if (error)
-                  reject(error);
-                else
-                  resolve(user);
-              }));
-            }));
-          }),
-          create: (function(user) {
-            return new Promise((function(resolve, reject) {
-              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).set({
-                id: user.id,
-                eventStreams: user.eventStreams.map((function(es) {
-                  return es.$attrs();
-                }))
-              }, (function(error) {
-                if (error)
-                  reject(error);
-                else
-                  resolve(user);
-              }));
-            }));
-          }),
+          create: updateCreate,
+          update: updateCreate,
           get: (function(user) {
             return new Promise((function(resolve, reject) {
-              return new Firebase(("https://ticker-test.firebaseio.com/users/" + user.id)).once('value', (function(data) {
+              return new Firebase((CONFIG.firebaseUrl + "/users/" + user.id)).once('value', (function(data) {
                 var val = data.val();
-                if (val)
-                  resolve(user.$load(val));
-                else
+                if (val) {
+                  user.$load(val);
+                  user._sources = val.sources.map((function(s) {
+                    return Source.load(s);
+                  }));
+                  resolve(user);
+                } else {
                   reject("Couldn't find User");
+                }
               }));
             }));
           })
         };
-        $.hasMany('eventStreams', 'EventStream');
       }));
       $__export('default', User);
     }
   };
 });
-System.register("elements/ticker-session", ["../models/User", "../models/EventStream", "../helpers/session"], function($__export) {
+System.register("models/sources/GithubUserSource", ["models/github/GithubUser", "models/github/GithubEvent", "./Source"], function($__export) {
   "use strict";
-  var __moduleName = "elements/ticker-session";
-  var User,
-      EventStream,
-      data;
+  var __moduleName = "models/sources/GithubUserSource";
+  function require(path) {
+    return $traceurRuntime.require("models/sources/GithubUserSource", path);
+  }
+  var GithubUser,
+      GithubEvent,
+      Source,
+      GithubUserSource;
   return {
     setters: [function(m) {
-      User = m.default;
+      GithubUser = m.default;
     }, function(m) {
-      EventStream = m.default;
+      GithubEvent = m.default;
     }, function(m) {
-      data = m.data;
+      Source = m.default;
     }],
     execute: function() {
-      Polymer('ticker-session', {
-        fbUserDataReady: false,
-        data: data,
-        login: function() {
-          this.$.fbLogin.login();
-        },
-        logout: function() {
-          this.$.fbLogin.logout();
-        },
-        fbUserChanged: function(_, fbUser) {
-          if (fbUser) {
-            data.accessTokens.github = fbUser.accessToken;
-            User.get(fbUser.id).$promise.catch((function(error) {
-              return new User({
-                id: fbUser.id,
-                eventStreams: []
-              }).$save().$promise;
-            })).then((function(user) {
-              return data.user = user;
+      GithubUserSource = (function($__super) {
+        var GithubUserSource = function GithubUserSource($__2) {
+          var $__3 = $__2,
+              login = $__3.login,
+              details = $__3.details;
+          this.login = login;
+          this._details = details;
+        };
+        return ($traceurRuntime.createClass)(GithubUserSource, {
+          get name() {
+            return this.login;
+          },
+          get details() {
+            return this._details || (this._details = GithubUser.get(this.login));
+          },
+          get events() {
+            return this._events || (this._events = GithubEvent.query({
+              type: 'users',
+              id: this.login
             }));
+          },
+          toJSON: function() {
+            return {login: this.login};
+          }
+        }, {query: function($__2) {
+            var term = $__2.term;
+            var $__0 = this;
+            return GithubUser.query({term: term}).$promise.then((function(users) {
+              return users.map((function(user) {
+                return new $__0({
+                  login: user.login,
+                  details: user
+                });
+              }));
+            }));
+          }}, $__super);
+      }(Source));
+      Source.registerSource(GithubUserSource);
+      $__export('default', GithubUserSource);
+    }
+  };
+});
+System.register("states/loggedOutState", ["../helpers/svengali", "../models/User", "../models/sources/Source", "../models/sources/GithubUserSource"], function($__export) {
+  "use strict";
+  var __moduleName = "states/loggedOutState";
+  function require(path) {
+    return $traceurRuntime.require("states/loggedOutState", path);
+  }
+  var goto,
+      User,
+      Source,
+      GithubUserSource;
+  function createUserWithDefaults($__0) {
+    var $__1 = $__0,
+        id = $__1.id,
+        githubUsername = $__1.githubUsername;
+    return new User({
+      githubUsername: githubUsername,
+      id: id,
+      sources: [new GithubUserSource({login: "Polymer"}), new GithubUserSource({login: "web-animations"})]
+    }).$save().$promise;
+  }
+  return {
+    setters: [function(m) {
+      goto = m.goto;
+    }, function(m) {
+      User = m.default;
+    }, function(m) {
+      Source = m.default;
+    }, function(m) {
+      GithubUserSource = m.default;
+    }],
+    execute: function() {
+      $__export('default', {states: {
+          'determineAuth': {events: {
+              'authFailed': goto('../auth'),
+              'authSuccessful': (function(authId, githubUsername, accessTokens) {
+                return goto('../retrieveUser', {
+                  authId: authId,
+                  githubUsername: githubUsername,
+                  accessTokens: accessTokens
+                });
+              })
+            }},
+          'auth': {events: {
+              'authWithGithub': function() {
+                this.attrs.firebaseRef.authWithOAuthPopup("github", (function(_) {
+                  return _;
+                }));
+              },
+              'authSuccessful': (function(authId, githubUsername, accessTokens) {
+                return goto('../retrieveUser', {
+                  authId: authId,
+                  githubUsername: githubUsername,
+                  accessTokens: accessTokens
+                });
+              })
+            }},
+          'retrieveUser': {enter: function($__0) {
+              var $__1,
+                  authId,
+                  githubUsername,
+                  accessTokens,
+                  user,
+                  e;
+              return $traceurRuntime.asyncWrap(function($ctx) {
+                while (true)
+                  switch ($ctx.state) {
+                    case 0:
+                      $__1 = $__0, authId = $__1.authId, githubUsername = $__1.githubUsername, accessTokens = $__1.accessTokens;
+                      user = User.get(authId);
+                      $ctx.state = 14;
+                      break;
+                    case 14:
+                      $ctx.pushTry(6, null);
+                      $ctx.state = 9;
+                      break;
+                    case 9:
+                      Promise.resolve(user.$promise).then($ctx.createCallback(2), $ctx.errback);
+                      return;
+                    case 2:
+                      $ctx.popTry();
+                      $ctx.state = 11;
+                      break;
+                    case 6:
+                      $ctx.popTry();
+                      e = $ctx.storedException;
+                      $ctx.state = 3;
+                      break;
+                    case 3:
+                      Promise.resolve(createUserWithDefaults({
+                        id: authId,
+                        githubUsername: githubUsername
+                      })).then($ctx.createCallback(5), $ctx.errback);
+                      return;
+                    case 5:
+                      user = $ctx.value;
+                      $ctx.state = 11;
+                      break;
+                    case 11:
+                      this.fire('userLoggedIn', user, accessTokens);
+                      $ctx.state = -2;
+                      break;
+                    default:
+                      return $ctx.end();
+                  }
+              }, this);
+            }}
+        }});
+    }
+  };
+});
+System.register("states/appState", ["../helpers/svengali", "./loggedInState", "./loggedOutState"], function($__export) {
+  "use strict";
+  var __moduleName = "states/appState";
+  function require(path) {
+    return $traceurRuntime.require("states/appState", path);
+  }
+  var StateChart,
+      goto,
+      loggedInState,
+      loggedOutState,
+      appState;
+  return {
+    setters: [function(m) {
+      StateChart = m.StateChart;
+      goto = m.goto;
+    }, function(m) {
+      loggedInState = m.default;
+    }, function(m) {
+      loggedOutState = m.default;
+    }],
+    execute: function() {
+      appState = new StateChart({
+        attrs: {'firebaseRef': (function() {
+            return new window.Firebase(CONFIG.firebaseUrl);
+          })},
+        enter: function() {
+          var $__0 = this;
+          setTimeout((function() {
+            $__0.attrs.firebaseRef.onAuth((function(authData) {
+              var github = authData && authData.github;
+              if (github)
+                $__0.fire('authSuccessful', github.id, github.username, {github: github.accessToken});
+              else
+                $__0.fire('authFailed');
+            }));
+          }));
+        },
+        events: {'userLoggedIn': (function(user, accessTokens) {
+            return goto('loggedIn', {
+              user: user,
+              accessTokens: accessTokens
+            });
+          })},
+        states: {
+          'loggedOut': loggedOutState,
+          'loggedIn': loggedInState
+        }
+      });
+      if (!('__karma__' in window))
+        appState.goto();
+      if (window.CONFIG.statechartTrace) {
+        appState.rootState.scState.trace = true;
+        window.appState = appState;
+      }
+      $__export('default', appState);
+    }
+  };
+});
+System.register("elements/ticker-app", ["../helpers/StatefulPolymer", "../states/appState", "../filters/limitArray"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-app";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-app", path);
+  }
+  var StatefulPolymer,
+      appState,
+      limitArray;
+  return {
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }, function(m) {
+      limitArray = m.default;
+    }],
+    execute: function() {
+      StatefulPolymer('ticker-app', {
+        state: appState,
+        DRAWER_SWIPE_DISABLED: !/Chrome/.test(window.navigator.userAgent) && /AppleWebKit.*Mobile.*Safari/.test(window.navigator.userAgent),
+        openedToSelected: {
+          toDOM: (function(drawerOpened) {
+            return drawerOpened ? 'drawer' : 'main';
+          }),
+          toModel: function(selected) {
+            if (this.state.appDrawerOpened != (selected === 'drawer'))
+              this.stateEvent('toggleAppDrawer');
+            return this.state.appDrawerOpened;
           }
         }
       });
     }
   };
 });
-System.register("elements/ticker-stream", [], function($__export) {
+System.register("elements/ticker-drawer", ["../helpers/StatefulPolymer", "../states/appState"], function($__export) {
   "use strict";
-  var __moduleName = "elements/ticker-stream";
+  var __moduleName = "elements/ticker-drawer";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-drawer", path);
+  }
+  var StatefulPolymer,
+      appState;
   return {
-    setters: [],
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }],
     execute: function() {
-      Polymer('ticker-stream', {
-        isLoaded: false,
-        stream: null,
-        events: null,
-        isEventStreamFavorited: function(item) {
-          return this.$.session.data && this.$.session.data.user.eventStreams && (this.$.session.data.user.eventStreams.indexOf(item) !== -1);
-        },
-        streamChanged: function(_, newStream) {
-          var $__35 = this;
-          this.isLoaded = false;
-          this.events = null;
-          newStream.events().$promise.then((function(events) {
-            $__35.events = events;
-            $__35.isLoaded = true;
-          }));
-          this.isSelectedEventStreamFavorited = this.isEventStreamFavorited(newStream);
-        },
-        onOpenDrawer: function() {
-          this.fire('ticker-stream-open-drawer');
-        },
-        onToggleFavoriteEventStream: function(event) {
-          var user = this.$.session.data && this.$.session.data.user;
-          if (this.stream && user && user.eventStreams) {
-            if (this.isEventStreamFavorited(this.stream)) {
-              user.removeEventStreams(this.stream);
-              this.isSelectedEventStreamFavorited = false;
-            } else {
-              user.addEventStreams(this.stream);
-              this.isSelectedEventStreamFavorited = true;
-            }
-            user.$save();
-          }
-        }
-      });
+      StatefulPolymer('ticker-drawer', {state: appState});
+    }
+  };
+});
+System.register("elements/ticker-login", ["../helpers/StatefulPolymer", "../states/appState"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-login";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-login", path);
+  }
+  var StatefulPolymer,
+      appState;
+  return {
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }],
+    execute: function() {
+      StatefulPolymer('ticker-login', {state: appState});
+    }
+  };
+});
+System.register("elements/ticker-search", ["../helpers/StatefulPolymer", "../states/appState"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-search";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-search", path);
+  }
+  var StatefulPolymer,
+      appState;
+  return {
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }],
+    execute: function() {
+      StatefulPolymer('ticker-search', {state: appState});
+    }
+  };
+});
+System.register("elements/ticker-source-github-repo", ["../helpers/StatefulPolymer", "../states/appState"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-source-github-repo";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-source-github-repo", path);
+  }
+  var StatefulPolymer,
+      appState;
+  return {
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }],
+    execute: function() {
+      StatefulPolymer('ticker-source-github-repo', {state: appState});
+    }
+  };
+});
+System.register("elements/ticker-source-github-user", ["../helpers/StatefulPolymer", "../states/appState"], function($__export) {
+  "use strict";
+  var __moduleName = "elements/ticker-source-github-user";
+  function require(path) {
+    return $traceurRuntime.require("elements/ticker-source-github-user", path);
+  }
+  var StatefulPolymer,
+      appState;
+  return {
+    setters: [function(m) {
+      StatefulPolymer = m.default;
+    }, function(m) {
+      appState = m.default;
+    }],
+    execute: function() {
+      StatefulPolymer('ticker-source-github-user', {state: appState});
     }
   };
 });
 System.register("helpers/KEYCODES", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/KEYCODES";
+  function require(path) {
+    return $traceurRuntime.require("helpers/KEYCODES", path);
+  }
   return {
     setters: [],
     execute: function() {
@@ -1718,34 +2727,37 @@ System.register("helpers/KEYCODES", [], function($__export) {
 System.register("helpers/model/Mapper", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/model/Mapper";
+  function require(path) {
+    return $traceurRuntime.require("helpers/model/Mapper", path);
+  }
   return {
     setters: [],
     execute: function() {
       $__export('default', {
         query: function(array) {
           for (var args = [],
-              $__36 = 1; $__36 < arguments.length; $__36++)
-            args[$__36 - 1] = arguments[$__36];
+              $__0 = 1; $__0 < arguments.length; $__0++)
+            args[$__0 - 1] = arguments[$__0];
         },
         get: function(model) {
           for (var args = [],
-              $__37 = 1; $__37 < arguments.length; $__37++)
-            args[$__37 - 1] = arguments[$__37];
+              $__1 = 1; $__1 < arguments.length; $__1++)
+            args[$__1 - 1] = arguments[$__1];
         },
         create: function(model) {
           for (var args = [],
-              $__38 = 1; $__38 < arguments.length; $__38++)
-            args[$__38 - 1] = arguments[$__38];
+              $__2 = 1; $__2 < arguments.length; $__2++)
+            args[$__2 - 1] = arguments[$__2];
         },
         update: function(model) {
           for (var args = [],
-              $__39 = 1; $__39 < arguments.length; $__39++)
-            args[$__39 - 1] = arguments[$__39];
+              $__3 = 1; $__3 < arguments.length; $__3++)
+            args[$__3 - 1] = arguments[$__3];
         },
         delete: function(model) {
           for (var args = [],
-              $__40 = 1; $__40 < arguments.length; $__40++)
-            args[$__40 - 1] = arguments[$__40];
+              $__4 = 1; $__4 < arguments.length; $__4++)
+            args[$__4 - 1] = arguments[$__4];
         }
       });
     }
@@ -1754,6 +2766,9 @@ System.register("helpers/model/Mapper", [], function($__export) {
 System.register("models/github/GithubComment", ["../../helpers/model/Model", "./GithubUser"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubComment";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubComment", path);
+  }
   var Model,
       GithubUser,
       GithubComment;
@@ -1766,7 +2781,7 @@ System.register("models/github/GithubComment", ["../../helpers/model/Model", "./
     execute: function() {
       GithubComment = (function($__super) {
         var GithubComment = function GithubComment() {
-          $traceurRuntime.defaultSuperCall(this, GithubComment.prototype, arguments);
+          $traceurRuntime.superConstructor(GithubComment).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(GithubComment, {}, {}, $__super);
       }(Model));
@@ -1789,6 +2804,9 @@ System.register("models/github/GithubComment", ["../../helpers/model/Model", "./
 System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model", "./GithubComment", "./GithubRepo", "./GithubUser"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubEventPayloads";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubEventPayloads", path);
+  }
   var Model,
       GithubComment,
       GithubRepo,
@@ -1809,7 +2827,7 @@ System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model
     execute: function() {
       CommitCommentEvent = $__export("CommitCommentEvent", (function($__super) {
         var CommitCommentEvent = function CommitCommentEvent() {
-          $traceurRuntime.defaultSuperCall(this, CommitCommentEvent.prototype, arguments);
+          $traceurRuntime.superConstructor(CommitCommentEvent).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(CommitCommentEvent, {}, {}, $__super);
       }(Model)));
@@ -1820,7 +2838,7 @@ System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model
       }));
       CreateEvent = $__export("CreateEvent", (function($__super) {
         var CreateEvent = function CreateEvent() {
-          $traceurRuntime.defaultSuperCall(this, CreateEvent.prototype, arguments);
+          $traceurRuntime.superConstructor(CreateEvent).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(CreateEvent, {}, {}, $__super);
       }(Model)));
@@ -1835,7 +2853,7 @@ System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model
       }));
       DeleteEvent = $__export("DeleteEvent", (function($__super) {
         var DeleteEvent = function DeleteEvent() {
-          $traceurRuntime.defaultSuperCall(this, DeleteEvent.prototype, arguments);
+          $traceurRuntime.superConstructor(DeleteEvent).apply(this, arguments);
         };
         return ($traceurRuntime.createClass)(DeleteEvent, {}, {}, $__super);
       }(Model)));
@@ -1851,9 +2869,103 @@ System.register("models/github/GithubEventPayloads", ["../../helpers/model/Model
     }
   };
 });
+System.register("models/github/GithubUserMapper", ["helpers/load", "helpers/MapperUtils"], function($__export) {
+  "use strict";
+  var __moduleName = "models/github/GithubUserMapper";
+  function require(path) {
+    return $traceurRuntime.require("models/github/GithubUserMapper", path);
+  }
+  var loadJSON,
+      load,
+      loadAll;
+  return {
+    setters: [function(m) {
+      loadJSON = m.default;
+    }, function(m) {
+      load = m.load;
+      loadAll = m.loadAll;
+    }],
+    execute: function() {
+      $__export('default', {
+        get: (function(model) {
+          var response;
+          return $traceurRuntime.asyncWrap(function($ctx) {
+            while (true)
+              switch ($ctx.state) {
+                case 0:
+                  Promise.resolve(loadJSON(("https://api.github.com/users/" + model.id))).then($ctx.createCallback(3), $ctx.errback);
+                  return;
+                case 3:
+                  response = $ctx.value;
+                  $ctx.state = 2;
+                  break;
+                case 2:
+                  response.id = model.id;
+                  $ctx.state = 8;
+                  break;
+                case 8:
+                  $ctx.returnValue = load(model, response);
+                  $ctx.state = 5;
+                  break;
+                case 5:
+                  $ctx.state = -2;
+                  break;
+                default:
+                  return $ctx.end();
+              }
+          }, this);
+        }),
+        query: (function(array, $__0) {
+          var term,
+              $__2,
+              $__3,
+              $__4,
+              $__5;
+          return $traceurRuntime.asyncWrap(function($ctx) {
+            while (true)
+              switch ($ctx.state) {
+                case 0:
+                  term = $__0.term;
+                  $ctx.state = 12;
+                  break;
+                case 12:
+                  $__2 = loadJSON(("https://api.github.com/search/users?q=" + term));
+                  $ctx.state = 5;
+                  break;
+                case 5:
+                  Promise.resolve($__2).then($ctx.createCallback(3), $ctx.errback);
+                  return;
+                case 3:
+                  $__3 = $ctx.value;
+                  $ctx.state = 2;
+                  break;
+                case 2:
+                  $__4 = $__3.items;
+                  $__5 = loadAll(array, $__4);
+                  $ctx.state = 7;
+                  break;
+                case 7:
+                  $ctx.returnValue = $__5;
+                  $ctx.state = 9;
+                  break;
+                case 9:
+                  $ctx.state = -2;
+                  break;
+                default:
+                  return $ctx.end();
+              }
+          }, this);
+        })
+      });
+    }
+  };
+});
 System.register("patchTraceurForIE", [], function($__export) {
   "use strict";
   var __moduleName = "patchTraceurForIE";
+  function require(path) {
+    return $traceurRuntime.require("patchTraceurForIE", path);
+  }
   return {
     setters: [],
     execute: function() {
