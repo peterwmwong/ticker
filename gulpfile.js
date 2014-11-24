@@ -62,7 +62,7 @@ gulp.task('server', function(){
 // -------------
 
 gulp.task('iconsets', function(){
-  return gulp.src('bower_components/octicons/svg/*.svg')
+  return gulp.src('vendor/icons/github/*.svg')
              .pipe(svgSprite({
                transformData:function(data){
                  data.svg.forEach(function(svg){
