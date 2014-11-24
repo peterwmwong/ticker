@@ -1,4 +1,4 @@
-polymer-element(name='ticker-github-avatar' attributes='userid')
+polymer-element(name='ticker-github-avatar' attributes='avatarUrl')
   template
     style.
       :host {
@@ -10,7 +10,7 @@ polymer-element(name='ticker-github-avatar' attributes='userid')
     img(
       width="{{size}}"
       height="{{size}}"
-      _src='{{"https://avatars2.githubusercontent.com/u/"+userid+"?v=2&s="+size}}'
+      _src='{{avatarUrl}}'
     )
   script.
     Polymer({size: 24});

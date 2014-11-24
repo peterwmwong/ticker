@@ -1,11 +1,14 @@
 {
+  "asi": true,
   "undef": true,
   "unused": true,
   "eqnull": true,
   "esnext": true,
   "globalstrict": false,
   "globals": {
+    "CONFIG": false,
     "document": false,
+    "Firebase": false,
     "Platform": false,
     "Polymer": false,
     "PolymerExpressions": false,

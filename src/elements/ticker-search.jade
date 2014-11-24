@@ -1,48 +1,42 @@
-+import('../../bower_components/core-toolbar/core-toolbar.html')
-+import('../../bower_components/paper-input/paper-input.html')
-+import('../../bower_components/paper-icon-button/paper-icon-button.html')
-+import('../../bower_components/paper-item/paper-item.html')
-+import('./ticker-card.html')
+link(rel='import' href='../../bower_components/core-header-panel/core-header-panel.html')
+link(rel='import' href='../../bower_components/core-toolbar/core-toolbar.html')
+link(rel='import' href='../../bower_components/paper-input/paper-input.html')
+link(rel='import' href='./ticker-card.html')
+link(rel='import' href='./cards/ticker-github-avatar.html')
 
 +polymer-element(attributes='isNarrow')
-  core-header-panel(fit mode="seamed")
-    core-toolbar(class='{{!isNarrow ? "medium-tall" : ""}} c-white')
-      .bottom(flex layout horizontal class='l-margin-l0 l-padding-t4')
+  core-header-panel(fit)
+    core-toolbar(class='c-white')
+      paper-icon-button(
+        icon='menu'
+        on-tap='[[stateFire.toggleAppDrawer]]')
+        
+      paper-input#searchInput(
+        flex
+        class='c-white'
+        value='{{ state.searchText | bindInputToState("searchText") }}')
+        
+      template(if='{{state.searchText}}')
         paper-icon-button(
-          class='l-margin-r0 l-margin-t1'
-          icon='arrow-back'
-          on-tap='{{onCloseSearch}}'
-        )
-        paper-input#searchInput(
-          flex
-          class='c-white l-margin-l1 l-padding-r4 l-padding-t2 t-light'
-          inputValue='{{searchText}}'
-        )
-        template(if='{{searchText}}')
-          paper-icon-button(
-            class='l-margin-l0 l-margin-r2 l-margin-t1'
-            icon='close'
-            on-tap='{{onClearSearch}}'
-          )
+          icon='close'
+          on-tap='[[stateFire.clearSearchText]]')
 
-    div(class='l-padding-2 l-overflow-scroll-ios')
-      template(if='{{!searchText && !searchResults.length}}')
-        h2(class='l-padding-v2 c-gray-light t-align-center t-light t-italic')
+    div(layout vertical center class='l-padding-2')
+      template(if='{{!state.searchText && !state.searchResults.length}}')
+        h2(class='l-padding-t6 c-gray-light t-align-center t-light t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
-      template(if='{{searchText && searchResults.length}}')
-        ticker-card(block class='l-margin-b2')
-          template(repeat='{{searchResult in searchResults}}')
+      template(if='{{state.searchText && state.searchResults.length}}')
+        ticker-card(block class='l-margin-b2' style='max-width: 640px; width: 100%')
+          template(repeat='{{searchResult in state.searchResults}}')
             .search-result(
               layout horizontal center
               class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
-              on-tap='[[onSearchResultSelected]]'
-            )
-              core-icon(
-                class='c-gray-lighter l-margin-l1 l-margin-r2'
-                icon='[[  searchResult.config.type === "repos" ? "github:repo"   \
-                        : searchResult.config.type === "users" ? "github:person" \
-                        : "github:star" ]]'
-              )
+              on-tap='[[stateFire.selectSource]]'
+              fire-arg='searchResult')
+              
+              template(if='{{searchResult.constructor.name === "GithubRepoSource"}}')
+                core-icon(class='c-gray-light l-margin-l1 l-margin-r2' icon='github:repo')
+              template(if='{{searchResult.constructor.name === "GithubUserSource"}}')
+                ticker-github-avatar(class='l-margin-l1 l-margin-r2' avatarUrl='{{searchResult.details.avatarUrl}}')
               | [[searchResult.name]]
-              //- paper-icon-button(class='c-gray-lightest' icon='bookmark')

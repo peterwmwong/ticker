@@ -3,36 +3,42 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(content='IE=edge,chrome=1' http-equiv='X-UA-Compatible')
-    meta(name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes')
+    meta(name='viewport' content='width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no')
     meta(content='yes' name='apple-mobile-web-app-capable')
     meta(content='default' name='apple-mobile-web-app-status-bar-style')
 
     title ticker
 
-    link(rel='shortcut icon' href='../favicon.ico?v=1' type="image/x-icon")
     link(rel='stylesheet' href='index.css' shim-shadowdom)
 
-    script(src='../bower_components/platform/platform.js')
+    script(src='../bower_components/webcomponentjs/webcomponents.js')
     script(src='../node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js')
-
     script(src='../node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js')
     script(src='../node_modules/systemjs/lib/extension-register.js')
-    //- this needs to be added to apply the extension
     script register(System);
-
-    - if(isProd)
+    
+    script(src='../vendor/statechart.js')
+    script(src='../bower_components/firebase/firebase.js')
+    
+    //- Injects environment specific config (ex. `config/development.js`)
+    script!='window.CONFIG=' + JSON.stringify(CONFIG) + ';'
+    
+    if ENVIRONMENT == 'development'
+      script.
+        // Allow complete offline development. Add '#offline' to the url to enable.
+        if(location.hash === '#offline'){
+          System.paths['helpers/load'] = 'helpers/loadMOCK.js';
+          System.import('helpers/MOCK_FIREBASE');
+        }
+        
+        // Add Livereload
+        document.write("<script src='http://"+(location.host || 'localhost').split(':')[0]+":35729/livereload.js?snipver=1'></"+"script>");
+        
+    else if ENVIRONMENT == 'production'
       script(src='all.js')
 
-    +import('../bower_components/polymer/polymer.html')
-    +import('elements/ticker-app.html')
+    link(rel='import' href='../bower_components/polymer/polymer.html')
+    link(rel='import' href='elements/ticker-app.html')
 
   body(fullbleed)
     ticker-app
-
-    //- Dev
-    //- ---
-    - if(!isProd)
-
-      //- Livereload
-      script.
-        document.write("<script src='http://" + (location.host || 'localhost').split(':')[0] + ":35729/livereload.js?snipver=1'></" + "script>");

@@ -1,12 +1,10 @@
 import is from './is';
-import {data} from './session';
 
-export function loadResource(type, url, headers){
-  headers = headers == null ? {} : headers;
+export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url);
-    xhr.setRequestHeader('Authorization', 'token '+data.accessTokens.github);
+    xhr.setRequestHeader('Authorization', `token ${accessToken}`);
     xhr.responseType = type;
     xhr.send();
     xhr.onload  = ()=>fulfill(xhr);
@@ -14,10 +12,8 @@ export function loadResource(type, url, headers){
   });
 }
 
-export function loadJSON(url){
-  return loadResource("json", url).then(function({response}){
-    if(!response)
-      throw new Error("Not found");
-    return is.aString(response) ? JSON.parse(response) : response;
-  });
+export default async function loadJSON(url){
+  var {response} = await loadResource("json", url, loadJSON.accessToken);
+  if(!response) throw new Error("Not found");
+  return is.aString(response) ? JSON.parse(response) : response;
 }

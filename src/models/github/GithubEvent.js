@@ -2,8 +2,13 @@ import Model             from '../../helpers/model/Model';
 import GithubEventMapper from './GithubEventMapper';
 import GithubUser        from './GithubUser';
 import GithubRepo        from './GithubRepo';
+import GithubIssue       from './GithubIssue';
 
-class GithubEvent extends Model{}
+class GithubEvent extends Model{
+  fetchDetails(){
+    GithubIssue.get();
+  }
+}
 GithubEvent.create($=>{
   $.mapper = GithubEventMapper;
 

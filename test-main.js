@@ -29,6 +29,7 @@ System.paths['models/*'] = '/base/build/models/*.js';
 System.paths['data/*'] = '/base/build/data/*.js';
 System.paths['filters/*'] = '/base/build/filters/*.js';
 System.paths['helpers/*'] = '/base/build/helpers/*.js';
+System.paths['states/*'] = '/base/build/states/*.js';
 
 Promise.all(
   // Import all specs

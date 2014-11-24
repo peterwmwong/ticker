@@ -23,20 +23,20 @@ html _deep_ {
 
   code, pre {
     font-family: $font-stack-monospace;
-    background-color: $gray-lightester;
-    border: 1px solid $gray-lightest;
+    background-color: lighten($gray-lightest, 3%);
+    border: 1px solid lighten($gray-lighter, 2%);
     color: $gray-darker;
-    border-radius: 3px;
+    border-radius: 2px;
     line-height: 1.5;
   }
 
   code {
-    padding: 0px ($baseline);
+    padding: 0px $baseline;
   }
 
   pre {
     padding: ($base-width * 2);
-    
+
     code {
       border-radius: 0;
       background-color: transparent;

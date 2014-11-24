@@ -10,6 +10,7 @@
   border-bottom: 2px solid rgba(0,0,0, .075);
   border-radius: 2px;
   overflow: hidden;
+  margin-bottom: $baseline;
 }
 
 .title, .subject, .action {
@@ -20,12 +21,14 @@
 }
 
 .subject, .title {
+  background: white;
   border-bottom: 1px solid $gray-lightest;
-  background: $gray-lightester;
+  color: $gray-darker;
 }
 
 .title {
   align-items: baseline;
+  font-size: 1.8rem;
   padding-top: ($baseline*4);
   padding-bottom: ($baseline*4);
 }
@@ -36,8 +39,6 @@
 }
 
 .subject {
-  color: $gray-dark;
-  font-style: italic;
   margin-top: -1px; // Prevent double border with the title
   padding-top: 0;
   padding-bottom: ($baseline*2);
@@ -48,7 +49,8 @@
 }
 
 .action {
-  background: white;
+  background: $gray-lightester;
+  color: $gray-darker;
 
   ticker-github-avatar {
     align-self: flex-start;
