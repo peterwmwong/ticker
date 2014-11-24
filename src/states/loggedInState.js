@@ -1,7 +1,7 @@
 import {goto, reenter} from '../helpers/svengali';
 import load            from '../helpers/load';
-import Source          from '../models/sources/Source';
 import sourceState     from './sourceState';
+import searchState     from './searchState';
 
 export default {
   params:['user', 'accessTokens'],
@@ -30,17 +30,7 @@ export default {
       },
       states:{
         'source':sourceState,
-        'search':{
-          attrs:{
-            'appView':'search',
-            'searchText':({searchText})=>searchText || '',
-            'searchResults'(){return this.attrs.searchText ? Source.query({term:this.attrs.searchText}) : []}
-          },
-          events:{
-            'clearSearchText':()=>reenter({searchText:''}),
-            'searchTextChanged':searchText=>reenter({searchText})
-          }
-        }
+        'search':searchState
       }
     }
   }
