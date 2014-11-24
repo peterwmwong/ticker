@@ -27,8 +27,7 @@ Source.registerSource(MySource);
 
 */
 
-// TODO(pwong): should be `const`
-var SOURCE_CLASSES = {};
+const SOURCE_CLASSES = {};
 
 export default class {
   static load({type, config}){return new SOURCE_CLASSES[type](config)}
