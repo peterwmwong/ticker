@@ -1018,181 +1018,6 @@ System.register("helpers/model/Model", ["./IDMap", "../isEqual", "../singularize
     }
   };
 });
-System.register("models/github/GithubIssueMapperMOCKDATA", [], function($__export) {
-  "use strict";
-  var __moduleName = "models/github/GithubIssueMapperMOCKDATA";
-  function require(path) {
-    return $traceurRuntime.require("models/github/GithubIssueMapperMOCKDATA", path);
-  }
-  return {
-    setters: [],
-    execute: function() {
-      $__export('default', {
-        "url": "https://api.github.com/repos/Polymer/polymer/issues/1",
-        "labels_url": "https://api.github.com/repos/Polymer/polymer/issues/1/labels{/name}",
-        "comments_url": "https://api.github.com/repos/Polymer/polymer/issues/1/comments",
-        "events_url": "https://api.github.com/repos/Polymer/polymer/issues/1/events",
-        "html_url": "https://github.com/Polymer/polymer/pull/1",
-        "id": 7493278,
-        "number": 1,
-        "title": "Initial Components",
-        "user": {
-          "login": "sjmiles",
-          "id": 98045,
-          "avatar_url": "https://avatars.githubusercontent.com/u/98045?v=2",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/sjmiles",
-          "html_url": "https://github.com/sjmiles",
-          "followers_url": "https://api.github.com/users/sjmiles/followers",
-          "following_url": "https://api.github.com/users/sjmiles/following{/other_user}",
-          "gists_url": "https://api.github.com/users/sjmiles/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/sjmiles/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/sjmiles/subscriptions",
-          "organizations_url": "https://api.github.com/users/sjmiles/orgs",
-          "repos_url": "https://api.github.com/users/sjmiles/repos",
-          "events_url": "https://api.github.com/users/sjmiles/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/sjmiles/received_events",
-          "type": "User",
-          "site_admin": false
-        },
-        "labels": [],
-        "state": "closed",
-        "locked": false,
-        "assignee": {
-          "login": "sorvell",
-          "id": 78891,
-          "avatar_url": "https://avatars.githubusercontent.com/u/78891?v=2",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/sorvell",
-          "html_url": "https://github.com/sorvell",
-          "followers_url": "https://api.github.com/users/sorvell/followers",
-          "following_url": "https://api.github.com/users/sorvell/following{/other_user}",
-          "gists_url": "https://api.github.com/users/sorvell/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/sorvell/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/sorvell/subscriptions",
-          "organizations_url": "https://api.github.com/users/sorvell/orgs",
-          "repos_url": "https://api.github.com/users/sorvell/repos",
-          "events_url": "https://api.github.com/users/sorvell/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/sorvell/received_events",
-          "type": "User",
-          "site_admin": false
-        },
-        "milestone": null,
-        "comments": 0,
-        "created_at": "2012-10-10T19:37:06Z",
-        "updated_at": "2012-10-10T19:55:53Z",
-        "closed_at": "2012-10-10T19:55:53Z",
-        "pull_request": {
-          "url": "https://api.github.com/repos/Polymer/polymer/pulls/1",
-          "html_url": "https://github.com/Polymer/polymer/pull/1",
-          "diff_url": "https://github.com/Polymer/polymer/pull/1.diff",
-          "patch_url": "https://github.com/Polymer/polymer/pull/1.patch"
-        },
-        "body": "",
-        "closed_by": {
-          "login": "sorvell",
-          "id": 78891,
-          "avatar_url": "https://avatars.githubusercontent.com/u/78891?v=2",
-          "gravatar_id": "",
-          "url": "https://api.github.com/users/sorvell",
-          "html_url": "https://github.com/sorvell",
-          "followers_url": "https://api.github.com/users/sorvell/followers",
-          "following_url": "https://api.github.com/users/sorvell/following{/other_user}",
-          "gists_url": "https://api.github.com/users/sorvell/gists{/gist_id}",
-          "starred_url": "https://api.github.com/users/sorvell/starred{/owner}{/repo}",
-          "subscriptions_url": "https://api.github.com/users/sorvell/subscriptions",
-          "organizations_url": "https://api.github.com/users/sorvell/orgs",
-          "repos_url": "https://api.github.com/users/sorvell/repos",
-          "events_url": "https://api.github.com/users/sorvell/events{/privacy}",
-          "received_events_url": "https://api.github.com/users/sorvell/received_events",
-          "type": "User",
-          "site_admin": false
-        }
-      });
-    }
-  };
-});
-System.register("helpers/AttrMunger", ["./is"], function($__export) {
-  "use strict";
-  var __moduleName = "helpers/AttrMunger";
-  function require(path) {
-    return $traceurRuntime.require("helpers/AttrMunger", path);
-  }
-  var is;
-  function copy(obj) {
-    return is.aArray(obj) ? obj.map(copy) : is.aObject(obj) ? copyObj(obj) : obj;
-  }
-  function copyObj(obj) {
-    var result = {};
-    for (var key in obj)
-      result[key] = copy(obj[key]);
-    return result;
-  }
-  function upcase(str) {
-    var self;
-    self = str.replace(/_([a-z])/g, (function($) {
-      return "_" + $[1].toUpperCase();
-    }));
-    self = self.replace(/\/([a-z])/g, (function($) {
-      return "/" + $[1].toUpperCase();
-    }));
-    return self[0].toUpperCase() + self.substr(1);
-  }
-  function downcase(str) {
-    var self;
-    self = str.replace(/_([A-Z])/g, (function($) {
-      return "_" + $[1].toLowerCase();
-    }));
-    self = self.replace(/\/([A-Z])/g, (function($) {
-      return "/" + $[1].toLowerCase();
-    }));
-    return self[0].toLowerCase() + self.substr(1);
-  }
-  function camelize(words) {
-    return downcase(words.replace(/\/(.?)/g, (function($) {
-      return "." + upcase($[1]);
-    })).replace(/(?:_)(.)/g, (function($) {
-      return upcase($[1]);
-    })));
-  }
-  function underscore(word) {
-    return word.replace(/\./g, '/').replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/([a-z\d])([A-Z])/g, "$1_$2").replace(/-/g, '_').toLowerCase();
-  }
-  function munge(isCamelize, attrs) {
-    if (is.aArray(attrs)) {
-      attrs.map((function(o) {
-        return munge(isCamelize, o);
-      }));
-    } else if (is.aObject(attrs)) {
-      for (var k in attrs) {
-        var v = attrs[k];
-        if (is.aObject(v))
-          munge(isCamelize, v);
-        var transformed = isCamelize ? camelize(k, false) : underscore(k);
-        if (k !== transformed) {
-          attrs[transformed] = v;
-          delete attrs[k];
-        }
-      }
-    }
-    return attrs;
-  }
-  return {
-    setters: [function(m) {
-      is = m.default;
-    }],
-    execute: function() {
-      $__export('default', {
-        camelize: (function(attrs) {
-          return munge(true, copy(attrs));
-        }),
-        underscore: (function(attrs) {
-          return munge(false, copy(attrs));
-        })
-      });
-    }
-  };
-});
 System.register("helpers/load", ["./is"], function($__export) {
   "use strict";
   var __moduleName = "helpers/load";
@@ -1267,32 +1092,26 @@ System.register("helpers/load", ["./is"], function($__export) {
     }
   };
 });
-System.register("models/github/GithubIssueMapper", ["helpers/AttrMunger", "helpers/load", "./GithubIssueMapperMOCKDATA"], function($__export) {
+System.register("models/github/GithubIssueMapper", ["helpers/load"], function($__export) {
   "use strict";
   var __moduleName = "models/github/GithubIssueMapper";
   function require(path) {
     return $traceurRuntime.require("models/github/GithubIssueMapper", path);
   }
-  var AttrMunger,
-      loadJSON,
-      MOCKDATA;
+  var loadJSON;
   return {
     setters: [function(m) {
-      AttrMunger = m.default;
-    }, function(m) {
       loadJSON = m.default;
-    }, function(m) {
-      MOCKDATA = m.default;
     }],
     execute: function() {
       $__export('default', {get: (function(model, $__0) {
           var $__1 = $__0,
               repo = $__1.repo,
               issueNumber = $__1.issueNumber;
-          return (Promise.resolve(MOCKDATA)).then((function(data) {
+          return (loadJSON(("https://api.github.com/" + repo + "/issues/" + issueNumber))).then((function(data) {
             if (!data)
               throw "No Data";
-            model.$load(AttrMunger.camelize(data));
+            model.$load(data);
           }));
         })});
     }
@@ -1706,25 +1525,22 @@ System.register("models/sources/Source", [], function($__export) {
     }
   };
 });
-System.register("helpers/MapperUtils", ["./AttrMunger"], function($__export) {
+System.register("helpers/MapperUtils", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/MapperUtils";
   function require(path) {
     return $traceurRuntime.require("helpers/MapperUtils", path);
   }
-  var AttrMunger;
   function load(model, data) {
-    return data && model.$load(AttrMunger.camelize(data));
+    return data && model.$load(data);
   }
   function loadAll(modelArray, data) {
-    return data && modelArray.$replace(modelArray.$class.loadAll(AttrMunger.camelize(data)));
+    return data && modelArray.$replace(modelArray.$class.loadAll(data));
   }
   $__export("load", load);
   $__export("loadAll", loadAll);
   return {
-    setters: [function(m) {
-      AttrMunger = m.default;
-    }],
+    setters: [],
     execute: function() {
     }
   };
@@ -1905,7 +1721,7 @@ System.register("models/github/GithubRepo", ["../../helpers/model/Model", "./Git
       }(Model));
       GithubRepo.create((function($) {
         $.mapper = GithubRepoMapper;
-        $.attr('fullName', 'string');
+        $.attr('full_name', 'string');
         $.attr('name', 'string');
         $.attr('url', 'string');
         $.attr('score', 'number');
@@ -1942,8 +1758,7 @@ System.register("models/github/GithubUser", ["../../helpers/load", "../../helper
         return ($traceurRuntime.createClass)(GithubUser, {}, {}, $__super);
       }(Model));
       GithubUser.create((function($) {
-        $.attr('avatarUrl', 'string');
-        $.attr('gravatarId', 'string');
+        $.attr('avatar_url', 'string');
         $.attr('login', 'string');
         $.attr('url', 'string');
         $.attr('score', 'number');
@@ -2026,7 +1841,7 @@ System.register("models/github/GithubEvent", ["../../helpers/model/Model", "./Gi
         $.mapper = GithubEventMapper;
         $.attr('type', 'string');
         $.attr('payload', 'identity');
-        $.attr('createdAt', 'datetime');
+        $.attr('created_at', 'datetime');
         $.hasOne('actor', 'GithubUser');
         $.hasOne('repo', 'GithubRepo');
       }));
@@ -2056,26 +1871,26 @@ System.register("models/sources/GithubRepoSource", ["models/github/GithubRepo", 
       GithubRepoSource = (function($__super) {
         var GithubRepoSource = function GithubRepoSource($__2) {
           var $__3 = $__2,
-              fullName = $__3.fullName,
+              full_name = $__3.full_name,
               details = $__3.details;
-          this.fullName = fullName;
+          this.full_name = full_name;
           this._details = details;
         };
         return ($traceurRuntime.createClass)(GithubRepoSource, {
           get name() {
-            return this.fullName;
+            return this.full_name;
           },
           get details() {
-            return this._details || (this._details = GithubRepo.get(this.fullName));
+            return this._details || (this._details = GithubRepo.get(this.full_name));
           },
           get events() {
             return this._events || (this._events = GithubEvent.query({
               type: 'repos',
-              id: this.fullName
+              id: this.full_name
             }));
           },
           toJSON: function() {
-            return {fullName: this.fullName};
+            return {full_name: this.full_name};
           }
         }, {query: function($__2) {
             var term = $__2.term;
@@ -2083,7 +1898,7 @@ System.register("models/sources/GithubRepoSource", ["models/github/GithubRepo", 
             return GithubRepo.query({term: term}).$promise.then((function(repos) {
               return repos.map((function(repo) {
                 return new $__0({
-                  fullName: repo.fullName,
+                  full_name: repo.full_name,
                   details: repo
                 });
               }));
@@ -2698,6 +2513,87 @@ System.register("elements/ticker-source-github-user", ["../helpers/StatefulPolym
     }],
     execute: function() {
       StatefulPolymer('ticker-source-github-user', {state: appState});
+    }
+  };
+});
+System.register("helpers/AttrMunger", ["./is"], function($__export) {
+  "use strict";
+  var __moduleName = "helpers/AttrMunger";
+  function require(path) {
+    return $traceurRuntime.require("helpers/AttrMunger", path);
+  }
+  var is;
+  function copy(obj) {
+    return is.aArray(obj) ? obj.map(copy) : is.aObject(obj) ? copyObj(obj) : obj;
+  }
+  function copyObj(obj) {
+    var result = {};
+    for (var key in obj)
+      result[key] = copy(obj[key]);
+    return result;
+  }
+  function upcase(str) {
+    var self;
+    self = str.replace(/_([a-z])/g, (function($) {
+      return "_" + $[1].toUpperCase();
+    }));
+    self = self.replace(/\/([a-z])/g, (function($) {
+      return "/" + $[1].toUpperCase();
+    }));
+    return self[0].toUpperCase() + self.substr(1);
+  }
+  function downcase(str) {
+    var self;
+    self = str.replace(/_([A-Z])/g, (function($) {
+      return "_" + $[1].toLowerCase();
+    }));
+    self = self.replace(/\/([A-Z])/g, (function($) {
+      return "/" + $[1].toLowerCase();
+    }));
+    return self[0].toLowerCase() + self.substr(1);
+  }
+  function camelize(words) {
+    return downcase(words.replace(/\/(.?)/g, (function($) {
+      return "." + upcase($[1]);
+    })).replace(/(?:_)(.)/g, (function($) {
+      return upcase($[1]);
+    })));
+  }
+  function underscore(word) {
+    return word.replace(/\./g, '/').replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/([a-z\d])([A-Z])/g, "$1_$2").replace(/-/g, '_').toLowerCase();
+  }
+  function munge(isCamelize, attrs) {
+    if (is.aArray(attrs)) {
+      attrs.map((function(o) {
+        return munge(isCamelize, o);
+      }));
+    } else if (is.aObject(attrs)) {
+      for (var k in attrs) {
+        var v = attrs[k];
+        if (is.aObject(v))
+          munge(isCamelize, v);
+        var transformed = isCamelize ? camelize(k, false) : underscore(k);
+        if (k !== transformed) {
+          attrs[transformed] = v;
+          delete attrs[k];
+        }
+      }
+    }
+    return attrs;
+  }
+  return {
+    setters: [function(m) {
+      is = m.default;
+    }],
+    execute: function() {
+      $__export('default', {
+        camelize: (function(attrs) {
+          return munge(true, copy(attrs));
+        }),
+        underscore: (function(attrs) {
+          return munge(false, copy(attrs));
+        })
+      });
     }
   };
 });
