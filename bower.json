@@ -15,7 +15,6 @@
     "octicons": "*",
     "paper-elements": "Polymer/paper-elements#~0.5.1",
     "webcomponentjs": "Polymer/webcomponentsjs#~0.5.1",
-    "polymer": "Polymer/polymer#~0.5.1",
-    "time-elements": "~0.4.0"
+    "polymer": "Polymer/polymer#~0.5.1"
   }
 }

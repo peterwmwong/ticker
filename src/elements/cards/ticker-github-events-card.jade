@@ -5,11 +5,6 @@ link(rel='import' href='./ticker-github-branch.html')
 link(rel='import' href='./ticker-github-repo.html')
 link(rel='import' href='./ticker-github-avatar.html')
 
-//- TODO(pwong): Consider creating a slimmer <time-element>.
-//-              Ticker's use cases for display time are so limited, size and
-//-              speed could be improve with a slimmer purpose made time element.
-script(src='../../../bower_components/time-elements/time-elements.js')
-
 +polymer-element(attributes='events')
 
   template#Comment
@@ -17,12 +12,8 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       marked-element(text='[[]]')
 
   template#EventTimeAgo
-    time(
-      class='c-gray-dark t-font-size-11'
-      datetime='[[created_at]]'
-      format='micro'
-      is='time-ago'
-    )
+    span(class='c-gray-dark t-font-size-11')
+      | [[created_at | timeAgo]]
 
   template#CardTitle
     .title
