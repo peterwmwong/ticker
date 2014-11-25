@@ -3,6 +3,7 @@ import appState from '../states/appState';
 
 // Load Global Filters
 import limitArray from '../filters/limitArray';
+import timeAgo from '../filters/timeAgo';
 
 StatefulPolymer('ticker-app', {
   state:appState,
