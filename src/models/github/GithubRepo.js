@@ -5,9 +5,9 @@ class GithubRepo extends Model{}
 GithubRepo.create($=>{
   $.mapper = GithubRepoMapper;
 
-  $.attr('fullName', 'string');
-  $.attr('name',     'string');
-  $.attr('url',      'string');
+  $.attr('full_name', 'string');
+  $.attr('name',      'string');
+  $.attr('url',       'string');
 
   // TODO(pwong): GTFO. This only applies to the search API endpoint.
   //              We should move this out as a sub class, like GithubRepoSearch

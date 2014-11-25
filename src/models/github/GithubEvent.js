@@ -12,9 +12,9 @@ class GithubEvent extends Model{
 GithubEvent.create($=>{
   $.mapper = GithubEventMapper;
 
-  $.attr('type',    'string');
-  $.attr('payload', 'identity');
-  $.attr('createdAt', 'datetime');
+  $.attr('type',       'string');
+  $.attr('payload',    'identity');
+  $.attr('created_at', 'datetime');
 
   $.hasOne('actor', 'GithubUser');
   $.hasOne('repo',  'GithubRepo');
