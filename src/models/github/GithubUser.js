@@ -4,8 +4,7 @@ import Model           from '../../helpers/model/Model';
 
 class GithubUser extends Model{}
 GithubUser.create($=>{
-  $.attr('avatarUrl',  'string');
-  $.attr('gravatarId', 'string');
+  $.attr('avatar_url', 'string');
   $.attr('login',      'string');
   $.attr('url',        'string');
   $.attr('score',      'number');

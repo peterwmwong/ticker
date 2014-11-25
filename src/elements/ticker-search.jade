@@ -38,5 +38,5 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
               template(if='{{searchResult.constructor.name === "GithubRepoSource"}}')
                 core-icon(class='c-gray-light l-margin-l1 l-margin-r2' icon='github:repo')
               template(if='{{searchResult.constructor.name === "GithubUserSource"}}')
-                ticker-github-avatar(class='l-margin-l1 l-margin-r2' avatarUrl='{{searchResult.details.avatarUrl}}')
+                ticker-github-avatar(class='l-margin-l1 l-margin-r2' avatarUrl='{{searchResult.details.avatar_url}}')
               | [[searchResult.name]]

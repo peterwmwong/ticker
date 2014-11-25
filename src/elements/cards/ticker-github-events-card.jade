@@ -19,7 +19,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
   template#EventTimeAgo
     time(
       class='c-gray-dark t-font-size-11'
-      datetime='[[createdAt]]'
+      datetime='[[created_at]]'
       format='micro'
       is='time-ago'
     )
@@ -35,15 +35,15 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(ref='CardTitle' bind='[[]]')
       .subject
         core-icon(
-          class='[[   payload.pullRequest.state === "open" ? "c-warning-light"    \
-                    : payload.pullRequest.merged           ? "c-confirm-light"    \
-                                                           : "c-error-light"   ]] \
+          class='[[   payload.pull_request.state === "open" ? "c-warning-light"    \
+                    : payload.pull_request.merged           ? "c-confirm-light"    \
+                                                            : "c-error-light"   ]] \
                  l-margin-r3'
           icon='github:git-pull-request')
-        | [[payload.pullRequest.title]]
+        | [[payload.pull_request.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
-        template(ref='Comment' bind='[[payload.pullRequest.body]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
+        template(ref='Comment' bind='[[payload.pull_request.body]]')
 
 
   template#ReleaseEvent
@@ -55,7 +55,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           icon='github:versions')
         | [[payload.release.name]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         | published this release
 
 
@@ -70,23 +70,23 @@ script(src='../../../bower_components/time-elements/time-elements.js')
 
   template#CreateOrDeleteEvent
     .card
-      template(ref='CardTitle' bind='[[]]' if='[[payload.refType !== "repository"]]')
+      template(ref='CardTitle' bind='[[]]' if='[[payload.ref_type !== "repository"]]')
 
-      .subject(class='[[payload.refType === "repository" && "l-padding-t4 l-padding-b3"]]')
+      .subject(class='[[payload.ref_type === "repository" && "l-padding-t4 l-padding-b3"]]')
         core-icon(
           class='[[type === "CreateEvent" ? "c-confirm-light" \
                                           : "c-error-light"]] \
                  l-margin-r3'
-          icon='github:[[payload.refType === "repository" ? "repo" : "git-branch"]]'
+          icon='github:[[payload.ref_type === "repository" ? "repo" : "git-branch"]]'
         )
-        template(if='[[payload.refType === "repository"]]')
+        template(if='[[payload.ref_type === "repository"]]')
           ticker-github-repo(repo='[[repo.name]]')
-        template(if='[[payload.refType !== "repository"]]')
+        template(if='[[payload.ref_type !== "repository"]]')
           | [[payload.ref]]
 
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
-        | [[ (type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.refType ]]
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
+        | [[ (type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.ref_type ]]
 
   template#CreateEvent
     template(ref='CreateOrDeleteEvent' bind='[[]]')
@@ -100,14 +100,14 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(ref='CardTitle' bind='[[]]')
       .subject
         core-icon(
-          class='[[payload.pullRequest.state === "closed" ? "c-error-light"     \
-                                                          : "c-warning-light"]] \
+          class='[[payload.pull_request.state === "closed" ? "c-error-light"     \
+                                                           : "c-warning-light"]] \
                  l-margin-r3'
           icon='github:git-pull-request'
         )
-        | [[payload.pullRequest.title]]
+        | [[payload.pull_request.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
@@ -119,17 +119,17 @@ script(src='../../../bower_components/time-elements/time-elements.js')
           class='[[payload.issue.state === "closed" ? "c-error-light"     \
                                                     : "c-warning-light"]] \
                  l-margin-r3'
-          icon='[[payload.issue.pullRequest ? "github:git-pull-request" \
-                                            : "github:issue-opened"     ]]'
+          icon='[[payload.issue.pull_request ? "github:git-pull-request" \
+                                             : "github:issue-opened"     ]]'
         )
         | [[payload.issue.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
   template#IssuesEvent
-    .card(on-tap='[[onOpenIssueDetails]]')
+    .card
       template(ref='CardTitle' bind='[[]]')
       .subject
         core-icon(
@@ -140,7 +140,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         )
         | [[payload.issue.title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         p(flex)
           span(block class='l-margin-b1') [[payload.action]] this issue
           template(ref='Comment' bind='[[payload.issue.body]]')
@@ -151,16 +151,16 @@ script(src='../../../bower_components/time-elements/time-elements.js')
       template(ref='CardTitle' bind='[[]]')
       .subject
         core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
-        | [[payload.comment.commitId]]
+        | [[payload.comment.commit_id]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         template(ref='Comment' bind='[[payload.comment.body]]')
 
 
   template#WatchEvent
     .card
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
           icon='github:star'
@@ -172,7 +172,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
   template#ForkEvent
     .card
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
           icon='github:repo-forked'
@@ -188,7 +188,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         core-icon(class='c-gray-light l-margin-r3' icon='github:git-branch')
         ticker-github-branch(branch='[[payload.ref]]')
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         ul(flex)
           template(repeat='[[commit in limitArray(payload.commits, 3)]]')
             li(horizontal layout center)
@@ -204,7 +204,7 @@ script(src='../../../bower_components/time-elements/time-elements.js')
         core-icon(class='c-gray-light l-margin-r3' icon='github:book')
         | [[payload.pages[0].title]]
       .action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatarUrl]]')
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         | edited this wiki page
 
   template(repeat='{{events}}')
