@@ -1211,6 +1211,35 @@ System.register("filters/limitArray", [], function($__export) {
     }
   };
 });
+System.register("filters/timeAgo", [], function($__export) {
+  "use strict";
+  var __moduleName = "filters/timeAgo";
+  function require(path) {
+    return $traceurRuntime.require("filters/timeAgo", path);
+  }
+  var MIN_MS,
+      HOUR_MS,
+      DAY_MS,
+      timeAgoNow;
+  function timeAgo(dateTime) {
+    var diffms = timeAgoNow - dateTime;
+    return diffms > DAY_MS ? (~~(diffms / DAY_MS) + "d") : diffms > HOUR_MS ? (~~(diffms / HOUR_MS) + "h") : diffms > MIN_MS ? (~~(diffms / MIN_MS) + "m") : '1m';
+  }
+  $__export("default", timeAgo);
+  return {
+    setters: [],
+    execute: function() {
+      MIN_MS = 1000 * 60;
+      HOUR_MS = MIN_MS * 60;
+      DAY_MS = HOUR_MS * 24;
+      timeAgoNow = Date.now();
+      setTimeout(function() {
+        timeAgoNow = Date.now();
+      }, MIN_MS * 5);
+      PolymerExpressions.prototype.timeAgo = timeAgo;
+    }
+  };
+});
 System.register("helpers/svengali", [], function($__export) {
   "use strict";
   var __moduleName = "helpers/svengali";
@@ -2386,7 +2415,7 @@ System.register("states/appState", ["../helpers/svengali", "./loggedInState", ".
     }
   };
 });
-System.register("elements/ticker-app", ["../helpers/StatefulPolymer", "../states/appState", "../filters/limitArray"], function($__export) {
+System.register("elements/ticker-app", ["../helpers/StatefulPolymer", "../states/appState", "../filters/limitArray", "../filters/timeAgo"], function($__export) {
   "use strict";
   var __moduleName = "elements/ticker-app";
   function require(path) {
@@ -2394,7 +2423,8 @@ System.register("elements/ticker-app", ["../helpers/StatefulPolymer", "../states
   }
   var StatefulPolymer,
       appState,
-      limitArray;
+      limitArray,
+      timeAgo;
   return {
     setters: [function(m) {
       StatefulPolymer = m.default;
@@ -2402,6 +2432,8 @@ System.register("elements/ticker-app", ["../helpers/StatefulPolymer", "../states
       appState = m.default;
     }, function(m) {
       limitArray = m.default;
+    }, function(m) {
+      timeAgo = m.default;
     }],
     execute: function() {
       StatefulPolymer('ticker-app', {
