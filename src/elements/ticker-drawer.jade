@@ -11,7 +11,7 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
 
     .drawer
       .drawer__item(
-        class='{{ isSearching && "is-selected" }} \
+        class='{{ state.appView === "search" && "is-selected" }} \
                u-border-b1 c-border-gray-lighter'
         on-tap='[[stateFire.selectSearch]]')
 
@@ -20,12 +20,12 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
 
       template(repeat='{{source, i in state.user.sources}}')
         .drawer__item(
-          class='{{ { "is-selected":  !isSearching && source === state.source, \
+          class='{{ { "is-selected":  state.appView !== "search" && source === state.source, \
                       "l-padding-t6": i === 0 } | tokenList }}'
           on-tap='[[stateFire.selectSource]]' fire-arg='source')
           
-          template(if='{{source.constructor.name === "GithubRepoSource"}}')
+          template(if='[[source.constructor.name === "GithubRepoSource"]]')
             core-icon.drawer__item__icon(class='l-margin-r2' icon='github:repo')
-          template(if='{{source.constructor.name === "GithubUserSource"}}')
+          template(if='[[source.constructor.name === "GithubUserSource"]]')
             ticker-github-avatar(class='l-margin-l1 l-margin-r2' avatarUrl='{{source.details.avatar_url}}')
-          | {{source.name}}
+          | [[source.name]]
