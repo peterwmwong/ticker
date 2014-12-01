@@ -1,5 +1,5 @@
 import loadJSON from 'helpers/load';
-import {load, loadAll} from 'helpers/MapperUtils';
+import {loadAll} from 'helpers/MapperUtils';
 
 export default {
   query: async (array, {type, id})=>
