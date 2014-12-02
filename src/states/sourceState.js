@@ -11,12 +11,12 @@ export default {
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      var {user,source} = this.attrs;
-      if(!this.attrs.isSourceFavorited){
-        if(user.sources.indexOf(source) === -1) user.sources.push(source);
-      }else{
+      var {user, source} = this.attrs;
+      if(this.attrs.isSourceFavorited){
         var index = user.sources.indexOf(source);
         if(index !== -1) user.sources.splice(index, 1);
+      }else{
+        if(user.sources.indexOf(source) === -1) user.sources.push(source);
       }
       user.$save();
       return reenter({source});
