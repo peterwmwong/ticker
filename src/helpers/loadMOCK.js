@@ -15,6 +15,8 @@ export default async function loadJSON(url){
     return githubEvents;
   else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url))
     return githubUsers;
+  else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url))
+    return githubUsers;
   else
     throw `loadMock: No mock for ${url}`;
 }
