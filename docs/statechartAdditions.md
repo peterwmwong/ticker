@@ -1,5 +1,4 @@
-
-## `goto` as a return type
+## `goto`/`reenter` as a return type
 
 ## `params`
 
