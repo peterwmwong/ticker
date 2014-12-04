@@ -149,10 +149,10 @@ gulp.task('code-spec', function(){
              .pipe(changed(SPEC_BUILD_DIR))
              .pipe(plumber())
              .pipe(sourcemaps.init())
-             .pipe(traceur({
-               modules:'instantiate',
-               asyncFunctions:true
-             }))
+               .pipe(traceur({
+                 modules:'instantiate',
+                 asyncFunctions:true
+               }))
              .pipe(sourcemaps.write())
              .pipe(gulp.dest(SPEC_BUILD_DIR));
 });
