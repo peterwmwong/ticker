@@ -14,8 +14,8 @@ StatefulPolymer({
         events:{ 'toggleLight':goto('../lightOff') }
       },
       'lightOff':{
-        attrs: {  'light':'off'                   },
-        events:{ 'toggleLight':goto('../lightOn') }
+        attrs: { 'light':'off'                     },
+        events:{ 'toggleLight':goto('../lightOn')  }
       }
     }
   }
