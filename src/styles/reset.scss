@@ -51,17 +51,39 @@ html _deep_ {
     }
   }
 
-  // Override default background
   core-toolbar {
-    // TODO(pwong): Consider add a subtle decorative top bar
-    // border-top: 6px solid $brand-primary-dark;
-    // border-top: 6px solid lighten($brand-primary-light, 15%);
     background: $brand-primary-light;
+    color: white;
 
     &,
     &::shadow #topBar {
-      height: 56px;
+      height: $baseline * 14;
       padding: 0;
+    }
+
+    &.core-toolbar--tabs {
+      box-shadow: 0px 3px 3px #CCC;
+      height: $baseline * 12;
+    }
+  }
+
+  paper-input _deep_ {
+    .focused-underline,
+    .unfocused-underline,
+    .cursor {
+      background: white;
+    }
+  }
+
+  paper-tab::shadow {
+    #ink {
+      color: white;
+    }
+  }
+
+  paper-tabs::shadow {
+    #selectionBar {
+      background-color: white;
     }
   }
 }

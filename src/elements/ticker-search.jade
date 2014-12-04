@@ -4,9 +4,9 @@ link(rel='import' href='../../bower_components/paper-input/paper-input.html')
 link(rel='import' href='./ticker-card.html')
 link(rel='import' href='./cards/ticker-github-avatar.html')
 
-+polymer-element(attributes='isNarrow')
++polymer-element(attributes='isNarrow' nocss)
   core-header-panel(fit)
-    core-toolbar(class='c-white')
+    core-toolbar
       paper-icon-button(
         icon='menu'
         on-tap='[[stateFire.toggleAppDrawer]]')
@@ -29,7 +29,7 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
       template(if='{{state.searchText && state.searchResults.length}}')
         ticker-card(block class='l-margin-b2' style='max-width: 640px; width: 100%')
           template(repeat='{{searchResult in state.searchResults}}')
-            .search-result(
+            div(
               layout horizontal center
               class='c-gray-darker l-padding-v4 l-padding-h2 t-light t-font-size-16 u-border-b1 c-border-gray-lightest'
               on-tap='[[stateFire.selectSource]]'
