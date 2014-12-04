@@ -22,10 +22,36 @@ export default {
       return reenter({source});
     }
   },
+
+  defaultState(){return this.attrs.source.constructor.name},
   states:{
-    'tab': {
-      attrs:{'tab':({tab})=>tab || 'info'},
-      events:{'selectTab':tab=>reenter({tab})}
+    'GithubUserSource':{
+      states:{
+        'tab': {
+          attrs:{'tab':({tab})=>tab || 'updates'},
+          events:{
+            'tabChanged':tab=>
+              [ 'updates',
+                'repos',
+                'info' ].indexOf(tab)+1 && reenter({tab})
+          }
+        }
+      }
+    },
+    'GithubRepoSource':{
+      states:{
+        'tab': {
+          attrs:{'tab':({tab})=>tab || 'updates'},
+          events:{
+            'tabChanged':tab=>
+              [ 'updates',
+                'code',
+                'pullRequests',
+                'issues',
+                'info' ].indexOf(tab)+1 && reenter({tab})
+          }
+        }
+      }
     }
   }
 };
