@@ -3,7 +3,11 @@ import loggedInState      from './loggedInState';
 import loggedOutState     from './loggedOutState';
 
 var appState = new StateChart({
-  attrs:{'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl)},
+  attrs:{
+    'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl),
+    'DRAWER_SWIPE_DISABLED': !/Chrome/.test(window.navigator.userAgent) &&
+      /AppleWebKit.*Mobile.*Safari/.test(window.navigator.userAgent)
+  },
   enter(){
     // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
     // statechart trying to transition while in a transition...

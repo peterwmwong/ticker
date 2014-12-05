@@ -20,6 +20,9 @@ export default {
         'selectSearch, selectSource':reenter({appDrawerOpened:false}),
         'toggleAppDrawer'(){
           return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
+        },
+        'appDrawerOpenedChanged'(appDrawerOpened){
+          return reenter({appDrawerOpened});
         }
       }
     },

@@ -23,10 +23,10 @@ link(rel='import' href='./ticker-source-github-user.html')
   //- =========
   template(if='{{state.user}}')
     core-drawer-panel#drawerPanel(
-      disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
+      disableSwipe='[[state.DRAWER_SWIPE_DISABLED]]'
       drawerWidth='320px'
       responsiveWidth='9999px'
-      selected='{{ state.appDrawerOpened | openedToSelected }}')
+      selected='{{state.appDrawerOpened | bindInputToState("appDrawerOpened") | trueFalseTo("drawer", "main")}}')
   
       template(ref='{{state.appView}}' bind='[[]]')
       ticker-drawer(drawer)
