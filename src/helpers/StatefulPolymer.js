@@ -72,7 +72,7 @@ export default function StatefulPolymer(name,options){
       toDOM(val, attr){return this.state[attr]},
       toModel(val, attr){
         this.stateEvent(`${attr}Changed`, val);
-        if(window.event.target.value !== this.state[attr])
+        if(window.event && window.event.target && window.event.target.value !== this.state[attr])
           window.event.target.value = this.state[attr];
         return this.state[attr];
       }
