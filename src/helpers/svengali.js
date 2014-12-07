@@ -234,6 +234,7 @@ export class StateChart {
                               (optional). If specified, overrides `states`.
   */
   constructor(rootStateOptions){
+    this.events = [];
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
   }
@@ -244,17 +245,6 @@ export class StateChart {
 
   fire(eventName, ...args){
     this.rootState.scState.send(eventName, ...args);
-  }
-
-  _getStateEvents(scState){
-    return scState.substates.reduce(
-      (acc,s)=>acc.concat(this._getStateEvents(s)),
-      Object.keys(scState.events)
-    );
-  }
-
-  get events(){
-    return this._getStateEvents(this.rootState.scState);
   }
 }
 
@@ -387,7 +377,11 @@ export class State {
       : eventValue instanceof Reenter ? this._transitionToSameState(eventValue)
       : undefined;
 
-    if(callback) this.scState.event(eventName, callback);
+    if(callback){
+      this.scState.event(eventName, callback);
+      if(this.stateChart.events.indexOf(eventName) === -1)
+        this.stateChart.events.push(eventName);
+    }
   }
 
   _resolveAttrValue(attrName){

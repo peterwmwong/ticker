@@ -70,7 +70,8 @@ function stateFire(statechart, stateEvent, {currentTarget}){
 // Add stateFire[eventName](fire-arg) functions on element
 function addFireFuncs(object, statechart){
   var events = statechart.events;
-  for(var i=0; i<events.length; ++i)
+  var i = events.length;
+  while(i--)
     object[`stateFire.${events[i]}`] = stateFire.bind(null, statechart, events[i]);
 }
 
