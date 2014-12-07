@@ -40,10 +40,25 @@ StatefulPolymer({
 <button on-tap='{{stateFire.toggleLight}}'>Switch</button>
 ```
 
-
 */
 
 import {StateChart} from 'helpers/svengali';
+
+const bindInputToState = {
+  toDOM(val, attr){return this.state[attr]},
+  toModel(val, attr){
+    // Only fire change event if the value actually changes
+    if(this.state[attr] !== val) this._statechart.fire(`${attr}Changed`, val);
+
+    // If this event originates from an input and the statechart disagrees
+    // with the change, reset the input's value to the value dictated by the
+    // statechart.
+    if(window.event && window.event.target && window.event.target.value !== this.state[attr])
+      window.event.target.value = this.state[attr];
+
+    return this.state[attr];
+  }
+};
 
 function stateFire(statechart, stateEvent, {currentTarget}){
   // Get fire args
@@ -61,35 +76,19 @@ function addFireFuncs(object, statechart){
 
 export default function StatefulPolymer(name,options){
   var stateConfig = options.state;
-  var originalCreated = options.created;
+  var origCreated = options.created;
   options.state = null;
 
   if(stateConfig instanceof StateChart) addFireFuncs(options, stateConfig);
 
+  options.bindInputToState = bindInputToState;
+
   options.created = function(){
-    // `bindInputToState(attr)` Filter
-    this.bindInputToState = {
-      toDOM(val, attr){return this.state[attr]},
-      toModel(val, attr){
-        this.stateEvent(`${attr}Changed`, val);
-        if(window.event && window.event.target && window.event.target.value !== this.state[attr])
-          window.event.target.value = this.state[attr];
-        return this.state[attr];
-      }
-    };
-
-    this._statechart = (stateConfig instanceof StateChart) ? stateConfig
-                        : new StateChart(stateConfig);
-
-    if(!(stateConfig instanceof StateChart)) addFireFuncs(this, this._statechart);
-
+    this._statechart = (stateConfig instanceof StateChart) ? stateConfig : new StateChart(stateConfig);
+    addFireFuncs(this, this._statechart);
     this.state = this._statechart.attrs;
-    if(originalCreated) originalCreated.call(this);
+    if(origCreated) origCreated.call(this);
   };
-
-  options.stateEvent = function(eventName, params){
-    this._statechart.fire(eventName, params);
-  }
 
   window.Polymer(name, options);
 }
