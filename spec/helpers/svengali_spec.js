@@ -16,7 +16,10 @@ describe('svengali/StateChart', ()=>{
                 events:{'c':goto('../../one')}
               },
               'four':{
-                events:{'d':goto('../../one')}
+                events:{
+                  'd':goto('../../one'),
+                  'a':goto('../../one')
+                }
               }
             }
           }
