@@ -21,9 +21,7 @@ export default {
         'toggleAppDrawer'(){
           return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
         },
-        'appDrawerOpenedChanged'(appDrawerOpened){
-          return reenter({appDrawerOpened});
-        }
+        'appDrawerOpenedChanged':appDrawerOpened=>reenter({appDrawerOpened})
       }
     },
     'appView':{

@@ -1,16 +1,19 @@
+## `<ticker-github-events-card>` remove `template#Comment`
+
 ## [svengali debugging]: Attr where?
 
-```
+```js
 appState.$.attrs.myAttr
-=> root/child declares `myAttr`
+//> root/child declares `myAttr`
 
 appState.$.states.root.child()
-=> states (parallel):
-=>   grandChild1 (default)
-=>   grandChild2
-=> events:
-=>   onClick      => *
-=>   onTextChange => reenter
+//> states (parallel):
+//>   grandChild1 (default)
+//>   grandChild2
+//> events:
+//>   onClick      => *
+//>   onTextChange => reenter
+```
 
 ## [svengali] Problem: Events are used for too many communication patterns
 

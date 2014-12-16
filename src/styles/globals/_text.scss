@@ -8,7 +8,7 @@ html _deep_ {
 
   // Sizes
   @each $fontSize in 10, 11, 12, 14, 16, 18, 20, 24, 28, 32 {
-    .t-font-size-#{$fontSize} { font-size: #{$fontSize/10}rem; }
+    .t-font-size-#{$fontSize} { font-size: #{$fontSize/10}rem !important; }
   }
 
   // Truncate text with an ellipsis

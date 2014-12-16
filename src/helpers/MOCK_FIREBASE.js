@@ -8,6 +8,7 @@ window.Firebase = class {
           "id": "284734",
           "githubUsername": "peterwmwong",
           "sources": [
+            {"type": "GithubRepoSource", "config":{"full_name": "polymer/polymer"}},
             {"type": "GithubUserSource", "config":{"login": "polymer"}}
           ]
         })

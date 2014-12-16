@@ -1,6 +1,7 @@
-import GithubRepo from 'models/github/GithubRepo';
-import GithubEvent from 'models/github/GithubEvent';
-import Source from './Source';
+import GithubRepo        from 'models/github/GithubRepo';
+import GithubEvent       from 'models/github/GithubEvent';
+import GithubPullRequest from 'models/github/GithubPullRequest';
+import Source            from './Source';
 
 class GithubRepoSource extends Source {
   static query({term}){
@@ -20,9 +21,13 @@ class GithubRepoSource extends Source {
   }
   get events(){
     return this._events ||
-    (this._events = GithubEvent.query({type:'repos', id:this.full_name}));
+      (this._events = GithubEvent.query({type:'repos', id:this.full_name}));
   }
 
+  get pullRequests(){
+    return this._pullRequests ||
+      (this._pullRequests = GithubPullRequest.query({repo:this.full_name}));
+  }
 
   toJSON(){return {full_name:this.full_name}}
 }

@@ -16,11 +16,8 @@ GithubUser.create($=>{
       return load(model, response);
     },
 
-    query:(array, {term})=>
-      (
-        loadJSON(`https://api.github.com/search/users?q=${term}`)
-        // Promise.resolve(QueryMOCKDATA)
-      ).then(({items})=>loadAll(array, items))
+    query: async (array, {term})=>
+      loadAll(array, (await loadJSON(`https://api.github.com/search/users?q=${term}`)).items)
   };
 });
 

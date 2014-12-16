@@ -5,22 +5,18 @@ link(rel='import' href='./ticker-github-branch.html')
 link(rel='import' href='./ticker-github-repo.html')
 link(rel='import' href='./ticker-github-avatar.html')
 
-+polymer-element(attributes='events')
-
-  template#Comment
-    .action__content(flex class='t-word-wrap-break-word')
-      marked-element(text='[[]]')
++polymer-element(attributes='events')(nocss noscript)
 
   template#CardTitle
-    .title
+    .Card-title
       ticker-github-repo(flex repo='[[repo.name]]')
       span(class='c-gray-dark t-font-size-11') [[created_at | timeAgo]]
 
 
   template#PullRequestEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(
           class='[[   payload.pull_request.state === "open" ? "c-warning-light"    \
                     : payload.pull_request.merged           ? "c-confirm-light"    \
@@ -28,38 +24,37 @@ link(rel='import' href='./ticker-github-avatar.html')
                  l-margin-r3'
           icon='github:git-pull-request')
         | [[payload.pull_request.title]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        template(ref='Comment' bind='[[payload.pull_request.body]]')
+        marked-element(flex class='t-word-wrap-break-word' text='[[payload.pull_request.body]]')
 
 
   template#ReleaseEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(
           class='l-margin-r3'
           icon='github:versions')
         | [[payload.release.name]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         | published this release
 
 
   template#TeamAddEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-
-      .action
+      .Card-action
         span [[payload.team.name]]
         | &nbsp;team was added
 
 
   template#CreateOrDeleteEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]' if='[[payload.ref_type !== "repository"]]')
 
-      .subject(class='[[payload.ref_type === "repository" && "l-padding-t4 l-padding-b3"]]')
+      .Card-subject(class='[[payload.ref_type === "repository" && "l-padding-t4 l-padding-b3"]]')
         core-icon(
           class='[[type === "CreateEvent" ? "c-confirm-light" \
                                           : "c-error-light"]] \
@@ -71,7 +66,7 @@ link(rel='import' href='./ticker-github-avatar.html')
         template(if='[[payload.ref_type !== "repository"]]')
           | [[payload.ref]]
 
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         | [[ (type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.ref_type ]]
 
@@ -83,9 +78,9 @@ link(rel='import' href='./ticker-github-avatar.html')
 
 
   template#PullRequestReviewCommentEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(
           class='[[payload.pull_request.state === "closed" ? "c-error-light"     \
                                                            : "c-warning-light"]] \
@@ -93,15 +88,15 @@ link(rel='import' href='./ticker-github-avatar.html')
           icon='github:git-pull-request'
         )
         | [[payload.pull_request.title]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        template(ref='Comment' bind='[[payload.comment.body]]')
+        marked-element(flex class='t-word-wrap-break-word' text='[[payload.comment.body]]')
 
 
   template#IssueCommentEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(
           class='[[payload.issue.state === "closed" ? "c-error-light"     \
                                                     : "c-warning-light"]] \
@@ -110,15 +105,15 @@ link(rel='import' href='./ticker-github-avatar.html')
                                              : "github:issue-opened"     ]]'
         )
         | [[payload.issue.title]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        template(ref='Comment' bind='[[payload.comment.body]]')
+        marked-element(flex class='t-word-wrap-break-word' text='[[payload.comment.body]]')
 
 
   template#IssuesEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(
           class='[[payload.action === "closed" ? "c-error-light"     \
                                                : "c-warning-light"]] \
@@ -126,27 +121,27 @@ link(rel='import' href='./ticker-github-avatar.html')
           icon='github:issue-[[payload.action]]'
         )
         | [[payload.issue.title]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         p(flex)
           span(block class='l-margin-b1') [[payload.action]] this issue
-          template(ref='Comment' bind='[[payload.issue.body]]')
+          marked-element(flex class='t-word-wrap-break-word' text='[[payload.issue.body]]')
 
 
   template#CommitCommentEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(class='c-confirm-light l-margin-r3' icon='github:git-commit')
         | [[payload.comment.commit_id]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        template(ref='Comment' bind='[[payload.comment.body]]')
+        marked-element(flex class='t-word-wrap-break-word' text='[[payload.comment.body]]')
 
 
   template#WatchEvent
-    .card
-      .action
+    .Card
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
@@ -157,8 +152,8 @@ link(rel='import' href='./ticker-github-avatar.html')
 
 
   template#ForkEvent
-    .card
-      .action
+    .Card
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         core-icon(
           class='c-gray-lighter l-margin-r3'
@@ -169,12 +164,12 @@ link(rel='import' href='./ticker-github-avatar.html')
 
 
   template#PushEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(class='c-gray-light l-margin-r3' icon='github:git-branch')
         ticker-github-branch(branch='[[payload.ref]]')
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         ul(flex)
           template(repeat='[[commit in limitArray(payload.commits, 3)]]')
@@ -185,12 +180,12 @@ link(rel='import' href='./ticker-github-avatar.html')
 
 
   template#GollumEvent
-    .card
+    .Card
       template(ref='CardTitle' bind='[[]]')
-      .subject
+      .Card-subject
         core-icon(class='c-gray-light l-margin-r3' icon='github:book')
         | [[payload.pages[0].title]]
-      .action
+      .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         | edited this wiki page
 

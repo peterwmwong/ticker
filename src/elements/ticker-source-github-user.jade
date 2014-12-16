@@ -6,26 +6,34 @@ link(rel='import' href='../../bower_components/paper-icon-button/paper-icon-butt
 link(rel='import' href='./cards/ticker-github-events-card.html')
 
 +polymer-element(attributes='isNarrow')
+  template#tab-updates
+    ticker-github-events-card(
+      class='l-display-block l-margin-t2'
+      events='{{state.source.events}}'
+      style='max-width: 640px; width: 100%')
+    
+    paper-fab(
+      on-tap='[[stateFire.toggleFavoriteSource]]'
+      icon="favorite"
+      class='{{state.isSourceFavorited ? "c-bg-confirm" : "c-bg-error"}} \
+             {{isNarrow && "is-on-bottom"}} \
+             c-white')
+             
+  template#tab-repos
+    h3.t-italic.c-gray-light Repos
+    
+  template#tab-info
+    h3.t-italic.c-gray-light Info
+             
   core-scroll-header-panel(fit)
     div(layout vertical center class='l-margin-t6 l-padding-h2 l-padding-t6')
-      template(if='{{state.source.events.length}}')
-        ticker-github-events-card(
-          class='l-display-block l-margin-t2'
-          events='{{state.source.events}}'
-          style='max-width: 640px; width: 100%')
-          
-        paper-fab(
-          on-tap='[[stateFire.toggleFavoriteSource]]'
-          icon="favorite"
-          class='{{state.isSourceFavorited ? "c-bg-confirm" : "c-bg-error"}} \
-                 {{isNarrow && "is-on-bottom"}} \
-                 c-white')
+      template(ref='tab-{{state.tab}}' bind='[[]]')
                  
     core-toolbar
       paper-icon-button(
         class='l-margin-r0'
         icon='menu'
-        on-tap='{{stateFire.toggleAppDrawer}}')
+        on-tap='[[stateFire.toggleAppDrawer]]')
         
       span#titleText(class='t-font-size-20 t-normal' style='height: 16px')
         | {{state.source.name}}

@@ -27,28 +27,30 @@ export default {
   states:{
     'GithubUserSource':{
       states:{
-        'tab': {
+        'tab':{
           attrs:{'tab':({tab})=>tab || 'updates'},
           events:{
-            'tabChanged':tab=>
-              [ 'updates',
-                'repos',
-                'info' ].indexOf(tab)+1 && reenter({tab})
+            'tabChanged':tab=>[
+              'updates',
+              'repos',
+              'info'
+            ].indexOf(tab)+1 && reenter({tab})
           }
         }
       }
     },
     'GithubRepoSource':{
       states:{
-        'tab': {
-          attrs:{'tab':({tab})=>tab || 'updates'},
+        'tab':{
+          attrs:{'tab':({tab})=>tab || 'pullRequests'},
           events:{
-            'tabChanged':tab=>
-              [ 'updates',
-                'code',
-                'pullRequests',
-                'issues',
-                'info' ].indexOf(tab)+1 && reenter({tab})
+            'tabChanged':tab=>[
+              'updates',
+              'code',
+              'pullRequests',
+              'issues',
+              'info'
+            ].indexOf(tab)+1 && reenter({tab})
           }
         }
       }
