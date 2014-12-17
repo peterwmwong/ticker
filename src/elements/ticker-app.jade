@@ -1,5 +1,6 @@
 link(rel='import' href='../../bower_components/core-drawer-panel/core-drawer-panel.html')
 link(rel='import' href='../../bower_components/core-icons/core-icons.html')
+link(rel='import' href='../iconsets/github.html')
 
 link(rel='import' href='./ticker-drawer.html')
 link(rel='import' href='./ticker-login.html')
@@ -8,8 +9,9 @@ link(rel='import' href='./ticker-source-github-repo.html')
 link(rel='import' href='./ticker-source-github-user.html')
 
 +polymer-element
-  //- Logged In Views
-  //- ===============
+  //- Views
+  //- =====
+  //- Templates rendered based on `state.appView`. See below `template(ref=...)`
   template#source-GithubRepoSource
     ticker-source-github-repo(isNarrow='{{isNarrow}}' main)
   
