@@ -167,7 +167,7 @@ link(rel='import' href='./ticker-github-avatar.html')
       template(ref='CardTitle' bind='[[]]')
       .Card-subject
         core-icon(class='c-gray-light l-margin-r3' icon='github:git-branch')
-        ticker-github-branch(branch='[[payload.ref]]')
+        | [[payload.ref]]
       .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
         ul(flex)
