@@ -5,12 +5,13 @@ link(rel='import' href='../../bower_components/paper-tabs/paper-tabs.html')
 link(rel='import' href='../../bower_components/paper-icon-button/paper-icon-button.html')
 link(rel='import' href='./cards/ticker-github-events-card.html')
 link(rel='import' href='./cards/ticker-github-pullrequests.html')
+link(rel='import' href='./cards/ticker-github-issues.html')
 
 +polymer-element(attributes='isNarrow')
   template#tab-updates
     ticker-github-events-card(
       class='l-display-block l-margin-t2'
-      events='{{state.source.events}}'
+      events='[[state.source.events]]'
       style='max-width: 640px; width: 100%')
              
   template#tab-code
@@ -19,7 +20,13 @@ link(rel='import' href='./cards/ticker-github-pullrequests.html')
   template#tab-pullRequests
     ticker-github-pullrequests(
       class='l-display-block l-margin-t2'
-      pullRequests='{{state.source.pullRequests}}'
+      pullRequests='[[state.source.pullRequests]]'
+      style='max-width: 640px; width: 100%')
+  
+  template#tab-issues
+    ticker-github-issues(
+      class='l-display-block l-margin-t2'
+      issues='[[state.source.issues]]'
       style='max-width: 640px; width: 100%')
   
   template#tab-issues

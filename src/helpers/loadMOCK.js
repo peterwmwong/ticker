@@ -7,15 +7,18 @@ the URL.  See `src/index.jade` for how this module is installed and replaces
 `src/helpers/load`.
 
 */
-import githubEvents    from '../models/github/GithubEventMapperMOCKDATA-allEvents';
-import githubUsers     from '../models/github/GithubUserMapperQueryMOCKDATA';
-import githubRepoPulls from '../helpers/mock_data/GithubRepoPullsMOCK';
+import githubEvents     from '../models/github/GithubEventMapperMOCKDATA-allEvents';
+import githubUsers      from '../models/github/GithubUserMapperQueryMOCKDATA';
+import githubRepoPulls  from '../helpers/mock_data/GithubRepoPullsMOCK';
+import githubRepoIssues from '../helpers/mock_data/GithubRepoIssuesMOCK';
 
 export default async function loadJSON(url){
   if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/events/.test(url))
     return githubEvents;
   else if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/pulls/.test(url))
     return githubRepoPulls;
+  else if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/issues/.test(url))
+    return githubRepoIssues;
   else if(/https:\/\/api.github.com\/users\/[A-z\-]+\/events/.test(url))
     return githubEvents;
   else if(/https:\/\/api.github.com\/users\/[A-z\-]+/.test(url))

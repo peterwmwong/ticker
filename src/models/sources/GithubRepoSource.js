@@ -1,4 +1,5 @@
 import GithubRepo        from 'models/github/GithubRepo';
+import GithubIssue       from 'models/github/GithubIssue';
 import GithubEvent       from 'models/github/GithubEvent';
 import GithubPullRequest from 'models/github/GithubPullRequest';
 import Source            from './Source';
@@ -22,6 +23,11 @@ class GithubRepoSource extends Source {
   get events(){
     return this._events ||
       (this._events = GithubEvent.query({type:'repos', id:this.full_name}));
+  }
+
+  get issues(){
+    return this._issues ||
+      (this._issues = GithubIssue.query({repo:this.full_name}));
   }
 
   get pullRequests(){

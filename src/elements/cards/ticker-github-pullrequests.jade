@@ -1,23 +1,21 @@
 link(rel='import' href='../../iconsets/github.html')
 link(rel='import' href='../../../bower_components/core-icon/core-icon.html')
 link(rel='import' href='../../../bower_components/marked-element/marked-element.html')
-link(rel='import' href='./ticker-github-branch.html')
-link(rel='import' href='./ticker-github-repo.html')
 link(rel='import' href='./ticker-github-avatar.html')
 
 +polymer-element(attributes='pullRequests')(noscript nocss)
-  template(repeat='{{pullRequests}}')
+  template(repeat='{{pr in pullRequests}}')
     .Card
-      .Card-title(class='l-padding-b3 t-font-size-16' layout center)
+      .Card-title(layout center class='l-padding-b3')
         core-icon(
-          class='[[   state === "open" ? "c-warning-light" \
-                    : merged           ? "c-confirm-light" \
-                    : "c-error-light"   ]]                 \
+          class='[[   pr.state === "open" ? "c-warning-light" \
+                    : pr.merged           ? "c-confirm-light" \
+                    : "c-error-light"   ]]                    \
                     l-margin-r3'
           icon='github:git-pull-request')
-        span(flex) [[title]]
-        span(class='c-gray-dark t-font-size-11') [[created_at | timeAgo]]
+        span(flex) [[pr.title]]
+        span(class='c-gray-dark t-font-size-11') [[pr.created_at | timeAgo]]
 
       .Card-action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[user.avatar_url]]')
-        span(flex) [[body]]
+        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[pr.user.avatar_url]]')
+        marked-element(flex class='t-word-wrap-break-word' text='[[pr.body]]')

@@ -42,7 +42,7 @@ export default {
     'GithubRepoSource':{
       states:{
         'tab':{
-          attrs:{'tab':({tab})=>tab || 'pullRequests'},
+          attrs:{'tab':({tab})=>tab || 'issues'},
           events:{
             'tabChanged':tab=>[
               'updates',

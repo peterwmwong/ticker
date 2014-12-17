@@ -1,5 +1,5 @@
 import loadJSON          from '../../helpers/load';
-import {load, loadAll}   from '../../helpers/MapperUtils';
+import {loadAll}         from '../../helpers/MapperUtils';
 import Model             from '../../helpers/model/Model';
 import GithubEventMapper from './GithubEventMapper';
 import GithubIssue       from './GithubIssue';
@@ -14,13 +14,12 @@ GithubPullRequest.create($=>{
       loadAll(array, await loadJSON(`https://api.github.com/repos/${repo}/pulls`))
   };
 
+  $.attr('created_at',  'datetime');
   $.attr('title',  'string');
   $.attr('body',   'string');
   $.attr('number', 'number');
   $.attr('state',  'string');
-  $.attr('locked', 'boolean');
 
-  $.hasOne('issue', 'GithubIssue');
   $.hasOne('user', 'GithubUser');
 });
 
