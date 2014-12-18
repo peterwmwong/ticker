@@ -11,8 +11,8 @@ export default {
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      var {user, source} = this.attrs;
-      if(this.attrs.isSourceFavorited){
+      var {user, source, isSourceFavorited} = this.attrs;
+      if(isSourceFavorited){
         var index = user.sources.indexOf(source);
         if(index !== -1) user.sources.splice(index, 1);
       }else{
@@ -42,7 +42,7 @@ export default {
     'GithubRepoSource':{
       states:{
         'tab':{
-          attrs:{'tab':({tab})=>tab || 'issues'},
+          attrs:{'tab':({tab})=>tab || 'updates'},
           events:{
             'tabChanged':tab=>[
               'updates',
