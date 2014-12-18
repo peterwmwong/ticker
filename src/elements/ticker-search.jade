@@ -23,7 +23,7 @@ link(rel='import' href='./cards/ticker-github-avatar.html')
 
     div(layout vertical center class='l-padding-2')
       template(if='{{!state.searchText && !state.searchResults.length}}')
-        h2(class='l-padding-t6 c-gray-light t-align-center t-light t-italic')
+        h2(class='c-gray-light l-padding-t6 t-align-center t-normal t-italic')
           | Search for GitHub Users, Organizations, or Repositories
 
       template(if='{{state.searchText && state.searchResults.length}}')

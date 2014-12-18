@@ -3,20 +3,21 @@ link(rel='import' href='../../../bower_components/marked-element/marked-element.
 link(rel='import' href='./ticker-github-avatar.html')
 
 +polymer-element(attributes='issues')(noscript nocss)
-  template(repeat='{{issue in issues}}')
-    .Card
-      .Card-title(layout center class='l-padding-b3')
+  .Card
+    template(repeat='{{issue in issues}}')
+      .Card-title(layout center)
         core-icon(
           class='[[   issue.state === "open" ? "c-warning-light" \
                     : issue.merged           ? "c-confirm-light" \
-                    : "c-error-light"   ]]                    \
+                    : "c-error-light"   ]]                       \
                     l-margin-r3'
           icon='github:issue-[[issue.state]]ed')
-        span(flex class='t-truncate t-word-wrap-break-word') [[issue.title]]
-        span(class='c-gray-dark t-font-size-11') [[issue.created_at | timeAgo]]
-        
-      .Card-action
-        ticker-github-avatar(class='l-margin-r3' avatarUrl='[[issue.user.avatar_url]]')
-        p(flex)
-          span(block class='l-margin-b1') opened this issue
-          marked-element(class='t-word-wrap-break-word' text='[[issue.body]]')
+        div(flex)
+          div(layout horizontal center)
+            span(flex class='t-truncate t-word-wrap-break-word')
+              | [[issue.title]]
+            span(class='c-gray-dark t-font-size-10')
+              | [[issue.created_at | timeAgo]]
+          div(class='t-font-size-12 c-gray-dark')
+            | \#[[issue.number]] opened by [[issue.user.login]]
+          

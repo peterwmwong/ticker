@@ -15,7 +15,9 @@ link(rel='import' href='./cards/ticker-github-issues.html')
       style='max-width: 640px; width: 100%')
              
   template#tab-code
-    h3.t-italic.c-gray-light Code
+    h2(class='c-gray-light l-padding-t6 t-align-center t-normal t-italic')
+      | The codez.
+      | Coming soon!
     
   template#tab-pullRequests
     ticker-github-pullrequests(
@@ -29,11 +31,10 @@ link(rel='import' href='./cards/ticker-github-issues.html')
       issues='[[state.source.issues]]'
       style='max-width: 640px; width: 100%')
   
-  template#tab-issues
-    h3.t-italic.c-gray-light Issues
-    
   template#tab-info
-    h3.t-italic.c-gray-light Info
+    h2(class='c-gray-light l-padding-t6 t-align-center t-normal t-italic')
+      | Repo at a glance.
+      | Coming soon!
     
   core-scroll-header-panel(fit)
     div(layout vertical center class='l-margin-t6 l-padding-h2 l-padding-t6')
