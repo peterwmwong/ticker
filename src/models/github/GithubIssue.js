@@ -1,7 +1,6 @@
-import loadJSON          from '../../helpers/load';
-import {loadAll}         from '../../helpers/MapperUtils';
-import Model             from '../../helpers/model/Model';
-import GithubIssueMapper from './GithubIssueMapper';
+import loadJSON  from '../../helpers/load';
+import {loadAll} from '../../helpers/MapperUtils';
+import Model     from '../../helpers/model/Model';
 
 class GithubIssue extends Model{}
 GithubIssue.create($=>{

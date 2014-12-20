@@ -1,7 +1,8 @@
-import {goto, reenter} from '../helpers/svengali';
-import load            from '../helpers/load';
-import sourceState     from './sourceState';
-import searchState     from './searchState';
+import {goto, reenter}   from '../helpers/svengali';
+import load              from '../helpers/load';
+import sourceState       from './sourceState';
+import searchState       from './searchState';
+import githubCommitState from './githubCommitState';
 
 export default {
   params:['user', 'accessTokens'],
@@ -30,6 +31,7 @@ export default {
         'selectSearch':goto('./search')
       },
       states:{
+        'githubCommit':githubCommitState,
         'source':sourceState,
         'search':searchState
       }

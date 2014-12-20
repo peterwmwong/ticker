@@ -7,6 +7,7 @@ link(rel='import' href='./ticker-login.html')
 link(rel='import' href='./ticker-search.html')
 link(rel='import' href='./ticker-source-github-repo.html')
 link(rel='import' href='./ticker-source-github-user.html')
+link(rel='import' href='./ticker-github-commit.html')
 
 +polymer-element
   //- Views
@@ -17,6 +18,9 @@ link(rel='import' href='./ticker-source-github-user.html')
   
   template#source-GithubUserSource
     ticker-source-github-user(isNarrow='{{isNarrow}}' main)
+      
+  template#github-commit
+    ticker-github-commit(isNarrow='{{isNarrow}}' main)
   
   template#search
     ticker-search(isNarrow='{{isNarrow}}' main)
