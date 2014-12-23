@@ -1,0 +1,33 @@
+@import 'imports';
+
+.hljs-chunk,
+.hljs-deletion,
+.hljs-addition {
+  margin-left: $base-width*-4;
+  padding-left: $base-width*4;
+  display: inline-block;
+  color: $gray-darkest;
+}
+
+.hljs-chunk {
+  color: $gray-light;
+
+  &:first-child {
+    padding: 0 ($base-width*4);
+  }
+}
+
+.hljs-deletion {
+  background: lighten($error-light, 18%);
+
+  &::first-letter {
+    color: $error-light;
+  }
+}
+.hljs-addition {
+  background: lighten($confirm-light, 25%);
+
+  &::first-letter {
+    color: $confirm-light;
+  }
+}

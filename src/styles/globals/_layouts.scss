@@ -11,6 +11,8 @@ html _deep_ {
 
   .l-overflow-hidden     { overflow: hidden !important; }
   .l-overflow-auto       { overflow: auto !important; }
+  .l-overflow-x-auto     { overflow-x: auto !important; }
+  .l-overflow-y-auto     { overflow-y: auto !important; }
   .l-overflow-scroll-ios {
     overflow: scroll !important;
     -webkit-overflow-scrolling: touch !important;

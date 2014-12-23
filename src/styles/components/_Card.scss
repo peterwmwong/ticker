@@ -2,9 +2,9 @@ html _deep_ {
 
   .Card {
     // Faux Shadow
-    border: 1px solid rgba(0,0,0, .05);
+    border: 1px solid rgba(0,0,0, .075);
     border-top-color: rgba(0,0,0, .025);
-    border-bottom: 2px solid rgba(0,0,0, .075);
+    border-bottom: 2px solid rgba(0,0,0, .1);
     border-radius: 2px;
     overflow: hidden;
     margin-bottom: $baseline;
@@ -20,12 +20,12 @@ html _deep_ {
   .Card-subject, .Card-title {
     background: white;
     border-bottom: 1px solid $gray-lightest;
-    color: $gray-darker;
+    color: $gray-darkest;
   }
 
   .Card-title {
     align-items: baseline;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     padding-bottom: ($baseline*3);
     line-height: 1.5;
   }
@@ -47,7 +47,7 @@ html _deep_ {
 
   .Card-action {
     background: $gray-lightester;
-    color: $gray-darker;
+    color: $gray-darkest;
 
     ticker-github-avatar {
       align-self: flex-start;
