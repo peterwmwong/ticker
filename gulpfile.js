@@ -2,6 +2,8 @@
 
 var changed    = require('gulp-changed');
 var clean      = require('gulp-clean');
+var concat     = require('gulp-concat');
+var cache      = require('gulp-cached');
 var connect    = require('gulp-connect');
 var fs         = require('fs');
 var gulp       = require('gulp');
@@ -13,6 +15,7 @@ var livereload = require('gulp-livereload');
 var path       = require('path');
 var plumber    = require('gulp-plumber');
 var replace    = require('gulp-replace');
+var remember   = require('gulp-remember');
 var sass       = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var svgSprite  = require("gulp-svg-sprites");
@@ -133,15 +136,16 @@ gulp.task('templates', function(){
              .pipe(gulp.dest(BUILD_DIR));
 });
 gulp.task('code', function(){
-  return gulp.src(SRC_DIR+'**/*.js')
-             .pipe(changed(BUILD_DIR))
+  return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
+             .pipe(cache('scripts'))
              .pipe(plumber())
-             .pipe(sourcemaps.init())
-               .pipe(traceur({
-                 modules:'instantiate',
-                 asyncFunctions:true
-               }))
-             .pipe(sourcemaps.write())
+             .pipe(traceur({
+               modules        : 'register',
+               moduleName     : true,
+               asyncFunctions : true
+             }))
+             .pipe(remember('scripts'))
+             .pipe(concat('all.js'))
              .pipe(gulp.dest(BUILD_DIR));
 });
 gulp.task('code-spec', function(){
@@ -156,15 +160,16 @@ gulp.task('code-spec', function(){
              .pipe(sourcemaps.write())
              .pipe(gulp.dest(SPEC_BUILD_DIR));
 });
-gulp.task('code-prod', function(done){
-  exec('cd src;'+
-       '../node_modules/es6-module-loader/node_modules/.bin/traceur'+
-       '  --modules=instantiate'+
-       '  --async-functions=true'+
-       '  --out all.js $(find . -name "*.js" | grep -v MOCK);'+
-       'mv all.js ../build/', function(err, stdout, stderr){
-    done(err);
-  });
+gulp.task('code-prod', function(){
+  return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
+             .pipe(plumber())
+             .pipe(traceur({
+               modules        : 'register',
+               moduleName     : true,
+               asyncFunctions : true
+             }))
+             .pipe(concat('all.js'))
+             .pipe(gulp.dest(BUILD_DIR));
 });
 
 

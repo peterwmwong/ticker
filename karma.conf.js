@@ -20,7 +20,7 @@ module.exports = function(config) {
       'spec/spec-utils/force-shadowdom-polyfill.js',
       'bower_components/webcomponentjs/webcomponents.js',
       'bower_components/polymer/polymer.html',
-      'node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
+      'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
       'node_modules/systemjs/lib/extension-register.js',
 
