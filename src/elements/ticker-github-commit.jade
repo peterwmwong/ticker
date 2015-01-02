@@ -27,7 +27,7 @@ polymer-element(
     div(layout vertical center class='l-margin-t3 l-padding-h2')
       template(repeat='{{state.commit.files}}')
         .Card(style='max-width: 640px; width: 100%')
-          .Card-subject(class='l-padding-v2 l-padding-b1')
+          .Card-subject(class='l-padding-2 l-padding-b1')
             | [[filename]]
           pre(
             is='ticker-github-commit-highlight-syntax'
