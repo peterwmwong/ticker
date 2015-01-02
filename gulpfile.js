@@ -103,7 +103,8 @@ function makeCompileScss(checkChanged){
                  sourceMap:true
                }))
                .pipe(replace('_deep_','/deep/'))
-               .pipe(gulp.dest(BUILD_DIR));
+               .pipe(gulp.dest(BUILD_DIR))
+               .pipe(livereload());
   };
 }
 gulp.task('styles',     makeCompileScss(true));
@@ -133,7 +134,8 @@ gulp.task('templates', function(){
                   CONFIG:CONFIG
                 }
               }))
-             .pipe(gulp.dest(BUILD_DIR));
+             .pipe(gulp.dest(BUILD_DIR))
+             .pipe(livereload());
 });
 gulp.task('code', function(){
   return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
@@ -147,7 +149,8 @@ gulp.task('code', function(){
           .pipe(remember('scripts'))
           .pipe(concat('all.js'))
           // .pipe(sourcemaps.write('.'))
-          .pipe(gulp.dest(BUILD_DIR));
+          .pipe(gulp.dest(BUILD_DIR))
+          .pipe(livereload());
 });
 gulp.task('code-spec', function(){
   return gulp.src(SPEC_SRC_DIR+'**/*.js')
@@ -198,21 +201,13 @@ gulp.task('spec-run', function(){
 // Watch Tasks
 // -----------
 gulp.task('watch', function(){
+  livereload.listen();
+
   gulp.watch(SRC_DIR+'**/*.jade',        ['templates']);
   gulp.watch(SRC_DIR+'**/*.scss',        ['styles']);
   gulp.watch(SRC_DIR+'styles/**/*.scss', ['styles-all']);
   gulp.watch(SRC_DIR+'**/*.js',          ['code']);
   gulp.watch(SPEC_SRC_DIR+'**/*.js',     ['code-spec']);
-});
-
-gulp.task('livereload', function(){
-  // var server = livereload({liveCSS:false});
-  // function handleChanged(file){server.changed(file.path);}
-  //
-  // gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
-  // gulp.watch(SPEC_BUILD_DIR+'**/*.js', handleChanged);
-  //
-  // livereload.listen();
 });
 
 
@@ -230,7 +225,7 @@ gulp.task('dev', ['clean', 'spec-clean', 'server'], function(){
   gulp.start('compile-watch');
 });
 gulp.task('compile-watch', ['compile','iconsets'], function(){
-  gulp.start('watch', 'livereload', 'spec-run');
+  gulp.start('watch', 'spec-run');
 });
 
 gulp.task('production', ['clean', 'spec-clean'], function(){
