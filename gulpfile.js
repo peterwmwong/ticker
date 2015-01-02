@@ -201,7 +201,7 @@ gulp.task('spec-run', function(){
 // Watch Tasks
 // -----------
 gulp.task('watch', function(){
-  livereload.listen();
+  livereload.listen({liveCSS: false});
 
   gulp.watch(SRC_DIR+'**/*.jade',        ['templates']);
   gulp.watch(SRC_DIR+'**/*.scss',        ['styles']);
