@@ -12,8 +12,13 @@ html(lang='en')
     title ticker
 
     link(rel='stylesheet' href='index.css' shim-shadowdom)
-
-    script(src='../bower_components/webcomponentjs/webcomponents.min.js')
+    script.
+      if (!(   'registerElement'  in document
+            && 'createShadowRoot' in HTMLElement.prototype
+            && 'import'           in document.createElement('link')
+            && 'content'          in document.createElement('template')))
+              document.write('<script src="../bower_components/webcomponentjs/webcomponents.min.js"><\/script>');
+              
     script(src='../node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js')
     script(src='all.js')
     
