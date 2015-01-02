@@ -28,24 +28,26 @@ var vulcanize  = require('vulcanize');
 // Constants
 // ---------
 
-var ENVIRONMENT    = process.argv[2] === 'production' ? 'production' : 'development';
-var SRC_DIR        = './src/';
-var BUILD_DIR      = './build/';
-var SPEC_SRC_DIR   = './spec/';
-var SPEC_BUILD_DIR = './spec_build/';
-var CONFIG         = require('./config/' + ENVIRONMENT + '.js');
+var ENVIRONMENT = process.argv[2] === 'production' ? 'production' : 'development';
+var CONFIG      = require('./config/' + ENVIRONMENT + '.js');
+var PATHS       = {
+  src       :'./src/',
+  build     : './build/',
+  specSrc   : './spec/',
+  specBuild : './spec_build/'
+};
 
 
 // Cleanup Tasks
 // -------------
 
 gulp.task('clean', function(){
-  return gulp.src(BUILD_DIR, {read:false})
+  return gulp.src(PATHS.build, {read:false})
              .pipe(clean());
 });
 
 gulp.task('spec-clean', function(){
-  return gulp.src(SPEC_BUILD_DIR, {read:false})
+  return gulp.src(PATHS.specBuild, {read:false})
              .pipe(clean());
 });
 
@@ -88,22 +90,22 @@ gulp.task('iconsets', function(){
                  defs: require('fs').readFileSync('./tasks/svg-sprite-template-core-iconset.html', 'utf-8')
                }
              }))
-             .pipe(gulp.dest(BUILD_DIR+"/iconsets"));
+             .pipe(gulp.dest(PATHS.build+"/iconsets"));
 });
 
 // Currently, libSass cannot handle /deep/, so we use _deep_ in our source files
 // and replace it with /deep/ after compilation.
 function makeCompileScss(checkChanged){
   return function(){
-    return gulp.src(SRC_DIR+'**/*.scss')
+    return gulp.src(PATHS.src+'**/*.scss')
                .pipe(plumber())
-               .pipe(checkChanged ? changed(BUILD_DIR, {extension:'.css'}) : gutil.noop())
+               .pipe(checkChanged ? changed(PATHS.build, {extension:'.css'}) : gutil.noop())
                .pipe(sass({
                  includePaths:['src/styles', 'vendor/bourbon'],
                  sourceMap:true
                }))
                .pipe(replace('_deep_','/deep/'))
-               .pipe(gulp.dest(BUILD_DIR))
+               .pipe(gulp.dest(PATHS.build))
                .pipe(livereload());
   };
 }
@@ -112,8 +114,8 @@ gulp.task('styles-all', makeCompileScss(false));
 
 // Automatically include all mixins in the `src/template/mixins/` directory
 gulp.task('templates', function(){
-  return gulp.src(SRC_DIR+'**/*.jade')
-             .pipe(changed(BUILD_DIR, {extension:'.html'}))
+  return gulp.src(PATHS.src+'**/*.jade')
+             .pipe(changed(PATHS.build, {extension:'.html'}))
              .pipe(plumber())
              .pipe(jade({
                 pretty:(ENVIRONMENT == 'development'),
@@ -134,11 +136,11 @@ gulp.task('templates', function(){
                   CONFIG:CONFIG
                 }
               }))
-             .pipe(gulp.dest(BUILD_DIR))
+             .pipe(gulp.dest(PATHS.build))
              .pipe(livereload());
 });
 gulp.task('code', function(){
-  return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
+  return gulp.src([PATHS.src+'**/*.js', '!'+PATHS.src+'**/*MOCK*.js'])
           // .pipe(sourcemaps.init())
           .pipe(cache('scripts'))
           .pipe(traceur({
@@ -149,12 +151,12 @@ gulp.task('code', function(){
           .pipe(remember('scripts'))
           .pipe(concat('all.js'))
           // .pipe(sourcemaps.write('.'))
-          .pipe(gulp.dest(BUILD_DIR))
+          .pipe(gulp.dest(PATHS.build))
           .pipe(livereload());
 });
 gulp.task('code-spec', function(){
-  return gulp.src(SPEC_SRC_DIR+'**/*.js')
-             .pipe(changed(SPEC_BUILD_DIR))
+  return gulp.src(PATHS.specSrc+'**/*.js')
+             .pipe(changed(PATHS.specBuild))
              .pipe(plumber())
              .pipe(sourcemaps.init())
                .pipe(traceur({
@@ -162,17 +164,17 @@ gulp.task('code-spec', function(){
                  asyncFunctions:true
                }))
              .pipe(sourcemaps.write())
-             .pipe(gulp.dest(SPEC_BUILD_DIR));
+             .pipe(gulp.dest(PATHS.specBuild));
 });
 gulp.task('code-prod', function(){
-  return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
+  return gulp.src([PATHS.src+'**/*.js', '!'+PATHS.src+'**/*MOCK*.js'])
           .pipe(traceur({
             modules        : 'register',
             moduleName     : true,
             asyncFunctions : true
           }))
           .pipe(concat('all.js'))
-          .pipe(gulp.dest(BUILD_DIR));
+          .pipe(gulp.dest(PATHS.build));
 });
 
 
@@ -203,11 +205,11 @@ gulp.task('spec-run', function(){
 gulp.task('watch', function(){
   livereload.listen({liveCSS: false});
 
-  gulp.watch(SRC_DIR+'**/*.jade',        ['templates']);
-  gulp.watch(SRC_DIR+'**/*.scss',        ['styles']);
-  gulp.watch(SRC_DIR+'styles/**/*.scss', ['styles-all']);
-  gulp.watch(SRC_DIR+'**/*.js',          ['code']);
-  gulp.watch(SPEC_SRC_DIR+'**/*.js',     ['code-spec']);
+  gulp.watch(PATHS.src+'**/*.jade',        ['templates']);
+  gulp.watch(PATHS.src+'**/*.scss',        ['styles']);
+  gulp.watch(PATHS.src+'styles/**/*.scss', ['styles-all']);
+  gulp.watch(PATHS.src+'**/*.js',          ['code']);
+  gulp.watch(PATHS.specSrc+'**/*.js',     ['code-spec']);
 });
 
 
