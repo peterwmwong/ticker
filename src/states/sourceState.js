@@ -1,4 +1,4 @@
-import {reenter} from '../helpers/svengali';
+import {reenter} from '../helpers/svengali.js';
 
 export default {
   attrs:{

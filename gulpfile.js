@@ -137,16 +137,17 @@ gulp.task('templates', function(){
 });
 gulp.task('code', function(){
   return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
-             .pipe(cache('scripts'))
-             .pipe(plumber())
-             .pipe(traceur({
-               modules        : 'register',
-               moduleName     : true,
-               asyncFunctions : true
-             }))
-             .pipe(remember('scripts'))
-             .pipe(concat('all.js'))
-             .pipe(gulp.dest(BUILD_DIR));
+          // .pipe(sourcemaps.init())
+          .pipe(cache('scripts'))
+          .pipe(traceur({
+            modules        : 'register',
+            moduleName     : true,
+            asyncFunctions : true
+          }))
+          .pipe(remember('scripts'))
+          .pipe(concat('all.js'))
+          // .pipe(sourcemaps.write('.'))
+          .pipe(gulp.dest(BUILD_DIR));
 });
 gulp.task('code-spec', function(){
   return gulp.src(SPEC_SRC_DIR+'**/*.js')
@@ -162,14 +163,13 @@ gulp.task('code-spec', function(){
 });
 gulp.task('code-prod', function(){
   return gulp.src([SRC_DIR+'**/*.js', '!'+SRC_DIR+'**/*MOCK*.js'])
-             .pipe(plumber())
-             .pipe(traceur({
-               modules        : 'register',
-               moduleName     : true,
-               asyncFunctions : true
-             }))
-             .pipe(concat('all.js'))
-             .pipe(gulp.dest(BUILD_DIR));
+          .pipe(traceur({
+            modules        : 'register',
+            moduleName     : true,
+            asyncFunctions : true
+          }))
+          .pipe(concat('all.js'))
+          .pipe(gulp.dest(BUILD_DIR));
 });
 
 
@@ -206,13 +206,13 @@ gulp.task('watch', function(){
 });
 
 gulp.task('livereload', function(){
-  var server = livereload({liveCSS:false});
-  function handleChanged(file){server.changed(file.path);}
-
-  gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
-  gulp.watch(SPEC_BUILD_DIR+'**/*.js', handleChanged);
-
-  livereload.listen();
+  // var server = livereload({liveCSS:false});
+  // function handleChanged(file){server.changed(file.path);}
+  //
+  // gulp.watch(BUILD_DIR+'**/*.{js,css,html}', handleChanged);
+  // gulp.watch(SPEC_BUILD_DIR+'**/*.js', handleChanged);
+  //
+  // livereload.listen();
 });
 
 

@@ -1,6 +1,6 @@
-import {reenter} from '../helpers/svengali';
-import Source    from '../models/sources/Source';
-import GithubRepoSource from '../models/sources/GithubRepoSource';
+import {reenter} from '../helpers/svengali.js';
+import Source    from '../models/sources/Source.js';
+import GithubRepoSource from '../models/sources/GithubRepoSource.js';
 
 var currentQuery = null;
 function delayedSourceQuery(term){

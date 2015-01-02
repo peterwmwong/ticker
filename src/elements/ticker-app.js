@@ -1,10 +1,10 @@
-import StatefulPolymer from '../helpers/StatefulPolymer';
-import appState from '../states/appState';
+import StatefulPolymer from '../helpers/StatefulPolymer.js';
+import appState from '../states/appState.js';
 
 // Load Global Filters
-import limitArray from '../filters/limitArray';
-import timeAgo from '../filters/timeAgo';
-import trueFalseTo from '../filters/trueFalseTo';
+import '../filters/limitArray.js';
+import '../filters/timeAgo.js';
+import '../filters/trueFalseTo.js';
 
 StatefulPolymer('ticker-app', {
   state:appState

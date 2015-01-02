@@ -1,6 +1,6 @@
-import {StateChart, goto} from '../helpers/svengali';
-import loggedInState      from './loggedInState';
-import loggedOutState     from './loggedOutState';
+import {StateChart, goto} from '../helpers/svengali.js';
+import loggedInState      from './loggedInState.js';
+import loggedOutState     from './loggedOutState.js';
 
 var appState = new StateChart({
   attrs:{

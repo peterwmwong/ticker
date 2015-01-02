@@ -42,7 +42,7 @@ StatefulPolymer({
 
 */
 
-import {StateChart} from 'helpers/svengali';
+import {StateChart} from 'helpers/svengali.js';
 
 const bindInputToState = {
   toDOM(val, attr){return this.state[attr]},

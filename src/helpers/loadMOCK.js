@@ -7,10 +7,10 @@ the URL.  See `src/index.jade` for how this module is installed and replaces
 `src/helpers/load`.
 
 */
-import githubEvents     from '../models/github/GithubEventMapperMOCKDATA-allEvents';
-import githubUsers      from '../models/github/GithubUserMapperQueryMOCKDATA';
-import githubRepoPulls  from '../helpers/mock_data/GithubRepoPullsMOCK';
-import githubRepoIssues from '../helpers/mock_data/GithubRepoIssuesMOCK';
+import githubEvents     from '../models/github/GithubEventMapperMOCKDATA-allEvents.js';
+import githubUsers      from '../models/github/GithubUserMapperQueryMOCKDATA.js';
+import githubRepoPulls  from '../helpers/mock_data/GithubRepoPullsMOCK.js';
+import githubRepoIssues from '../helpers/mock_data/GithubRepoIssuesMOCK.js';
 
 export default async function loadJSON(url){
   if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/events/.test(url))

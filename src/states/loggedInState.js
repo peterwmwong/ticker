@@ -1,8 +1,8 @@
-import {goto, reenter}   from '../helpers/svengali';
-import load              from '../helpers/load';
-import sourceState       from './sourceState';
-import searchState       from './searchState';
-import githubCommitState from './githubCommitState';
+import {goto, reenter}   from '../helpers/svengali.js';
+import load              from '../helpers/load.js';
+import sourceState       from './sourceState.js';
+import searchState       from './searchState.js';
+import githubCommitState from './githubCommitState.js';
 
 export default {
   params:['user', 'accessTokens'],

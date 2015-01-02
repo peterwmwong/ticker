@@ -1,9 +1,9 @@
-import loadJSON          from '../../helpers/load';
-import {loadAll}         from '../../helpers/MapperUtils';
-import Model             from '../../helpers/model/Model';
-import GithubEventMapper from './GithubEventMapper';
-import GithubIssue       from './GithubIssue';
-import GithubUser        from './GithubUser';
+import loadJSON          from '../../helpers/load.js';
+import {loadAll}         from '../../helpers/MapperUtils.js';
+import Model             from '../../helpers/model/Model.js';
+import GithubEventMapper from './GithubEventMapper.js';
+import GithubIssue       from './GithubIssue.js';
+import GithubUser        from './GithubUser.js';
 
 class GithubPullRequest extends Model{
   getComments(){throw 'NOT IMPLEMENTED'}

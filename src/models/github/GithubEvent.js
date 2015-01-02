@@ -1,8 +1,8 @@
-import Model             from '../../helpers/model/Model';
-import GithubEventMapper from './GithubEventMapper';
-import GithubUser        from './GithubUser';
-import GithubRepo        from './GithubRepo';
-import GithubIssue       from './GithubIssue';
+import Model             from '../../helpers/model/Model.js';
+import GithubEventMapper from './GithubEventMapper.js';
+import GithubUser        from './GithubUser.js';
+import GithubRepo        from './GithubRepo.js';
+import GithubIssue       from './GithubIssue.js';
 
 class GithubEvent extends Model{
   fetchDetails(){

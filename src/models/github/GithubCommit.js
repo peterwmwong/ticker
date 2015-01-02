@@ -1,6 +1,6 @@
-import loadJSON  from '../../helpers/load';
-import {load} from '../../helpers/MapperUtils';
-import Model     from '../../helpers/model/Model';
+import loadJSON  from '../../helpers/load.js';
+import {load} from '../../helpers/MapperUtils.js';
+import Model     from '../../helpers/model/Model.js';
 
 function idToCommitURL(id){
   var [owner, repo, sha] = id.split('/');

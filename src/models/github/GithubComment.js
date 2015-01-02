@@ -1,5 +1,4 @@
-import Model from '../../helpers/model/Model';
-import GithubUser  from './GithubUser';
+import Model from '../../helpers/model/Model.js';
 
 class GithubComment extends Model{}
 GithubComment.create($=>{

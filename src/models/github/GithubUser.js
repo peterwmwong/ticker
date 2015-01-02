@@ -1,6 +1,6 @@
-import loadJSON        from '../../helpers/load';
-import {load, loadAll} from '../../helpers/MapperUtils';
-import Model           from '../../helpers/model/Model';
+import loadJSON        from '../../helpers/load.js';
+import {load, loadAll} from '../../helpers/MapperUtils.js';
+import Model           from '../../helpers/model/Model.js';
 
 class GithubUser extends Model{}
 GithubUser.create($=>{

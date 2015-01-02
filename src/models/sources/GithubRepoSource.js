@@ -1,8 +1,8 @@
-import GithubRepo        from 'models/github/GithubRepo';
-import GithubIssue       from 'models/github/GithubIssue';
-import GithubEvent       from 'models/github/GithubEvent';
-import GithubPullRequest from 'models/github/GithubPullRequest';
-import Source            from './Source';
+import GithubRepo        from 'models/github/GithubRepo.js';
+import GithubIssue       from 'models/github/GithubIssue.js';
+import GithubEvent       from 'models/github/GithubEvent.js';
+import GithubPullRequest from 'models/github/GithubPullRequest.js';
+import Source            from './Source.js';
 
 class GithubRepoSource extends Source {
   static query({term}){

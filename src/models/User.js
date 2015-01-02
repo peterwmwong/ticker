@@ -1,5 +1,5 @@
-import Model from 'helpers/model/Model';
-import Source from 'models/sources/Source';
+import Model from 'helpers/model/Model.js';
+import Source from 'models/sources/Source.js';
 
 function updateCreate(user){
   return new Promise((resolve, reject)=>

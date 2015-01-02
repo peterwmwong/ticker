@@ -1,5 +1,5 @@
-import Model from '../../helpers/model/Model';
-import GithubRepoMapper from './GithubRepoMapper';
+import Model from '../../helpers/model/Model.js';
+import GithubRepoMapper from './GithubRepoMapper.js';
 
 class GithubRepo extends Model{}
 GithubRepo.create($=>{
