@@ -4,7 +4,6 @@ link(rel='import' href='./ticker-github-repo.html')
 link(rel='import' href='./ticker-github-avatar.html')
 
 +polymer-element(attributes='events')(nocss noscript)
-
   template#CardTitle
     .Card-title
       ticker-github-repo(flex repo='[[repo.name]]')
@@ -21,10 +20,13 @@ link(rel='import' href='./ticker-github-avatar.html')
                                                             : "c-error-light"   ]] \
                  l-margin-r3'
           icon='github:git-pull-request')
-        | [[payload.pull_request.title]]
+        span(flex) [[payload.pull_request.title]]
       .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        marked-element(flex class='t-word-wrap-break-word' text='[[payload.pull_request.body]]')
+        | [[ payload.pull_request.state === "open" ? "opened" : payload.pull_request.merged ? "merged" : "closed" ]]
+        | pull request
+        template(if='[[payload.pull_request.body]]')
+          marked-element(flex class='t-word-wrap-break-word' text='[[payload.pull_request.body]]')
 
 
   template#ReleaseEvent
@@ -169,13 +171,11 @@ link(rel='import' href='./ticker-github-avatar.html')
         | [[payload.ref]]
       .Card-action
         ticker-github-avatar(class='l-margin-r3' avatarUrl='[[actor.avatar_url]]')
-        ul(flex)
-          template(repeat='[[commit in limitArray(payload.commits, 3)]]')
-            li(horizontal layout center)
-              core-icon(self-start class='c-confirm-light l-margin-r3' icon='github:git-commit')
-              span(flex class='t-word-wrap-break-word')
-                | [[commit.message]]
-
+        | pushed [[payload.commits.length]] commits
+      template(repeat='[[commit in payload.commits]]')
+        .Card-action.Card-action--commit
+          core-icon(class='c-gray-light l-margin-r3' icon='github:git-commit')
+          span(flex class='t-truncate') [[commit.message]]
 
   template#GollumEvent
     .Card

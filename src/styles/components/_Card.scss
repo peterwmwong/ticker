@@ -54,4 +54,13 @@ html _deep_ {
     }
   }
 
+  .Card-action--commit {
+    padding-bottom: ($baseline*2);
+    padding-top: 0;
+    padding-left: ($base-width*13);
+
+    &:last-child {
+      padding-bottom: ($baseline*4);
+    }
+  }
 }

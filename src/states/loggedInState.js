@@ -31,9 +31,9 @@ export default {
         'selectSearch':goto('./search')
       },
       states:{
-        'githubCommit':githubCommitState,
         'source':sourceState,
-        'search':searchState
+        'search':searchState,
+        'githubCommit':githubCommitState
       }
     }
   }
