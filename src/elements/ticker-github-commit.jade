@@ -41,7 +41,6 @@ polymer-element(
         icon='arrow-back'
         on-tap='[[stateFire.hideAppOverlay]]')
         
-      span#titleText(class='t-font-size-20 t-normal')
-        div(class='t-truncate')
-          | {{state.commit.message}}
+      span#titleText(flex class='t-font-size-20 t-normal t-truncate' style='line-height: 22px')
+        | {{state.commit.message}}
       
