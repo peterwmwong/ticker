@@ -2,11 +2,6 @@ import loadJSON  from '../../helpers/load.js';
 import {load} from '../../helpers/MapperUtils.js';
 import Model     from '../../helpers/model/Model.js';
 
-function idToCommitURL(id){
-  var [owner, repo, sha] = id.split('/');
-  return `https://api.github.com/repos/${owner}/${repo}/commits/${sha}`;
-}
-
 class GithubCommitFile extends Model {}
 GithubCommitFile.create($=>{
   $.attr('filename',     'string');
@@ -31,7 +26,7 @@ GithubCommit.create($=>{
 
   $.mapper = {
     get: async (model)=>{
-      let json = await loadJSON(idToCommitURL(model.id));
+      let json = await loadJSON(model.id);
       json.id = model.id;
       json.message = json.commit.message;
 

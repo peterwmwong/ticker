@@ -1,9 +1,9 @@
 import GithubCommit from '../models/github/GithubCommit.js';
 
 export default {
-  // params:['githubCommitID'],
+  params:['githubCommitURL'],
   attrs:{
-    'appView':()=>'github-commit',
-    'commit':({githubCommitID})=>GithubCommit.get(githubCommitID)
+    'appOverlayView':()=>'overlay-github-commit',
+    'commit':({githubCommitURL})=>GithubCommit.get(githubCommitURL)
   }
 };
