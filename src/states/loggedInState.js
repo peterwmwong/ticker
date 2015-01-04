@@ -1,8 +1,8 @@
 import {goto, reenter}   from '../helpers/svengali.js';
 import load              from '../helpers/load.js';
+import githubCommitState from './githubCommitState.js';
 import sourceState       from './sourceState.js';
 import searchState       from './searchState.js';
-import githubCommitState from './githubCommitState.js';
 
 export default {
   params:['user', 'accessTokens'],
@@ -32,7 +32,16 @@ export default {
       },
       states:{
         'source':sourceState,
-        'search':searchState,
+        'search':searchState
+      }
+    },
+    'appOverlayView':{
+      events:{
+        'selectAppOverlayGithubCommit':({url})=>goto('githubCommit',{githubCommitURL:url}),
+        'hideAppOverlay':goto('off')
+      },
+      states:{
+        'off':{},
         'githubCommit':githubCommitState
       }
     }
