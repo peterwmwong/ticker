@@ -1,6 +1,6 @@
-import IDMap from './IDMap';
-import isEqual from '../isEqual';
-import singularize from '../singularize';
+import IDMap from './IDMap.js';
+import isEqual from '../isEqual.js';
+import singularize from '../singularize.js';
 
 import {
   IdentityAttr,
@@ -9,7 +9,7 @@ import {
   BooleanAttr,
   DateAttr,
   DateTimeAttr
-} from './attrs';
+} from './attrs.js';
 
 function extend(dst, src){
   for(var key in src) dst[key] = src[key];

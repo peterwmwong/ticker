@@ -1,5 +1,5 @@
-import loadJSON        from 'helpers/load';
-import {load, loadAll} from 'helpers/MapperUtils';
+import loadJSON        from 'helpers/load.js';
+import {load, loadAll} from 'helpers/MapperUtils.js';
 
 export default {
   get: async (model)=>{

@@ -1,7 +1,8 @@
-import {goto, reenter} from '../helpers/svengali';
-import load            from '../helpers/load';
-import sourceState     from './sourceState';
-import searchState     from './searchState';
+import {goto, reenter}   from '../helpers/svengali.js';
+import load              from '../helpers/load.js';
+import githubCommitState from './githubCommitState.js';
+import sourceState       from './sourceState.js';
+import searchState       from './searchState.js';
 
 export default {
   params:['user', 'accessTokens'],
@@ -20,7 +21,8 @@ export default {
         'selectSearch, selectSource':reenter({appDrawerOpened:false}),
         'toggleAppDrawer'(){
           return reenter({appDrawerOpened:!this.attrs.appDrawerOpened})
-        }
+        },
+        'appDrawerOpenedChanged':appDrawerOpened=>reenter({appDrawerOpened})
       }
     },
     'appView':{
@@ -31,6 +33,16 @@ export default {
       states:{
         'source':sourceState,
         'search':searchState
+      }
+    },
+    'appOverlayView':{
+      events:{
+        'selectAppOverlayGithubCommit':({url})=>goto('githubCommit',{githubCommitURL:url}),
+        'hideAppOverlay':goto('off')
+      },
+      states:{
+        'off':{},
+        'githubCommit':githubCommitState
       }
     }
   }

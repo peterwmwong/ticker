@@ -17,4 +17,4 @@ mixin polymer-element
         block
     - if (!attributes.noscript)
       script
-        | !{"System.import('"+elementPath+"')"};
+        | !{"System.get('"+elementPath+".js')"};

@@ -1,7 +1,7 @@
-import {goto}           from '../helpers/svengali';
-import User             from '../models/User';
-import Source           from '../models/sources/Source';
-import GithubUserSource from '../models/sources/GithubUserSource';
+import {goto}           from '../helpers/svengali.js';
+import User             from '../models/User.js';
+import Source           from '../models/sources/Source.js';
+import GithubUserSource from '../models/sources/GithubUserSource.js';
 
 export default {
   states:{

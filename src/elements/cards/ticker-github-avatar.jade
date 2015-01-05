@@ -7,10 +7,6 @@ polymer-element(name='ticker-github-avatar' attributes='avatarUrl')
       }
       img { border-radius: 10%; }
 
-    img(
-      width="{{size}}"
-      height="{{size}}"
-      _src='{{avatarUrl}}'
-    )
+    img(width="{{size}}" height="{{size}}" _src='{{avatarUrl}}')
   script.
     Polymer({size: 24});

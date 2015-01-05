@@ -1,15 +1,19 @@
 link(rel='import' href='../../bower_components/core-drawer-panel/core-drawer-panel.html')
 link(rel='import' href='../../bower_components/core-icons/core-icons.html')
+link(rel='import' href='../iconsets/github.html')
 
 link(rel='import' href='./ticker-drawer.html')
 link(rel='import' href='./ticker-login.html')
 link(rel='import' href='./ticker-search.html')
 link(rel='import' href='./ticker-source-github-repo.html')
 link(rel='import' href='./ticker-source-github-user.html')
+link(rel='import' href='./ticker-github-commit.html')
 
 +polymer-element
-  //- Logged In Views
-  //- ===============
+
+  //- App Views
+  //- =========
+  //- Templates rendered based on `state.appView`. See below `template(ref=...)`
   template#source-GithubRepoSource
     ticker-source-github-repo(isNarrow='{{isNarrow}}' main)
   
@@ -19,17 +23,28 @@ link(rel='import' href='./ticker-source-github-user.html')
   template#search
     ticker-search(isNarrow='{{isNarrow}}' main)
   
+  
+  //- Overlay Views
+  //- =============
+  //- Templates rendered based on `state.appOverlayView`. See below `template(ref=...)`
+  template#overlay-github-commit
+    ticker-github-commit
+      
+  
   //- Logged In
   //- =========
   template(if='{{state.user}}')
     core-drawer-panel#drawerPanel(
-      disableSwipe='[[DRAWER_SWIPE_DISABLED]]'
+      class='{{state.appOverlayView ? "l-visibility-hidden" : ""}}'
+      disableSwipe='{{state.DRAWER_SWIPE_DISABLED || state.appOverlayView}}'
       drawerWidth='320px'
       responsiveWidth='9999px'
-      selected='{{ state.appDrawerOpened | openedToSelected }}')
+      selected='{{state.appDrawerOpened | bindInputToState("appDrawerOpened") | trueFalseTo("drawer", "main")}}')
   
       template(ref='{{state.appView}}' bind='[[]]')
       ticker-drawer(drawer)
+    
+    template(if='{{state.appOverlayView}}' ref='{{state.appOverlayView}}' bind='[[]]')
   
   //- Logged Out
   //- ==========

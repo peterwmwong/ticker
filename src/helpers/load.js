@@ -1,4 +1,4 @@
-import is from './is';
+import is from './is.js';
 
 export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject) {

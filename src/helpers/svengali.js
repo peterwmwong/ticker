@@ -234,6 +234,7 @@ export class StateChart {
                               (optional). If specified, overrides `states`.
   */
   constructor(rootStateOptions){
+    this.events = [];
     this.attrs = {};
     this.rootState = new State(null, this, rootStateOptions);
   }
@@ -244,17 +245,6 @@ export class StateChart {
 
   fire(eventName, ...args){
     this.rootState.scState.send(eventName, ...args);
-  }
-
-  _getStateEvents(scState){
-    return scState.substates.reduce(
-      (acc,s)=>acc.concat(this._getStateEvents(s)),
-      Object.keys(scState.events)
-    );
-  }
-
-  get events(){
-    return this._getStateEvents(this.rootState.scState);
   }
 }
 
@@ -279,7 +269,8 @@ export class State {
   constructor(
     parent,
     stateChart,
-    {attrs, enter, exit, events, history, parallelStates, params, states},
+    {attrs, enter, exit, events, history, parallelStates, params, states,
+     defaultState},
     name=nextStateUID++
   ){
     this._attrs = attrs || EMPTY_OBJ;
@@ -297,6 +288,7 @@ export class State {
     this.exit = exit;
     this.params = params;
     this.stateChart = stateChart;
+    this.defaultState = defaultState;
 
     var scState = this.scState = statechart.State(name, {
       name       : name,
@@ -306,6 +298,9 @@ export class State {
 
     if(params)
       scState.canEnter = (states, params)=>this._doCanEnter(params);
+
+    if(defaultState)
+      scState.C(params=>this._doDefaultState(params));
 
     scState.enter(params=>this._doEnter(params));
     scState.exit(()=>this._doExit());
@@ -329,6 +324,11 @@ export class State {
   fire(eventName, ...args){this.stateChart.fire(eventName, ...args)}
 
   get isCurrent(){return this.scState.__isCurrent__}
+
+  _doDefaultState(params = {}){
+    this._currentParams = params;
+    return this.defaultState(params);
+  }
 
   _doCanEnter(params){
     return !this.params || (params && this.params.every(p=>p in params));
@@ -377,7 +377,11 @@ export class State {
       : eventValue instanceof Reenter ? this._transitionToSameState(eventValue)
       : undefined;
 
-    if(callback) this.scState.event(eventName, callback);
+    if(callback){
+      this.scState.event(eventName, callback);
+      if(this.stateChart.events.indexOf(eventName) === -1)
+        this.stateChart.events.push(eventName);
+    }
   }
 
   _resolveAttrValue(attrName){

@@ -6,11 +6,16 @@ html _deep_ {
   .l-float-r  { float: right !important; }
   .l-float-l  { float: left  !important; }
 
+  .l-visibility-hidden  { visibility: hidden  !important; }
+  .l-visibility-visible { visibility: visible !important; }
+
   .l-display-inline-block { display: inline-block !important; }
   .l-display-block        { display: block        !important; }
 
   .l-overflow-hidden     { overflow: hidden !important; }
   .l-overflow-auto       { overflow: auto !important; }
+  .l-overflow-x-auto     { overflow-x: auto !important; }
+  .l-overflow-y-auto     { overflow-y: auto !important; }
   .l-overflow-scroll-ios {
     overflow: scroll !important;
     -webkit-overflow-scrolling: touch !important;

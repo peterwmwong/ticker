@@ -1,4 +1,4 @@
-import {reenter} from '../helpers/svengali';
+import {reenter} from '../helpers/svengali.js';
 
 export default {
   attrs:{
@@ -6,26 +6,54 @@ export default {
     'isSourceFavorited'(){
       return this.attrs.user.sources.indexOf(this.attrs.source) !== -1;
     },
-    'source'({source:s}){return s || this.attrs.user.sources[0]}
+    'source'({source:s}){return s || this.attrs.user.sources[7]}
   },
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      var {user,source} = this.attrs;
-      if(!this.attrs.isSourceFavorited){
-        if(user.sources.indexOf(source) === -1) user.sources.push(source);
-      }else{
+      var {user, source, isSourceFavorited} = this.attrs;
+      if(isSourceFavorited){
         var index = user.sources.indexOf(source);
         if(index !== -1) user.sources.splice(index, 1);
+      }else{
+        if(user.sources.indexOf(source) === -1) user.sources.push(source);
       }
       user.$save();
       return reenter({source});
     }
   },
+
+  defaultState(){return this.attrs.source.constructor.name},
   states:{
-    'tab': {
-      attrs:{'tab':({tab})=>tab || 'info'},
-      events:{'selectTab':tab=>reenter({tab})}
+    'GithubUserSource':{
+      states:{
+        'tab':{
+          attrs:{'tab':({tab})=>tab || 'updates'},
+          events:{
+            'tabChanged':tab=>[
+              'updates',
+              'repos',
+              'info'
+            ].indexOf(tab)+1 && reenter({tab})
+          }
+        }
+      }
+    },
+    'GithubRepoSource':{
+      states:{
+        'tab':{
+          attrs:{'tab':({tab})=>tab || 'updates'},
+          events:{
+            'tabChanged':tab=>[
+              'updates',
+              'code',
+              'pullRequests',
+              'issues',
+              'info'
+            ].indexOf(tab)+1 && reenter({tab})
+          }
+        }
+      }
     }
   }
 };

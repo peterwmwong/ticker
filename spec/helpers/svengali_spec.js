@@ -16,7 +16,10 @@ describe('svengali/StateChart', ()=>{
                 events:{'c':goto('../../one')}
               },
               'four':{
-                events:{'d':goto('../../one')}
+                events:{
+                  'd':goto('../../one'),
+                  'a':goto('../../one')
+                }
               }
             }
           }
@@ -24,6 +27,57 @@ describe('svengali/StateChart', ()=>{
       });
 
       expect(sc.events).toEqual(['a','b','c','d']);
+    });
+  });
+
+  describe('defaultState', ()=>{
+    it('chooses which child state is entered', ()=>{
+      var sc = new StateChart({
+        states:{
+          'parent':{
+            defaultState:()=>'two',
+            states:{
+              one:{},
+              two:{
+                attrs:{madeIt:true}
+              }
+            }
+          }
+        }
+      });
+      sc.goto();
+
+      expect(sc.attrs.madeIt).toBe(true);
+    });
+
+    it('is passed params', ()=>{
+      var sc = new StateChart({
+        states:{
+          'initial':{
+            events:{
+              'gotoParent':goto('../parent', {test:2})
+            }
+          },
+          'parent':{
+            attrs:{
+              'parentVal':({test})=>test+3
+            },
+            defaultState({test}){
+              return test + this.attrs.parentVal === 7 ? 'two' : 'one';
+            },
+            states:{
+              one:{},
+              two:{
+                attrs:{madeIt:true}
+              }
+            }
+          }
+        }
+      });
+      sc.goto();
+      sc.fire('gotoParent');
+
+      expect(sc.attrs.madeIt).toBe(true);
     });
   });
 

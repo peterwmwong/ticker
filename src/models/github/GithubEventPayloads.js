@@ -1,7 +1,7 @@
-import Model         from '../../helpers/model/Model';
-import GithubComment from './GithubComment';
-import GithubRepo    from './GithubRepo';
-import GithubUser    from './GithubUser';
+import Model         from '../../helpers/model/Model.js';
+import GithubComment from './GithubComment.js';
+import GithubRepo    from './GithubRepo.js';
+import GithubUser    from './GithubUser.js';
 
 export class CommitCommentEvent extends Model{}
 CommitCommentEvent.create($=>{

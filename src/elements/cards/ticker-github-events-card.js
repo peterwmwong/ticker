@@ -1,11 +1,6 @@
-import GithubIssue from '../../models/github/GithubIssue';
+import StatefulPolymer from '../../helpers/StatefulPolymer.js';
+import appState from '../../states/appState.js';
 
-Polymer('ticker-github-events-card', {
-  onOpenIssueDetails(event){
-    var {payload,repo} = event.target.templateInstance.model;
-    GithubIssue.get(undefined, {
-      issueNumber: payload.issue.number,
-      repo:        repo.name
-    }).$promise.then(issue=>this.issue=issue);
-  }
-})
+StatefulPolymer('ticker-github-events-card', {
+  state:appState
+});

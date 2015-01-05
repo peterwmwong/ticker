@@ -1,0 +1,29 @@
+@import 'imports';
+
+.hljs-chunk,
+.hljs-deletion,
+.hljs-addition {
+  margin-left: $base-width*-4;
+  padding-left: $base-width*2;
+  display: inline-block;
+  color: $gray-darkest;
+}
+
+.hljs-chunk {
+  color: $gray-light;
+}
+
+.hljs-deletion {
+  background: lighten($error-light, 19%);
+
+  &::first-letter {
+    color: $error-light;
+  }
+}
+.hljs-addition {
+  background: lighten($confirm-light, 26%);
+
+  &::first-letter {
+    color: $confirm-light;
+  }
+}

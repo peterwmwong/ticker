@@ -1,9 +1,13 @@
-import {StateChart, goto} from '../helpers/svengali';
-import loggedInState      from './loggedInState';
-import loggedOutState     from './loggedOutState';
+import {StateChart, goto} from '../helpers/svengali.js';
+import loggedInState      from './loggedInState.js';
+import loggedOutState     from './loggedOutState.js';
 
 var appState = new StateChart({
-  attrs:{'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl)},
+  attrs:{
+    'firebaseRef':()=>new window.Firebase(CONFIG.firebaseUrl),
+    'DRAWER_SWIPE_DISABLED': !/Chrome/.test(window.navigator.userAgent) &&
+      /AppleWebKit.*Mobile.*Safari/.test(window.navigator.userAgent)
+  },
   enter(){
     // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
     // statechart trying to transition while in a transition...
@@ -32,7 +36,7 @@ var appState = new StateChart({
 //FIXME: Tests should be able to stop state bootstrapping... or something
 if(!('__karma__' in window)) appState.goto();
 
-if(window.CONFIG.statechartTrace){
+if(window.CONFIG && window.CONFIG.statechartTrace){
   appState.rootState.scState.trace = true;
   window.appState = appState;
 }

@@ -19,7 +19,8 @@ module.exports = function(config) {
     files: [
       'spec/spec-utils/force-shadowdom-polyfill.js',
       'bower_components/webcomponentjs/webcomponents.js',
-      'node_modules/es6-module-loader/node_modules/traceur/bin/traceur-runtime.js',
+      'bower_components/polymer/polymer.html',
+      'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
       'node_modules/systemjs/lib/extension-register.js',
 
@@ -27,10 +28,12 @@ module.exports = function(config) {
       'vendor/statechart.js',
       'test-main.js',
 
+      'build/elements/**/*.html',
       {pattern: 'build/**/*',              included: false},
       {pattern: 'vendor/**/*',             included: false},
       {pattern: 'bower_components/**/*',   included: false},
-      {pattern: 'spec_build/**/*.js',      included: false}
+      {pattern: 'spec_build/**/*.js',      included: false},
+      {pattern: 'node_modules/**/*.map',   included: false}
     ],
 
 

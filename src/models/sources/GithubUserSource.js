@@ -1,6 +1,6 @@
-import GithubUser from 'models/github/GithubUser';
-import GithubEvent from 'models/github/GithubEvent';
-import Source from './Source';
+import GithubUser from 'models/github/GithubUser.js';
+import GithubEvent from 'models/github/GithubEvent.js';
+import Source from './Source.js';
 
 class GithubUserSource extends Source {
   static query({term}){
