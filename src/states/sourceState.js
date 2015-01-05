@@ -6,7 +6,7 @@ export default {
     'isSourceFavorited'(){
       return this.attrs.user.sources.indexOf(this.attrs.source) !== -1;
     },
-    'source'({source:s}){return s || this.attrs.user.sources[7]}
+    'source'({source:s}){return s || this.attrs.user.sources[0]}
   },
   events:{
     'selectSource':source=>reenter({source}),
