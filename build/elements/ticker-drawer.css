@@ -1,18 +1,5 @@
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
-/* #05242E */
-/* #425357 */
-/* #6E8A91 */
-/* #B0C1C4 */
-/* #D9E0E3 */
-/* #EAEEF1 */
-/* #196685 - dark blue */
-/* #28A6D7 - primary blue */
-/* #D5EDF6 - light blue */
-/* #72BD61 */
-/* #F44856 */
-/* #FCA431 */
-/* #F7E3B1 */
 .drawer__item {
   align-items: center;
   cursor: pointer;

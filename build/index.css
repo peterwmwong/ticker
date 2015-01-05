@@ -1,20 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600);
-@import url(https://fonts.googleapis.com/css?family=RobotoDraft:300,400,600,400italic);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:400);
+@import url(https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,400italic);
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
-/* #05242E */
-/* #425357 */
-/* #6E8A91 */
-/* #B0C1C4 */
-/* #D9E0E3 */
-/* #EAEEF1 */
-/* #196685 - dark blue */
-/* #28A6D7 - primary blue */
-/* #D5EDF6 - light blue */
-/* #72BD61 */
-/* #F44856 */
-/* #FCA431 */
-/* #F7E3B1 */
 body, html /deep/ .t-smoothing-on {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
@@ -25,19 +12,6 @@ html /deep/ .t-smoothing-off {
 
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
-/* #05242E */
-/* #425357 */
-/* #6E8A91 */
-/* #B0C1C4 */
-/* #D9E0E3 */
-/* #EAEEF1 */
-/* #196685 - dark blue */
-/* #28A6D7 - primary blue */
-/* #D5EDF6 - light blue */
-/* #72BD61 */
-/* #F44856 */
-/* #FCA431 */
-/* #F7E3B1 */
 body, html /deep/ .t-smoothing-on {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
@@ -75,10 +49,20 @@ html /deep/ pre {
 html /deep/ marked-element img {
   width: 100%; }
 html /deep/ core-toolbar {
-  background: #28a6d7; }
+  background: #28a6d7;
+  color: white; }
   html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {
     height: 56px;
     padding: 0; }
+  html /deep/ core-toolbar.core-toolbar--tabs {
+    box-shadow: 0px 3px 3px #CCC;
+    height: 48px; }
+html /deep/ paper-input /deep/ .focused-underline, html /deep/ paper-input /deep/ .unfocused-underline, html /deep/ paper-input /deep/ .cursor {
+  background: white; }
+html /deep/ paper-tab::shadow #ink {
+  color: white; }
+html /deep/ paper-tabs::shadow #selectionBar {
+  background-color: white; }
 
 html, body {
   font-size: 10px; }
@@ -227,12 +211,16 @@ html /deep/ .c-bg-gray-lighter {
   background-color: #d9e0e3 !important; }
 html /deep/ .c-gray-lightest {
   color: #e7ebee !important; }
+html /deep/ .c-gray-lightester {
+  color: #f9fafb !important; }
 html /deep/ .c-bg-gray-lightest {
   background-color: #e7ebee !important; }
+html /deep/ .c-bg-gray-lightester {
+  background-color: #f9fafb !important; }
 html /deep/ .c-brand-primary-dark {
-  color: #196685 !important; }
+  color: #2595c1 !important; }
 html /deep/ .c-bg-brand-primary-dark {
-  background-color: #196685 !important; }
+  background-color: #2595c1 !important; }
 html /deep/ .c-brand-primary-light {
   color: #28a6d7 !important; }
 html /deep/ .c-bg-brand-primary-light {
@@ -290,7 +278,7 @@ html /deep/ .c-border-gray-lighter {
 html /deep/ .c-border-gray-lightest {
   border-color: #e7ebee !important; }
 html /deep/ .c-border-brand-primary-dark {
-  border-color: #196685 !important; }
+  border-color: #2595c1 !important; }
 html /deep/ .c-border-brand-primary-light {
   border-color: #28a6d7 !important; }
 html /deep/ .c-border-brand-primary-lighter {
@@ -324,6 +312,10 @@ html /deep/ .l-float-r {
   float: right !important; }
 html /deep/ .l-float-l {
   float: left !important; }
+html /deep/ .l-visibility-hidden {
+  visibility: hidden !important; }
+html /deep/ .l-visibility-visible {
+  visibility: visible !important; }
 html /deep/ .l-display-inline-block {
   display: inline-block !important; }
 html /deep/ .l-display-block {
@@ -332,6 +324,10 @@ html /deep/ .l-overflow-hidden {
   overflow: hidden !important; }
 html /deep/ .l-overflow-auto {
   overflow: auto !important; }
+html /deep/ .l-overflow-x-auto {
+  overflow-x: auto !important; }
+html /deep/ .l-overflow-y-auto {
+  overflow-y: auto !important; }
 html /deep/ .l-overflow-scroll-ios {
   overflow: scroll !important;
   -webkit-overflow-scrolling: touch !important; }
@@ -665,25 +661,25 @@ html /deep/ .l-margin-b6 {
   margin-bottom: 24px !important; }
 
 html /deep/ .t-font-size-10 {
-  font-size: 1rem; }
+  font-size: 1rem !important; }
 html /deep/ .t-font-size-11 {
-  font-size: 1.1rem; }
+  font-size: 1.1rem !important; }
 html /deep/ .t-font-size-12 {
-  font-size: 1.2rem; }
+  font-size: 1.2rem !important; }
 html /deep/ .t-font-size-14 {
-  font-size: 1.4rem; }
+  font-size: 1.4rem !important; }
 html /deep/ .t-font-size-16 {
-  font-size: 1.6rem; }
+  font-size: 1.6rem !important; }
 html /deep/ .t-font-size-18 {
-  font-size: 1.8rem; }
+  font-size: 1.8rem !important; }
 html /deep/ .t-font-size-20 {
-  font-size: 2rem; }
+  font-size: 2rem !important; }
 html /deep/ .t-font-size-24 {
-  font-size: 2.4rem; }
+  font-size: 2.4rem !important; }
 html /deep/ .t-font-size-28 {
-  font-size: 2.8rem; }
+  font-size: 2.8rem !important; }
 html /deep/ .t-font-size-32 {
-  font-size: 3.2rem; }
+  font-size: 3.2rem !important; }
 html /deep/ .t-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -693,7 +689,7 @@ html /deep/ .t-word-wrap-break-word {
 html /deep/ .t-italic {
   font-style: italic; }
 html /deep/ .t-bold {
-  font-weight: 600; }
+  font-weight: 500; }
 html /deep/ .t-light {
   font-weight: 300; }
 html /deep/ .t-normal {
@@ -704,3 +700,45 @@ html /deep/ .t-align-right {
   text-align: right; }
 html /deep/ .t-align-center {
   text-align: center; }
+
+html /deep/ .Card {
+  border: 1px solid rgba(0, 0, 0, 0.075);
+  border-top-color: rgba(0, 0, 0, 0.025);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px; }
+html /deep/ .Card-title, html /deep/ .Card-subject, html /deep/ .Card-action {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: 16px 16px; }
+html /deep/ .Card-subject, html /deep/ .Card-title {
+  background: white;
+  border-bottom: 1px solid #e7ebee;
+  color: #05242e; }
+html /deep/ .Card-title {
+  align-items: baseline;
+  font-size: 1.8rem;
+  padding-bottom: 12px;
+  line-height: 1.5; }
+html /deep/ .Card-subject, html /deep/ .Card-action {
+  align-items: center;
+  line-height: 1.5; }
+html /deep/ .Card-subject {
+  margin-top: -1px;
+  padding-top: 0;
+  padding-bottom: 8px; }
+  html /deep/ .Card-subject:last-child {
+    border-bottom-style: none; }
+html /deep/ .Card-action {
+  background: #f9fafb;
+  color: #05242e; }
+  html /deep/ .Card-action ticker-github-avatar {
+    align-self: flex-start; }
+html /deep/ .Card-action--commit {
+  padding-bottom: 8px;
+  padding-top: 0;
+  padding-left: 52px; }
+  html /deep/ .Card-action--commit:last-child {
+    padding-bottom: 16px; }

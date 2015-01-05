@@ -1,0 +1,20 @@
+/* note: the hex values are approximations and won't exactly match
+   what is in the Sketch files, but should be close */
+.hljs-chunk, .hljs-deletion, .hljs-addition {
+  margin-left: -16px;
+  padding-left: 8px;
+  display: inline-block;
+  color: #05242e; }
+
+.hljs-chunk {
+  color: #b0c1c4; }
+
+.hljs-deletion {
+  background: #feeced; }
+  .hljs-deletion::first-letter {
+    color: #f99099; }
+
+.hljs-addition {
+  background: #ecf6e9; }
+  .hljs-addition::first-letter {
+    color: #98cf8c; }

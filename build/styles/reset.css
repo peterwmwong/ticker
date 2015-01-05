@@ -1,18 +1,5 @@
 /* note: the hex values are approximations and won't exactly match
    what is in the Sketch files, but should be close */
-/* #05242E */
-/* #425357 */
-/* #6E8A91 */
-/* #B0C1C4 */
-/* #D9E0E3 */
-/* #EAEEF1 */
-/* #196685 - dark blue */
-/* #28A6D7 - primary blue */
-/* #D5EDF6 - light blue */
-/* #72BD61 */
-/* #F44856 */
-/* #FCA431 */
-/* #F7E3B1 */
 html /deep/ a {
   color: #28a6d7; }
 html /deep/ blockquote {
@@ -42,7 +29,17 @@ html /deep/ pre {
 html /deep/ marked-element img {
   width: 100%; }
 html /deep/ core-toolbar {
-  background: #28a6d7; }
+  background: #28a6d7;
+  color: white; }
   html /deep/ core-toolbar, html /deep/ core-toolbar::shadow #topBar {
     height: 56px;
     padding: 0; }
+  html /deep/ core-toolbar.core-toolbar--tabs {
+    box-shadow: 0px 3px 3px #CCC;
+    height: 48px; }
+html /deep/ paper-input /deep/ .focused-underline, html /deep/ paper-input /deep/ .unfocused-underline, html /deep/ paper-input /deep/ .cursor {
+  background: white; }
+html /deep/ paper-tab::shadow #ink {
+  color: white; }
+html /deep/ paper-tabs::shadow #selectionBar {
+  background-color: white; }
