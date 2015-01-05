@@ -947,7 +947,7 @@ System.registerModule("states/sourceState.js", [], function() {
       },
       'source': function($__1) {
         var s = $__1.source;
-        return s || this.attrs.user.sources[7];
+        return s || this.attrs.user.sources[0];
       }
     },
     events: {
