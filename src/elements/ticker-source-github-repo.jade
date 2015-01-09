@@ -11,7 +11,7 @@ link(rel='import' href='./cards/ticker-github-issues.html')
   template#tab-updates
     ticker-github-events-card(
       class='l-display-block l-margin-t2'
-      events='[[state.source.events]]'
+      events='{{state.source.events}}'
       style='max-width: 640px; width: 100%')
              
   template#tab-code
