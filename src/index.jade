@@ -30,12 +30,6 @@ html(lang='en')
     
     if ENVIRONMENT == 'development'
       script.
-        // Allow complete offline development. Add '#offline' to the url to enable.
-        if(location.hash === '#offline'){
-          System.paths['helpers/load'] = 'helpers/loadMOCK.js';
-          System.import('helpers/MOCK_FIREBASE');
-        }
-        
         // Add Livereload
         document.write("<script src='http://"+(location.host || 'localhost').split(':')[0]+":35729/livereload.js?snipver=1'></"+"script>");
         
