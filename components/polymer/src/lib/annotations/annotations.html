@@ -8,6 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../module.html">
+<link rel="import" href="../case-map.html"> 
 
 <script>
 /**
@@ -166,8 +167,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // add annotation data from attributes to the `annotation` for node `node`
     // TODO(sjmiles): the distinction between an `annotation` and 
     // `annotation data` is not as clear as it could be
+    // Walk attributes backwards, since removeAttribute can be vetoed by
+    // IE in certain cases (e.g. <input value="foo">), resulting in the
+    // attribute staying in the attributes list
     _parseNodeAttributeAnnotations: function(node, annotation) {
-      for (var i=0, a; (a=node.attributes[i]); i++) {
+      for (var i=node.attributes.length-1, a; (a=node.attributes[i]); i--) {
         var n = a.name, v = a.value;
         // id
         if (n === 'id') {
@@ -175,7 +179,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         // events (on-*)
         else if (n.slice(0, 3) === 'on-') {
-          i--;
           node.removeAttribute(n);
           annotation.events.push({
             name: n.slice(3),
@@ -186,7 +189,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         else {
           var b = this._parseNodeAttributeAnnotation(node, n, v);
           if (b) {
-            i--;
             annotation.bindings.push(b);
           }
         }
@@ -219,7 +221,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // camel-case: `foo-bar` becomes `fooBar`.
         // Attribute bindings are excepted.
         if (kind === 'property') {
-          name = Polymer.Annotations.dashToCamelCase(name);
+          name = Polymer.CaseMap.dashToCamelCase(name);
         }
         return {
           kind: kind,
@@ -229,26 +231,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           negate: not
         };
       }
-    },
-
-    dashToCamelCase: function(dash) {
-      // TODO(sjmiles): is rejection test actually helping perf?
-      if (dash.indexOf('-') < 0) {
-        return dash;
-      }
-      return dash.replace(/-([a-z])/g, 
-        function(m) {
-          return m[1].toUpperCase(); 
-        }
-      );
-    },
-
-    camelToDashCase: function(camel) {
-      return camel.replace(/([a-z][A-Z])/g, 
-        function (g) { 
-          return g[0] + '-' + g[1].toLowerCase() 
-        }
-      );
     },
 
     // instance-time

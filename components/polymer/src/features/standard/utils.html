@@ -16,7 +16,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   Polymer.Base.addFeature({
 
     $$: function(slctr) {
-      return this.root.querySelector(slctr);
+      return Polymer.dom(this.root).querySelector(slctr);
     },
     
     toggleClass: function(name, bool, node) {
@@ -52,6 +52,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         neo.setAttribute(name, '');
       }
     },
+    
+    getContentChildNodes: function(slctr) {
+      return Polymer.dom(Polymer.dom(this.root).querySelector(
+          slctr || 'content')).getDistributedNodes();
+    },
+
+    getContentChildren: function(slctr) {
+      return this.getContentChildNodes(slctr).filter(function(n) {
+        return (n.nodeType === Node.ELEMENT_NODE);
+      });
+    },
 
     // TODO(sjmiles): use a dictionary for options after `detail`
     fire: function(type, detail, onNode, bubbles, cancelable) {
@@ -72,15 +83,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     cancelAsync: function(handle) {
       Polymer.Async.cancel(handle);
-    },
-
-    queryHost: function(node) {
-      return this.host || this._queryHost(this);
-    },
-
-    _queryHost: function(node) {
-      return node && 
-        (node.host || (node.host = this._queryHost(node.parentNode)));
     },
 
     transform: function(node, transform) {

@@ -27,13 +27,12 @@ Example:
 <dom-module id="paper-shadow">
   <style>
     :host {
-      display: block;
-      position: relative;
+      pointer-events: none;
+      border-radius: inherit;
     }
 
     :host #shadow {
       border-radius: inherit;
-      pointer-events: none;
     }
 
     :host([animated]) #shadow {
@@ -89,7 +88,7 @@ Example:
        */
       z: {
         type: Number,
-        reflect: true,
+        reflectToAttribute: true,
         value: 1
       },
 
@@ -103,7 +102,7 @@ Example:
        */
       animated: {
         type: Boolean,
-        reflect: true,
+        reflectToAttribute: true,
         value: false
       }
     },

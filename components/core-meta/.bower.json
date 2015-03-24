@@ -11,18 +11,18 @@
     "polymer": "Polymer/polymer#0.8-preview"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^1.1.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#master",
-    "test-fixture": "polymer/test-fixture#master"
+    "test-fixture": "polymer/test-fixture#master",
+    "web-component-tester": "~2.2.6"
   },
-  "homepage": "https://github.com/Polymer/core-meta",
-  "_release": "697d822890",
+  "homepage": "https://github.com/polymer/core-meta",
+  "_release": "70c4f14897",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "697d82289047cd15cfdbfc9ee1c16c839661a1ff"
+    "commit": "70c4f148970f69ef99e42efc757026b3a128bf14"
   },
-  "_source": "git://github.com/Polymer/core-meta.git",
+  "_source": "git://github.com/polymer/core-meta.git",
   "_target": "0.8-preview",
-  "_originalSource": "Polymer/core-meta"
+  "_originalSource": "polymer/core-meta"
 }

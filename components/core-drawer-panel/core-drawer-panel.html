@@ -81,24 +81,177 @@ To position the drawer to the right, add `rightDrawer` attribute.
 <link rel="import" href="../core-selector/core-selector.html">
 
 <dom-module id="core-drawer-panel">
-  <link rel="stylesheet" href="core-drawer-panel.css">
+
+  <style>
+    :host {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    core-selector > #drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      will-change: transform;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+
+    .transition > #drawer {
+      transition: -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s;
+      transition: transform ease-in-out 0.3s, width ease-in-out 0.3s;
+    }
+
+    /*
+    right-drawer: make drawer on the right side
+    */
+    .right-drawer > #drawer {
+      left: auto;
+      right: 0;
+    }
+
+    core-drawer-panel #drawer > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+
+    core-selector > #main {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+
+    .transition > #main {
+      transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
+    }
+
+    .right-drawer > #main {
+      left: 0;
+    }
+
+    .right-drawer.transition > #main {
+      transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
+    }
+
+    #main > [main] {
+      height: 100%;
+    }
+
+    #scrim {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity ease-in-out 0.38s, visibility ease-in-out 0.38s;
+    }
+
+    #edgeSwipeOverlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 20px;
+    }
+
+    .right-drawer > #main > #edgeSwipeOverlay {
+      right: 0;
+      left: auto;
+    }
+
+    /*
+    narrow layout
+    */
+    .narrow-layout > #drawer.core-selected {
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .right-drawer.narrow-layout > #drawer.core-selected {
+      box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .narrow-layout > #drawer > ::content[select="[drawer]"] > * {
+      border: 0;
+    }
+
+    .narrow-layout > #drawer:not(.core-selected) {
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+    }
+
+    .right-drawer.narrow-layout > #drawer:not(.core-selected) {
+      left: auto;
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+
+    .narrow-layout > #main {
+      left: 0 !important;
+      padding: 0;
+    }
+
+    .right-drawer.narrow-layout > #main {
+      left: 0;
+      right: 0;
+      padding: 0;
+    }
+
+    .narrow-layout > #main:not(.core-selected) > #scrim,
+    .dragging #scrim {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .narrow-layout > #main > * {
+      margin: 0;
+      min-height: 100%;
+      left: 0;
+      right: 0;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+
+    core-selector:not(.narrow-layout) #main ::content [core-drawer-toggle] {
+      display: none;
+    }
+  </style>
 
   <template>
-    <core-media-query query="[[mediaQuery]]" on-query-matches-changed="onQueryMatchesChanged">
+    <core-media-query
+        on-query-matches-changed="onQueryMatchesChanged"
+        query="[[_computeMediaQuery(forceNarrow, responsiveWidth)]]">
     </core-media-query>
 
-    <core-selector class-name="[[coreSelectorClass]]"
+    <core-selector
         attr-for-selected="id"
+        class$="[[_computeCoreSelectorClass(narrow, transition, dragging, rightDrawer)]]"
         on-core-activate="onSelect"
         selected="[[selected]]">
 
-      <div id="main" style="[[mainStyle]]">
+      <div id="main" style$="[[_computeMainStyle(narrow, rightDrawer, drawerWidth)]]">
         <content select="[main]"></content>
         <div id="scrim"></div>
-        <div id="edgeSwipeOverlay" class-name="[[swipeOverlayClass]]"></div>
+        <div id="edgeSwipeOverlay"
+            class$="[[_computeSwipeOverlayClass(narrow, disableEdgeSwipe)]]">
+        </div>
       </div>
 
-      <div id="drawer" style="[[drawerStyle]]">
+      <div id="drawer" style$="[[_computeDrawerStyle(drawerWidth)]]">
         <content select="[drawer]"></content>
       </div>
 
@@ -151,10 +304,6 @@ To position the drawer to the right, add `rightDrawer` attribute.
 
       properties: {
 
-        coreSelectorClass: {
-          computed: 'computeCoreSelectorClass(narrow, transition, dragging, rightDrawer)'
-        },
-
         /**
          * The panel to be selected when `core-drawer-panel` changes to narrow
          * layout.
@@ -189,10 +338,6 @@ To position the drawer to the right, add `rightDrawer` attribute.
         // Whether the user is dragging the drawer interactively.
         dragging: {
           value: false
-        },
-
-        drawerStyle: {
-          computed: 'computeDrawerStyle(drawerWidth)'
         },
 
         /**
@@ -240,14 +385,6 @@ To position the drawer to the right, add `rightDrawer` attribute.
           }
         },
 
-        mainStyle: {
-          computed: 'computeMainStyle(narrow, rightDrawer, drawerWidth)'
-        },
-
-        mediaQuery: {
-          computed: 'computeMediaQuery(forceNarrow, responsiveWidth)'
-        },
-
         /**
          * Returns true if the panel is in narrow layout.  This is useful if you
          * need to show/hide elements based on the layout.
@@ -257,7 +394,7 @@ To position the drawer to the right, add `rightDrawer` attribute.
          * @default false
          */
         narrow: {
-          reflect: true,
+          reflectToAttribute: true,
           type: Boolean,
           value: false
         },
@@ -298,13 +435,9 @@ To position the drawer to the right, add `rightDrawer` attribute.
          * @default null
          */
         selected: {
-          reflect: true,
+          reflectToAttribute: true,
           type: String,
           value: null
-        },
-
-        swipeOverlayClass: {
-          computed: 'computeSwipeOverlayClass(narrow, disableEdgeSwipe)'
         },
 
         // The attribute on elements that should toggle the drawer on tap,
@@ -318,7 +451,7 @@ To position the drawer to the right, add `rightDrawer` attribute.
 
       },
 
-      computeCoreSelectorClass: function(narrow, transition, dragging, rightDrawer) {
+      _computeCoreSelectorClass: function(narrow, transition, dragging, rightDrawer) {
         return classNames({
           dragging: dragging,
           'narrow-layout': narrow,
@@ -327,11 +460,11 @@ To position the drawer to the right, add `rightDrawer` attribute.
         });
       },
 
-      computeDrawerStyle: function(drawerWidth) {
+      _computeDrawerStyle: function(drawerWidth) {
         return 'width:' + drawerWidth + ';';
       },
 
-      computeMainStyle: function(narrow, rightDrawer, drawerWidth) {
+      _computeMainStyle: function(narrow, rightDrawer, drawerWidth) {
         var style = '';
 
         style += 'left:' + ((narrow || rightDrawer) ? '0' : drawerWidth) + ';'
@@ -345,11 +478,11 @@ To position the drawer to the right, add `rightDrawer` attribute.
         return style;
       },
 
-      computeMediaQuery: function(forceNarrow, responsiveWidth) {
+      _computeMediaQuery: function(forceNarrow, responsiveWidth) {
         return forceNarrow ? '' : '(max-width: ' + responsiveWidth + ')';
       },
 
-      computeSwipeOverlayClass: function(narrow, disableEdgeSwipe) {
+      _computeSwipeOverlayClass: function(narrow, disableEdgeSwipe) {
         return classNames({
           hidden: !narrow || disableEdgeSwipe
         });

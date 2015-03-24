@@ -19,11 +19,11 @@
     "url": "git://github.com/Polymer/core-drawer-panel.git"
   },
   "homepage": "https://github.com/Polymer/core-drawer-panel",
-  "_release": "85f6c92f6e",
+  "_release": "eb00f478fc",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "85f6c92f6e6856a782af1fa107126dc04924f0ab"
+    "commit": "eb00f478fc9e8bfe45233fbe64a7d7c9adc8c0da"
   },
   "_source": "git://github.com/Polymer/core-drawer-panel.git",
   "_target": "0.8-preview",

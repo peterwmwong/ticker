@@ -18,11 +18,11 @@
     "url": "git://github.com/Polymer/core-header-panel.git"
   },
   "homepage": "https://github.com/Polymer/core-header-panel",
-  "_release": "edaf76e51a",
+  "_release": "adb20ac1e2",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "edaf76e51ae33c34b5f975945136be68117c025c"
+    "commit": "adb20ac1e2e9b0ebe214505a7c0f49280320e662"
   },
   "_source": "git://github.com/Polymer/core-header-panel.git",
   "_target": "0.8-preview",
