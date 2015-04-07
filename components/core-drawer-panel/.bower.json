@@ -18,14 +18,14 @@
     "type": "git",
     "url": "git://github.com/Polymer/core-drawer-panel.git"
   },
-  "homepage": "https://github.com/Polymer/core-drawer-panel",
-  "_release": "eb00f478fc",
+  "homepage": "https://github.com/peterwmwong/core-drawer-panel",
+  "_release": "bad0050ae3",
   "_resolution": {
     "type": "branch",
-    "branch": "0.8-preview",
-    "commit": "eb00f478fc9e8bfe45233fbe64a7d7c9adc8c0da"
+    "branch": "fix-shadydom-toggle",
+    "commit": "bad0050ae395b99bca7b906326f66a960ac48f72"
   },
-  "_source": "git://github.com/Polymer/core-drawer-panel.git",
-  "_target": "0.8-preview",
-  "_originalSource": "Polymer/core-drawer-panel"
+  "_source": "git://github.com/peterwmwong/core-drawer-panel.git",
+  "_target": "fix-shadydom-toggle",
+  "_originalSource": "peterwmwong/core-drawer-panel"
 }

@@ -1,0 +1,64 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  background-color: #e7ebee;
+  font-family: "RobotoDraft", Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: #28a6d7;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0 8px;
+  border-left: 4px solid #e7ebee;
+}
+
+p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+code, pre {
+  font-family: "Source Code Pro", monospace;
+  background-color: #f0f3f5;
+  border: 1px solid #dee5e7;
+  color: #586f74;
+  border-radius: 2px;
+  line-height: 1.5;
+}
+
+code {
+  padding: 0px 4px;
+}
+
+pre {
+  padding: 8px;
+}
+
+pre code {
+  border-radius: 0;
+  background-color: transparent;
+  border: none;
+}
+
+marked-element img {
+  width: 100%;
+}
+
+core-toolbar {
+  background: #28a6d7;
+  color: white;
+  min-height: 0;
+}

@@ -407,7 +407,7 @@ Example: `my-element.html`
 <a name="template-stamping"></a>
 ## Template stamping into local DOM
 
-We call the dom which an element is in charge of creating an managing its `local DOM`. This is distinct from the element's children which are sometimes called its `light DOM` for clarity.
+We call the dom which an element is in charge of creating and managing its `local DOM`. This is distinct from the element's children which are sometimes called its `light DOM` for clarity.
 
 When native Shadow DOM is used, "local DOM" is actually contained in a shadow root.  When the Shady DOM system is used, "local DOM" is a virtual notion maintained by Polymer with similar semantics to Shadow DOM.  Polymer normalizes these two systems via a common API, such that you can always think about the "local DOM" and "light DOM" trees in the same way regardless of the underlying implementation.
 
@@ -455,7 +455,8 @@ Polymer 0.8 uses "[Shadow DOM styling rules](http://www.html5rocks.com/en/tutori
       background: yellow;
     }
     /* styling elements distributed to content (via ::content) requires */
-    /* using a wrapper element for compatibility with shady DOM         */
+    /* selecting the parent of the <content> element for compatibility with */
+    /* shady DOM . This can be :host or a wrapper element. */
     .content-wrapper > ::content .special {
       background: orange;
     }
@@ -1040,6 +1041,38 @@ Example 5: Error / non-sensical state
 <custom-element prop="[[value]]"></custom-element>
 ```
 
+### Custom notify event and binding to native elements
+
+As mentioned above, Polymer uses an event naming convention to achieve two-way binding.  The act of two-way binding to a property using `target-prop={{hostProp}}` syntax results in Polymer adding a `<target-prop>-changed` event listener to the element by default.  All properties of a Polymer element with `notify: true` send events using this convention to notify of changes.
+
+In order to two-way bind to native elements or non-Polymer elements that do not follow this event naming convention when notifying changes, you may specify a custom event name in the curley braces, delimited with `::`.
+
+Example:
+
+```html
+<!-- Listens for `input` event and sets hostValue to <input>.value -->
+<input value="{{hostValue::input}}">
+
+<!-- Listens for `change` event and sets hostChecked to <input>.checked -->
+<input type="checkbox" checked="{{hostChecked::change}}">
+
+<!-- Listens for `timeupdate ` event and sets hostTime to <video>.currentTime -->
+<video url="..." current-time="{{hostTime::timeupdate}}">
+```
+
+Note: When binding to standard notifying properties on Polymer elements, specifying the event name is unnecessary, as the default convention will be used.  The following constructions are equivalent:
+
+```html
+
+<!-- Listens for `value-changed` event -->
+<my-element value="{{hostValue::value-changed}}">
+
+<!-- Listens for `value-changed` event using Polymer convention by default -->
+<my-element value="{{hostValue}}">
+
+```
+
+
 <a name="path-binding"></a>
 ### Binding to structured data
 
@@ -1619,7 +1652,7 @@ Example:
       mixin(--my-toolbar-theme);
     }
     .title {
-      mixin(--my-stopwatch-title-theme);
+      mixin(--my-toolbar-title-theme);
     }
   </style>
   
@@ -1886,8 +1919,8 @@ Current limitations that are on the backlog for evaluation/improvement are liste
       `<div class$="{{classes}}">`
     * Otherwise, `this.classList.add/remove` from change handlers
 * CSS inline-style binding:
-    * May bind entire inline style from one property to `style` _property_:
-      `<div style="{{styles}}">`
+    * May bind entire inline style from one property to `style` _attribute_:
+      `<div style$="{{styles}}">`
     * Otherwise, assign `this.style.props` from change handlers
 
 ## Structured data and path notification

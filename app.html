@@ -13,15 +13,17 @@
   <link rel="apple-touch-icon" sizes="120x120" href="images/AppIcon60x60-2x.png" />
 
   <script src="components/webcomponentsjs/webcomponents-lite.min.js"></script>
-  <script src="components/firebase/firebase.js"></script>
   <link rel="import" href="components/polymer/polymer.html">
-  <link rel='import' href="components/layout/layout.html">
   <link rel="import" href="src/ticker-app.html">
 
 </head>
 <body class='fullbleed'>
 
   <ticker-app></ticker-app>
+
+  <script type="text/javascript">
+    document.write("<script src='http://" + (location.host || 'localhost').split(':')[0] + ":35729/livereload.js?snipver=1'></" + "script>");
+  </script>
 
 </body>
 </html>

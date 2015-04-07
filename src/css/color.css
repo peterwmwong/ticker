@@ -1,0 +1,181 @@
+/* TODO(pwong): Reorder by color. It's hard to see if we missed a color for a
+                property.
+*/
+
+.c-transparent {
+  color: transparent !important;
+}
+.c-bg-transparent {
+  background-color: transparent !important;
+}
+.c-white {
+  color: white !important;
+}
+.c-bg-white {
+  background-color: white !important;
+}
+.c-gray-darkest {
+  color: #05242e !important;
+}
+.c-bg-gray-darkest {
+  background-color: #05242e !important;
+}
+.c-gray-darker {
+  color: #586f74 !important;
+}
+.c-bg-gray-darker {
+  background-color: #586f74 !important;
+}
+.c-gray-dark {
+  color: #6e8a91 !important;
+}
+.c-bg-gray-dark {
+  background-color: #6e8a91 !important;
+}
+.c-gray-light {
+  color: #b0c1c4 !important;
+}
+.c-bg-gray-light {
+  background-color: #b0c1c4 !important;
+}
+.c-gray-lighter {
+  color: #d9e0e3 !important;
+}
+.c-bg-gray-lighter {
+  background-color: #d9e0e3 !important;
+}
+.c-gray-lightest {
+  color: #e7ebee !important;
+}
+.c-gray-lightester {
+  color: #f9fafb !important;
+}
+.c-bg-gray-lightest {
+  background-color: #e7ebee !important;
+}
+.c-bg-gray-lightester {
+  background-color: #f9fafb !important;
+}
+.c-brand-primary-dark {
+  color: #2595c1 !important;
+}
+.c-bg-brand-primary-dark {
+  background-color: #2595c1 !important;
+}
+.c-brand-primary-light {
+  color: #28a6d7 !important;
+}
+.c-bg-brand-primary-light {
+  background-color: #28a6d7 !important;
+}
+.c-brand-primary-lighter {
+  color: #d5edf6 !important;
+}
+.c-bg-brand-primary-lighter {
+  background-color: #d5edf6 !important;
+}
+.c-confirm {
+  color: #72bd61 !important;
+}
+.c-bg-confirm {
+  background-color: #72bd61 !important;
+}
+.c-confirm-light {
+  color: #98cf8c !important;
+}
+.c-bg-confirm-light {
+  background-color: #98cf8c !important;
+}
+.c-error {
+  color: #f44856 !important;
+}
+.c-bg-error {
+  background-color: #f44856 !important;
+}
+.c-error-light {
+  color: #f99099 !important;
+}
+.c-bg-error-light {
+  background-color: #f99099 !important;
+}
+.c-warning-light {
+  color: #fdcc8b !important;
+}
+.c-bg-warning-light {
+  background-color: #fdcc8b !important;
+}
+.c-warning {
+  color: #fca431 !important;
+}
+.c-bg-warning {
+  background-color: #fca431 !important;
+}
+.c-notify {
+  color: #f7e3b1 !important;
+}
+.c-bg-notify {
+  background-color: #f7e3b1 !important;
+}
+.c-highlight {
+  color: #fef9ec !important;
+}
+.c-bg-highlight {
+  background-color: #fef9ec !important;
+}
+.c-border-transparent {
+  border-color: transparent !important;
+}
+.c-border-white {
+  border-color: white !important;
+}
+.c-border-gray-darkest {
+  border-color: #05242e !important;
+}
+.c-border-gray-darker {
+  border-color: #586f74 !important;
+}
+.c-border-gray-dark {
+  border-color: #6e8a91 !important;
+}
+.c-border-gray-light {
+  border-color: #b0c1c4 !important;
+}
+.c-border-gray-lighter {
+  border-color: #d9e0e3 !important;
+}
+.c-border-gray-lightest {
+  border-color: #e7ebee !important;
+}
+.c-border-brand-primary-dark {
+  border-color: #2595c1 !important;
+}
+.c-border-brand-primary-light {
+  border-color: #28a6d7 !important;
+}
+.c-border-brand-primary-lighter {
+  border-color: #d5edf6 !important;
+}
+.c-border-confirm {
+  border-color: #72bd61 !important;
+}
+.c-border-confirm-light {
+  border-color: #98cf8c !important;
+}
+.c-border-error {
+  border-color: #f44856 !important;
+}
+.c-border-error-light {
+  border-color: #f99099 !important;
+}
+.c-border-warning-light {
+  border-color: #fdcc8b !important;
+}
+.c-border-warning {
+  border-color: #fca431 !important;
+}
+.c-border-notify {
+  border-color: #f7e3b1 !important;
+}
+.c-border-highlight {
+  border-color: #fef9ec !important;
+}

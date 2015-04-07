@@ -13,11 +13,14 @@
   "license": "https://polymer.github.io/LICENSE.txt",
   "private": true,
   "ignore": [],
-  "_release": "d02a404b77",
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.8-preview"
+  },
+  "_release": "b7ba4918fd",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "d02a404b772d306b15bccd837b33092c4d4691c0"
+    "commit": "b7ba4918fd6a7e0ebfefe58ac90f77d71a6e6e5b"
   },
   "_source": "git://github.com/Polymer/layout.git",
   "_target": "master",

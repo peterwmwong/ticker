@@ -22,11 +22,11 @@
     "core-toolbar": "Polymer/core-toolbar#0.8-preview"
   },
   "homepage": "https://github.com/Polymer/paper-tabs",
-  "_release": "e9c8d7244d",
+  "_release": "a8c1c595b5",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "e9c8d7244d1942331a2ec2e479fa58db477c72d8"
+    "commit": "a8c1c595b5910954d53dd2ebda09496bbac4bb7c"
   },
   "_source": "git://github.com/Polymer/paper-tabs.git",
   "_target": "0.8-preview",

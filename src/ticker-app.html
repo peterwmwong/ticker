@@ -1,42 +1,60 @@
-<link rel='stylesheet' href='ticker-app.css'>
+<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=RobotoDraft:light,regular,bold,italic&amp;lang=en'>
+<link rel='stylesheet' type='text/css' href='css/base.css'>
+<link rel='stylesheet' type='text/css' href='css/border.css'>
+<link rel='stylesheet' type='text/css' href='css/color.css'>
+<link rel='stylesheet' type='text/css' href='css/components/Card.css'>
+<link rel='stylesheet' type='text/css' href='css/layout.css'>
+<link rel='stylesheet' type='text/css' href='css/text.css'>
 
+<script src="../components/firebase/firebase.js"></script>
+<link rel='import' href="../components/layout/layout.html">
 <link rel='import' href='../components/font-roboto/roboto.html'>
 <link rel='import' href='../components/core-header-panel/core-header-panel.html'>
+<link rel='import' href='../components/core-drawer-panel/core-drawer-panel.html'>
+<link rel='import' href='../components/core-icon/core-icon.html'>
+<link rel='import' href='../components/paper-icon-button/paper-icon-button.html'>
 <link rel='import' href='../components/core-toolbar/core-toolbar.html'>
 <link rel='import' href='ticker-icons.html'>
 
 <dom-module id='ticker-app'>
   <template>
-    <core-header-panel class='fit'>
-      <core-toolbar>
-        <core-icon icon='ticker:menu'></core-icon>
-        <span class='flex'>Toolbar</span>
-      </core-toolbar>
-      <div class='content'>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
-        yolo<br/>
+    <core-drawer-panel>
+
+      <div drawer class='fit c-bg-white'>drawer</div>
+
+      <div main>
+        <core-header-panel class='fit'>
+
+          <core-toolbar>
+            <paper-icon-button
+              class='l-padding-h4'
+              icon='ticker:menu'
+              core-drawer-toggle></paper-icon-button>
+            <span class='flex'>Toolbar</span>
+          </core-toolbar>
+
+          <div class='fit l-padding-t2 l-padding-h1' style='transform:translateZ(0);-webkit-transform:translateZ(0);'>
+            <template is='x-repeat' items='[[items]]'>
+              <div class='Card'>
+                <div class='Card-title'>Hello</div>
+              </div>
+            </template>
+          </div>
+
+        </core-header-panel>
       </div>
-    </core-header-panel>
+
+    </core-drawer-panel>
   </template>
 </dom-module>
 <script>
 Polymer({
-  is: 'ticker-app'
+  is: 'ticker-app',
+  properties:{
+    items:{
+      type: Array,
+      value: Array.apply([], new Array(100)).map(function(a,i){ return i; })
+    }
+  }
 });
 </script>

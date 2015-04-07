@@ -1,0 +1,51 @@
+.Card {
+  border: 1px solid rgba(0, 0, 0, 0.075);
+  border-top-color: rgba(0, 0, 0, 0.025);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.Card-title, .Card-subject, .Card-action {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: 16px 16px;
+}
+.Card-subject, .Card-title {
+  background: white;
+  border-bottom: 1px solid #e7ebee;
+  color: #05242e;
+}
+.Card-title {
+  align-items: baseline;
+  font-size: 1.8rem;
+  padding-bottom: 12px;
+  line-height: 1.5;
+}
+.Card-subject, .Card-action {
+  align-items: center;
+  line-height: 1.5;
+}
+.Card-subject {
+  margin-top: -1px;
+  padding-top: 0;
+  padding-bottom: 8px;
+}
+.Card-subject:last-child {
+  border-bottom-style: none;
+}
+.Card-action {
+  background: #f9fafb;
+  color: #05242e;
+}
+.Card-action ticker-github-avatar {
+  align-self: flex-start;
+}
+.Card-action--commit {
+  padding-bottom: 8px;
+  padding-top: 0;
+  padding-left: 52px;
+}
+.Card-action--commit:last-child {
+  padding-bottom: 16px;
+}

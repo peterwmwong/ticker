@@ -1,0 +1,22 @@
+{
+  "name": "ticker",
+  "version": "1.0.0",
+  "description": "Menu v2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterwmwong/ticker.git"
+  },
+  "author": "peter.wm.wong@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterwmwong/ticker/issues"
+  },
+  "homepage": "https://github.com/peterwmwong/ticker",
+  "dependencies": {
+    "eslint": "^0.18.0"
+  }
+}

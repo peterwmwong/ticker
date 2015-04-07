@@ -2,18 +2,19 @@
   "name": "ticker",
   "private": true,
   "dependencies": {
-    "core-drawer-panel": "Polymer/core-drawer-panel#0.8-preview",
-    "core-header-panel": "Polymer/core-header-panel#0.8-preview",
-    "core-icons"       : "Polymer/core-icons#0.8-preview",
-    "core-iconset"     : "Polymer/core-iconset#0.8-preview",
-    "core-toolbar"     : "Polymer/core-toolbar#0.8-preview",
-    "firebase"         : "~2.2.3",
-    "font-roboto"      : "Polymer/font-roboto#master",
-    "layout"           : "Polymer/layout#master",
-    "paper-button"     : "Polymer/paper-button#0.8-initial-port",
-    "paper-ripple"     : "Polymer/paper-ripple#0.8-preview",
-    "paper-tabs"       : "Polymer/paper-tabs#0.8-preview",
-    "polymer"          : "Polymer/polymer#0.8-preview",
-    "webcomponentsjs"  : "~0.6.0"
+    "core-drawer-panel" : "peterwmwong/core-drawer-panel#fix-shadydom-toggle",
+    "core-header-panel" : "Polymer/core-header-panel#0.8-preview",
+    "core-icons"        : "Polymer/core-icons#0.8-preview",
+    "core-iconset"      : "Polymer/core-iconset#0.8-preview",
+    "core-toolbar"      : "Polymer/core-toolbar#0.8-preview",
+    "firebase"          : "~2.2.3",
+    "font-roboto"       : "Polymer/font-roboto#master",
+    "layout"            : "Polymer/layout#master",
+    "paper-icon-button" : "Polymer/paper-icon-button#0.8-preview",
+    "paper-button"      : "Polymer/paper-button#0.8-preview",
+    "paper-ripple"      : "Polymer/paper-ripple#0.8-preview",
+    "paper-tabs"        : "Polymer/paper-tabs#0.8-preview",
+    "polymer"           : "Polymer/polymer#0.8-preview",
+    "webcomponentsjs"   : "~0.6.0"
   }
 }

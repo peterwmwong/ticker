@@ -10,11 +10,11 @@
     "core-icons": "Polymer/core-icons#0.8-preview"
   },
   "homepage": "https://github.com/Polymer/core-icon",
-  "_release": "f976aea30f",
+  "_release": "e730bf8709",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "f976aea30fad87a9735974017f63b747027872be"
+    "commit": "e730bf8709bbf3456acc90a7d0c7154338a3267a"
   },
   "_source": "git://github.com/Polymer/core-icon.git",
   "_target": "0.8-preview",

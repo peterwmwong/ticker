@@ -2,7 +2,7 @@
   var fbRecipes =  new Firebase("https://menudev.firebaseio.com/recipes");
   var IDMAP     = {};
 
-  function clone(arr){ return Array.prototype.slice.call(arr) }
+  function clone(arr){ return Array.prototype.slice.call(arr); }
 
   function Recipe(fb, createData){
     var _this       = this;
@@ -10,10 +10,12 @@
     this._fb        = fb;
     this._initData(createData);
 
-    if(!createData)
-      fb.once("value", function(snap){ _this._initData(snap.val()) });
-    else
+    if(!createData){
+      fb.once("value", function(snap){ _this._initData(snap.val()); });
+    }
+    else{
       this.isNew = true;
+    }
   }
 
   Recipe.prototype = {
@@ -50,12 +52,12 @@
 
   Recipe.all = [];
 
-  fbRecipes.on("child_added", function(data) {
+  fbRecipes.on("child_added", function(data){
     Recipe.all.push(IDMAP[data.key()] || new Recipe(data.ref()));
   });
 
-  fbRecipes.on("child_removed", function(data) {
-    for(var i=0; i<Recipe.all.length; ++i){
+  fbRecipes.on("child_removed", function(data){
+    for(var i = 0; i < Recipe.all.length; ++i){
       if(Recipe.all[i].id === data.key()){
         Recipe.all.splice(i, 1);
         return;

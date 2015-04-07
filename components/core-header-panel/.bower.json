@@ -9,8 +9,8 @@
     "layout": "Polymer/layout#master"
   },
   "devDependencies": {
-    "webcomponentsjs": "~0.5.5",
-    "core-component-page": "Polymer/core-component-page#~0.5.5"
+    "test-fixture": "Polymer/test-fixture#master",
+    "web-component-tester": "Polymer/web-component-tester#master"
   },
   "main": "core-header-panel.html",
   "repo": {
@@ -18,11 +18,11 @@
     "url": "git://github.com/Polymer/core-header-panel.git"
   },
   "homepage": "https://github.com/Polymer/core-header-panel",
-  "_release": "adb20ac1e2",
+  "_release": "419a868366",
   "_resolution": {
     "type": "branch",
     "branch": "0.8-preview",
-    "commit": "adb20ac1e2e9b0ebe214505a7c0f49280320e662"
+    "commit": "419a8683663650102a20bea44ed5c9fa3365d8e9"
   },
   "_source": "git://github.com/Polymer/core-header-panel.git",
   "_target": "0.8-preview",
