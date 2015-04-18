@@ -1,16 +1,28 @@
+<link rel='import' href='../components/iron-icon/iron-icon.html'>
 <link rel='import' href='../components/paper-header-panel/paper-header-panel.html'>
-<link rel='import' href='../components/paper-icon-button/paper-icon-button.html'>
 <link rel='import' href='../components/paper-toolbar/paper-toolbar.html'>
+<link rel='import' href='../components/paper-ripple/paper-ripple.html'>
 
 <dom-module id='ticker-stream'>
+  <style>
+    .drawer-button {
+      width: 56px;
+      height: 56px;
+      line-height: 53px;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      text-align: center;
+    }
+  </style>
   <template>
     <paper-header-panel class='fit'>
 
       <paper-toolbar>
-        <paper-icon-button
-          class='l-padding-h4'
-          icon='ticker:menu'
-          on-click='emitToggleDrawerEvent'></paper-icon-button>
+        <div class='drawer-button' on-click='emitToggleDrawerEvent'>
+          <paper-ripple></paper-ripple>
+          <iron-icon icon='ticker:menu'></iron-icon>
+        </div>
         <span class='flex'>Toolbar</span>
       </paper-toolbar>
 
@@ -37,11 +49,11 @@ Polymer({
   },
 
   emitToggleDrawerEvent: function(e){
-    // TODO(pwong): this is to prevent the <core-selector>'s (in <core-drawer-panel>)
+    // TODO(pwong): this is to prevent the <iron-selector>'s (in <paper-drawer-panel>)
     //              click handler from reseting/undoing a drawer change made in
     //              <ticker-app>.onToggleDrawer()
     e.stopPropagation();
-    this.fire('ticker-app--toggle-drawer');
+    this.fire('ticker-app--toggle-drawer', null, null, false, true);
   }
 });
 </script>

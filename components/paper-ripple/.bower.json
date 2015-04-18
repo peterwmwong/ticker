@@ -13,14 +13,14 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.6.0",
     "web-component-tester": "~2.2.3"
   },
-  "homepage": "https://github.com/PolymerElements/paper-ripple",
-  "_release": "1e3dbf5109",
+  "homepage": "https://github.com/peterwmwong/paper-ripple",
+  "_release": "12105fdb72",
   "_resolution": {
     "type": "branch",
-    "branch": "master",
-    "commit": "1e3dbf51091d9651ea4fa50b40ffe3fdb8ba4bb3"
+    "branch": "target-parent-before-host",
+    "commit": "12105fdb723d0bafaa5642b4f1a6dd859d580431"
   },
-  "_source": "git://github.com/PolymerElements/paper-ripple.git",
-  "_target": "master",
-  "_originalSource": "PolymerElements/paper-ripple"
+  "_source": "git://github.com/peterwmwong/paper-ripple.git",
+  "_target": "target-parent-before-host",
+  "_originalSource": "peterwmwong/paper-ripple"
 }
