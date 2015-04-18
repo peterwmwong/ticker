@@ -1,0 +1,64 @@
+<link rel='import' href='../components/paper-item/paper-icon-item.html'>
+<link rel='import' href='../components/paper-item/paper-item-body.html'>
+<link rel='import' href='../components/paper-ripple/paper-ripple.html'>
+
+<dom-module id='ticker-drawer-item'>
+  <style>
+    /*TODO(pwong): Temporary*/
+    .ticker-drawer__item-icon {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #ccc;
+    }
+  </style>
+  <template>
+    <paper-icon-item>
+      <div item-icon icon='ticker:menu' class='ticker-drawer__item-icon'></div>
+      <paper-item-body two-line>
+        <div>[[item.name]]</div>
+        <div secondary>[[item.nameSecondary]]</div>
+      </paper-item-body>
+      <paper-ripple></paper-ripple>
+    </paper-icon-item>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'ticker-drawer-item',
+  hostAttributes:{
+    'class': 'relative'
+  },
+  properties:{
+    item: Object
+  }
+});
+</script>
+
+<dom-module id='ticker-drawer'>
+  <template>
+    <div class='scroll fit'>
+      <template is='x-repeat' items='[[items]]'>
+        <ticker-drawer-item item='[[item]]'></ticker-drawer-item>
+      </template>
+    <div>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'ticker-drawer',
+  properties:{
+    items:{
+      type: Array,
+      value: Array.apply([], new Array(18)).map(function(a,i){
+        return {
+          name: "MyName"+i,
+          nameSecondary: "secondary"+i
+        };
+      })
+    }
+  }
+})
+</script>
