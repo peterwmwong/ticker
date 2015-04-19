@@ -1,19 +1,19 @@
-<link rel='import' href='../components/paper-item/paper-icon-item.html'>
-<link rel='import' href='../components/paper-item/paper-item-body.html'>
-<link rel='import' href='../components/paper-ripple/paper-ripple.html'>
+<link rel='import' href='../../components/paper-item/paper-icon-item.html'>
+<link rel='import' href='../../components/paper-item/paper-item-body.html'>
+<link rel='import' href='../../components/paper-ripple/paper-ripple.html'>
 
+<style>
+  /*TODO(pwong): Temporary*/
+  .ticker-drawer__item-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ccc;
+  }
+</style>
 <dom-module id='ticker-drawer-item'>
-  <style>
-    /*TODO(pwong): Temporary*/
-    .ticker-drawer__item-icon {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #ccc;
-    }
-  </style>
   <template>
     <paper-icon-item>
       <div item-icon icon='ticker:menu' class='ticker-drawer__item-icon'></div>

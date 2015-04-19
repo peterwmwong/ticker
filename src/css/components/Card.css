@@ -1,7 +1,8 @@
 .Card {
   border: 1px solid rgba(0, 0, 0, 0.075);
   border-top-color: rgba(0, 0, 0, 0.025);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+  border-bottom-width: 2px;
   overflow: hidden;
   margin-bottom: 4px;
 }

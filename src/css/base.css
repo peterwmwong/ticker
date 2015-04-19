@@ -56,9 +56,3 @@ pre code {
 marked-element img {
   width: 100%;
 }
-
-core-toolbar {
-  background: #28a6d7;
-  color: white;
-  min-height: 0;
-}

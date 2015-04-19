@@ -3,8 +3,7 @@
   "private": true,
   "dependencies": {
     "firebase"           : "~2.2.4",
-    "font-roboto"        : "Polymer/font-roboto#master",
-    "iron-icon"         : "PolymerElements/iron-icon#master",
+    "iron-icon"          : "peterwmwong/iron-icon#revert-flex",
     "iron-iconset-svg"   : "peterwmwong/iron-iconset-svg#add-iron-meta-import",
     "layout"             : "Polymer/layout#master",
     "paper-drawer-panel" : "PolymerElements/paper-drawer-panel#rename-to-paper-drawer-panel",

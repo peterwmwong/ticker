@@ -1,0 +1,38 @@
+<style>
+.ticker-stream__card-container {
+  padding-top: 60px;
+}
+
+@media (min-width: 639px) {
+  .ticker-stream__card-container {
+    padding: 80px 40px 0 280px;
+  }
+}
+</style>
+<dom-module id='ticker-stream'>
+  <template>
+    <div class='ticker-stream__card-container'>
+      <template is='x-repeat' items='[[items]]'>
+        <div class='ticker-stream__card Card relative'>
+          <div class='Card-title'>
+            <span class='c-gray-dark'>PolymerElements/</span>
+            paper-ripple
+          </div>
+          <div class='Card-subject'>Hello</div>
+          <div class='Card-action'>Hello</div>
+        </div>
+      </template>
+    </div>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'ticker-stream',
+  properties:{
+    items:{
+      type: Array,
+      value: Array.apply([], new Array(15)).map(function(a,i){ return "key"+i; })
+    }
+  }
+});
+</script>

@@ -49,14 +49,17 @@
 .t-italic {
   font-style: italic;
 }
-.t-bold {
-  font-weight: 500;
+.t-thin {
+  font-weight: 100;
 }
 .t-light {
   font-weight: 300;
 }
 .t-normal {
   font-weight: 400;
+}
+.t-bold {
+  font-weight: 500;
 }
 .t-align-left {
   text-align: left;
