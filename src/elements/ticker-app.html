@@ -15,22 +15,7 @@
 <link rel='import' href='ticker-icons.html'>
 <link rel='import' href='ticker-stream.html'>
 
-<script>
-// TODO(pwong): Basis requires this. Fuck.
-Object.assign = function(){
-  var dest = arguments[0];
-  var sources = Array.prototype.slice.call(arguments, 1);
-  sources.map(function(src){
-    Object.keys(src).map(function(k){
-      dest[k] = src[k];
-    })
-  })
-  return dest;
-};
-</script>
-
 <script src="../../vendor/js/statechart.js"></script>
-<script src="../../vendor/js/basis.min.js"></script>
 <script src="../../components/firebase/firebase.js"></script>
 <script src="../appState.js"></script>
 
