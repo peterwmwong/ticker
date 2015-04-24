@@ -1,6 +1,9 @@
 import Polymorphic from './polymorphic.js';
 import hasManyArray from './hasManyArray.js';
-import {errorWrongType} from './errors.js';
+import {
+  errorWrongType,
+  errorMapperDidntReturnPromise
+} from './errors.js';
 
 // TODO(pwong): Should be inserted by a build step. gulp-replace or something.
 const IS_PROD = false;
@@ -74,6 +77,15 @@ function getNormalizedMapper(mapper){
   };
 }
 
+function loadJSONAttr(attrs, json){
+  for(let name in attrs){
+    let attr = attrs[name];
+    if(attr.name === 'Date'){
+      json[name] = new Date(json[name]);
+    }
+  }
+}
+
 function loadJSONHasOne(hasOne, json){
   for(let name in hasOne){
     let assoc = hasOne[name];
@@ -106,6 +118,7 @@ export default class Model {
 
   static loadJSON(json){
     this._ensureModelPrepared();
+    loadJSONAttr(this._desc.attr, json);
     loadJSONHasOne(this._desc.hasOne, json);
     loadJSONHasMany(this._desc.hasMany, json);
     return new this(json);
@@ -118,8 +131,12 @@ export default class Model {
 
   static query(options){
     this._ensureModelPrepared();
-    return this.mapper.query(options).then(dataArray=>
-      dataArray ? dataArray.map(data=>new this(data)) : []
+    let promise = this.mapper.query(options);
+    if(!IS_PROD && !(promise) instanceof Promise){
+      errorMapperDidntReturnPromise(this, 'query', promise);
+    }
+    return promise.then(dataArray=>
+      dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
     );
   }
 
@@ -144,7 +161,7 @@ export default class Model {
   _initHasMany(rawModelData){
     for(let name in this.constructor._desc.hasMany){
       let data = rawModelData[name];
-      if(Array.isArray(data)){
+      if(data instanceof Array){
         this[name].push(...data);
       }
     }
