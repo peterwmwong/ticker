@@ -12,14 +12,14 @@
 <dom-module id='ticker-stream'>
   <template>
     <div class='ticker-stream__card-container'>
-      <template is='x-repeat' items='[[items]]'>
+      <template is='x-repeat' items='[[events]]'>
         <div class='ticker-stream__card Card relative'>
           <div class='Card-title'>
             <span class='c-gray-dark'>PolymerElements/</span>
             paper-ripple
           </div>
-          <div class='Card-subject'>Hello</div>
-          <div class='Card-action'>Hello</div>
+          <div class='Card-subject'>[[item.type]]</div>
+          <div class='Card-action'>[[item.created_at]]</div>
         </div>
       </template>
     </div>
@@ -28,11 +28,10 @@
 <script>
 Polymer({
   is: 'ticker-stream',
-  properties:{
-    items:{
-      type: Array,
-      value: Array.apply([], new Array(15)).map(function(a,i){ return "key"+i; })
-    }
-  }
+  behaviors:[
+    new SyncState({
+      events: 'events'
+    })
+  ]
 });
 </script>
