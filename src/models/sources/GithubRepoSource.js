@@ -1,10 +1,14 @@
-// import GithubRepo        from '../github/GithubRepo.js';
-// import GithubIssue       from '../github/GithubIssue.js';
-// import GithubEvent       from '../github/GithubEvent.js';
-// import GithubPullRequest from '../github/GithubPullRequest.js';
-import Source            from './Source.js';
+import Model from '../../helpers/bureau/model.js';
 
-export default class GithubRepoSource extends Source {
+export default class GithubRepoSource extends Model {
+  static get desc(){
+    return {
+      attr:{
+        id:String
+      }
+    };
+  }
+
   // static query({term}){
   //   return GithubRepo.query({term}).$promise.then(repos=>
   //     repos.map(repo=>new this({full_name:repo.full_name, details:repo}))
@@ -30,7 +34,5 @@ export default class GithubRepoSource extends Source {
   //     (this._pullRequests = GithubPullRequest.query({repo:this.full_name}));
   // }
 
-  toJSON(){ return {full_name:this.full_name}; }
+  // toJSON(){ return {full_name:this.full_name}; }
 }
-
-Source.registerSource(GithubRepoSource);

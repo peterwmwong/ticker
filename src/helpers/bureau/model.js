@@ -27,7 +27,8 @@ function mergeHasManyPropertiesDescriptor(hasMany, propsDescriptor){
   for(let name in hasMany){
     let assoc = hasMany[name];
     assoc.instanceOf =
-      instanceOfType(assoc.type, Polymorphic) ? assoc.type.instanceOf : instanceOfType;
+      instanceOfType(assoc.type, Polymorphic) ? assoc.type.instanceOf
+        : instanceOfType;
     propsDescriptor[name] = {
       get(){
         if(!(name in this._associations)){

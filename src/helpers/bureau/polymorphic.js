@@ -6,8 +6,8 @@ Polymorphic.prototype.loadJSON = function(json){
   return this.typeFromJSON(json).loadJSON(json);
 };
 Polymorphic.prototype.instanceOf = function(obj, polyType){
-  for(let type in polyType.types){
-    if(obj.constructor === type){ return true; }
+  for(let i = 0; i < polyType.types.length; ++i){
+    if(obj.constructor === polyType.types[i]){ return true; }
   }
   return false;
 };

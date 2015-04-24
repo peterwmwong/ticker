@@ -1,5 +1,5 @@
 import Source from './sources/Source.js';
-import Model, {polymorphic} from '../helpers/bureau/model.js';
+import Model from '../helpers/bureau/model.js';
 
 // function updateCreate(user){
 //   return new Promise((resolve, reject)=>
@@ -18,7 +18,7 @@ export default class User extends Model {
         githubUsername:String
       },
       hasMany:{
-        sources:{type:Source}
+        sources:{ type:Source }
       },
       mapper: {
         // create:updateCreate,
