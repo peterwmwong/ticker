@@ -1,6 +1,6 @@
 import {goto, reenter}   from '../helpers/svengali.js';
 import load              from '../helpers/load.js';
-import githubCommitState from './githubCommitState.js';
+// import githubCommitState from './githubCommitState.js';
 import sourceState       from './sourceState.js';
 import searchState       from './searchState.js';
 
@@ -43,7 +43,7 @@ export default {
       },
       states:{
         'off':{},
-        'githubCommit':githubCommitState
+        // 'githubCommit':githubCommitState
       }
     }
   }
