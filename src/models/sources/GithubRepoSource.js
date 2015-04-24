@@ -1,4 +1,5 @@
-import Model from '../../helpers/bureau/model.js';
+import GithubEvent from '../github/GithubEvent.js';
+import Model       from '../../helpers/bureau/model.js';
 
 export default class GithubRepoSource extends Model {
   static get desc(){
@@ -9,15 +10,15 @@ export default class GithubRepoSource extends Model {
     };
   }
 
+  queryEvents(){
+    return this._events ||
+      (this._events = GithubEvent.query({type:'repos', id:this.id}));
+  }
+
   // static query({term}){
   //   return GithubRepo.query({term}).$promise.then(repos=>
   //     repos.map(repo=>new this({full_name:repo.full_name, details:repo}))
   //   );
-  // }
-
-  // get events(){
-  //   return this._events ||
-  //     (this._events = GithubEvent.query({type:'repos', id:this.id}));
   // }
 
   // get details(){
