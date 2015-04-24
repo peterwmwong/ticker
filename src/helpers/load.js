@@ -1,0 +1,52 @@
+import is from './is.js';
+// import loadMOCK from './loadMOCK.js';
+
+export function loadResource(type, url, accessToken){
+  return new Promise(function(fulfill, reject){
+    let xhr = new window.XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.setRequestHeader('Authorization', `token ${accessToken}`);
+    xhr.responseType = type;
+    xhr.send();
+    xhr.onload  = ()=>fulfill(xhr);
+    xhr.onerror = ()=>reject(xhr);
+  });
+}
+
+export function loadJSON(url){
+  return new Promise((resolve, reject)=>{
+    loadResource('json', url, loadJSON.accessToken).then(({response})=>{
+      if(!response) reject(new Error('Not found'));
+      resolve(is.aString(response) ? JSON.parse(response) : response);
+    });
+  });
+}
+
+export default function loadMOCKJSON(url){
+  let match;
+  match = /https:\/\/api.github.com\/(repos\/[A-z\-]+\/[A-z\-]+\/events)/.exec(url);
+  if(match){
+    return loadJSON('/src/models/github/GithubEventMapperMOCKDATA-allEvents.json');
+  }
+  // else if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/pulls/.test(url)){
+  //   return githubRepoPulls;
+  // }
+  // else if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/[A-z\-]+\/issues/.test(url)){
+  //   return githubRepoIssues;
+  // }
+  // else if(/https:\/\/api.github.com\/users\/[A-z\-]+\/events/.test(url)){
+  //   return githubEvents;
+  // }
+  // else if(/https:\/\/api.github.com\/users\/[A-z\-]+/.test(url)){
+  //   return githubUsers.items[0];
+  // }
+  // else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url)){
+  //   return githubUsers;
+  // }
+  // else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url)){
+  //   return githubUsers;
+  // }
+  else{
+    throw `loadMock: No mock for ${url}`;
+  }
+}

@@ -1,11 +1,9 @@
 <link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=RobotoDraft:thin,light,regular,bold,italic&amp;lang=en'>
-<link rel='stylesheet' type='text/css' href='../css/base.css'>
-<link rel='stylesheet' type='text/css' href='../css/color.css'>
-<link rel='stylesheet' type='text/css' href='../css/keyframes.css'>
-<link rel='stylesheet' type='text/css' href='../css/layout.css'>
-<link rel='stylesheet' type='text/css' href='../css/text.css'>
-<link rel='stylesheet' type='text/css' href='../css/components/Card.css'>
+<link rel='stylesheet' type='text/css' href='../all.css'>
 
+<CONFIG></CONFIG>
+
+<link rel="import" href="../../components/polymer/polymer.html">
 <link rel='import' href='../../components/iron-icon/iron-icon.html'>
 <link rel='import' href='../../components/layout/layout.html'>
 <link rel='import' href='../../components/paper-drawer-panel/paper-drawer-panel.html'>
@@ -17,49 +15,24 @@
 <link rel='import' href='ticker-icons.html'>
 <link rel='import' href='ticker-stream.html'>
 
+<script>
+// TODO(pwong): Basis requires this. Fuck.
+Object.assign = function(){
+  var dest = arguments[0];
+  var sources = Array.prototype.slice.call(arguments, 1);
+  sources.map(function(src){
+    Object.keys(src).map(function(k){
+      dest[k] = src[k];
+    })
+  })
+  return dest;
+};
+</script>
+
+<script src="../../vendor/js/statechart.js"></script>
+<script src="../../vendor/js/basis.min.js"></script>
 <script src="../../components/firebase/firebase.js"></script>
-
-<style>
-/* TODO(pwong): Make sure the drawer sits above main content. This is brittle,
-                breaks encapsulation and shouldn't exist. */
-paper-drawer-panel .paper-drawer-panel {
-  z-index: 1;
-}
-
-.ticker-app__drawer-button {
-  width: 56px;
-  height: 56px;
-  line-height: 53px;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-}
-
-.ticker-app__top-toolbar {
-  z-index: 1;
-  width: 100%;
-}
-
-.ticker-app__top-toolbar {
-  position: absolute;
-}
-
-.ticker-app__top-toolbar.is-scrolling-up {
-  position: fixed;
-  animation: slide-down 300ms ease-out;
-  -webkit-animation: slide-down 300ms ease-out;
-  box-shadow: 0 3px 3px rgba(0,0,0, 0.333);
-}
-
-@media (min-width: 639px) {
-  .ticker-app__bottom-toolbar {
-    height: 192px;
-    background-color: #3F51B5;
-  }
-}
-</style>
+<script src="../appState.js"></script>
 
 <dom-module id='ticker-app'>
   <template>
@@ -74,7 +47,7 @@ paper-drawer-panel .paper-drawer-panel {
               <paper-ripple></paper-ripple>
               <iron-icon icon='ticker:menu'></iron-icon>
             </div>
-            <span class='flex t-normal'>Toolbar</span>
+            <span class='flex t-normal'>[[appView]]</span>
           </paper-toolbar>
 
           <ticker-stream class='fit'></ticker-stream>
@@ -84,41 +57,4 @@ paper-drawer-panel .paper-drawer-panel {
     </paper-drawer-panel>
   </template>
 </dom-module>
-<script>
-Polymer({
-  is: 'ticker-app',
-  properties: {
-    _topToolbarClass: {
-      type:  String,
-      value: 'ticker-app__top-toolbar'
-    },
-    _prevScrollTop: {
-      type:  Number,
-      value: 0
-    }
-  },
-
-  onPanelScroll: function(e){
-    var scrollTop = e.detail.target.scrollTop;
-    if(scrollTop && this._prevScrollTop > scrollTop){
-      if(this._topToolbarClass !== 'ticker-app__top-toolbar is-scrolling-up') {
-        this.$.topToolbar.style.top = '';
-        this._topToolbarClass = 'ticker-app__top-toolbar is-scrolling-up';
-      }
-    } else {
-      if(this._topToolbarClass !== 'ticker-app__top-toolbar') {
-        this.$.topToolbar.style.top = scrollTop+'px';
-        this._topToolbarClass = 'ticker-app__top-toolbar';
-      }
-    }
-
-    this.$.bottomBar = scrollTop
-    this._prevScrollTop = scrollTop;
-  },
-
-  onToggleDrawer: function(e){
-    e.stopPropagation();
-    this.$.drawer.togglePanel();
-  }
-});
-</script>
+<script src="ticker-app.js"></script>

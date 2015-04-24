@@ -4,13 +4,15 @@
   "dependencies": {
     "firebase"           : "~2.2.4",
     "iron-icon"          : "peterwmwong/iron-icon#revert-flex",
-    "iron-iconset-svg"   : "peterwmwong/iron-iconset-svg#add-iron-meta-import",
+    "iron-iconset-svg"   : "peterwmwong/iron-iconset-svg#master",
+    "iron-meta"          : "polymerelements/iron-meta#master",
+    "iron-selector"      : "polymerelements/iron-selector#0.8-behaviors",
     "layout"             : "Polymer/layout#master",
-    "paper-drawer-panel" : "PolymerElements/paper-drawer-panel#rename-to-paper-drawer-panel",
-    "paper-header-panel" : "peterwmwong/paper-header-panel#paper-toolbar",
+    "paper-drawer-panel" : "PolymerElements/paper-drawer-panel#master",
+    "paper-header-panel" : "peterwmwong/paper-header-panel#master",
     "paper-item"         : "PolymerElements/paper-item#master",
     "paper-ripple"       : "peterwmwong/paper-ripple#target-parent-before-host",
-    "paper-toolbar"      : "PolymerElements/paper-toolbar#paper",
+    "paper-toolbar"      : "PolymerElements/paper-toolbar#master",
     "polymer"            : "Polymer/polymer#0.8-preview",
     "webcomponentsjs"    : "~0.6.0"
   }

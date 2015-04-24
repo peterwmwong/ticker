@@ -1,0 +1,188 @@
+/* global __dirname, process, require */
+
+import babel             from 'gulp-babel';
+import babelify          from 'babelify';
+import watchify          from 'watchify';
+import browserify        from 'browserify';
+import cache             from 'gulp-cached';
+import connect           from 'gulp-connect';
+import fs                from 'fs';
+import gulp              from 'gulp';
+import gutil             from 'gulp-util';
+import livereload        from 'gulp-livereload';
+import plumber           from 'gulp-plumber';
+import postcss           from 'gulp-postcss';
+import postcssCalc       from 'postcss-calc';
+import postcssProperties from 'postcss-custom-properties';
+import postcssImport     from 'postcss-import';
+import remember          from 'gulp-remember';
+import replace           from 'gulp-replace';
+import rimraf            from 'rimraf';
+import source            from 'vinyl-source-stream';
+import sourcemaps        from 'gulp-sourcemaps';
+import svgSprite         from 'gulp-svg-sprites';
+import vulcanize         from 'vulcanize';
+
+// Constants
+// ---------
+
+const ENVIRONMENT = process.argv[2] === 'production' ? 'production' : 'development';
+const CONFIG = require('./config/' + ENVIRONMENT + '.js');
+const PATHS = {
+  src       : './src/',
+  build     : './build/',
+  specSrc   : './spec/',
+  specBuild : './spec_build/'
+};
+
+// Cleanup Tasks
+// -------------
+
+gulp.task('clean', done=>rimraf(PATHS.build, done));
+
+// Static Server
+// -------------
+
+gulp.task('server', ()=>
+  connect.server({
+    livereload: false,
+    port: 8081,
+    root: [__dirname]
+  })
+);
+
+// Compile Tasks
+// -------------
+
+gulp.task('iconsets', ()=>
+  gulp.src('vendor/icons/github/*.svg')
+    .pipe(svgSprite({
+      transformData:data=>{
+        data.svg.forEach(svg=>{
+          // Center the icons
+          if(svg.viewBox){
+            let viewBox = svg.viewBox.split(' ');
+            let width = +viewBox[2];
+            let translateX = (1024 - width) / 2;
+            svg.correctiveTransform = `translate(${translateX},0)`;
+          }
+        });
+        return data;
+      },
+      mode: 'defs',
+      svg: {
+        defs: 'github.html'
+      },
+      preview: false,
+      templates: {
+        defs: fs.readFileSync('./tasks/svg-sprite-template-core-iconset.html', 'utf-8')
+      }
+    }))
+    .pipe(gulp.dest(`${PATHS.build}/iconsets`))
+);
+
+gulp.task('styles', ()=>
+  gulp.src(`${PATHS.src}css/all.css`)
+    .pipe(plumber())
+    .pipe(cache('styles'))
+    .pipe(postcss([
+      postcssImport({glob:true}),
+      postcssProperties(),
+      postcssCalc()
+    ]))
+    .pipe(remember('styles'))
+    .pipe(gulp.dest(PATHS.build))
+    .pipe(livereload())
+);
+
+// Automatically include all mixins in the `src/template/mixins/` directory
+gulp.task('templates', ()=>
+  gulp.src(`${PATHS.src}**/*.html`)
+    .pipe(cache('templates'))
+    .pipe(
+      replace(
+        /<CONFIG><\/CONFIG>/g,
+        `<script>window.TICKER_CONFIG = ${JSON.stringify(CONFIG)}</script>`
+      )
+    )
+    .pipe(remember('templates'))
+    .pipe(gulp.dest(PATHS.build))
+    .pipe(livereload())
+);
+
+gulp.task('code-elements', ()=>
+  gulp.src([`${PATHS.src}elements/**/*.js`])
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(cache('scripts'))
+    .pipe(babel({modules:'ignore'}))
+    .pipe(remember('scripts'))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(`${PATHS.build}elements/`))
+    .pipe(livereload())
+);
+
+// add custom browserify options here
+
+gulp.task('code', (()=>{
+  let b = watchify(browserify({
+    entries       : [`${PATHS.src}states/appState.js`],
+    insertGlobals : false,
+    detectGlobals : false,
+    debug         : true
+  }).transform(babelify.configure({
+    optional: ['es7.classProperties', 'es7.decorators']
+  })));
+
+  function bundle(){
+    return b.bundle()
+      .on('error', e=>gutil.log('Browserify Error', e))
+      .pipe(source('appState.js'))
+      .pipe(gulp.dest(PATHS.build))
+      .pipe(livereload());
+  }
+
+  b.on('update', bundle); // on any dep update, runs the bundler
+  b.on('log', gutil.log); // output build logs to terminal
+
+  return bundle;
+})());
+
+gulp.task('compile', ['code', 'code-elements', 'styles', 'templates']);
+
+// Test Tasks
+// ----------
+
+// Watch Tasks
+// -----------
+gulp.task('watch', ()=>{
+  livereload.listen({liveCSS: false});
+
+  gulp.watch(`${PATHS.src}**/*.html`, ['templates']);
+  gulp.watch(`${PATHS.src}**/*.css`, ['styles']);
+  gulp.watch(`${PATHS.src}(models|states|helpers)/**/*.js`, ['code']);
+  gulp.watch(`${PATHS.src}elements/**/*.js`, ['code-elements']);
+});
+
+
+// CLI Tasks
+// ---------
+
+gulp.task('dev', ['clean', 'server'], ()=>
+  gulp.start('compile-watch')
+);
+gulp.task('compile-watch', ['compile'/*, 'iconsets'*/], ()=>
+  gulp.start('watch')
+);
+
+gulp.task('production', ['clean', 'spec-clean'], ()=>
+  gulp.start('prod-compile')
+);
+gulp.task('prod-compile', ['templates', 'styles', 'code-prod', 'iconsets'], ()=>
+  vulcanize.setOptions({
+    inline:true,
+    strip:true,
+    input:'build/index.html',
+    output:'build/index.html'
+  }, vulcanize.processDocument )
+);

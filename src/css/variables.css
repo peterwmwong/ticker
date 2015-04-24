@@ -1,0 +1,10 @@
+:root {
+  --gray-darkest        :hsl(195,80%,10%);
+  --gray-darker         :hsl(192,14%,40%);
+  --gray-dark           :hsl(192,14%,50%);
+  --gray-light          :hsl(191,15%,73%);
+  --gray-lighter        :hsl(198,16%,87%);
+  --gray-lightest       :hsl(206,19%,92%);
+
+  --brand-primary-light :hsl(197,69%,50%);
+}

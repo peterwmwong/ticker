@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-color: #e7ebee;
+  background-color: var(--gray-lightest);
   font-family: "RobotoDraft", Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   font-weight: 300;
@@ -18,7 +18,7 @@ a {
 blockquote {
   margin: 0;
   padding: 0 8px;
-  border-left: 4px solid #e7ebee;
+  border-left: 4px solid var(--gray-lightest);
 }
 
 p, ul, li {

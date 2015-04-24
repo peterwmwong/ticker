@@ -1,32 +1,43 @@
 {
+  "parser": "babel-eslint",
   "globals": {
-    "document": true,
-    "Firebase": true,
+    "Basis": true,
     "Polymer": true,
-    "Promise": true,
-    "window": true,
-    "XMLHttpRequest": true,
+    "Firebase": true,
+    "TICKER_CONFIG": true,
+    "SyncState": true
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "ecmaFeatures": {
+    "modules": true
   },
   "rules": {
+    "no-loop-func": 0,
+    "no-var": 2,
     "brace-style": [2, "stroustrup", {"allowSingleLine": true }],
-    "camelcase": [2, {"properties": "never"}],
-    "comma-dangle": "always",
+    "camelcase": [0, {"properties": "never"}],
+    "comma-dangle": "never",
     "curly": [2, "multi-line"],
-    "dot-notation": 0,
+    "dot-notation": 2,
     "eol-last": 0,
     "key-spacing": 0,
-    "new-cap": [2, {"newIsCap": true, "capIsNew": true}],
+    "new-cap": [2, {
+      "capIsNewExceptions":["Polymer", "Model", "C", "State"],
+      "newIsCapExceptions":["State"]
+    }],
     "new-parens": 2,
     "no-irregular-whitespace": true,
     "no-multi-spaces": 0,
     "no-multiple-empty-lines": 0,
     "no-multiple-empty-lines": 1,
     "no-spaced-func": true,
-    "no-trailing-spaces": 0,
     "no-underscore-dangle": false,
     "no-unused-expressions": 0,
     "no-unused-vars": [2, {"args": "none"}],
-    "quotes": 0,
+    "quotes": [2, "single", "avoid-escape"],
     "space-before-blocks": [2, "never"],
     "strict": 0
   }
