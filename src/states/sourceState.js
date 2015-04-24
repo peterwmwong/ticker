@@ -31,11 +31,8 @@ export default {
         'tab':{
           attrs:{'tab':({tab})=>tab || 'updates'},
           events:{
-            'tabChanged':tab=>{
-              if(['updates', 'repos', 'info'].indexOf(tab) + 1){
-                reenter({tab});
-              }
-            }
+            'tabChanged':tab=>
+              (['updates', 'repos', 'info'].indexOf(tab) + 1) && reenter({tab})
           }
         }
       }
@@ -43,17 +40,19 @@ export default {
     'GithubRepoSource':{
       states:{
         'tab':{
-          attrs:{'tab':({tab})=>tab || 'updates'},
+          attrs:{
+            'tab':({tab})=>tab || 'updates',
+            'events'(){ return this.attrs.source.queryEvents(); }
+          },
           events:{
-            'tabChanged':tab=>{
-              if([
+            'tabChanged':tab=>
+              ([
                 'updates',
                 'code',
                 'pullRequests',
                 'issues',
                 'info'].indexOf(tab) + 1
-              ){ reenter({tab}); }
-            }
+              ) && reenter({tab})
           }
         }
       }
