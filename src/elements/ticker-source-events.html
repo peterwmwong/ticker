@@ -1,22 +1,23 @@
+<link rel='import' href='./common/ticker-repo-name.html'>
+
 <style>
-.ticker-stream__card-container {
+.ticker-events__card-container {
   padding-top: 60px;
 }
 
 @media (min-width: 639px) {
-  .ticker-stream__card-container {
+  .ticker-events__card-container {
     padding: 80px 40px 0 280px;
   }
 }
 </style>
-<dom-module id='ticker-stream'>
+<dom-module id='ticker-source-events'>
   <template>
-    <div class='ticker-stream__card-container'>
+    <div class='ticker-events__card-container'>
       <template is='x-repeat' items='[[events]]'>
-        <div class='ticker-stream__card Card relative'>
+        <div class='ticker-events__card Card relative'>
           <div class='Card-title'>
-            <span class='c-gray-dark'>PolymerElements/</span>
-            paper-ripple
+            <ticker-repo-name repo-name='[[item.repo.name]]'></ticker-repo-name>
           </div>
           <div class='Card-subject'>[[item.type]]</div>
           <div class='Card-action'>[[item.created_at]]</div>
@@ -27,7 +28,7 @@
 </dom-module>
 <script>
 Polymer({
-  is: 'ticker-stream',
+  is: 'ticker-source-events',
   behaviors:[
     new SyncState({
       events: 'events'

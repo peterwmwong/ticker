@@ -1,0 +1,20 @@
+<style>
+ticker-repo-name {
+  display: inline-block;
+}
+</style>
+<dom-module id='ticker-repo-name'>
+  <template>
+    <span class='c-gray-dark'>[[org(repoName)]]</span><span class='c-gray-darker'>[[repo(repoName)]]</span>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'ticker-repo-name',
+  properties:{
+    repoName:String
+  },
+  org: function(n){return n.split('/')[0]+'/'},
+  repo:function(n){return n.split('/')[1]}
+});
+</script>
