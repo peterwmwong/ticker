@@ -19,7 +19,7 @@ Polymer({
   },
 
   onPanelScroll(e){
-    let scrollTop = e.detail.target.scrollTop;
+    const scrollTop = e.detail.target.scrollTop;
     if(scrollTop && this._prevScrollTop > scrollTop){
       if(this._topToolbarClass !== 'ticker-app__top-toolbar is-scrolling-up'){
         this.$.topToolbar.style.top = '';
