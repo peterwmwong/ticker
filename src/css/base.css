@@ -56,3 +56,19 @@ pre code {
 marked-element img {
   width: 100%;
 }
+
+::-webkit-input-placeholder {
+ color: var(--gray-light);
+}
+
+::input-placeholder {
+ color: var(--gray-light);
+}
+
+::-moz-placeholder {
+ color: var(--gray-light);
+}
+
+::-ms-input-placeholder {
+ color: var(--gray-light);
+}

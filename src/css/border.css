@@ -126,3 +126,7 @@
   border-bottom-width: 4px !important;
   border-bottom-style: solid !important;
 }
+
+.u-border-radius-2 {
+  border-radius: 2px !important;
+}
