@@ -10,11 +10,6 @@ const IS_PROD = false;
 
 function instanceOfType(obj, type){ return obj.constructor === type; }
 
-function UNIMPLEMENTED_MAPPER_METHOD(){
-  return new Promise((resolve, reject)=>
-    reject('A mapper or mapper method was not implemented'));
-}
-
 function mergeAttrPropertiesDescriptor(attr, propsDescriptor){
   if(!attr){ return; }
   for(let name in attr){
@@ -66,21 +61,9 @@ function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
   }
 }
 
-function getNormalizedMapper(mapper){
-  mapper = mapper || {};
-  return {
-    create: mapper.create || UNIMPLEMENTED_MAPPER_METHOD,
-    update: mapper.update || UNIMPLEMENTED_MAPPER_METHOD,
-    get   : mapper.get    || UNIMPLEMENTED_MAPPER_METHOD,
-    query : mapper.query  || UNIMPLEMENTED_MAPPER_METHOD,
-    remove: mapper.remove || UNIMPLEMENTED_MAPPER_METHOD
-  };
-}
-
 function loadJSONAttr(attrs, json){
   for(let name in attrs){
-    let attr = attrs[name];
-    if(attr.name === 'Date'){
+    if(attrs[name] === Date){
       json[name] = new Date(json[name]);
     }
   }
@@ -126,26 +109,30 @@ export default class Model {
 
   static get(id){
     this._ensureModelPrepared();
-    return this.mapper.get(id).then(data=>this.loadJSON(data));
+    if(this._desc.mapper.get){
+      return this._desc.mapper.get(id).then(data=>this.loadJSON(data));
+    }
   }
 
   static query(options){
     this._ensureModelPrepared();
-    const promise = this.mapper.query(options);
-    if(!IS_PROD && !(promise instanceof Promise)){
-      errorMapperDidntReturnPromise(this, 'query', promise);
+    if(this._desc.mapper.query){
+      const promise = this._desc.mapper.query(options);
+      if(!IS_PROD && !(promise instanceof Promise)){
+        errorMapperDidntReturnPromise(this, 'query', promise);
+      }
+      return promise.then(dataArray=>
+        dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
+      );
     }
-    return promise.then(dataArray=>
-      dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
-    );
   }
 
   // Private
 
   static _ensureModelPrepared(){
     if(this.__modelPrepared){ return; }
-
     const desc = this._desc = this.desc;
+
     // Generate the properties (getter/setters) for all attributes and
     // associations
     const propsDescriptor = {};
@@ -154,7 +141,6 @@ export default class Model {
     mergeHasOnePropertiesDescriptor(desc.hasOne, propsDescriptor);
     Object.defineProperties(this.prototype, propsDescriptor);
 
-    this.mapper = getNormalizedMapper(desc.mapper);
     this.__modelPrepared = true;
   }
 
