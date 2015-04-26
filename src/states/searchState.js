@@ -1,6 +1,6 @@
-import {reenter} from '../helpers/svengali.js';
-import GithubUser from '../models/github/GithubUser.js';
-import GithubRepo from '../models/github/GithubRepo.js';
+import {goto, reenter} from '../helpers/svengali.js';
+import GithubUser      from '../models/github/GithubUser.js';
+import GithubRepo      from '../models/github/GithubRepo.js';
 
 let currentQuery = null;
 function delayedSourceQuery(term){
@@ -12,12 +12,13 @@ function delayedSourceQuery(term){
       term,
       promise: new Promise(resolve=>{
         setTimeout(()=>{
+          const currentTerm = currentQuery.term;
           currentQuery = null;
-          Promise.all([GithubUser.query({term}), GithubRepo.query({term})])
+          Promise.all([GithubUser.query({term:currentTerm}), GithubRepo.query({term:currentTerm})])
             .then(([users, repos])=>
               resolve(users.concat(repos).sort((a, b)=>b.score - a.score).slice(0, 10))
             );
-        }, 300);
+        }, 500);
       })
     };
   }
@@ -25,14 +26,23 @@ function delayedSourceQuery(term){
 }
 
 export default {
-  attrs:{
-    'appSearch':true,
-    'appSearchResults'({appSearchQueryText}){
-      return appSearchQueryText ? delayedSourceQuery(appSearchQueryText) : [];
+  states:{
+    'off':{},
+    'on':{
+      attrs:{
+        'appSearch':true,
+        'appSearchResults'({appSearchQueryText}){
+          return appSearchQueryText ? delayedSourceQuery(appSearchQueryText) : [];
+        }
+      },
+      events:{
+        'appSearchTextCleared':reenter({appSearchQueryText:''}),
+        'appSearchTextChanged':appSearchQueryText=>reenter({appSearchQueryText})
+      }
     }
   },
   events:{
-    'appSearchTextCleared':reenter({appSearchQueryText:''}),
-    'appSearchTextChanged':appSearchQueryText=>reenter({appSearchQueryText})
+    'appSearchClose':goto('off'),
+    'appSearchOpen' :goto('on')
   }
 };

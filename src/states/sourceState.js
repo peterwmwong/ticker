@@ -34,7 +34,10 @@ export default {
     'GithubUserSource':{
       states:{
         'tab':{
-          attrs:{'tab':({tab})=>tab || 'updates'},
+          attrs:{
+            'tab':({tab})=>tab || 'updates',
+            'events'(){ return this.attrs.source.queryEvents(); }
+          },
           events:{
             'tabChanged':tab=>
               (['updates', 'repos', 'info'].indexOf(tab) + 1) && reenter({tab})

@@ -1,6 +1,4 @@
-- firebase w/slim models
-- gulp/postcss
-
+- Get rid of Source abstraction? ...since we have polymorphic hasMany w/Bureau
 
 ### Basis
 

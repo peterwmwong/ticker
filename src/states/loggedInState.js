@@ -6,6 +6,7 @@ import sourceState from './sourceState.js';
 export default {
   params:['user', 'accessTokens'],
   attrs:{
+    'isLoggedIn': true,
     'user':({user})=>user,
     'githubUsername':({user})=>user.githubUsername,
     'accessTokens':({accessTokens})=>{
@@ -15,16 +16,7 @@ export default {
     }
   },
   parallelStates:{
-    'appSearch':{
-      states:{
-        'off':{},
-        'on':searchState
-      },
-      events:{
-        'appSearchClose':goto('./off'),
-        'appSearchOpen':goto('./on')
-      }
-    },
+    'appSearch': searchState,
     'appDrawer':{
       attrs:{
         'favoritedSources'(){ return this.attrs.user.sources; }

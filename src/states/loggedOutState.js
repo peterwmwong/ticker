@@ -14,6 +14,9 @@ function createUserWithDefaults({id, githubUsername}){
 }
 
 export default {
+  attrs:{
+    'isLoggedIn': false
+  },
   states:{
     'determineAuth':{
       events:{

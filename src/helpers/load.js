@@ -1,5 +1,3 @@
-// import loadMOCK from './loadMOCK.js';
-
 export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject){
     const xhr = new window.XMLHttpRequest();
@@ -12,7 +10,7 @@ export function loadResource(type, url, accessToken){
   });
 }
 
-export function loadJSON(url){
+export default function loadJSON(url){
   return new Promise((resolve, reject)=>{
     loadResource('json', url, loadJSON.accessToken).then(({response})=>{
       if(!response) reject(new Error('Not found'));
@@ -21,7 +19,7 @@ export function loadJSON(url){
   });
 }
 
-export default function loadMOCKJSON(url){
+export function loadMOCKJSON(url){
   const match = /https:\/\/api.github.com\/(repos\/[A-z\-]+\/[A-z\-]+\/events)/.exec(url);
   if(match){
     return loadJSON('/src/models/github/GithubEventMapperMOCKDATA-allEvents.json');

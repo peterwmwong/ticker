@@ -20,10 +20,15 @@ ticker-search.is-enabled {
 }
 
 .ticker-search__result-icon {
+  display: none;
   border-radius: 50%;
   margin-left: -4px;
   width: 32px;
   height: 32px;
+}
+
+.ticker-search__result-icon[src] {
+  display: block;
 }
 </style>
 <dom-module id='ticker-search'>
@@ -39,13 +44,19 @@ ticker-search.is-enabled {
       </div>
       <template is='x-repeat' items='[[appSearchResults]]'>
         <paper-icon-item class='c-gray-darkest l-padding-r0' icon-width='32px'>
-          <template is="x-if" if='[[item.avatar_url]]'><img item-icon src$='[[parent.item.avatar_url]]' class='ticker-search__result-icon'></template>
-          <template is="x-if" if='[[!item.avatar_url]]'><iron-icon item-icon class='c-gray-light' icon='github:book' style='padding-left:1px'></iron-icon></template>
+          <img item-icon
+               src$='[[item.avatar_url]]'
+               class='ticker-search__result-icon'>
+          <iron-icon item-icon
+                     hidden='[[item.avatar_url]]'
+                     class='c-gray-light'
+                     icon='github:book'
+                     style='padding-left:1px'></iron-icon>
 
-          <paper-item-body two-line class='l-margin-l6 u-border-b1 c-border-gray-lighter'>
-            <template is="x-if" if='[[item.login]]'><span>[[parent.item.login]]</span></template>
-            <template is="x-if" if='[[!item.login]]'><ticker-repo-name repo-name='[[parent.item.full_name]]'></ticker-repo-name></template>
-
+          <paper-item-body two-line
+                           class='l-margin-l6 u-border-b1 c-border-gray-lighter'>
+            <span>[[item.login]]</span>
+            <ticker-repo-name repo-name='[[item.full_name]]'></ticker-repo-name>
             <div secondary class='c-gray-dark l-padding-r4'>[[item.description]]</div>
           </paper-item-body>
         </paper-icon-item>

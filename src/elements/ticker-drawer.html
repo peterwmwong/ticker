@@ -3,27 +3,30 @@
 <link rel='import' href='../../components/paper-ripple/paper-ripple.html'>
 
 <style>
-  ticker-drawer-item {
-    position: relative;
-  }
-
-  /*TODO(pwong): Temporary*/
-  .ticker-drawer__item-icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: #ccc;
-  }
+/*TODO(pwong): Temporary*/
+.ticker-drawer__item-icon {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ccc;
+}
 </style>
 <dom-module id='ticker-drawer-item'>
   <template>
-    <paper-icon-item>
-      <div item-icon class='ticker-drawer__item-icon'></div>
-      <paper-item-body two-line>
-        <div>[[source.id]]</div>
-        <div secondary>[[source.id]]</div>
+    <paper-icon-item icon-width='40px'>
+      <img item-icon
+           hidden='[[!source.avatar_url]]'
+           src$='[[source.avatar_url]]'
+           class='ticker-drawer__item-icon'>
+      <iron-icon item-icon
+                 hidden='[[source.avatar_url]]'
+                 class='c-gray-light'
+                 icon='github:book'
+                 style='padding-left:1px'></iron-icon>
+      <paper-item-body>
+        <div>[[source.displayName]]</div>
       </paper-item-body>
       <paper-ripple></paper-ripple>
     </paper-icon-item>
