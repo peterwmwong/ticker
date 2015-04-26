@@ -1,9 +1,9 @@
 Polymer({
-  is: 'ticker-app',
+  is: 'ticker-github-user-view',
 
   behaviors:[
     new SyncState({
-      appView: 'appView'
+      source: 'source'
     })
   ],
 
@@ -33,14 +33,14 @@ Polymer({
       }
     }
 
-    this.$.bottomBar = scrollTop;
+    // this.$.bottomBar = scrollTop;
     this._prevScrollTop = scrollTop;
   },
 
   _onToggleDrawer(e){
     e.stopPropagation();
-    this.$.drawer.togglePanel();
+    this.fire('toggle-app-drawer', null, {bubbles:false});
   },
 
-  _onOpenSearch:()=>window.appState.fire('appSearchOpen')
+  _onOpenSearch:()=>appState.fire('appSearchOpen')
 });
