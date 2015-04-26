@@ -101,7 +101,7 @@ gulp.task('code-elements', ()=>
 // add custom browserify options here
 
 gulp.task('code', (()=>{
-  let b = watchify(browserify({
+  const b = watchify(browserify({
     entries       : [`${PATHS.src}states/appState.js`],
     insertGlobals : false,
     detectGlobals : false,
