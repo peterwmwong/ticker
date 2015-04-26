@@ -4,8 +4,8 @@ const IS_PROD = false;
 const ARRAY_PROTO = Array.prototype;
 const ARRAY_FUNCTIONS = {
   splice: function(index, numToRemove, ...itemsToAdd){
-    let spliceArgs = [index, numToRemove];
-    let {type, inverse, instanceOf} = this._hasMany;
+    const spliceArgs = [index, numToRemove];
+    const {type, inverse, instanceOf} = this._hasMany;
     itemsToAdd.filter(newItem=>{
       if(instanceOf(newItem, type)){
         // Reach inside the new association and set inverse association
@@ -17,7 +17,7 @@ const ARRAY_FUNCTIONS = {
       }
     });
 
-    let removedItems = ARRAY_PROTO.splice.apply(this, spliceArgs);
+    const removedItems = ARRAY_PROTO.splice.apply(this, spliceArgs);
 
     // Reach inside the removed association and unset the inverse association
     if(inverse){
@@ -41,7 +41,7 @@ const ARRAY_FUNCTIONS = {
 };
 
 export default function hasManyArray(hasMany){
-  let array = [];
+  const array = [];
   array._hasMany = hasMany;
   for(let method in ARRAY_FUNCTIONS){ array[method] = ARRAY_FUNCTIONS[method]; }
   return array;

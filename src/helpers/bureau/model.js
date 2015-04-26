@@ -131,8 +131,8 @@ export default class Model {
 
   static query(options){
     this._ensureModelPrepared();
-    let promise = this.mapper.query(options);
-    if(!IS_PROD && !(promise) instanceof Promise){
+    const promise = this.mapper.query(options);
+    if(!IS_PROD && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this, 'query', promise);
     }
     return promise.then(dataArray=>
@@ -145,10 +145,10 @@ export default class Model {
   static _ensureModelPrepared(){
     if(this.__modelPrepared){ return; }
 
-    let desc = this._desc = this.desc;
+    const desc = this._desc = this.desc;
     // Generate the properties (getter/setters) for all attributes and
     // associations
-    let propsDescriptor = {};
+    const propsDescriptor = {};
     mergeAttrPropertiesDescriptor(desc.attr, propsDescriptor);
     mergeHasManyPropertiesDescriptor(desc.hasMany, propsDescriptor);
     mergeHasOnePropertiesDescriptor(desc.hasOne, propsDescriptor);

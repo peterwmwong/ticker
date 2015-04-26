@@ -318,7 +318,7 @@ export class State {
     this.stateChart = stateChart;
     this.defaultState = defaultState;
 
-    let scState = this.scState = statechart.State(name, {
+    const scState = this.scState = statechart.State(name, {
       name       : name,
       concurrent : !!parallelStates,
       history    : !!history
@@ -393,7 +393,7 @@ export class State {
 
   _transitionToDynamicState(func){
     return (...args)=>{
-      let result = func.apply(this, args);
+      const result = func.apply(this, args);
       if(result instanceof Goto){
         this.scState.goto(result.path, {context:result.params || {}});
       }
@@ -404,8 +404,8 @@ export class State {
   }
 
   _registerEvent(eventName, eventValue){
-    let type = typeof eventValue;
-    let callback =
+    const type = typeof eventValue;
+    const callback =
         eventValue instanceof Goto    ? this._transitionToState(eventValue)
       : type === 'function'           ? this._transitionToDynamicState(eventValue)
       : eventValue instanceof Reenter ? this._transitionToSameState(eventValue)
@@ -420,7 +420,7 @@ export class State {
   }
 
   _resolveAttrValue(attrName){
-    let params = this._currentParams;
+    const params = this._currentParams;
     let result;
 
     if(attrName in this._resolvedAttrValues){

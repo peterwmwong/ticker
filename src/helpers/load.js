@@ -2,7 +2,7 @@
 
 export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject){
-    let xhr = new window.XMLHttpRequest();
+    const xhr = new window.XMLHttpRequest();
     xhr.open('GET', url);
     xhr.setRequestHeader('Authorization', `token ${accessToken}`);
     xhr.responseType = type;
@@ -22,8 +22,7 @@ export function loadJSON(url){
 }
 
 export default function loadMOCKJSON(url){
-  let match;
-  match = /https:\/\/api.github.com\/(repos\/[A-z\-]+\/[A-z\-]+\/events)/.exec(url);
+  const match = /https:\/\/api.github.com\/(repos\/[A-z\-]+\/[A-z\-]+\/events)/.exec(url);
   if(match){
     return loadJSON('/src/models/github/GithubEventMapperMOCKDATA-allEvents.json');
   }

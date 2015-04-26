@@ -27,7 +27,7 @@ export default class User extends Model {
           new Promise((resolve, reject)=>
             new Firebase(`${TICKER_CONFIG.firebaseUrl}/users/${id}`).
               once('value', data=>{
-                let val = data.val();
+                const val = data.val();
                 if(val){
                   resolve(val);
                 }

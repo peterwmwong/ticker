@@ -6,7 +6,7 @@ export default {
       return `source-${this.attrs.source && this.attrs.source.constructor.name}`;
     },
     'isSourceFavorited'(){
-      let {user, source} = this.attrs;
+      const {user, source} = this.attrs;
       return user.sources && user.sources.indexOf(source) !== -1;
     },
     'source'({source:s}){
@@ -16,8 +16,8 @@ export default {
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      let {user, source, isSourceFavorited} = this.attrs;
-      let index = user.sources.indexOf(source);
+      const {user, source, isSourceFavorited} = this.attrs;
+      const index = user.sources.indexOf(source);
       if(isSourceFavorited){
         if(index !== -1) user.sources.splice(index, 1);
       }
