@@ -14,8 +14,8 @@ function mergeAttrPropertiesDescriptor(attr, propsDescriptor){
   if(!attr){ return; }
   for(let name in attr){
     propsDescriptor[name] = {
-      get(){ return this._rawModelData[name]; },
-      set(value){ this._rawModelData[name] = value; }
+      get(){ return this._data[name]; },
+      set(value){ this._data[name] = value; }
     };
   }
 }
@@ -93,7 +93,7 @@ export default class Model {
   constructor(data){
     this.constructor._ensureModelPrepared();
 
-    this._rawModelData = data;
+    this._data = data;
     this._associations = {};
     this._initHasMany(data);
     this._initHasOne(data);
