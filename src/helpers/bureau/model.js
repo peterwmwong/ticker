@@ -11,7 +11,6 @@ const IS_PROD = false;
 function instanceOfType(obj, type){ return obj.constructor === type; }
 
 function mergeAttrPropertiesDescriptor(attr, propsDescriptor){
-  if(!attr){ return; }
   for(let name in attr){
     propsDescriptor[name] = {
       get(){ return this._data[name]; },
@@ -21,7 +20,6 @@ function mergeAttrPropertiesDescriptor(attr, propsDescriptor){
 }
 
 function mergeHasManyPropertiesDescriptor(hasMany, propsDescriptor){
-  if(!hasMany){ return; }
   for(let name in hasMany){
     let assoc = hasMany[name];
     assoc.instanceOf =
@@ -39,7 +37,6 @@ function mergeHasManyPropertiesDescriptor(hasMany, propsDescriptor){
 }
 
 function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
-  if(!hasOne){ return; }
   for(let name in hasOne){
     let {type, inverse} = hasOne[name];
     let instanceOf =
@@ -63,7 +60,7 @@ function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
 
 function loadJSONAttr(attrs, json){
   for(let name in attrs){
-    if(attrs[name] === Date){
+    if(attrs[name] === Date && json[name]){
       json[name] = new Date(json[name]);
     }
   }
@@ -125,6 +122,36 @@ export default class Model {
         dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
       );
     }
+  }
+
+  save(){
+    if(this.constructor._desc.mapper.save){
+      return this.constructor._desc.mapper.save(this).then(data=>
+        data === this ? this : this.loadJSON(data)
+      );
+    }
+  }
+
+  toJSON(){
+    const desc = this.constructor._desc;
+    const json = {};
+    let name;
+    for(name in desc.attr){
+      if(this[name]){
+        json[name] = this[name];
+      }
+    }
+
+    for(name in desc.hasMany){
+      json[name] = this[name].map(m=>m.toJSON());
+    }
+
+    for(name in desc.hasOne){
+      if(this[name]){
+        json[name] = this[name].toJSON();
+      }
+    }
+    return json;
   }
 
   // Private

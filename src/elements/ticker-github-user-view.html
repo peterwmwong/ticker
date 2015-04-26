@@ -32,6 +32,11 @@
 
         <span class='ticker-app__title flex t-normal'>[[source.displayName]]</span>
 
+        <div class='ticker-app__drawer-button ticker-app__drawer-button--favorite' on-click="_onFavorite">
+          <paper-ripple></paper-ripple>
+          <iron-icon icon='[[_favOrUnfavIcon]]'></iron-icon>
+        </div>
+
         <div class='ticker-app__drawer-button ticker-app__drawer-button--search' on-click="_onOpenSearch">
           <paper-ripple></paper-ripple>
           <iron-icon icon='ticker:search'></iron-icon>

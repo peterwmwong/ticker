@@ -3,11 +3,16 @@ Polymer({
 
   behaviors:[
     new SyncState({
+      isSourceFavorited: 'isSourceFavorited',
       source: 'source'
     })
   ],
 
   properties: {
+    isSourceFavorited:{
+      type: Object,
+      observer: '_isSourceFavoritedChanged'
+    },
     _topToolbarClass: {
       type:  String,
       value: 'ticker-app__top-toolbar'
@@ -17,6 +22,12 @@ Polymer({
       value: 0
     }
   },
+
+  _isSourceFavoritedChanged(faved){
+    this._favOrUnfavIcon = faved ? 'ticker:bookmark' : 'ticker:bookmark-outline';
+  },
+
+  _onFavorite(){ appState.fire('toggleFavoriteSource'); },
 
   _onPanelScroll(e){
     const scrollTop = e.detail.target.scrollTop;
@@ -33,7 +44,6 @@ Polymer({
       }
     }
 
-    // this.$.bottomBar = scrollTop;
     this._prevScrollTop = scrollTop;
   },
 

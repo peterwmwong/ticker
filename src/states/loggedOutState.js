@@ -1,15 +1,11 @@
 import {goto}           from '../helpers/svengali.js';
 import User             from '../models/User.js';
-import GithubUserSource from '../models/sources/GithubUserSource.js';
 
 function createUserWithDefaults({id, githubUsername}){
   return new User({
     githubUsername,
     id,
-    sources:[
-      new GithubUserSource({login:`Polymer`}),
-      new GithubUserSource({login:`web-animations`})
-    ]
+    sources:[]
   }).save();
 }
 

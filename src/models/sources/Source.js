@@ -1,9 +1,8 @@
-import GithubUserSource from './GithubUserSource.js';
-import GithubRepoSource from './GithubRepoSource.js';
+import GithubUser from '../github/GithubUser.js';
+import GithubRepo from '../github/GithubRepo.js';
 import {polymorphic}    from '../../helpers/bureau/model.js';
 
 export default polymorphic(
-  [GithubUserSource, GithubRepoSource],
-  ({type})=>
-    type === 'GithubUserSource' ? GithubUserSource : GithubRepoSource
+  [GithubUser, GithubRepo],
+  ({login})=> login ? GithubUser : GithubRepo
 );

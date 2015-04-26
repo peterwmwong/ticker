@@ -5,24 +5,28 @@ export default class GithubRepo extends Model {
   static get desc(){
     return {
       attr:{
-        full_name:String,
         description:String,
+        full_name:String,
+        last_updated:Date,
         name:String,
-        url:String,
+        // Only populated when loaded from the query endpoint
         score:Number
       },
-      mapper:{
-        get:model=>
-          loadJSON(`https://api.github.com/repos/${model.id}`).then(response=>{
-            response.id = model.id;
-            return response;
-          }),
 
+      mapper:{
+        get:id=>loadJSON(`https://api.github.com/repos/${id}`),
         query:({term})=>
           loadJSON(
             `https://api.github.com/search/repositories?q=${term}`
-          ).then(({items})=>items)
+          ).then(({items})=>
+            items.map(u=>{
+              u.id = u.full_name;
+              return u;
+            })
+          )
       }
     };
   }
+
+  get displayName(){ return this.full_name; }
 }

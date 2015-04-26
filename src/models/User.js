@@ -15,14 +15,20 @@ export default class User extends Model {
   static get desc(){
     return {
       attr:{
+        id:String,
         githubUsername:String
       },
       hasMany:{
         sources:{ type:Source }
       },
       mapper: {
-        // create:updateCreate,
-        // update:updateCreate,
+        save:user=>
+          new Promise((resolve, reject)=>
+            new Firebase(`${TICKER_CONFIG.firebaseUrl}/users/${user.id}`).set(
+              user.toJSON(),
+              err=>err ? reject(err) : resolve(user)
+            )
+          ),
         get:id=>
           new Promise((resolve, reject)=>
             new Firebase(`${TICKER_CONFIG.firebaseUrl}/users/${id}`).

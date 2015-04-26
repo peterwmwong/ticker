@@ -1,27 +1,38 @@
-import loadJSON from '../../helpers/load.js';
-import Model    from '../../helpers/bureau/model.js';
+import loadJSON    from '../../helpers/load.js';
+import Model       from '../../helpers/bureau/model.js';
+import GithubEvent from './GithubEvent.js';
 
 export default class GithubUser extends Model {
   static get desc(){
     return {
       attr:{
         avatar_url:String,
+        last_updated:Date,
         login:String,
-        url:String,
-        score:Number
+        score:Number,
+        type:String,
+        url:String
       },
-      mapper:{
-        get:model=>
-          loadJSON(`https://api.github.com/users/${model.id}`).then(response=>{
-            response.id = model.id;
-            return response;
-          }),
 
+      mapper:{
+        get:id=>loadJSON(`https://api.github.com/users/${id}`),
         query:({term})=>
           loadJSON(
             `https://api.github.com/search/users?q=${term}`
-          ).then(({items})=>items)
+          ).then(({items})=>
+            items.map(u=>{
+              u.id = u.login;
+              return u;
+            })
+          )
       }
     };
+  }
+
+  get displayName(){ return this.login; }
+
+  queryEvents(){
+    return this._events ||
+      (this._events = GithubEvent.query({type:'users', id:this.login}));
   }
 }

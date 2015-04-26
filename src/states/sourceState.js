@@ -24,14 +24,14 @@ export default {
       else if(index === -1){
         user.sources.push(source);
       }
-      user.$save();
+      user.save();
       return reenter({source});
     }
   },
 
   defaultState(){ return this.attrs.source && this.attrs.source.constructor.name; },
   states:{
-    'GithubUserSource':{
+    'GithubUser':{
       states:{
         'tab':{
           attrs:{
@@ -45,7 +45,7 @@ export default {
         }
       }
     },
-    'GithubRepoSource':{
+    'GithubRepo':{
       states:{
         'tab':{
           attrs:{
