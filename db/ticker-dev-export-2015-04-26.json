@@ -1,0 +1,228 @@
+{
+  "users": {
+    "284734": {
+      "githubUsername": "peterwmwong",
+      "id": "284734",
+      "sources": [
+        {
+          "type": "GithubUserSource",
+          "login": "Polymer"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "web-animations"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "PolymerLabs"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "facebook/react"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "angular/angular"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "facebook/flow"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "emberjs/ember.js"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "sorvell"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "sjmiles"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "rafaelw"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "benogle"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "nathansobo"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "vjeux"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "domokit/mojo"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "kevinpschaaf"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "ebidel"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "robdodson"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "webcomponents"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "skatejs"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "nevir"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "google/traceur-compiler"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "jshint/jshint"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "treshugart"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "staltz"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "facebook/jstransform"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "addyosmani"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "jmesserly"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "sass/libsass"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "domenic"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "arv"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "GoogleWebComponents"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "esprehn"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "morethanreal"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "sebmarkbage"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "iojs"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "simple-elements"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "cdata"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "ssorallen"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "justinfagnani"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "eseidel"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "arodic"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "wibblymat"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "dglazkov"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "babel/babel"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "reactjs/react-future"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "Matt-Esch"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "shans"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "burrows"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "eslint/eslint"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "PolymerElements"
+        },
+        {
+          "type": "GithubRepoSource",
+          "full_name": "atom/atom-keymap"
+        }
+      ]
+    },
+    "5402120": {
+      "githubUsername": "brmenchl",
+      "id": "5402120",
+      "sources": [
+        {
+          "type": "GithubUserSource",
+          "login": "Polymer"
+        },
+        {
+          "type": "GithubUserSource",
+          "login": "web-animations"
+        }
+      ]
+    }
+  }
+}
