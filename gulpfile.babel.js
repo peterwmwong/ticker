@@ -122,7 +122,7 @@ gulp.task('code', (()=>{
   return bundle;
 })());
 
-gulp.task('compile', ['iconsets', 'code', 'code-elements', 'styles', 'templates']);
+gulp.task('compile', ['code', 'code-elements', 'styles', 'templates']);
 
 // Test Tasks
 // ----------
@@ -145,7 +145,7 @@ gulp.task('watch', ()=>{
 gulp.task('dev', ['clean', 'server'], ()=>
   gulp.start('compile-watch')
 );
-gulp.task('compile-watch', ['compile'/*, 'iconsets'*/], ()=>
+gulp.task('compile-watch', ['compile', 'iconsets'], ()=>
   gulp.start('watch')
 );
 
