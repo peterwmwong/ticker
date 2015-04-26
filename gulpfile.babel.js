@@ -6,7 +6,6 @@ import watchify          from 'watchify';
 import browserify        from 'browserify';
 import cache             from 'gulp-cached';
 import connect           from 'gulp-connect';
-import fs                from 'fs';
 import gulp              from 'gulp';
 import gutil             from 'gulp-util';
 import livereload        from 'gulp-livereload';
@@ -20,8 +19,9 @@ import replace           from 'gulp-replace';
 import rimraf            from 'rimraf';
 import source            from 'vinyl-source-stream';
 import sourcemaps        from 'gulp-sourcemaps';
-import svgSprite         from 'gulp-svg-sprites';
 import vulcanize         from 'vulcanize';
+
+import iconsetsTask      from './build_tasks/build-iconsets.js';
 
 // Constants
 // ---------
@@ -55,42 +55,18 @@ gulp.task('server', ()=>
 // -------------
 
 gulp.task('iconsets', ()=>
-  gulp.src('vendor/icons/github/*.svg')
-    .pipe(svgSprite({
-      transformData:data=>{
-        data.svg.forEach(svg=>{
-          // Center the icons
-          if(svg.viewBox){
-            let viewBox = svg.viewBox.split(' ');
-            let width = +viewBox[2];
-            let translateX = (1024 - width) / 2;
-            svg.correctiveTransform = `translate(${translateX},0)`;
-          }
-        });
-        return data;
-      },
-      mode: 'defs',
-      svg: {
-        defs: 'github.html'
-      },
-      preview: false,
-      templates: {
-        defs: fs.readFileSync('./tasks/svg-sprite-template-core-iconset.html', 'utf-8')
-      }
-    }))
+  iconsetsTask(gulp.src('vendor/icons/github/*.svg'))
     .pipe(gulp.dest(`${PATHS.build}/iconsets`))
 );
 
 gulp.task('styles', ()=>
   gulp.src(`${PATHS.src}css/all.css`)
     .pipe(plumber())
-    .pipe(cache('styles'))
     .pipe(postcss([
       postcssImport({glob:true}),
       postcssProperties(),
       postcssCalc()
     ]))
-    .pipe(remember('styles'))
     .pipe(gulp.dest(PATHS.build))
     .pipe(livereload())
 );
@@ -130,9 +106,7 @@ gulp.task('code', (()=>{
     insertGlobals : false,
     detectGlobals : false,
     debug         : true
-  }).transform(babelify.configure({
-    optional: ['es7.classProperties', 'es7.decorators']
-  })));
+  }).transform(babelify));
 
   function bundle(){
     return b.bundle()
@@ -148,7 +122,7 @@ gulp.task('code', (()=>{
   return bundle;
 })());
 
-gulp.task('compile', ['code', 'code-elements', 'styles', 'templates']);
+gulp.task('compile', ['iconsets', 'code', 'code-elements', 'styles', 'templates']);
 
 // Test Tasks
 // ----------
