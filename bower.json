@@ -7,13 +7,14 @@
     "iron-iconset-svg"   : "PolymerElements/iron-iconset-svg#master",
     "iron-meta"          : "PolymerElements/iron-meta#master",
     "iron-selector"      : "PolymerElements/iron-selector#master",
-    "layout"             : "Polymer/layout#master",
+    "iron-flex-layout"   : "PolymerElements/iron-flex-layout#master",
+    "paper-button"       : "PolymerElements/paper-button#master",
     "paper-drawer-panel" : "PolymerElements/paper-drawer-panel#master",
     "paper-header-panel" : "PolymerElements/paper-header-panel#master",
     "paper-item"         : "PolymerElements/paper-item#master",
-    "paper-ripple"       : "peterwmwong/paper-ripple#target-parent-before-host",
+    "paper-ripple"       : "PolymerElements/paper-ripple#master",
     "paper-toolbar"      : "PolymerElements/paper-toolbar#master",
     "polymer"            : "Polymer/polymer#0.8-preview",
-    "webcomponentsjs"    : "~0.6.0"
+    "webcomponentsjs"    : "~0.6.1"
   }
 }

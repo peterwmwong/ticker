@@ -2,7 +2,7 @@
   "name": "paper-ripple",
   "private": true,
   "dependencies": {
-    "polymer": "polymer/polymer#v0.8.0-rc.4"
+    "polymer": "polymer/polymer#v0.8.0-rc.7"
   },
   "devDependencies": {
     "iron-doc-viewer": "polymerelements/iron-doc-viewer#^0.8.0",
@@ -13,14 +13,14 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.6.0",
     "web-component-tester": "~2.2.3"
   },
-  "homepage": "https://github.com/peterwmwong/paper-ripple",
-  "_release": "12105fdb72",
+  "homepage": "https://github.com/PolymerElements/paper-ripple",
+  "_release": "7f1399055f",
   "_resolution": {
     "type": "branch",
-    "branch": "target-parent-before-host",
-    "commit": "12105fdb723d0bafaa5642b4f1a6dd859d580431"
+    "branch": "master",
+    "commit": "7f1399055ff05cc37e3b577d97d00d664816e1d2"
   },
-  "_source": "git://github.com/peterwmwong/paper-ripple.git",
-  "_target": "target-parent-before-host",
-  "_originalSource": "peterwmwong/paper-ripple"
+  "_source": "git://github.com/PolymerElements/paper-ripple.git",
+  "_target": "master",
+  "_originalSource": "PolymerElements/paper-ripple"
 }
