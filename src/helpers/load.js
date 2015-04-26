@@ -1,4 +1,3 @@
-import is from './is.js';
 // import loadMOCK from './loadMOCK.js';
 
 export function loadResource(type, url, accessToken){
@@ -17,7 +16,7 @@ export function loadJSON(url){
   return new Promise((resolve, reject)=>{
     loadResource('json', url, loadJSON.accessToken).then(({response})=>{
       if(!response) reject(new Error('Not found'));
-      resolve(is.aString(response) ? JSON.parse(response) : response);
+      resolve(typeof response === 'string' ? JSON.parse(response) : response);
     });
   });
 }
@@ -40,12 +39,12 @@ export default function loadMOCKJSON(url){
   // else if(/https:\/\/api.github.com\/users\/[A-z\-]+/.test(url)){
   //   return githubUsers.items[0];
   // }
-  // else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url)){
-  //   return githubUsers;
-  // }
-  // else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url)){
-  //   return githubUsers;
-  // }
+  else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url)){
+    return loadJSON('src/helpers/mock_data/GithubUserQueryMOCK.json');
+  }
+  else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url)){
+    return loadJSON('src/helpers/mock_data/GithubRepoQueryMOCK.json');
+  }
   else{
     throw `loadMock: No mock for ${url}`;
   }
