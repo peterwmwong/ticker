@@ -3,6 +3,7 @@
   - leverages avatar size param (&s=30) for smaller downloads
 - limit search results of users and repositories using `&per_page=10` param
 - upgrade babel
+- Create app icon
 - save Last Login
 
 ### Basis
