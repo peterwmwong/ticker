@@ -1,4 +1,9 @@
-- Get rid of Source abstraction? ...since we have polymorphic hasMany w/Bureau
+- Create user avatar element
+  - abstraction over repos (icon) and users (avatar img url)
+  - leverages avatar size param (&s=30) for smaller downloads
+- limit search results of users and repositories using `&per_page=10` param
+- upgrade babel
+- save Last Login
 
 ### Basis
 
