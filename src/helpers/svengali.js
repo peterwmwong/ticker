@@ -375,7 +375,10 @@ export class State {
 
   _doExit(){
     if(this.exit) this.exit();
-    this._attrKeys.forEach(a=>delete this.stateChart.attrs[a]);
+    this._attrKeys.forEach(a=>{
+      this.stateChart._setAttr(a, undefined);
+      delete this.stateChart.attrs[a];
+    });
   }
 
   _doReenter(reenterObj){

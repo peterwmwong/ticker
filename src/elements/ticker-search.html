@@ -3,13 +3,14 @@
 
 <style>
 ticker-search {
-  display: block;
+  display: none;
   z-index: 2;
   padding: 4px;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 ticker-search.is-enabled {
-  background: rgba(0, 0, 0, 0.6);
+  display: block;
 }
 
 .ticker-search__input {
@@ -21,15 +22,15 @@ ticker-search.is-enabled {
 .ticker-search__result-icon {
   border-radius: 50%;
   margin-left: -4px;
-  width:32px;
-  height:32px;
+  width: 32px;
+  height: 32px;
 }
 </style>
 <dom-module id='ticker-search'>
   <template>
     <div class='c-bg-white l-overflow-hidden u-border-radius-2'>
       <div class='layout horizontal u-border-1 c-border-gray-lighter'>
-        <paper-button style='min-width:48px'>
+        <paper-button style='min-width:48px' on-tap='_onCloseSearch'>
           <iron-icon icon='ticker:arrow-back'></iron-icon>
         </paper-button>
         <input class='l-padding-l1 ticker-search__input flex t-font-size-16'
@@ -74,11 +75,9 @@ Polymer({
     }
   },
 
-  getName: function(searchResult){
-    return searchResult.login || searchResult.full_name;
-  },
-
   _appSearchChanged: function(val){ this.toggleClass('is-enabled', !!val); },
+
+  _onCloseSearch: function(){ appState.fire('appSearchClose'); },
 
   _onSearchTextInput: function(e){
     appState.fire('appSearchTextChanged', e.target.value);

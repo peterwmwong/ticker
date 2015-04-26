@@ -17,8 +17,12 @@ export default {
   parallelStates:{
     'appSearch':{
       states:{
-        'on':searchState,
         'off':{},
+        'on':searchState
+      },
+      events:{
+        'appSearchClose':goto('./off'),
+        'appSearchOpen':goto('./on')
       }
     },
     'appDrawer':{

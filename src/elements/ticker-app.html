@@ -30,13 +30,19 @@
       <div main>
         <div id='bottomBar' class='ticker-app__bottom-toolbar'></div>
 
-        <paper-header-panel class='fit' mode='scroll' on-scroll='onPanelScroll'>
+        <paper-header-panel class='fit' mode='scroll' on-scroll='_onPanelScroll'>
           <paper-toolbar id='topToolbar' class-name='[[_topToolbarClass]]'>
-            <div class='ticker-app__drawer-button' on-click="onToggleDrawer">
+            <div class='ticker-app__drawer-button' on-click="_onToggleDrawer">
               <paper-ripple></paper-ripple>
               <iron-icon icon='ticker:menu'></iron-icon>
             </div>
+
             <span class='flex t-normal'>[[appView]]</span>
+
+            <div class='ticker-app__drawer-button' on-click="_onOpenSearch">
+              <paper-ripple></paper-ripple>
+              <iron-icon icon='ticker:search'></iron-icon>
+            </div>
           </paper-toolbar>
 
           <ticker-source-events class='fit'></ticker-source-events>

@@ -18,7 +18,7 @@ Polymer({
     }
   },
 
-  onPanelScroll(e){
+  _onPanelScroll(e){
     const scrollTop = e.detail.target.scrollTop;
     if(scrollTop && this._prevScrollTop > scrollTop){
       if(this._topToolbarClass !== 'ticker-app__top-toolbar is-scrolling-up'){
@@ -37,8 +37,10 @@ Polymer({
     this._prevScrollTop = scrollTop;
   },
 
-  onToggleDrawer(e){
+  _onToggleDrawer(e){
     e.stopPropagation();
     this.$.drawer.togglePanel();
-  }
+  },
+
+  _onOpenSearch:()=>window.appState.fire('appSearchOpen')
 });
