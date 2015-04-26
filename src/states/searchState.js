@@ -1,6 +1,6 @@
 import {reenter} from '../helpers/svengali.js';
-import Source from '../models/sources/Source.js';
-import '../models/sources/GithubRepoSource.js';
+import GithubUser from '../models/github/GithubUser.js';
+import GithubRepo from '../models/github/GithubRepo.js';
 
 let currentQuery = null;
 function delayedSourceQuery(term){
@@ -10,14 +10,13 @@ function delayedSourceQuery(term){
   else{
     currentQuery = {
       term,
-      promise: new Promise((resolve)=>{
+      promise: new Promise(resolve=>{
         setTimeout(()=>{
-          resolve(
-            Source.query({term:currentQuery.term}).then(results=>{
-              currentQuery = null;
-              return results;
-            })
-          );
+          currentQuery = null;
+          Promise.all([GithubUser.query({term}), GithubRepo.query({term})])
+            .then(([users, repos])=>
+              resolve(users.concat(repos).sort((a, b)=>b.score - a.score).slice(0, 10))
+            );
         }, 300);
       })
     };
@@ -27,14 +26,14 @@ function delayedSourceQuery(term){
 
 export default {
   attrs:{
-    'appView':'search',
-    'searchText':({searchText})=>searchText || '',
-    'searchResults'(){
-      return this.attrs.searchText ? delayedSourceQuery(this.attrs.searchText) : [];
+    'appSearch':true,
+    'appSearchResults'({appSearchQueryText}){
+      appSearchQueryText = 'TESTING REMOVE ME';
+      return appSearchQueryText ? delayedSourceQuery(appSearchQueryText) : [];
     }
   },
   events:{
-    'clearSearchText':reenter({searchText:''}),
-    'searchTextChanged':searchText=>reenter({searchText})
+    'appSearchTextCleared':reenter({appSearchQueryText:''}),
+    'appSearchTextChanged':appSearchQueryText=>reenter({appSearchQueryText})
   }
 };

@@ -6,25 +6,22 @@ export default class GithubRepo extends Model {
     return {
       attr:{
         full_name:String,
+        description:String,
         name:String,
         url:String,
-
-        // TODO(pwong): GTFO. This only applies to the search API endpoint.
-        //              We should move this out as a sub class, like GithubRepoSearch
-        //              or make a GithubSearchResult that is composed of this.
         score:Number
       },
       mapper:{
-        get: model=>
+        get:model=>
           loadJSON(`https://api.github.com/repos/${model.id}`).then(response=>{
             response.id = model.id;
             return response;
           }),
 
-        query: (array, {term})=>
-          loadJSON(`https://api.github.com/search/repositories?q=${term}`).then(({items})=>
-            items
-          )
+        query:({term})=>
+          loadJSON(
+            `https://api.github.com/search/repositories?q=${term}`
+          ).then(({items})=>items)
       }
     };
   }

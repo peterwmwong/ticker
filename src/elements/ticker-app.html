@@ -5,7 +5,7 @@
 
 <link rel="import" href="../../components/polymer/polymer.html">
 <link rel='import' href='../../components/iron-icon/iron-icon.html'>
-<link rel='import' href='../../components/layout/layout.html'>
+<link rel='import' href='../../components/iron-flex-layout/iron-flex-layout.html'>
 <link rel='import' href='../../components/paper-drawer-panel/paper-drawer-panel.html'>
 <link rel='import' href='../../components/paper-header-panel/paper-header-panel.html'>
 <link rel='import' href='../../components/paper-ripple/paper-ripple.html'>
@@ -15,12 +15,16 @@
 <script src="../../components/firebase/firebase.js"></script>
 <script src="../appState.js"></script>
 
+<link rel='import' href='ticker-search.html'>
 <link rel='import' href='ticker-drawer.html'>
 <link rel='import' href='ticker-icons.html'>
+<link rel='import' href='../iconsets/github.html'>
 <link rel='import' href='ticker-source-events.html'>
 
 <dom-module id='ticker-app'>
   <template>
+    <ticker-search></ticker-search>
+
     <paper-drawer-panel id='drawer' responsive-width='2000px'>
       <ticker-drawer drawer class='ticker-app__drawer fit c-bg-white'></ticker-drawer>
       <div main>
@@ -28,7 +32,7 @@
 
         <paper-header-panel class='fit' mode='scroll' on-scroll='onPanelScroll'>
           <paper-toolbar id='topToolbar' class-name='[[_topToolbarClass]]'>
-            <div class='ticker-app__drawer-button' paper-drawer-toggle on-click="onToggleDrawer">
+            <div class='ticker-app__drawer-button' on-click="onToggleDrawer">
               <paper-ripple></paper-ripple>
               <iron-icon icon='ticker:menu'></iron-icon>
             </div>

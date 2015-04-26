@@ -3,6 +3,10 @@
 <link rel='import' href='../../components/paper-ripple/paper-ripple.html'>
 
 <style>
+  ticker-drawer-item {
+    position: relative;
+  }
+
   /*TODO(pwong): Temporary*/
   .ticker-drawer__item-icon {
     display: inline-block;
@@ -16,10 +20,10 @@
 <dom-module id='ticker-drawer-item'>
   <template>
     <paper-icon-item>
-      <div item-icon icon='ticker:menu' class='ticker-drawer__item-icon'></div>
+      <div item-icon class='ticker-drawer__item-icon'></div>
       <paper-item-body two-line>
-        <div>[[item.name]]</div>
-        <div secondary>[[item.nameSecondary]]</div>
+        <div>[[source.id]]</div>
+        <div secondary>[[source.id]]</div>
       </paper-item-body>
       <paper-ripple></paper-ripple>
     </paper-icon-item>
@@ -28,11 +32,8 @@
 <script>
 Polymer({
   is: 'ticker-drawer-item',
-  hostAttributes:{
-    'class': 'relative'
-  },
   properties:{
-    item: Object
+    source: Object
   }
 });
 </script>
@@ -40,8 +41,8 @@ Polymer({
 <dom-module id='ticker-drawer'>
   <template>
     <div class='scroll fit'>
-      <template is='x-repeat' items='[[items]]'>
-        <ticker-drawer-item item='[[item]]'></ticker-drawer-item>
+      <template is='x-repeat' items='[[favoritedSources]]'>
+        <ticker-drawer-item source='[[item]]'></ticker-drawer-item>
       </template>
     <div>
   </template>
@@ -49,16 +50,10 @@ Polymer({
 <script>
 Polymer({
   is: 'ticker-drawer',
-  properties:{
-    items:{
-      type: Array,
-      value: Array.apply([], new Array(18)).map(function(a,i){
-        return {
-          name: "MyName"+i,
-          nameSecondary: "secondary"+i
-        };
-      })
-    }
-  }
+  behaviors:[
+    new SyncState({
+      favoritedSources: 'favoritedSources'
+    })
+  ]
 })
 </script>

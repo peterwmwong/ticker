@@ -4,11 +4,9 @@ import {StateChart, goto} from '../helpers/svengali.js';
 import loggedInState      from './loggedInState.js';
 import loggedOutState     from './loggedOutState.js';
 
-let appState = new StateChart({
+const appState = new StateChart({
   attrs:{
-    'firebaseRef':()=>new window.Firebase(window.TICKER_CONFIG.firebaseUrl),
-    'DRAWER_SWIPE_DISABLED': !/Chrome/.test(window.navigator.userAgent) &&
-      /AppleWebKit.*Mobile.*Safari/.test(window.navigator.userAgent)
+    'firebaseRef':()=>new window.Firebase(window.TICKER_CONFIG.firebaseUrl)
   },
   enter(){
     // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
@@ -17,7 +15,7 @@ let appState = new StateChart({
     //              while in a transition.
     setTimeout(()=>{
       this.attrs.firebaseRef.onAuth(authData=>{
-        let github = authData && authData.github;
+        const github = authData && authData.github;
         if(github){
           this.fire('authSuccessful', github.id, github.username, {github:github.accessToken});
         }

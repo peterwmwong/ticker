@@ -8,19 +8,19 @@ export default class GithubUser extends Model {
         avatar_url:String,
         login:String,
         url:String,
-        score:Number,
+        score:Number
       },
-      mapper: {
-        get: model=>
+      mapper:{
+        get:model=>
           loadJSON(`https://api.github.com/users/${model.id}`).then(response=>{
             response.id = model.id;
             return response;
           }),
 
-        query: (array, {term})=>
-          loadJSON(`https://api.github.com/search/users?q=${term}`).then(({items})=>
-            items
-          )
+        query:({term})=>
+          loadJSON(
+            `https://api.github.com/search/users?q=${term}`
+          ).then(({items})=>items)
       }
     };
   }

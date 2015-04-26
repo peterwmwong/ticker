@@ -1,8 +1,7 @@
-import {goto, reenter}   from '../helpers/svengali.js';
-import load              from '../helpers/load.js';
-// import githubCommitState from './githubCommitState.js';
-import sourceState       from './sourceState.js';
-import searchState       from './searchState.js';
+import {goto}      from '../helpers/svengali.js';
+import load        from '../helpers/load.js';
+import searchState from './searchState.js';
+import sourceState from './sourceState.js';
 
 export default {
   params:['user', 'accessTokens'],
@@ -16,14 +15,15 @@ export default {
     }
   },
   parallelStates:{
+    'appSearch':{
+      states:{
+        'on':searchState,
+        'off':{},
+      }
+    },
     'appDrawer':{
-      attrs:{'appDrawerOpened':({appDrawerOpened})=>!!appDrawerOpened},
-      events:{
-        'selectSearch, selectSource':reenter({appDrawerOpened:false}),
-        'toggleAppDrawer'(){
-          return reenter({appDrawerOpened:!this.attrs.appDrawerOpened});
-        },
-        'appDrawerOpenedChanged':appDrawerOpened=>reenter({appDrawerOpened})
+      attrs:{
+        'favoritedSources'(){ return this.attrs.user.sources; }
       }
     },
     'appView':{
@@ -34,16 +34,6 @@ export default {
       states:{
         'source':sourceState,
         'search':searchState
-      }
-    },
-    'appOverlayView':{
-      events:{
-        'selectAppOverlayGithubCommit':({url})=>goto('githubCommit', {githubCommitURL:url}),
-        'hideAppOverlay':goto('off')
-      },
-      states:{
-        'off':{},
-        // 'githubCommit':githubCommitState
       }
     }
   }

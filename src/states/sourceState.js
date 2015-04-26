@@ -2,22 +2,27 @@ import {reenter} from '../helpers/svengali.js';
 
 export default {
   attrs:{
-    'appView'(){ return `source-${this.attrs.source && this.attrs.source.constructor.name}`; },
-    'isSourceFavorited'(){
-      return this.attrs.user.sources && this.attrs.user.sources.indexOf(this.attrs.source) !== -1;
+    'appView'(){
+      return `source-${this.attrs.source && this.attrs.source.constructor.name}`;
     },
-    'source'({source:s}){ return s || this.attrs.user.sources && this.attrs.user.sources[0]; }
+    'isSourceFavorited'(){
+      let {user, source} = this.attrs;
+      return user.sources && user.sources.indexOf(source) !== -1;
+    },
+    'source'({source:s}){
+      return s || this.attrs.user.sources && this.attrs.user.sources[0];
+    }
   },
   events:{
     'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
       let {user, source, isSourceFavorited} = this.attrs;
+      let index = user.sources.indexOf(source);
       if(isSourceFavorited){
-        let index = user.sources.indexOf(source);
         if(index !== -1) user.sources.splice(index, 1);
       }
-      else{
-        if(user.sources.indexOf(source) === -1) user.sources.push(source);
+      else if(index === -1){
+        user.sources.push(source);
       }
       user.$save();
       return reenter({source});

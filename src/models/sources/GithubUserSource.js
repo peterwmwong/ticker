@@ -1,10 +1,20 @@
-import Model from '../../helpers/bureau/model.js';
+import Model      from '../../helpers/bureau/model.js';
+import GithubUser from '../github/GithubUser.js';
 
 export default class GithubUserSource extends Model {
   static get desc(){
     return {
       attr:{
-        id:String
+        id:String,
+        login:String,
+        details:Object
+      },
+      mapper:{
+        query:({searchText})=>
+          GithubUser.desc.mapper.query({term:searchText}).then(data=>{
+            debugger;
+            return data;
+          })
       }
     };
   }
