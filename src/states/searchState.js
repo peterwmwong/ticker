@@ -28,7 +28,6 @@ export default {
   attrs:{
     'appSearch':true,
     'appSearchResults'({appSearchQueryText}){
-      appSearchQueryText = 'TESTING REMOVE ME';
       return appSearchQueryText ? delayedSourceQuery(appSearchQueryText) : [];
     }
   },
