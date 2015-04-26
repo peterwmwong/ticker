@@ -5,7 +5,8 @@
     "Polymer": true,
     "Firebase": true,
     "TICKER_CONFIG": true,
-    "SyncState": true
+    "SyncState": true,
+    "appState": true
   },
   "env": {
     "browser": true,
