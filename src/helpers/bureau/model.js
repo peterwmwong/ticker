@@ -144,18 +144,18 @@ export default class Model {
     this.__modelPrepared = true;
   }
 
-  _initHasMany(rawModelData){
+  _initHasMany(rawData){
     for(let name in this.constructor._desc.hasMany){
-      let data = rawModelData[name];
+      let data = rawData[name];
       if(data instanceof Array){
         this[name].push(...data);
       }
     }
   }
 
-  _initHasOne(rawModelData){
+  _initHasOne(rawData){
     for(let name in this.constructor._desc.hasOne){
-      this[name] = rawModelData[name];
+      this[name] = rawData[name];
     }
   }
 }
