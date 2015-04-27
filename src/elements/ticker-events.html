@@ -1,0 +1,36 @@
+<link rel='import' href='./common/ticker-repo-name.html'>
+
+<style>
+ticker-events {
+  padding-top: 60px;
+}
+
+@media (min-width: 639px) {
+  ticker-events {
+    padding: 72px 8px 0 8px;
+  }
+}
+</style>
+<dom-module id='ticker-events'>
+  <template>
+    <template is='x-repeat' items='[[events]]'>
+      <div class='ticker-events__card Card relative'>
+        <div class='Card-title'>
+          <ticker-repo-name repo-name='[[item.repo.name]]'></ticker-repo-name>
+        </div>
+        <div class='Card-subject'>[[item.type]]</div>
+        <div class='Card-action'>[[item.created_at]]</div>
+      </div>
+    </template>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: 'ticker-events',
+  behaviors:[
+    new SyncState({
+      events: 'events'
+    })
+  ]
+});
+</script>

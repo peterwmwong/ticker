@@ -4,48 +4,59 @@
 <link rel='import' href='../../components/paper-toolbar/paper-toolbar.html'>
 <link rel='import' href='../../components/iron-icon/iron-icon.html'>
 
-<link rel='import' href='ticker-source-events.html'>
+<link rel='import' href='ticker-events.html'>
 
 <style>
+.ticker-user-view__button {
+  width: 56px;
+  height: 56px;
+  line-height: 53px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+}
+
 @media (min-width: 639px) {
-  .ticker-app__drawer-button--menu {
+  .ticker-user-view__button--menu {
     display: none;
   }
 
-  .ticker-app__drawer-button--search {
+  .ticker-user-view__button--search {
     margin-right: -8px;
   }
 
-  .ticker-app__title {
+  .ticker-user-view__title {
     padding-left: 8px;
   }
 }
 </style>
-<dom-module id='ticker-github-user-view'>
+<dom-module id='ticker-user-view'>
   <template>
     <paper-header-panel class='fit' mode='scroll' on-scroll='_onPanelScroll'>
       <paper-toolbar id='topToolbar' class-name='[[_topToolbarClass]]'>
-        <div class='ticker-app__drawer-button ticker-app__drawer-button--menu' on-click="_onToggleDrawer">
+        <div class='ticker-user-view__button ticker-user-view__button--menu' on-click="_onToggleDrawer">
           <paper-ripple></paper-ripple>
           <iron-icon icon='ticker:menu'></iron-icon>
         </div>
 
-        <span class='ticker-app__title flex t-normal'>[[source.displayName]]</span>
+        <span class='ticker-user-view__title flex t-normal'>[[source.displayName]]</span>
 
-        <div class='ticker-app__drawer-button ticker-app__drawer-button--favorite' on-click="_onFavorite">
+        <div class='ticker-user-view__button ticker-user-view__button--favorite' on-click="_onFavorite">
           <paper-ripple></paper-ripple>
           <iron-icon icon='[[_favOrUnfavIcon]]'></iron-icon>
         </div>
 
-        <div class='ticker-app__drawer-button ticker-app__drawer-button--search' on-click="_onOpenSearch">
+        <div class='ticker-user-view__button ticker-user-view__button--search' on-click="_onOpenSearch">
           <paper-ripple></paper-ripple>
           <iron-icon icon='ticker:search'></iron-icon>
         </div>
       </paper-toolbar>
 
-      <ticker-source-events class='fit'></ticker-source-events>
+      <ticker-events class='fit'></ticker-events>
 
     </paper-header-panel>
   </template>
 </dom-module>
-<script src='ticker-github-user-view.js'></script>
+<script src='ticker-user-view.js'></script>

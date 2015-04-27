@@ -1,5 +1,5 @@
 Polymer({
-  is: 'ticker-github-user-view',
+  is: 'ticker-user-view',
 
   behaviors:[
     new SyncState({

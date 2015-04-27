@@ -4,17 +4,6 @@ paper-drawer-panel .paper-drawer-panel {
   z-index: 1;
 }
 
-.ticker-app__drawer-button {
-  width: 56px;
-  height: 56px;
-  line-height: 53px;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-}
-
 .ticker-app__top-toolbar {
   z-index: 1;
   width: 100%;

@@ -17,7 +17,7 @@
 <link rel='import' href='ticker-drawer.html'>
 <link rel='import' href='ticker-icons.html'>
 <link rel='import' href='../iconsets/github.html'>
-<link rel='import' href='ticker-github-user-view.html'>
+<link rel='import' href='ticker-user-view.html'>
 
 <dom-module id='ticker-app'>
   <template>
@@ -42,7 +42,7 @@
     <paper-drawer-panel id='drawer' hidden='[[!isLoggedIn]]'>
       <ticker-drawer drawer class='ticker-app__drawer fit scroll c-bg-white'></ticker-drawer>
       <div main>
-        <ticker-github-user-view on-toggle-app-drawer='_onToggleDrawer'></ticker-github-user-view>
+        <ticker-user-view on-toggle-app-drawer='_onToggleDrawer'></ticker-user-view>
       </div>
     </paper-drawer-panel>
   </template>
