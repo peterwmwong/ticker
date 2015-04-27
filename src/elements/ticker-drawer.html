@@ -5,20 +5,18 @@
 
 <dom-module id='ticker-drawer'>
   <template>
-    <div class='scroll fit'>
-      <template is='x-repeat' items='[[favoritedSources]]'>
-        <paper-icon-item icon-width='45px'>
-          <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
-          <paper-item-body two-line>
-            <span>[[item.login]]</span>
-            <ticker-repo-name repo-name='[[item.full_name]]'
-                              hidden='[[!item.full_name]]'></ticker-repo-name>
-            <div secondary
-                 class='c-gray-dark l-padding-r4'>[[item.description]]</div>
-          </paper-item-body>
-        </paper-icon-item>
-      </template>
-    <div>
+    <template is='x-repeat' items='[[favoritedSources]]'>
+      <paper-icon-item icon-width='45px'>
+        <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
+        <paper-item-body two-line>
+          <span>[[item.login]]</span>
+          <ticker-repo-name repo-name='[[item.full_name]]'
+                            hidden='[[!item.full_name]]'></ticker-repo-name>
+          <div secondary
+               class='c-gray-dark l-padding-r4'>[[item.description]]</div>
+        </paper-item-body>
+      </paper-icon-item>
+    </template>
   </template>
 </dom-module>
 <script>
