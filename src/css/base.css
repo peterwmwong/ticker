@@ -58,17 +58,17 @@ marked-element img {
 }
 
 ::-webkit-input-placeholder {
- color: var(--gray-light);
+ color: var(--gray-lighter);
 }
 
 ::input-placeholder {
- color: var(--gray-light);
+ color: var(--gray-lighter);
 }
 
 ::-moz-placeholder {
- color: var(--gray-light);
+ color: var(--gray-lighter);
 }
 
 ::-ms-input-placeholder {
- color: var(--gray-light);
+ color: var(--gray-lighter);
 }
