@@ -1,34 +1,19 @@
 <link rel='import' href='../../components/paper-item/paper-icon-item.html'>
 <link rel='import' href='../../components/paper-item/paper-item-body.html'>
-<link rel='import' href='../../components/paper-ripple/paper-ripple.html'>
+<link rel='import' href='common/ticker-avatar.html'>
+<link rel='import' href='common/ticker-repo-name.html'>
 
-<style>
-/*TODO(pwong): Temporary*/
-.ticker-drawer__item-icon {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #ccc;
-}
-</style>
 <dom-module id='ticker-drawer-item'>
   <template>
-    <paper-icon-item icon-width='40px'>
-      <img item-icon
-           hidden='[[!source.avatar_url]]'
-           src$='[[source.avatar_url]]'
-           class='ticker-drawer__item-icon'>
-      <iron-icon item-icon
-                 hidden='[[source.avatar_url]]'
-                 class='c-gray-light'
-                 icon='github:book'
-                 style='padding-left:1px'></iron-icon>
-      <paper-item-body>
-        <div>[[source.displayName]]</div>
+    <paper-icon-item icon-width='45px'>
+      <ticker-avatar item-icon source='[[source]]'></ticker-avatar>
+      <paper-item-body two-line>
+        <span>[[source.login]]</span>
+        <ticker-repo-name repo-name='[[source.full_name]]'
+                          hidden='[[!source.full_name]]'></ticker-repo-name>
+        <div secondary
+             class='c-gray-dark l-padding-r4'>[[source.description]]</div>
       </paper-item-body>
-      <paper-ripple></paper-ripple>
     </paper-icon-item>
   </template>
 </dom-module>
