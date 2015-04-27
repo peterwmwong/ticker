@@ -17,7 +17,7 @@ export default class GithubRepo extends Model {
         get:id=>loadJSON(`https://api.github.com/repos/${id}`),
         query:({term})=>
           loadJSON(
-            `https://api.github.com/search/repositories?q=${term}`
+            `https://api.github.com/search/repositories?q=${term}&per_page=10`
           ).then(({items})=>
             items.map(u=>{
               u.id = u.full_name;
