@@ -42,7 +42,7 @@ function insertBefore(parent, oldNode, newNode) {
 #### minify
 
 ```bash
-node_modules/.bin/vulcanize  --inline-scripts --inline-css  app-chrome.html > index-all.html;
+node_modules/.bin/vulcanize --inline-scripts --inline-css app.html > index-all.html;
 vulcanize --strip --inline -output index-with-comments.html index-all.html;
 minimize --output index.html index-with-comments.html;
 rm index-all.html index-with-comments.html
