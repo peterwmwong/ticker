@@ -8,8 +8,8 @@ window.Firebase = class {
           'id': '284734',
           'githubUsername': 'peterwmwong',
           'sources': [
-            {'type': 'GithubRepoSource', 'id':'polymer/polymer'},
-            {'type': 'GithubUserSource', 'id':'polymer'}
+            {'type': 'GithubRepoSource', 'full_name':'polymer/polymer'},
+            {'type': 'GithubUserSource', 'login':'polymer'}
           ]
         })
       });

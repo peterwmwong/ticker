@@ -1,3 +1,4 @@
+- sweep utility classes and remove overlap with iron-(flex)-layout
 - upgrade babel
 - Create app icon
 - save Last Login

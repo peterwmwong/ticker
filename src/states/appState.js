@@ -1,4 +1,4 @@
-// import '../helpers/MOCK_FIREBASE.js';
+import '../helpers/MOCK_FIREBASE.js';
 
 import {StateChart, goto} from '../helpers/svengali.js';
 import loggedInState      from './loggedInState.js';

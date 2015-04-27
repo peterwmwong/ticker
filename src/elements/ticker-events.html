@@ -1,4 +1,5 @@
 <link rel='import' href='./common/ticker-repo-name.html'>
+<link rel='import' href='./common/ticker-event.html'>
 
 <style>
 ticker-events {
@@ -14,13 +15,7 @@ ticker-events {
 <dom-module id='ticker-events'>
   <template>
     <template is='x-repeat' items='[[events]]'>
-      <div class='ticker-events__card Card relative'>
-        <div class='Card-title'>
-          <ticker-repo-name repo-name='[[item.repo.name]]'></ticker-repo-name>
-        </div>
-        <div class='Card-subject'>[[item.type]]</div>
-        <div class='Card-action'>[[item.created_at]]</div>
-      </div>
+      <ticker-event event='[[item]]'></ticker-event>
     </template>
   </template>
 </dom-module>

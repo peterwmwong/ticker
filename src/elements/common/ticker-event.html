@@ -1,0 +1,16 @@
+<link rel='import' href='ticker-repo-name.html'>
+
+<dom-module id='ticker-event-templates'>
+  <template is='x-template' id="CreateEvent">
+    <div class='Card-title'>
+      <ticker-repo-name repo-name='[[event.repo.name]]'></ticker-repo-name>
+    </div>
+    <div class='Card-subject'>[[event.type]]</div>
+    <div class='Card-action'>[[event.created_at]]</div>
+  </template>
+</dom-module>
+
+<dom-module id='ticker-event'>
+  <template></template>
+</dom-module>
+<script src='ticker-event.js'></script>
