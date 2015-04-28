@@ -1,3 +1,4 @@
+- fix create/delete events for repos
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - upgrade babel
 - Create app icon

@@ -50,3 +50,7 @@
 .Card-action--commit:last-child {
   padding-bottom: 16px;
 }
+
+.Card-action + .Card-action {
+  padding-top: 0;
+}

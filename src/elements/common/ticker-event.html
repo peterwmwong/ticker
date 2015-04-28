@@ -1,16 +1,129 @@
 <link rel='import' href='ticker-repo-name.html'>
 
 <dom-module id='ticker-event-templates'>
-  <template is='x-template' id="CreateEvent">
-    <div class='Card-title'>
-      <ticker-repo-name repo-name='[[event.repo.name]]'></ticker-repo-name>
+
+  <template is='x-template' id='PullRequestEvent'>
+    <div class='Card-subject'>
+      <iron-icon class='c-warning' icon='github:git-pull-request'></iron-icon>
+      <span class='flex l-padding-l3'>[[event.payload.pull_request.title]]</span>
     </div>
-    <div class='Card-subject'>[[event.type]]</div>
-    <div class='Card-action'>[[event.created_at]]</div>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
+      <span>[[event.payload.pull_request.state]]</span>ed this pull request
+    </div>
+    <div class='Card-action'>[[event.payload.pull_request.body]]</div>
   </template>
+
+  <template is='x-template' id='ReleaseEvent'>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
+      published a release&nbsp;
+      <iron-icon class='c-warning' icon='github:versions'></iron-icon>
+      &nbsp;<span class='t-bold'>[[event.payload.release.name]]</span>
+    </div>
+  </template>
+
+  <template is='x-template' id='TeamAddEvent'>
+    <div class='Card-action'>
+      <span>[[event.payload.team.name]]</span>
+      &nbsp;team was added
+    </div>
+  </template>
+
+  <template is='x-template' id='CreateEvent'>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
+      created a branch&nbsp;
+      <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
+      &nbsp;<span class='t-bold'>[[event.payload.ref]]</span>
+    </div>
+  </template>
+
+  <template is='x-template' id='DeleteEvent'>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
+      deleted a branch&nbsp;
+      <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
+      &nbsp;<span class='t-bold'>[[event.payload.ref]]</span>
+    </div>
+  </template>
+
+  <template is='x-template' id='PullRequestReviewCommentEvent'>
+    <div class='Card-subject'>
+      <iron-icon class='c-warning' icon='github:git-pull-request'></iron-icon>
+      <span class='flex l-padding-l3'>[[event.payload.pull_request.title]]</span>
+    </div>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
+      <span>[[event.payload.comment.body]]</span>
+    </div>
+  </template>
+
+  <template is='x-template' id='IssueCommentEvent'>
+    <div class='Card-subject'>
+      <iron-icon class='c-warning' icon='[[iconForIssueOrPR(event)]]'></iron-icon>
+      <span class='flex l-padding-l3'>[[titleForIssueOrPR(event)]]</span>
+    </div>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
+      <span class='flex'>[[event.payload.comment.body]]</span>
+    </div>
+  </template>
+
+  <template is='x-template' id='IssuesEvent'>
+    <div class='Card-subject'>
+      <iron-icon class='c-warning' icon='[[iconForIssue(event)]]'></iron-icon>
+      <span class='flex l-padding-l3'>[[titleForIssueOrPR(event)]]</span>
+    </div>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
+      <span class='flex'><span>[[event.payload.action]]</span> this issue</span>
+    </div>
+    <div class='Card-action'>[[event.payload.issue.body]]</div>
+  </template>
+
+  <template is='x-template' id='CommitCommentEvent'>
+    <div class='Card-subject'>
+      <iron-icon class='c-warning' icon='github:git-commit'></iron-icon>
+      <span class='flex l-padding-l3'>[[event.payload.comment.commit_id]]</span>
+    </div>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
+      <span class='flex'>[[event.payload.comment.body]]</span>
+    </div>
+  </template>
+
+  <!-- <template is='x-template' id='WatchEvent'></template> -->
+  <!-- <template is='x-template' id='ForkEvent'></template> -->
+
+  <template is='x-template' id='PushEvent'>
+    <div class='Card-action'>
+      <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
+      <span class='flex'>
+        pushed
+        <span>[[event.payload.commits.length]]</span> commits to
+        <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
+        <span class='t-bold'>[[branchFromRef(event.payload.ref)]]</span>
+      </span>
+    </div>
+    <div>
+      <template is='x-repeat' items='[[event.payload.commits]]'>
+        <div class='Card-action l-padding-t0'>
+          <iron-icon icon='github:git-commit' class='l-margin-l4 c-warning'></iron-icon>
+          <span class='flex l-padding-l3 t-truncate'>[[item.message]]</span>
+        </div>
+      </template>
+    </div>
+  </template>
+
 </dom-module>
 
 <dom-module id='ticker-event'>
-  <template></template>
+  <template>
+    <div class='Card-title'>
+      <ticker-repo-name repo-name='[[event.repo.name]]' class='flex'></ticker-repo-name>
+      <span class='c-gray-dark t-font-size-11'>[[event.timeAgo]]</span>
+    </div>
+  </template>
 </dom-module>
 <script src='ticker-event.js'></script>

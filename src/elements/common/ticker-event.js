@@ -1,3 +1,19 @@
+function branchFromRef(ref){
+  return ref.replace(/.*\//, '');
+}
+
+function iconForIssue(event){
+  return `github:issue-${event.payload.action}`;
+}
+
+function iconForIssueOrPR(event){
+  return `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
+}
+
+function titleForIssueOrPR({payload}){
+  return payload.pull_request ? payload.pull_request.title : payload.issue.title;
+}
+
 Polymer({
   is: 'ticker-event',
   // behaviors: [
@@ -20,9 +36,7 @@ Polymer({
 
     const tmpl = this._tmplCache[event.type];
     if(tmpl){
-      let stamped = tmpl.stamp();
-      stamped.event = event;
-      this.appendChild(stamped.root);
+      this.appendChild(tmpl.stamp({event}).root);
     }
   },
 
@@ -36,6 +50,10 @@ Polymer({
     const _tmplCache = this._tmplCache;
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
+      tmpl.ctor.prototype.iconForIssueOrPR  = iconForIssueOrPR;
+      tmpl.ctor.prototype.titleForIssueOrPR = titleForIssueOrPR;
+      tmpl.ctor.prototype.iconForIssue      = iconForIssue;
+      tmpl.ctor.prototype.branchFromRef     = branchFromRef;
       _tmplCache[tmpl.id] = tmpl;
       tmpl = tmpl.nextElementSibling;
     }
