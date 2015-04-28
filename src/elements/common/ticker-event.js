@@ -1,3 +1,5 @@
+(()=>{
+
 function branchFromRef(ref){
   return ref.replace(/.*\//, '');
 }
@@ -60,3 +62,5 @@ Polymer({
     _tmplCache.isReady = true;
   }
 });
+
+})();
