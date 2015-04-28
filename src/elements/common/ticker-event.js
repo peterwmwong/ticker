@@ -18,9 +18,6 @@ function titleForIssueOrPR({payload}){
 
 Polymer({
   is: 'ticker-event',
-  // behaviors: [
-  //   Polymer.Templatizer
-  // ],
   hostAttributes:{
     class: 'Card relative block'
   },
