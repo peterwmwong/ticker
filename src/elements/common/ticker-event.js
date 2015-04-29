@@ -1,5 +1,9 @@
 (()=>{
 
+function displayNameForRelease(release){
+  return `${release.name ? release.name : ' '}${release.tag_name || ''}`;
+}
+
 function branchFromRef(ref){
   return ref.replace(/.*\//, '');
 }
@@ -49,10 +53,11 @@ Polymer({
     const _tmplCache = this._tmplCache;
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
-      tmpl.ctor.prototype.iconForIssueOrPR  = iconForIssueOrPR;
-      tmpl.ctor.prototype.titleForIssueOrPR = titleForIssueOrPR;
-      tmpl.ctor.prototype.iconForIssue      = iconForIssue;
-      tmpl.ctor.prototype.branchFromRef     = branchFromRef;
+      tmpl.ctor.prototype.iconForIssueOrPR      = iconForIssueOrPR;
+      tmpl.ctor.prototype.titleForIssueOrPR     = titleForIssueOrPR;
+      tmpl.ctor.prototype.iconForIssue          = iconForIssue;
+      tmpl.ctor.prototype.branchFromRef         = branchFromRef;
+      tmpl.ctor.prototype.displayNameForRelease = displayNameForRelease;
       _tmplCache[tmpl.id] = tmpl;
       tmpl = tmpl.nextElementSibling;
     }

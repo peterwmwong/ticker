@@ -20,7 +20,7 @@
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
       <span class='t-bold'>[[event.actor.login]]</span>&nbsp;published a release&nbsp;
       <iron-icon class='c-warning' icon='github:versions'></iron-icon>
-      &nbsp;<span class='t-bold'>[[event.payload.release.name]]</span>
+      &nbsp;<span class='t-bold'>[[displayNameForRelease(event.payload.release)]]</span>
     </div>
   </template>
 
