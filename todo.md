@@ -1,3 +1,5 @@
+- store/retrieve Firebase authtoken in localStorage for fast startup
+- store/retrieve previous events in localStorage
 - fix create/delete events for repos
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - upgrade babel

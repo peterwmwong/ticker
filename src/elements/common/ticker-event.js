@@ -21,15 +21,32 @@ Polymer({
       observer:'_eventChanged'
     }
   },
+  _stamped:false,
   _tmplCache:{},
+
+  _emptyContent(){
+    // Skip over .Card-title
+    let child = this.firstElementChild.nextSibling;
+    let nextChild;
+    while(child){
+      nextChild = child.nextSibling;
+      child.parentNode.removeChild(child);
+      child = nextChild;
+    }
+  },
 
   _eventChanged(event){
     if(!event){ return; }
     this._ensureTemplateCache();
 
+    if(this._stamped){
+      this._emptyContent();
+    }
+
     const tmpl = this._tmplCache[event.type];
     if(tmpl){
       this.appendChild(tmpl.stamp({event}).root);
+      this._stamped = true;
     }
   },
 

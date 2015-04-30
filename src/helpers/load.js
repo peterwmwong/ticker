@@ -2,7 +2,9 @@ export function loadResource(type, url, accessToken){
   return new Promise(function(fulfill, reject){
     const xhr = new window.XMLHttpRequest();
     xhr.open('GET', url);
-    xhr.setRequestHeader('Authorization', `token ${accessToken}`);
+    if(accessToken){
+      xhr.setRequestHeader('Authorization', `token ${accessToken}`);
+    }
     xhr.responseType = type;
     xhr.send();
     xhr.onload  = ()=>fulfill(xhr);

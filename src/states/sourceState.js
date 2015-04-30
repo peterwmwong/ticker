@@ -1,44 +1,45 @@
-import {reenter} from '../helpers/svengali.js';
+import {reenter}  from '../helpers/svengali.js';
+import GithubUser from '../models/github/GithubUser.js';
+import GithubRepo from '../models/github/GithubRepo.js';
 
 export default {
-  params:['user'],
+  route:'/app-chrome.html',
+  params:['sourceId'],
   attrs:{
-    'user':({user})=>user,
-    'appView'(){
-      return `source-${this.attrs.source && this.attrs.source.constructor.name}`;
+    'sourceType':({sourceId})=>{
+      const [, , repo] = sourceId.split('/');
+      return repo ? 'GithubRepo' : 'GithubUser';
     },
-    'isSourceFavorited'(){
-      const {user, source} = this.attrs;
-      return user.sources && user.sources.indexOf(source) !== -1;
+    'source':({sourceId})=>{
+      const [, user, repo] = sourceId.split('/');
+      return repo ? GithubRepo.get(`${user}/${repo}`) : GithubUser.get(user);
     },
-    'source'({source:s}){
-      return s || (this.attrs.user.sources && this.attrs.user.sources[0]);
-    }
+    'appView'(){ return `source-${this.sourceType}`; }
   },
   events:{
-    'selectSource':source=>reenter({source}),
     'toggleFavoriteSource'(){
-      const {user, source, isSourceFavorited} = this.attrs;
-      const index = user.sources.indexOf(source);
-      if(isSourceFavorited){
-        if(index !== -1) user.sources.splice(index, 1);
-      }
-      else if(index === -1){
-        user.sources.push(source);
-      }
-      user.save();
-      return reenter({source});
+      throw 'not implemented yet';
+      // const {user, source, isSourceFavorited} = this.attrs;
+      // const index = user.sources.indexOf(source);
+      // if(isSourceFavorited){
+      //   if(index !== -1) user.sources.splice(index, 1);
+      // }
+      // else if(index === -1){
+      //   user.sources.push(source);
+      // }
+      // user.save();
+      // return reenter({source});
     }
   },
 
-  defaultState(){ return this.attrs.source && this.attrs.source.constructor.name; },
+  defaultState(){ return this.attrs.sourceType; },
   states:{
     'GithubUser':{
       states:{
         'tab':{
           attrs:{
             'tab':({tab})=>tab || 'updates',
-            'events'(){ return this.attrs.source.queryEvents(); }
+            'events'(){ return this.attrs.source.then(s=>s.queryEvents()); }
           },
           events:{
             'tabChanged':tab=>
@@ -52,7 +53,7 @@ export default {
         'tab':{
           attrs:{
             'tab':({tab})=>tab || 'updates',
-            'events'(){ return this.attrs.source.queryEvents(); }
+            'events'(){ return this.attrs.source.then(s=>s.queryEvents()); }
           },
           events:{
             'tabChanged':tab=>

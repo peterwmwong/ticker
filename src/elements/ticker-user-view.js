@@ -9,6 +9,10 @@ Polymer({
   ],
 
   properties: {
+    source:{
+      type: Object,
+      observer: '_sourceChanged'
+    },
     isSourceFavorited:{
       type: Object,
       observer: '_isSourceFavoritedChanged'
@@ -22,6 +26,8 @@ Polymer({
       value: 0
     }
   },
+
+  _sourceChanged(){ this.$.headerPanel.scroller.scrollTop = 0; },
 
   _isSourceFavoritedChanged(faved){
     this._favOrUnfavIcon = faved ? 'ticker:bookmark' : 'ticker:bookmark-outline';

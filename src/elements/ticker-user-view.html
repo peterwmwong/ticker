@@ -34,7 +34,7 @@
 </style>
 <dom-module id='ticker-user-view'>
   <template>
-    <paper-header-panel class='fit' mode='scroll' on-scroll='_onPanelScroll'>
+    <paper-header-panel id='headerPanel' class='fit' mode='scroll' on-scroll='_onPanelScroll'>
       <paper-toolbar id='topToolbar' class-name='[[_topToolbarClass]]'>
         <div class='ticker-user-view__button ticker-user-view__button--menu' on-click="_onToggleDrawer">
           <paper-ripple></paper-ripple>

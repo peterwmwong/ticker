@@ -31,7 +31,13 @@ const appState = new StateChart({
       states:{
         'waitingForUser':{
           events:{
-            'userReady':user=>goto('../source', {user})
+            'userReady':user=>{
+              let initialSource = user.sources[0];
+              if(initialSource){
+                debugger;
+                return goto('../source', {sourceId:initialSource.id});
+              }
+            }
           }
         },
         'source':sourceState
@@ -43,7 +49,7 @@ const appState = new StateChart({
 if(TICKER_CONFIG.statechartTrace){
   appState.rootState.scState.trace = true;
 }
-appState.goto();
+appState.start();
 
 class SyncState {
   constructor(mapping){
