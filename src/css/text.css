@@ -58,8 +58,11 @@
 .t-normal {
   font-weight: 400 !important;
 }
-.t-bold {
+.t-semibold {
   font-weight: 500 !important;
+}
+.t-bold {
+  font-weight: 700 !important;
 }
 .t-align-left {
   text-align: left;

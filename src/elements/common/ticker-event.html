@@ -9,7 +9,7 @@
     </div>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;
       <span>[[event.payload.pull_request.state]]</span>ed this pull request
     </div>
     <div class='Card-action'>[[event.payload.pull_request.body]]</div>
@@ -18,9 +18,9 @@
   <template is='x-template' id='ReleaseEvent'>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;published a release&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;published a release&nbsp;
       <iron-icon class='c-warning' icon='github:versions'></iron-icon>
-      &nbsp;<span class='t-bold'>[[displayNameForRelease(event.payload.release)]]</span>
+      &nbsp;<span class='t-normal'>[[displayNameForRelease(event.payload.release)]]</span>
     </div>
   </template>
 
@@ -34,18 +34,18 @@
   <template is='x-template' id='CreateEvent'>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;created a branch&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;created a branch&nbsp;
       <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
-      &nbsp;<span class='t-bold'>[[event.payload.ref]]</span>
+      &nbsp;<span class='t-normal'>[[event.payload.ref]]</span>
     </div>
   </template>
 
   <template is='x-template' id='DeleteEvent'>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;deleted a branch&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;deleted a branch&nbsp;
       <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
-      &nbsp;<span class='t-bold'>[[event.payload.ref]]</span>
+      &nbsp;<span class='t-normal'>[[event.payload.ref]]</span>
     </div>
   </template>
 
@@ -78,7 +78,7 @@
     </div>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;
       <span class='flex'><span>[[event.payload.action]]</span> this issue</span>
     </div>
     <div class='Card-action'>[[event.payload.issue.body]]</div>
@@ -101,14 +101,14 @@
   <template is='x-template' id='PushEvent'>
     <div class='Card-action'>
       <ticker-avatar source='[[event.actor]]' class='l-margin-r3 self-start'></ticker-avatar>
-      <span class='t-bold'>[[event.actor.login]]</span>&nbsp;pushed&nbsp;
+      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;pushed&nbsp;
       <span>[[event.payload.commits.length]]</span>&nbsp;commits to
       <iron-icon class='c-warning' icon='github:git-branch'></iron-icon>
-      <span class='t-bold'>[[branchFromRef(event.payload.ref)]]</span>
+      <span class='t-normal'>[[branchFromRef(event.payload.ref)]]</span>
     </div>
     <div>
       <template is='x-repeat' items='[[event.payload.commits]]'>
-        <div class='Card-action l-padding-t0 t-bold'>
+        <div class='Card-action l-padding-t0 t-normal'>
           <iron-icon icon='github:git-commit' class='l-margin-l4 c-warning'></iron-icon>
           <span class='flex l-padding-l3 t-truncate'>[[item.message]]</span>
         </div>
