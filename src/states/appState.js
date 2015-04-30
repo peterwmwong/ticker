@@ -34,7 +34,6 @@ const appState = new StateChart({
             'userReady':user=>{
               let initialSource = user.sources[0];
               if(initialSource){
-                debugger;
                 return goto('../source', {sourceId:initialSource.id});
               }
             }
