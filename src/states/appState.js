@@ -1,36 +1,42 @@
 // import '../helpers/MOCK_FIREBASE.js';
 
 import {StateChart, goto} from '../helpers/svengali.js';
-import loggedInState      from './loggedInState.js';
-import loggedOutState     from './loggedOutState.js';
+import userState          from './userState.js';
+import searchState        from './searchState.js';
+import sourceState        from './sourceState.js';
 
 const appState = new StateChart({
-  attrs:{
-    'firebaseRef':()=>new window.Firebase(window.TICKER_CONFIG.firebaseUrl)
-  },
-  enter(){
-    // Firebase.onAuth(cb) Calls the cb synchronously, which messes up the
-    // statechart trying to transition while in a transition...
-    // TODO(pwong): The statechart should be able to handle transition requests
-    //              while in a transition.
-    setTimeout(()=>{
-      this.attrs.firebaseRef.onAuth(authData=>{
-        const github = authData && authData.github;
-        if(github){
-          this.fire('authSuccessful', github.id, github.username, {github:github.accessToken});
+  parallelStates:{
+    'userState':userState,
+    'appSearch':searchState,
+    'appDrawer':{
+      states:{
+        'waitingForUser':{
+          events:{
+            'userReady':user=>goto('../enabled', {user})
+          }
+        },
+        'enabled':{
+          params:['user'],
+          attrs:{
+            'favoritedSources':({user})=>user.sources
+          }
         }
-        else{
-          this.fire('authFailed');
-        }
-      });
-    });
-  },
-  events:{
-    'userLoggedIn':(user, accessTokens)=>goto('loggedIn', {user, accessTokens})
-  },
-  states:{
-    'loggedOut':loggedOutState,
-    'loggedIn' :loggedInState
+      }
+    },
+    'appView':{
+      events:{
+        'selectSource':source=>goto('./source', {source})
+      },
+      states:{
+        'waitingForUser':{
+          events:{
+            'userReady':user=>goto('../source', {user})
+          }
+        },
+        'source':sourceState
+      }
+    }
   }
 });
 

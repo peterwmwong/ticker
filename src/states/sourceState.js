@@ -1,7 +1,9 @@
 import {reenter} from '../helpers/svengali.js';
 
 export default {
+  params:['user'],
   attrs:{
+    'user':({user})=>user,
     'appView'(){
       return `source-${this.attrs.source && this.attrs.source.constructor.name}`;
     },
@@ -10,7 +12,7 @@ export default {
       return user.sources && user.sources.indexOf(source) !== -1;
     },
     'source'({source:s}){
-      return s || this.attrs.user.sources && this.attrs.user.sources[0];
+      return s || (this.attrs.user.sources && this.attrs.user.sources[0]);
     }
   },
   events:{

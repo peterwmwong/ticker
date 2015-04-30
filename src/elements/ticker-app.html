@@ -20,25 +20,9 @@
 
 <dom-module id='ticker-app'>
   <template>
-    <paper-toolbar class='tall' hidden='[[isLoggedIn]]'>
-      <div class="middle c-white t-normal t-font-size-32 l-padding-l4">
-        ticker
-        <span class="t-font-size-16">
-          &nbsp; commits - pull requests - issues - comments
-        </span>
-      </div>
-      <paper-button
-        icon="github:octoface"
-        on-tap="_onAuthWithGithub"
-        style="color:#3F51B5; line-height:1.6rem; margin-top:-16px;"
-        class="bottom c-bg-white l-margin-h4 l-padding-h2 t-font-size-14">
-          Login with GitHub
-      </paper-button>
-    </paper-toolbar>
-
     <ticker-search></ticker-search>
 
-    <paper-drawer-panel id='drawer' hidden='[[!isLoggedIn]]'>
+    <paper-drawer-panel id='drawer'>
       <ticker-drawer drawer class='ticker-app__drawer fit scroll c-bg-white'></ticker-drawer>
       <div main>
         <ticker-user-view on-toggle-app-drawer='_onToggleDrawer'></ticker-user-view>

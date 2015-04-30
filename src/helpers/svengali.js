@@ -246,6 +246,10 @@ export class StateChart {
     this.rootState.scState.goto(path, {context:params});
   }
 
+  start(){
+    this.rootState.scState.start();
+  }
+
   fire(eventName, ...args){
     this.rootState.scState.send(eventName, ...args);
   }
@@ -296,7 +300,7 @@ export class State {
     parent,
     stateChart,
     {attrs, enter, exit, events, history, parallelStates, params, states,
-     defaultState},
+     defaultState, route},
     name=nextStateUID++
   ){
     this._attrs = attrs || EMPTY_OBJ;
@@ -318,7 +322,7 @@ export class State {
     this.stateChart = stateChart;
     this.defaultState = defaultState;
 
-    const scState = this.scState = statechart.State(name, {
+    const scState = this.scState = new statechart.RoutableState(name, {
       name       : name,
       concurrent : !!parallelStates,
       history    : !!history
@@ -330,6 +334,10 @@ export class State {
 
     if(defaultState){
       scState.C(enterParams=>this._doDefaultState(enterParams));
+    }
+
+    if(route){
+      scState.route(route);
     }
 
     scState.enter(enterParams=>this._doEnter(enterParams));
@@ -390,8 +398,8 @@ export class State {
     return this._doReenter.bind(this, reenterObj);
   }
 
-  _transitionToState(gotoObj){
-    return this.scState.goto.bind(this.scState, gotoObj.path, {context:gotoObj.params});
+  _transitionToState({path, params}){
+    return ()=>this.scState.goto(path, {context:params});
   }
 
   _transitionToDynamicState(func){
