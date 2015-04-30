@@ -1,24 +1,14 @@
 (()=>{
 
-function displayNameForRelease(release){
-  return `${release.name ? release.name : ' '}${release.tag_name || ''}`;
-}
+const displayNameForRelease = release => release.name || release.tag_name;
+const branchFromRef         = ref     => ref.replace(/.*\//, '');
+const iconForIssue          = event   => `github:issue-${event.payload.action}`;
 
-function branchFromRef(ref){
-  return ref.replace(/.*\//, '');
-}
+const iconForIssueOrPR = event=>
+  `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
 
-function iconForIssue(event){
-  return `github:issue-${event.payload.action}`;
-}
-
-function iconForIssueOrPR(event){
-  return `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
-}
-
-function titleForIssueOrPR({payload}){
-  return payload.pull_request ? payload.pull_request.title : payload.issue.title;
-}
+const titleForIssueOrPR = ({payload})=>
+  payload.pull_request ? payload.pull_request.title : payload.issue.title;
 
 Polymer({
   is: 'ticker-event',
@@ -53,11 +43,13 @@ Polymer({
     const _tmplCache = this._tmplCache;
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
-      tmpl.ctor.prototype.iconForIssueOrPR      = iconForIssueOrPR;
-      tmpl.ctor.prototype.titleForIssueOrPR     = titleForIssueOrPR;
-      tmpl.ctor.prototype.iconForIssue          = iconForIssue;
-      tmpl.ctor.prototype.branchFromRef         = branchFromRef;
-      tmpl.ctor.prototype.displayNameForRelease = displayNameForRelease;
+      let proto = tmpl.ctor.prototype;
+      proto.iconForIssueOrPR      = iconForIssueOrPR;
+      proto.titleForIssueOrPR     = titleForIssueOrPR;
+      proto.iconForIssue          = iconForIssue;
+      proto.branchFromRef         = branchFromRef;
+      proto.displayNameForRelease = displayNameForRelease;
+
       _tmplCache[tmpl.id] = tmpl;
       tmpl = tmpl.nextElementSibling;
     }
