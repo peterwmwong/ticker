@@ -50,29 +50,24 @@ if(TICKER_CONFIG.statechartTrace){
 }
 appState.start();
 
-class SyncState {
-  constructor(mapping){
-    this.mapping = mapping;
+function syncState(attrs){
+  function onAttrChange(attrName, value){
+    if(attrs.indexOf(attrName) !== -1){ this[attrName] = value; }
   }
 
-  attached(){
-    for(let key in this.mapping){
-      this[key] = appState.attrs[key];
+  return {
+    attached(){
+      attrs.forEach(key=>this[key] = appState.attrs[key]);
+      appState.onAttrChange(onAttrChange);
+    },
+
+    detached(){
+      appState.offAttrChange(onAttrChange);
     }
-    this._boundOnAppStateChange = this._boundOnAppStateChange || function(attrName, value){
-      if(attrName in this.mapping){
-        this[attrName] = appState.attrs[attrName];
-      }
-    }.bind(this);
-    appState.onAttrChange(this._boundOnAppStateChange);
-  }
-
-  detached(){
-    appState.offAttrChange(this._boundOnAppStateChange);
-  }
+  };
 }
 
-window.SyncState = SyncState;
+window.syncState = syncState;
 window.appState = appState;
 
 export default appState;
