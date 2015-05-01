@@ -1,20 +1,19 @@
 import {reenter}  from '../helpers/svengali.js';
-import GithubUser from '../models/github/GithubUser.js';
-import GithubRepo from '../models/github/GithubRepo.js';
+import GithubEvent from '../models/github/GithubEvent.js';
 
 export default {
   states:{
     'GithubUser':{
       route:'/github/:sourceUser',
       attrs:{
-        'source':({sourceUser:u})=>GithubUser.get(u),
-        'appView'(){ return `source-GithubUser`; }
+        'sourceName':({sourceUser})=>sourceUser,
+        'appView':'source-GithubUser'
       },
       states:{
         'tab':{
           attrs:{
             'tab':({tab})=>tab || 'updates',
-            'events'(){ return this.attrs.source.then(s=>s.queryEvents()); }
+            'events':params=>GithubEvent.query({type:'users', id:params.sourceUser})
           },
           events:{
             'tabChanged':tab=>
@@ -26,14 +25,16 @@ export default {
     'GithubRepo':{
       route:'/github/:sourceUser/:sourceRepo',
       attrs:{
-        'source':({sourceUser:u, sourceRepo:r})=>GithubRepo.get(`${u}/${r}`),
-        'appView'(){ return `source-GithubRepo`; }
+        'sourceName':({sourceUser, sourceRepo})=>`${sourceUser}/${sourceRepo}`,
+        'appView':'source-GithubRepo'
       },
       states:{
         'tab':{
           attrs:{
             'tab':({tab})=>tab || 'updates',
-            'events'(){ return this.attrs.source.then(s=>s.queryEvents()); }
+            'events'(){
+              return GithubEvent.query({type:'repos', id:this.attrs.sourceName});
+            }
           },
           events:{
             'tabChanged':tab=>

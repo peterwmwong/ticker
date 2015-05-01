@@ -4,7 +4,7 @@ Polymer({
   behaviors:[
     new SyncState({
       isSourceFavorited: 'isSourceFavorited',
-      source: 'source'
+      sourceName: 'sourceName'
     })
   ],
 

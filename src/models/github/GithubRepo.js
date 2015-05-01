@@ -1,6 +1,5 @@
 import loadJSON from '../../helpers/load.js';
 import Model    from '../../helpers/bureau/model.js';
-import GithubEvent from './GithubEvent.js';
 
 export default class GithubRepo extends Model {
   static get desc(){
@@ -31,9 +30,4 @@ export default class GithubRepo extends Model {
 
   get displayName(){ return this.full_name; }
   get tickerUrl(){ return `/github/${this.full_name}`; }
-
-  queryEvents(){
-    return this._events ||
-      (this._events = GithubEvent.query({type:'repos', id:this.full_name}));
-  }
 }
