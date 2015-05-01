@@ -5,10 +5,7 @@ Polymer({
   },
 
   behaviors:[
-    new SyncState({
-      appSearch: 'appSearch',
-      searchResults: 'searchResults'
-    })
+    syncState(['appSearch',  'searchResults'])
   ],
 
   properties:{

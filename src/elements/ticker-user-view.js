@@ -2,10 +2,7 @@ Polymer({
   is: 'ticker-user-view',
 
   behaviors:[
-    new SyncState({
-      isSourceFavorited: 'isSourceFavorited',
-      sourceName: 'sourceName'
-    })
+    syncState(['isSourceFavorited', 'sourceName'])
   ],
 
   properties: {

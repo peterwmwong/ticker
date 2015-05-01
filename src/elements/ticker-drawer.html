@@ -25,9 +25,7 @@
 Polymer({
   is: 'ticker-drawer',
   behaviors:[
-    new SyncState({
-      favoritedSources: 'favoritedSources'
-    })
+    syncState(['favoritedSources'])
   ]
 })
 </script>

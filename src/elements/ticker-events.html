@@ -22,9 +22,7 @@ ticker-events {
 Polymer({
   is: 'ticker-events',
   behaviors:[
-    new SyncState({
-      events: 'events'
-    })
+    syncState(['events'])
   ]
 });
 </script>

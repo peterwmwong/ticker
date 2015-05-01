@@ -2,10 +2,7 @@ Polymer({
   is: 'ticker-app',
 
   behaviors:[
-    new SyncState({
-      appView: 'appView',
-      isLoggedIn: 'isLoggedIn'
-    })
+    syncState(['appView', 'isLoggedIn'])
   ],
 
   _onToggleDrawer(e){ this.$.drawer.togglePanel(); },
