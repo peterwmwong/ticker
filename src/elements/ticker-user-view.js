@@ -27,7 +27,10 @@ Polymer({
     }
   },
 
-  _sourceChanged(){ this.$.headerPanel.scroller.scrollTop = 0; },
+  _sourceChanged(){
+    this.$.headerPanel.scroller.scrollTop = 0;
+    this._onPanelScroll({detail:{target:{scrollTop:0}}});
+  },
 
   _isSourceFavoritedChanged(faved){
     this._favOrUnfavIcon = faved ? 'ticker:bookmark' : 'ticker:bookmark-outline';
@@ -37,7 +40,7 @@ Polymer({
 
   _onPanelScroll(e){
     const scrollTop = e.detail.target.scrollTop;
-    if(scrollTop && this._prevScrollTop > scrollTop){
+    if(this._prevScrollTop > scrollTop){
       if(this._topToolbarClass !== 'ticker-app__top-toolbar is-scrolling-up'){
         this.$.topToolbar.style.top = '';
         this._topToolbarClass = 'ticker-app__top-toolbar is-scrolling-up';
