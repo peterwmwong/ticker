@@ -784,7 +784,7 @@ this["statechart"] =
 	    }
 
       if (canEnter.call(pivot, states, opts) === false){
-        trace.call(this, 'State: [GOTO]   : ' + this + ' can not exit]');
+        trace.call(this, 'State: [GOTO]   : ' + this + ' can not enter]');
         return false;
       }
 

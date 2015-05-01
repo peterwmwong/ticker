@@ -30,9 +30,7 @@ export default class GithubRepo extends Model {
   }
 
   get displayName(){ return this.full_name; }
-  get tickerUrl(){
-    return `/app-chrome.html?sourceId=github/${this.full_name}`;
-  }
+  get tickerUrl(){ return `/github/${this.full_name}`; }
 
   queryEvents(){
     return this._events ||

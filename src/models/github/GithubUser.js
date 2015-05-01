@@ -30,9 +30,7 @@ export default class GithubUser extends Model {
   }
 
   get displayName(){ return this.login; }
-  get tickerUrl(){
-    return `/app-chrome.html?sourceId=github/${this.login}`;
-  }
+  get tickerUrl(){ return `/github/${this.login}`; }
 
   queryEvents(){
     return this._events ||

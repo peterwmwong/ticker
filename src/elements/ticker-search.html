@@ -31,10 +31,12 @@ ticker-search {
 
           <paper-item-body two-line
                            class='l-margin-l6 u-border-b1 c-border-gray-lighter'>
-            <span>[[item.login]]</span>
-            <ticker-repo-name repo-name='[[item.full_name]]'
-                              hidden='[[!item.full_name]]'></ticker-repo-name>
-            <div secondary class='c-gray-dark l-padding-r4'>[[item.description]]</div>
+            <a href="[[item.tickerUrl]]">
+              <span>[[item.login]]</span>
+              <ticker-repo-name repo-name='[[item.full_name]]'
+                                hidden='[[!item.full_name]]'></ticker-repo-name>
+              <div secondary class='c-gray-dark l-padding-r4'>[[item.description]]</div>
+            </a>
           </paper-item-body>
         </paper-icon-item>
       </template>

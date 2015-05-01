@@ -3,38 +3,13 @@ import GithubUser from '../models/github/GithubUser.js';
 import GithubRepo from '../models/github/GithubRepo.js';
 
 export default {
-  route:'/app-chrome.html',
-  params:['sourceId'],
-  attrs:{
-    'sourceType':({sourceId})=>{
-      const [, , repo] = sourceId.split('/');
-      return repo ? 'GithubRepo' : 'GithubUser';
-    },
-    'source':({sourceId})=>{
-      const [, user, repo] = sourceId.split('/');
-      return repo ? GithubRepo.get(`${user}/${repo}`) : GithubUser.get(user);
-    },
-    'appView'(){ return `source-${this.sourceType}`; }
-  },
-  events:{
-    'toggleFavoriteSource'(){
-      throw 'not implemented yet';
-      // const {user, source, isSourceFavorited} = this.attrs;
-      // const index = user.sources.indexOf(source);
-      // if(isSourceFavorited){
-      //   if(index !== -1) user.sources.splice(index, 1);
-      // }
-      // else if(index === -1){
-      //   user.sources.push(source);
-      // }
-      // user.save();
-      // return reenter({source});
-    }
-  },
-
-  defaultState(){ return this.attrs.sourceType; },
   states:{
     'GithubUser':{
+      route:'/github/:sourceUser',
+      attrs:{
+        'source':({sourceUser:u})=>GithubUser.get(u),
+        'appView'(){ return `source-GithubUser`; }
+      },
       states:{
         'tab':{
           attrs:{
@@ -49,6 +24,11 @@ export default {
       }
     },
     'GithubRepo':{
+      route:'/github/:sourceUser/:sourceRepo',
+      attrs:{
+        'source':({sourceUser:u, sourceRepo:r})=>GithubRepo.get(`${u}/${r}`),
+        'appView'(){ return `source-GithubRepo`; }
+      },
       states:{
         'tab':{
           attrs:{
