@@ -12,9 +12,6 @@ const titleForIssueOrPR = ({payload})=>
 
 Polymer({
   is: 'ticker-event',
-  hostAttributes:{
-    class: 'Card relative block'
-  },
   properties:{
     event:{
       type:Object,
@@ -23,6 +20,10 @@ Polymer({
   },
   _stamped:false,
   _tmplCache:{},
+
+  created(){
+    this.className = 'Card relative block';
+  },
 
   _emptyContent(){
     // Skip over .Card-title

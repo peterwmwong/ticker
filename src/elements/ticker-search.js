@@ -1,7 +1,6 @@
 Polymer({
   is: 'ticker-search',
   hostAttributes:{
-    class: 'fixed-top fixed-bottom',
     hidden: true
   },
 
@@ -18,6 +17,10 @@ Polymer({
       value:false,
       observer: '_appSearchChanged'
     }
+  },
+
+  created(){
+    this.className = 'fixed-top fixed-bottom';
   },
 
   _appSearchChanged(val){
