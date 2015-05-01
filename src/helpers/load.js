@@ -12,7 +12,7 @@ export function loadResource(type, url, accessToken){
   });
 }
 
-export function loadJSON(url){
+export default function loadJSON(url){
   return new Promise((resolve, reject)=>{
     loadResource('json', url, loadJSON.accessToken).then(({response})=>{
       if(!response) reject(new Error('Not found'));
@@ -21,7 +21,7 @@ export function loadJSON(url){
   });
 }
 
-export default function loadMOCKJSON(url){
+export function loadMOCKJSON(url){
   if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
     return loadJSON('/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json');
   }

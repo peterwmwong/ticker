@@ -1,4 +1,4 @@
-// import '../helpers/MOCK_FIREBASE.js';
+import '../helpers/MOCK_FIREBASE.js';
 
 import {StateChart, goto} from '../helpers/svengali.js';
 import userState          from './userState.js';
@@ -19,7 +19,8 @@ const appState = new StateChart({
         'enabled':{
           params:['user'],
           attrs:{
-            'favoritedSources':({user})=>user.sources
+            // TODO(pwong): implement
+            // 'favoritedSources':({user})=>user.sources
           }
         }
       }
@@ -50,20 +51,19 @@ if(TICKER_CONFIG.statechartTrace){
 }
 appState.start();
 
-function syncState(attrs){
-  function onAttrChange(attrName, value){
-    if(attrs.indexOf(attrName) !== -1){ this[attrName] = value; }
-  }
 
+function onAttrChange(attrs, attrName, value){
+  if(attrs.indexOf(attrName) !== -1){ this[attrName] = value; }
+}
+
+function syncState(attrs){
   return {
     attached(){
+      this._onAttrChange = this._onAttrChange || onAttrChange.bind(this, attrs);
       attrs.forEach(key=>this[key] = appState.attrs[key]);
-      appState.onAttrChange(onAttrChange);
+      appState.onAttrChange(this._onAttrChange);
     },
-
-    detached(){
-      appState.offAttrChange(onAttrChange);
-    }
+    detached(){ appState.offAttrChange(this._onAttrChange); }
   };
 }
 
