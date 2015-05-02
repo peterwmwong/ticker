@@ -1,4 +1,4 @@
-import '../helpers/MOCK_FIREBASE.js';
+// import '../helpers/MOCK_FIREBASE.js';
 
 import {StateChart, goto} from '../helpers/svengali.js';
 import userState          from './userState.js';
@@ -6,6 +6,7 @@ import searchState        from './searchState.js';
 import sourceState        from './sourceState.js';
 
 const appState = new StateChart({
+  route:'/',
   parallelStates:{
     'userState':userState,
     'appSearch':searchState,
@@ -19,23 +20,19 @@ const appState = new StateChart({
         'enabled':{
           params:['user'],
           attrs:{
-            // TODO(pwong): implement
-            // 'favoritedSources':({user})=>user.sources
+            'favoritedSources':({user})=>user.sources
           }
         }
       }
     },
     'appView':{
-      events:{
-        'selectSource':source=>goto('./source', {source})
-      },
       states:{
         'waitingForUser':{
           events:{
             'userReady':user=>{
               let initialSource = user.sources[0];
               if(initialSource){
-                return goto('../source', {sourceId:initialSource.id});
+                window.location.pathname = initialSource.tickerUrl;
               }
             }
           }

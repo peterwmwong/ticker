@@ -64,10 +64,7 @@ export default {
     },
     'ready':{
       params:['user'],
-      attrs:{
-        user:({user})=>user
-      },
-      enter(){ this.fire('userReady', this.attrs.user); }
+      enter({user}){ this.fire('userReady', user); }
     }
   }
 };
