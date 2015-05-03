@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/peterwmwong/ticker",
   "dependencies": {
-    "babel": "^5.2.2",
+    "babel": "^5.2.6",
     "babel-eslint": "^3.0.1",
     "babelify": "^6.0.2",
-    "browserify": "^9.0.8",
+    "browserify": "^10.0.0",
     "eslint": "^0.19.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
@@ -51,6 +51,6 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "vulcanize": "^1.4.0",
-    "watchify": "^3.1.1"
+    "watchify": "^3.2.1"
   }
 }
