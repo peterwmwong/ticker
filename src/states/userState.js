@@ -50,7 +50,7 @@ export default {
         // Give load access tokens to use for any third-party API requests.
         // For right now, just Github.
         // TODO(pwong): Split out access tokens into a seperate module?
-        load.accessToken = accessTokens.github;
+        load.setAccessToken(accessTokens.github);
 
         // Get or create user information
         User.get(authId)
