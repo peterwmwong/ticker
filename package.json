@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/peterwmwong/ticker",
   "dependencies": {
-    "babel": "^5.2.6",
+    "babel": "^5.2.7",
     "babel-eslint": "^3.0.1",
     "babelify": "^6.0.2",
     "browserify": "^10.0.0",
