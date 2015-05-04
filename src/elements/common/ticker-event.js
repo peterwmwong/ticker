@@ -4,6 +4,8 @@ const displayNameForRelease = release => release.name || release.tag_name;
 const branchFromRef         = ref     => ref.replace(/.*\//, '');
 const iconForIssue          = event   => `github:issue-${event.payload.action}`;
 
+const iconForBranchOrRepo = event=>`github:git-branch`;
+
 const iconForIssueOrPR = event=>
   `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
 
@@ -37,6 +39,7 @@ Polymer({
   },
 
   _eventChanged(event){
+    this.className = 'Card relative block Card--yolo--' + this.event.type;
     if(!event){ return; }
     this._ensureTemplateCache();
 
@@ -62,6 +65,7 @@ Polymer({
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
       let proto = tmpl.ctor.prototype;
+      proto.iconForBranchOrRepo   = iconForBranchOrRepo;
       proto.iconForIssueOrPR      = iconForIssueOrPR;
       proto.titleForIssueOrPR     = titleForIssueOrPR;
       proto.iconForIssue          = iconForIssue;
