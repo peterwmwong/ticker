@@ -12,7 +12,7 @@ export function loadResource(type, url, accessToken){
   });
 }
 
-export default function loadJSON(url){
+export function loadJSON(url){
   return new Promise((resolve, reject)=>{
     let accessToken = localStorage.getItem('ticker:token:github');
     loadResource('json', url, accessToken).then(({response})=>{
@@ -27,7 +27,7 @@ loadJSON.setAccessToken = function(accessToken){
 };
 
 
-export function loadMOCKJSON(url){
+export default function loadMOCKJSON(url){
   if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
     return loadJSON('/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json');
   }
@@ -47,3 +47,5 @@ export function loadMOCKJSON(url){
     throw `loadMock: No mock for ${url}`;
   }
 }
+
+loadMOCKJSON.setAccessToken = function(accessToken){  /* NOOP */ };

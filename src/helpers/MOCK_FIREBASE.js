@@ -6,7 +6,7 @@ window.Firebase = class {
       cb({
         val:()=>({
           'id': '284734',
-          'githubUsername': 'peterwmwong',
+          'username': 'peterwmwong',
           'sources': [
             {'type': 'GithubRepoSource', 'full_name':'polymer/polymer'},
             {'type': 'GithubUserSource', 'login':'polymer'}
