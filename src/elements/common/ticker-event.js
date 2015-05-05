@@ -3,6 +3,9 @@
 const createDeleteSubject = ({payload:{ref, ref_type}, repo})=>
   ref_type === 'branch' ? ref : repo.name;
 
+const createDeleteAction = (event)=>
+  event.type === 'CreateEvent' ? 'created' : 'deleted';
+
 const displayNameForRelease = release => release.name || release.tag_name;
 const branchFromRef         = ref     => ref.replace(/.*\//, '');
 const iconForIssue          = event   => `github:issue-${event.payload.action}`;
@@ -69,6 +72,7 @@ Polymer({
     while(tmpl){
       let proto = tmpl.ctor.prototype;
       proto.createDeleteSubject   = createDeleteSubject;
+      proto.createDeleteAction    = createDeleteAction;
       proto.iconForBranchOrRepo   = iconForBranchOrRepo;
       proto.iconForIssueOrPR      = iconForIssueOrPR;
       proto.titleForIssueOrPR     = titleForIssueOrPR;
@@ -76,7 +80,7 @@ Polymer({
       proto.branchFromRef         = branchFromRef;
       proto.displayNameForRelease = displayNameForRelease;
 
-      _tmplCache[tmpl.id] = tmpl;
+      tmpl.id.split(',').forEach(id=>_tmplCache[id] = tmpl);
       tmpl = tmpl.nextElementSibling;
     }
     _tmplCache.isReady = true;

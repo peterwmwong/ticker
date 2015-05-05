@@ -1,8 +1,3 @@
-- DRY-up rendering
-  - SVO Card Action
-  - Create/Delete Events
-  - PullRequestEvent and IssueEvent
-  - PullRequestReviewComment and IssueCommentEvent
 - Coalesce Common Repo Events
 - Search icon button disappears w/large windows
 - consider using x-autobind to replace ticker-app

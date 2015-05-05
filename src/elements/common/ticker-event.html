@@ -2,7 +2,7 @@
 
 <dom-module id='ticker-event-templates'>
 
-  <template is='x-template' id='PullRequestEvent'>
+  <template is='x-template' id='IssuesEvent,PullRequestEvent'>
     <div class='Card-action ticker-event__summary'>
       <ticker-avatar
         source='[[event.actor]]'
@@ -10,7 +10,7 @@
       <span class='ticker-event__summary-actor'
         >[[event.actor.login]]</span>
       <span class='ticker-event__summary-action'
-        >[[event.payload.pull_request.state]]</span>
+        >[[event.payload.action]]</span>
       <span class='ticker-event__summary-subject'>
         <iron-icon
           class='ticker-event__summary-subject__icon'
@@ -36,15 +36,18 @@
     </div>
   </template>
 
-  <template is='x-template' id='CreateEvent'>
+  <template is='x-template' id='CreateEvent,DeleteEvent'>
     <div class='Card-action ticker-event__summary'>
       <ticker-avatar
         source='[[event.actor]]'
         class='ticker-event__summary-actor-avatar'></ticker-avatar>
       <span class='ticker-event__summary-actor'
         >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >created a <span>[[event.payload.ref_type]]</span></span>
+      <span class='ticker-event__summary-action'>
+        <span>[[createDeleteAction(event)]]</span>
+        a
+        <span>[[event.payload.ref_type]]</span>
+      </span>
       <span class='ticker-event__summary-subject'>
         <iron-icon
           class='ticker-event__summary-subject__icon'
@@ -54,25 +57,7 @@
     </div>
   </template>
 
-  <template is='x-template' id='DeleteEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >deleted a <span>[[event.payload.ref_type]]</span></span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForBranchOrRepo(event)]]'>
-        </iron-icon><span>[[createDeleteSubject(event)]]</span>
-      </span>
-    </div>
-  </template>
-
-  <template is='x-template' id='PullRequestReviewCommentEvent'>
+  <template is='x-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
     <div class='Card-action ticker-event__summary'>
       <ticker-avatar
         source='[[event.actor]]'
@@ -91,46 +76,6 @@
     <div class='Card-action Card-action--secondary'>
       <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
       <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
-    </div>
-  </template>
-
-  <template is='x-template' id='IssueCommentEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >commented on</span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForIssueOrPR(event)]]'>
-        </iron-icon><span>[[titleForIssueOrPR(event)]]</span>
-      </span>
-    </div>
-    <div class='Card-action Card-action--secondary'>
-      <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
-      <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
-    </div>
-  </template>
-
-  <template is='x-template' id='IssuesEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >[[event.payload.action]]</span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForIssueOrPR(event)]]'>
-        </iron-icon><span>[[titleForIssueOrPR(event)]]</span>
-      </span>
     </div>
   </template>
 
