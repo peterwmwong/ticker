@@ -1,4 +1,19 @@
 :root {
+  /* Colors */
+
+  --color-warning       :#fca431;
+  --color-warning-light :#fdcc8b;
+  --color-confirm       :#72bd61;
+  --color-confirm-light :#98cf8c;
+  --color-error         :#f44856;
+  --color-error-light   :#f44856;
+  --color-notify        :#f7e3b1;
+  --color-highlight     :#fef9ec;
+
+  --color-transparent   :rgba(255,255,255,0);
+  --color-white         :#FFF;
+  --color-black         :#000;
+
   --gray-darkest        :hsl(195,80%,10%);
   --gray-darker         :hsl(192,14%,40%);
   --gray-dark           :hsl(192,14%,50%);
@@ -6,10 +21,12 @@
   --gray-lighter        :hsl(198,16%,87%);
   --gray-lightest       :hsl(206,19%,92%);
 
-  --brand-primary-light :hsl(197,69%,50%);
+  /* Layout */
 
   --baseline  : 4px;
   --h-baseline: 4px;
+
+  /* Typography */
 
   --font-weight-thin    : 100;
   --font-weight-light   : 300;

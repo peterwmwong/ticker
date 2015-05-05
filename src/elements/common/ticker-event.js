@@ -1,5 +1,8 @@
 (()=>{
 
+const createDeleteSubject = ({payload:{ref, ref_type}, repo})=>
+  ref_type === 'branch' ? ref : repo.name;
+
 const displayNameForRelease = release => release.name || release.tag_name;
 const branchFromRef         = ref     => ref.replace(/.*\//, '');
 const iconForIssue          = event   => `github:issue-${event.payload.action}`;
@@ -65,6 +68,7 @@ Polymer({
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
       let proto = tmpl.ctor.prototype;
+      proto.createDeleteSubject   = createDeleteSubject;
       proto.iconForBranchOrRepo   = iconForBranchOrRepo;
       proto.iconForIssueOrPR      = iconForIssueOrPR;
       proto.titleForIssueOrPR     = titleForIssueOrPR;

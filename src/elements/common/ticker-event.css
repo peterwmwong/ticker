@@ -1,0 +1,51 @@
+.ticker-event__summary {
+  display: block;
+  overflow: hidden;
+  line-height: 32px;
+}
+
+.ticker-event__summary > * {
+  float: left;
+}
+
+
+/* Actor
+   ===== */
+
+.ticker-event__summary-actor {
+  font-weight: var(--font-weight-normal);
+  margin-right: var(--h-baseline);
+}
+
+.ticker-event__summary-actor-avatar {
+  /* Causes the wrapping of the subject
+     to appear indented */
+  margin-bottom: 1px;
+  margin-right: calc(var(--h-baseline)*3);
+}
+
+
+/* Action
+   ====== */
+
+.ticker-event__summary-action { }
+
+
+/* Subject
+   ====== */
+
+.ticker-event__summary-subject {
+  @mixin text-truncate;
+
+  display: inline-block;
+  font-weight: var(--font-weight-normal);
+
+  /* Prevent the subject from jumping into it's own line
+     withouh being indented by the actor's avatar. */
+  max-width: calc(100% - 48px);
+}
+
+.ticker-event__summary-subject__icon {
+  fill: var(--color-warning);
+  padding: 0 var(--h-baseline);
+}

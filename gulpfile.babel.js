@@ -66,9 +66,9 @@ gulp.task('styles', ()=>
     .pipe(plumber())
     .pipe(postcss([
       postcssImport({glob:true}),
+      postcssMixins(),
       postcssProperties(),
-      postcssCalc(),
-      postcssMixins()
+      postcssCalc()
     ]))
     .pipe(gulp.dest(PATHS.build))
     .pipe(livereload())

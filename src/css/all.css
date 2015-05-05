@@ -1,3 +1,4 @@
 @import './*.css';
 @import './components/*.css';
 @import '../elements/*.css';
+@import '../elements/common/*.css';

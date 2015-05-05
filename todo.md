@@ -1,21 +1,14 @@
-- Normalize event rendering of subject and actor
-  - Currently some events render like this...
-      [User/Repo]         [Time Ago]
-      [Subject Icon] [Subject]
-      ------------------------------
-      [Avatar] [Comment]
-  - New
-      [User/Repo]         [Time Ago]
-      ------------------------------
-      [Avatar] [Verb] [Subject Icon] [Subject]
-        [Details*]
-  - single line
-  - Maybe use the ⮀character that Google+ uses
+- DRY-up rendering
+  - SVO Card Action
+  - Create/Delete Events
+  - PullRequestEvent and IssueEvent
+  - PullRequestReviewComment and IssueCommentEvent
 - Coalesce Common Repo Events
 - Search icon button disappears w/large windows
 - consider using x-autobind to replace ticker-app
 - store/retrieve previous events in localStorage
-- fix create/delete events for repos
+- Utility classes should leverage PostCSS variables
+- unify utility class prefix to "u-"
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - Create app icon
 - save Last Login
