@@ -1,32 +1,24 @@
+<link rel='import' href='ticker-event-summary.html'>
 <link rel='import' href='ticker-repo-name.html'>
 
 <dom-module id='ticker-event-templates'>
 
   <template is='x-template' id='IssuesEvent,PullRequestEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >[[event.payload.action]]</span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForIssueOrPR(event)]]'>
-        </iron-icon><span>[[titleForIssueOrPR(event)]]</span>
-      </span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='[[event.payload.action]]'
+      subject-icon='[[issuePRIcon(event)]]'
+      subject='[[issuePRSubject(event)]]'></ticker-event-summary>
   </template>
 
   <template is='x-template' id='ReleaseEvent'>
-    <div class='Card-action'>
-      <ticker-avatar source='[[event.actor]]' class='l-margin-r3'></ticker-avatar>
-      <span class='t-normal'>[[event.actor.login]]</span>&nbsp;published a release&nbsp;
-      <iron-icon class='c-warning' icon='github:versions'></iron-icon>
-      &nbsp;<span class='t-normal'>[[displayNameForRelease(event.payload.release)]]</span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='published a release'
+      subject-icon='github:versions'
+      subject='[[releaseSubject(event)]]'></ticker-event-summary>
   </template>
 
   <template is='x-template' id='TeamAddEvent'>
@@ -37,42 +29,22 @@
   </template>
 
   <template is='x-template' id='CreateEvent,DeleteEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'>
-        <span>[[createDeleteAction(event)]]</span>
-        a
-        <span>[[event.payload.ref_type]]</span>
-      </span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForBranchOrRepo(event)]]'>
-        </iron-icon><span>[[createDeleteSubject(event)]]</span>
-      </span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='[[createDeleteAction(event)]]'
+      subject-icon='[[createDeleteIcon(event)]]'
+      subject='[[createDeleteSubject(event)]]'></ticker-event-summary>
   </template>
 
   <template is='x-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'
-        >commented on</span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='[[iconForIssueOrPR(event)]]'>
-        </iron-icon><span>[[titleForIssueOrPR(event)]]</span>
-      </span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='commented on'
+      subject-icon='[[issuePRIcon(event)]]'
+      subject='[[issuePRSubject(event)]]'></ticker-event-summary>
+
     <div class='Card-action Card-action--secondary'>
       <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
       <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
@@ -80,20 +52,12 @@
   </template>
 
   <template is='x-template' id='CommitCommentEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'>commented on</span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='github:git-commit'>
-        </iron-icon><span>[[event.payload.comment.commit_id]]</span>
-      </span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='commented on'
+      subject-icon='github:git-commit'
+      subject='[[event.payload.comment.commit_id]]'></ticker-event-summary>
     <div class='Card-action Card-action--secondary'>
       <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
       <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
@@ -104,24 +68,13 @@
   <!-- <template is='x-template' id='ForkEvent'></template> -->
 
   <template is='x-template' id='PushEvent'>
-    <div class='Card-action ticker-event__summary'>
-      <ticker-avatar
-        source='[[event.actor]]'
-        class='ticker-event__summary-actor-avatar'></ticker-avatar>
-      <span class='ticker-event__summary-actor'
-        >[[event.actor.login]]</span>
-      <span class='ticker-event__summary-action'>
-        pushed
-        <span>[[event.payload.commits.length]]</span>
-        commits
-      </span>
-      <span class='ticker-event__summary-subject'>
-        <iron-icon
-          class='ticker-event__summary-subject__icon'
-          icon='github:git-branch'>
-        </iron-icon><span>[[branchFromRef(event.payload.ref)]]</span>
-      </span>
-    </div>
+    <ticker-event-summary
+      class='Card-action'
+      actor='[[event.actor]]'
+      action='[[pushAction(event)]]'
+      subject-icon='github:git-branch'
+      subject='[[pushSubject(event)]]'></ticker-event-summary>
+
     <div>
       <template is='x-repeat' items='[[event.payload.commits]]'>
         <div class='Card-action Card-action--secondary'>

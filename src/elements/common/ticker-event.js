@@ -1,22 +1,16 @@
 (()=>{
 
-const createDeleteSubject = ({payload:{ref, ref_type}, repo})=>
-  ref_type === 'branch' ? ref : repo.name;
+const createDeleteAction  = event=> `${event.type === 'CreateEvent' ? 'created' : 'deleted'} a ${event.payload.ref_type}`;
+const createDeleteIcon    = event=> `github:git-branch`;
+const createDeleteSubject = ({payload:{ref, ref_type}, repo}) => ref_type === 'branch' ? ref : repo.name;
 
-const createDeleteAction = (event)=>
-  event.type === 'CreateEvent' ? 'created' : 'deleted';
+const pushAction          = event=> `pushed ${event.payload.commits.length} commits to`;
+const pushSubject         = event=> event.payload.ref.replace(/.*\//, '');
 
-const displayNameForRelease = release => release.name || release.tag_name;
-const branchFromRef         = ref     => ref.replace(/.*\//, '');
-const iconForIssue          = event   => `github:issue-${event.payload.action}`;
+const releaseSubject      = ({payload:{release}})=> release.name || release.tag_name;
 
-const iconForBranchOrRepo = event=>`github:git-branch`;
-
-const iconForIssueOrPR = event=>
-  `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
-
-const titleForIssueOrPR = ({payload})=>
-  payload.pull_request ? payload.pull_request.title : payload.issue.title;
+const issuePRIcon         = event=> `github:${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
+const issuePRSubject      = ({payload})=> payload.pull_request ? payload.pull_request.title : payload.issue.title;
 
 Polymer({
   is: 'ticker-event',
@@ -45,7 +39,6 @@ Polymer({
   },
 
   _eventChanged(event){
-    this.className = 'Card relative block Card--yolo--' + this.event.type;
     if(!event){ return; }
     this._ensureTemplateCache();
 
@@ -71,14 +64,18 @@ Polymer({
     let tmpl = Polymer.DomModule.import('ticker-event-templates').firstElementChild;
     while(tmpl){
       let proto = tmpl.ctor.prototype;
-      proto.createDeleteSubject   = createDeleteSubject;
-      proto.createDeleteAction    = createDeleteAction;
-      proto.iconForBranchOrRepo   = iconForBranchOrRepo;
-      proto.iconForIssueOrPR      = iconForIssueOrPR;
-      proto.titleForIssueOrPR     = titleForIssueOrPR;
-      proto.iconForIssue          = iconForIssue;
-      proto.branchFromRef         = branchFromRef;
-      proto.displayNameForRelease = displayNameForRelease;
+
+      proto.createDeleteAction  = createDeleteAction;
+      proto.createDeleteIcon    = createDeleteIcon;
+      proto.createDeleteSubject = createDeleteSubject;
+
+      proto.pushAction          = pushAction;
+      proto.pushSubject         = pushSubject;
+
+      proto.releaseSubject      = releaseSubject;
+      
+      proto.issuePRIcon         = issuePRIcon;
+      proto.issuePRSubject      = issuePRSubject;
 
       tmpl.id.split(',').forEach(id=>_tmplCache[id] = tmpl);
       tmpl = tmpl.nextElementSibling;

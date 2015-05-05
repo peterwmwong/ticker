@@ -1,0 +1,26 @@
+<dom-module id='ticker-event-summary'>
+  <template>
+    <ticker-avatar
+      source='[[actor]]'
+      class='ticker-event-summary__actor-avatar'></ticker-avatar>
+    <span class='ticker-event-summary__actor'>[[actor.login]]</span>
+    <span class='ticker-event-summary__action'>[[action]]</span>
+    <span class='ticker-event-summary__subject'>
+      <iron-icon
+        class='ticker-event-summary__subject__icon'
+        icon='[[subjectIcon]]'>
+      </iron-icon><span>[[subject]]</span>
+    </span>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is:'ticker-event-summary',
+  properties:{
+    actor:{type:Object},
+    action:{type:String},
+    subjectIcon:{type:String},
+    subject:{type:String}
+  }
+});
+</script>

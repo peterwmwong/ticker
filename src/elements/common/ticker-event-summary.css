@@ -1,10 +1,10 @@
-.ticker-event__summary {
+ticker-event-summary {
   display: block;
+  line-height: 32px !important;
   overflow: hidden;
-  line-height: 32px;
 }
 
-.ticker-event__summary > * {
+ticker-event-summary > * {
   float: left;
 }
 
@@ -12,12 +12,12 @@
 /* Actor
    ===== */
 
-.ticker-event__summary-actor {
+.ticker-event-summary__actor {
   font-weight: var(--font-weight-normal);
   margin-right: var(--h-baseline);
 }
 
-.ticker-event__summary-actor-avatar {
+.ticker-event-summary__actor-avatar {
   /* Causes the wrapping of the subject
      to appear indented */
   margin-bottom: 1px;
@@ -28,13 +28,13 @@
 /* Action
    ====== */
 
-.ticker-event__summary-action { }
+.ticker-event-summary__action { }
 
 
 /* Subject
    ====== */
 
-.ticker-event__summary-subject {
+.ticker-event-summary__subject {
   @mixin text-truncate;
 
   display: inline-block;
@@ -45,7 +45,12 @@
   max-width: calc(100% - 48px);
 }
 
-.ticker-event__summary-subject__icon {
+.ticker-event-summary__subject__icon {
   fill: var(--color-warning);
   padding: 0 var(--h-baseline);
+
+  width: 22px !important;
+  height: 22px !important;
+  margin: 0 2px;
+  margin-top: -2px;
 }
