@@ -14,6 +14,7 @@ import postcss           from 'gulp-postcss';
 import postcssCalc       from 'postcss-calc';
 import postcssProperties from 'postcss-custom-properties';
 import postcssImport     from 'postcss-import';
+import postcssMixins     from 'postcss-mixins';
 import remember          from 'gulp-remember';
 import replace           from 'gulp-replace';
 import rimraf            from 'rimraf';
@@ -66,7 +67,8 @@ gulp.task('styles', ()=>
     .pipe(postcss([
       postcssImport({glob:true}),
       postcssProperties(),
-      postcssCalc()
+      postcssCalc(),
+      postcssMixins()
     ]))
     .pipe(gulp.dest(PATHS.build))
     .pipe(livereload())

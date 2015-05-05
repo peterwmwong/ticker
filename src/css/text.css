@@ -38,11 +38,18 @@
 .t-font-size-32 {
   font-size: 3.2rem !important;
 }
-.t-truncate {
+
+@define-mixin text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.t-truncate {
+  @mixin text-truncate;
+}
+
+
 .t-word-wrap-break-word {
   word-wrap: break-word;
 }
