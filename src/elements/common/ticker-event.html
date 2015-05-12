@@ -5,7 +5,6 @@
 
   <template is='x-template' id='IssuesEvent,PullRequestEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='[[event.payload.action]]'
       subject-icon='[[issuePRIcon(event)]]'
@@ -14,7 +13,6 @@
 
   <template is='x-template' id='ReleaseEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='published a release'
       subject-icon='github:versions'
@@ -30,7 +28,6 @@
 
   <template is='x-template' id='CreateEvent,DeleteEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='[[createDeleteAction(event)]]'
       subject-icon='[[createDeleteIcon(event)]]'
@@ -39,7 +36,6 @@
 
   <template is='x-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='commented on'
       subject-icon='[[issuePRIcon(event)]]'
@@ -53,7 +49,6 @@
 
   <template is='x-template' id='CommitCommentEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='commented on'
       subject-icon='github:git-commit'
@@ -69,7 +64,6 @@
 
   <template is='x-template' id='PushEvent'>
     <ticker-event-summary
-      class='Card-action'
       actor='[[event.actor]]'
       action='[[pushAction(event)]]'
       subject-icon='github:git-branch'
