@@ -34,9 +34,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         bool = !node.classList.contains(name);
       }
       if (bool) {
-        node.classList.add(name);
+        Polymer.dom(node).classList.add(name);
       } else {
-        node.classList.remove(name);
+        Polymer.dom(node).classList.remove(name);
       }
     },
 
@@ -55,9 +55,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         bool = !node.hasAttribute(name);
       }
       if (bool) {
-        node.setAttribute(name, '');
+        Polymer.dom(node).setAttribute(name, '');
       } else {
-        node.removeAttribute(name);
+        Polymer.dom(node).removeAttribute(name);
       }
     },
 
@@ -71,10 +71,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      */
     classFollows: function(name, toElement, fromElement) {
       if (fromElement) {
-        fromElement.classList.remove(name);
+        Polymer.dom(fromElement).classList.remove(name);
       }
       if (toElement) {
-        toElement.classList.add(name);
+        Polymer.dom(toElement).classList.add(name);
       }
     },
 
@@ -88,10 +88,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      */
     attributeFollows: function(name, toElement, fromElement) {
       if (fromElement) {
-        fromElement.removeAttribute(name);
+        Polymer.dom(fromElement).removeAttribute(name);
       }
       if (toElement) {
-        toElement.setAttribute(name, '');
+        Polymer.dom(toElement).setAttribute(name, '');
       }
     },
 
@@ -190,14 +190,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      * Removes an item from an array, if it exists.
      *
      * @method arrayDelete
-     * @param {Array} array Array from which to remove the item.
+     * @param {String|Array} path Path torray from which to remove the item
+     *   (or the array itself).
      * @param {any} item Item to remove.
      * @return {Array} Array containing item removed.
      */
-    arrayDelete: function(array, item) {
-      var index = array.indexOf(item);
-      if (index >= 0) {
-        return array.splice(index, 1);
+    arrayDelete: function(path, item) {
+      var index;
+      if (Array.isArray(path)) {
+        index = path.indexOf(item);
+        if (index >= 0) {
+          return path.splice(index, 1);
+        }
+      } else {
+        var arr = this.get(path);
+        index = arr.indexOf(item);
+        if (index >= 0) {
+          return this.splice(path, index, 1);
+        }
       }
     },
 

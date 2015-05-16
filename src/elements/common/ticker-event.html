@@ -3,7 +3,7 @@
 
 <dom-module id='ticker-event-templates'>
 
-  <template is='x-template' id='IssuesEvent,PullRequestEvent'>
+  <template is='dom-template' id='IssuesEvent,PullRequestEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='[[event.payload.action]]'
@@ -11,7 +11,7 @@
       subject='[[issuePRSubject(event)]]'></ticker-event-summary>
   </template>
 
-  <template is='x-template' id='ReleaseEvent'>
+  <template is='dom-template' id='ReleaseEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='published a release'
@@ -19,7 +19,7 @@
       subject='[[releaseSubject(event)]]'></ticker-event-summary>
   </template>
 
-  <template is='x-template' id='CreateEvent,DeleteEvent'>
+  <template is='dom-template' id='CreateEvent,DeleteEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='[[createDeleteAction(event)]]'
@@ -27,7 +27,7 @@
       subject='[[createDeleteSubject(event)]]'></ticker-event-summary>
   </template>
 
-  <template is='x-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
+  <template is='dom-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='commented on'
@@ -40,7 +40,7 @@
     </div>
   </template>
 
-  <template is='x-template' id='CommitCommentEvent'>
+  <template is='dom-template' id='CommitCommentEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='commented on'
@@ -52,7 +52,7 @@
     </div>
   </template>
 
-  <template is='x-template' id='PushEvent'>
+  <template is='dom-template' id='PushEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
       action='[[pushAction(event)]]'
@@ -60,7 +60,7 @@
       subject='[[pushSubject(event)]]'></ticker-event-summary>
 
     <div>
-      <template is='x-repeat' items='[[event.payload.commits]]'>
+      <template is='dom-repeat' items='[[event.payload.commits]]'>
         <div class='ticker-event__action'>
           <iron-icon icon='github:git-commit' class='ticker-event__action__icon'></iron-icon>
           <span class='ticker-event__action__text'>[[item.message]]</span>

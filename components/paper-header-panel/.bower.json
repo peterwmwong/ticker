@@ -1,12 +1,15 @@
 {
   "name": "paper-header-panel",
+  "description": "A header and content wrapper for layout with headers",
   "authors": [
     "The Polymer Authors"
   ],
   "keywords": [
     "web-components",
     "web-component",
-    "polymer"
+    "polymer",
+    "paper",
+    "layout"
   ],
   "main": "index.html",
   "private": true,
@@ -14,20 +17,20 @@
   "homepage": "https://github.com/PolymerElements/paper-header-panel",
   "ignore": [],
   "dependencies": {
-    "polymer": "polymer/polymer#v0.8.0-rc.7",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#^0.8.0"
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^0.9.0",
+    "polymer": "Polymer/polymer#^0.9.0"
   },
   "devDependencies": {
-    "webcomponentsjs": "webcomponents/webcomponentsjs#~0.6.1",
-    "web-component-tester": "Polymer/web-component-tester#^2.2.3",
-    "iron-doc-viewer": "PolymerElements/iron-doc-viewer#^0.8.0",
-    "test-fixture": "PolymerElements/test-fixture#^0.8.0"
+    "web-component-tester": "*",
+    "iron-component-page": "PolymerElements/iron-component-page#^0.9.0",
+    "test-fixture": "PolymerElements/test-fixture#^0.9.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "0ddd8f8116",
+  "_release": "cbd150e9d2",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "0ddd8f8116e72618fa21ecc8044b2f6cee9a0933"
+    "commit": "cbd150e9d2c7e62d0853a01db6e42404d7b0afd2"
   },
   "_source": "git://github.com/PolymerElements/paper-header-panel.git",
   "_target": "master",

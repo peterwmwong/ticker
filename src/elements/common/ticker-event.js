@@ -73,7 +73,7 @@ Polymer({
       proto.pushSubject         = pushSubject;
 
       proto.releaseSubject      = releaseSubject;
-      
+
       proto.issuePRIcon         = issuePRIcon;
       proto.issuePRSubject      = issuePRSubject;
 

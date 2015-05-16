@@ -14,7 +14,7 @@
     "paper-item"         : "PolymerElements/paper-item#master",
     "paper-ripple"       : "PolymerElements/paper-ripple#master",
     "paper-toolbar"      : "PolymerElements/paper-toolbar#master",
-    "polymer"            : "Polymer/polymer#0.8-preview",
-    "webcomponentsjs"    : "~0.6.1"
+    "polymer"            : "Polymer/polymer#master",
+    "webcomponentsjs"    : "~0.7.0"
   }
 }

@@ -26,7 +26,7 @@ ticker-search {
                placeholder='Search for repositories or users'
                on-input='_onSearchTextInput'/>
       </div>
-      <template is='x-repeat' items='[[searchResults]]'>
+      <template is='dom-repeat' items='[[searchResults]]'>
         <paper-icon-item class='c-gray-darkest l-padding-r0' icon-width='32px'>
           <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
 
