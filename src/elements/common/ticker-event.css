@@ -1,0 +1,24 @@
+.ticker-event__action {
+  background : #f9fafb;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  padding: 0 calc(var(--h-baseline)*4) calc(var(--h-baseline)*4) calc(var(--h-baseline)*8);
+
+  align-items: center;
+  line-height: 1.5;
+}
+
+.ticker-event__action__icon {
+  -ms-align-self: flex-start;
+  -webkit-align-self: flex-start;
+  align-self: flex-start;
+  fill: var(--gray-light);
+}
+
+.ticker-event__action__text {
+  -ms-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  padding-left: var(--h-baseline);
+}

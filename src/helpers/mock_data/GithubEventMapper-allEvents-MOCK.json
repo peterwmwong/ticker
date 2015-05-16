@@ -38,7 +38,7 @@
               "email": "mike.nichols@cento.net",
               "name": "Mike Nichols"
             },
-            "message": "Making repo_manager setup tasks idempotent.",
+            "message": "Making repo_manager setup tasks idempotent. Making repo_manager setup tasks idempotent. Making repo_manager setup tasks idempotent. Making repo_manager setup tasks idempotent. Making repo_manager setup tasks idempotent.",
             "distinct": true,
             "url": "https://api.github.com/repos/centro/centro-media-manager/commits/f72f149f6401e7a65b6ffc763ecf6405f0e77246"
           }

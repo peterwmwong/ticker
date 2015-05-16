@@ -19,13 +19,6 @@
       subject='[[releaseSubject(event)]]'></ticker-event-summary>
   </template>
 
-  <template is='x-template' id='TeamAddEvent'>
-    <div class='Card-action'>
-      <span>[[event.payload.team.name]]</span>
-      &nbsp;team was added
-    </div>
-  </template>
-
   <template is='x-template' id='CreateEvent,DeleteEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
@@ -41,9 +34,9 @@
       subject-icon='[[issuePRIcon(event)]]'
       subject='[[issuePRSubject(event)]]'></ticker-event-summary>
 
-    <div class='Card-action Card-action--secondary'>
-      <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
-      <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
+    <div class='ticker-event__action'>
+      <iron-icon icon='github:quote' class='ticker-event__action__icon'></iron-icon>
+      <span class='ticker-event__action__text'>[[event.payload.comment.body]]</span>
     </div>
   </template>
 
@@ -53,14 +46,11 @@
       action='commented on'
       subject-icon='github:git-commit'
       subject='[[event.payload.comment.commit_id]]'></ticker-event-summary>
-    <div class='Card-action Card-action--secondary'>
-      <iron-icon icon='github:quote' class='c-gray-light self-start'></iron-icon>
-      <span class='flex l-padding-l1'>[[event.payload.comment.body]]</span>
+    <div class='ticker-event__action'>
+      <iron-icon icon='github:quote' class='ticker-event__action__icon'></iron-icon>
+      <span class='ticker-event__action__text'>[[event.payload.comment.body]]</span>
     </div>
   </template>
-
-  <!-- <template is='x-template' id='WatchEvent'></template> -->
-  <!-- <template is='x-template' id='ForkEvent'></template> -->
 
   <template is='x-template' id='PushEvent'>
     <ticker-event-summary
@@ -71,13 +61,22 @@
 
     <div>
       <template is='x-repeat' items='[[event.payload.commits]]'>
-        <div class='Card-action Card-action--secondary'>
-          <iron-icon icon='github:git-commit' class='c-gray-light'></iron-icon>
-          <span class='flex l-padding-l1 t-truncate'>[[item.message]]</span>
+        <div class='ticker-event__action'>
+          <iron-icon icon='github:git-commit' class='ticker-event__action__icon'></iron-icon>
+          <span class='ticker-event__action__text'>[[item.message]]</span>
         </div>
       </template>
     </div>
   </template>
+
+  <!--
+  Currently Unsupported Github Events
+  ===================================
+
+  - WatchEvent
+  - ForkEvent
+  - TeamAddEvent
+  -->
 
 </dom-module>
 

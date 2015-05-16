@@ -1,7 +1,10 @@
 ticker-event-summary {
+  background : #f9fafb;
+  color: #05242e;
   display: block;
   line-height: 32px !important;
   overflow: hidden;
+  padding: calc(var(--h-baseline) * 4);
 }
 
 ticker-event-summary > * {
@@ -21,14 +24,8 @@ ticker-event-summary > * {
   /* Causes the wrapping of the subject
      to appear indented */
   margin-bottom: 1px;
-  margin-right: calc(var(--h-baseline)*3);
+  margin-right: calc(var(--h-baseline) * 3);
 }
-
-
-/* Action
-   ====== */
-
-.ticker-event-summary__action { }
 
 
 /* Subject
