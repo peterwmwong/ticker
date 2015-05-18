@@ -32,11 +32,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/paper-toolbar",
-  "_release": "5781052eae",
+  "_release": "ae50171d26",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "5781052eae6fde2241fa8270253024395abbe6f3"
+    "commit": "ae50171d26cc54229a7c2b49a49f35f956a28fa3"
   },
   "_source": "git://github.com/PolymerElements/paper-toolbar.git",
   "_target": "master",

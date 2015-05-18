@@ -27,11 +27,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/iron-selector",
-  "_release": "4f358e4ce1",
+  "_release": "4a56a58e76",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "4f358e4ce18870d6f3cd97738c21ecf896f15ff5"
+    "commit": "4a56a58e7666c07c5bf52ac5b88e8f9da989658c"
   },
   "_source": "git://github.com/PolymerElements/iron-selector.git",
   "_target": "master",
