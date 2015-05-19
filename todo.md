@@ -1,7 +1,6 @@
-- Coalesce Common Repo Events
+- store/retrieve previous events in localStorage
 - Search icon button disappears w/large windows
 - consider using x-autobind to replace ticker-app
-- store/retrieve previous events in localStorage
 - Utility classes should leverage PostCSS variables
 - unify utility class prefix to "u-"
 - sweep utility classes and remove overlap with iron-(flex)-layout
