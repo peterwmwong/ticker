@@ -50,6 +50,7 @@ gulp.task('server', ()=>
     port: 8081,
     root: [__dirname],
     fallback: __dirname + '/app-chrome.html'
+    // fallback: __dirname + '/index.html'
   })
 );
 

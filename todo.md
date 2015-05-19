@@ -10,44 +10,24 @@
 
 ### Build
 
-### Update dom5 (dom5 bug?)
+#### Update link to `all.css` in `ticker-app.html`
 
-```js
-
-function remove(node) {
-  var parent = node.parentNode;
-  if (parent) {
-    var idx = parent.childNodes.indexOf(node);
-    parent.childNodes.splice(idx, 1);
-  }
-  node.parentNode = null;
-}
-
-function insertBefore(parent, oldNode, newNode) {
-  if(newNode){
-    remove(newNode);
-    var idx = parent.childNodes.indexOf(oldNode);
-    parent.childNodes.splice(idx, 0, newNode);
-    newNode.parentNode = parent;
-  } else {
-    parent.childNodes.push(oldNode);
-  }
-}
-```
-
-#### Update paper-item.html and paper-icon-item.html (vulcanize bug?)
+__vulcanize bug: currently does not include regular linked stylesheets__
 
 ```html
-<link rel="import" type="css" href="/Users/peter.wong/projects/ticker/components/paper-item/paper-item-shared.css">
+<link rel='stylesheet' type='text/css' href='../all.css'>
 ```
 
-#### minify
+to...
 
-```bash
-node_modules/.bin/vulcanize --inline-scripts --inline-css app.html > index-all.html;
-vulcanize --strip --inline -output index-with-comments.html index-all.html;
-minimize --output index.html index-with-comments.html;
-rm index-all.html index-with-comments.html
+```html
+<link rel='import' type='css' href='../all.css'>
+```
+
+#### Run the following
+
+```sh
+node_modules/.bin/vulcanize --inline-scripts --inline-css --abspath '/Users/peter.wong/projects/ticker' /app.html > app-built.html; vulcanize --strip -output index.html app-built.html; rm app-built.html
 ```
 
 ### Basis
