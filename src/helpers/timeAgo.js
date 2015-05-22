@@ -18,6 +18,3 @@ export default function timeAgo(dateTime){
         : diffms > MIN_MS  ? `${~~(diffms / MIN_MS)}m`
         : '1m';
 }
-
-
-window.timeAgo = timeAgo;
