@@ -1,24 +1,21 @@
-export function loadResource(type, url, accessToken){
-  return new Promise(function(fulfill, reject){
+export default function loadJSON(url){
+  return new Promise((resolve, reject)=>{
     const xhr = new window.XMLHttpRequest();
+    const accessToken = localStorage.getItem('ticker:token:github');
     xhr.open('GET', url);
     if(accessToken){
       xhr.setRequestHeader('Authorization', `token ${accessToken}`);
     }
-    xhr.responseType = type;
+    xhr.responseType = 'json';
     xhr.send();
-    xhr.onload  = ()=>fulfill(xhr);
     xhr.onerror = ()=>reject(xhr);
-  });
-}
-
-export function loadJSON(url){
-  return new Promise((resolve, reject)=>{
-    let accessToken = localStorage.getItem('ticker:token:github');
-    loadResource('json', url, accessToken).then(({response})=>{
-      if(!response) reject(new Error('Not found'));
+    xhr.onload  = ()=>{
+      let response = xhr.response;
+      if(!response){
+        reject(new Error('Not found'));
+      }
       resolve(typeof response === 'string' ? JSON.parse(response) : response);
-    });
+    };
   });
 }
 
@@ -27,7 +24,7 @@ loadJSON.setAccessToken = function(accessToken){
 };
 
 
-export default function loadMOCKJSON(url){
+export function loadMOCKJSON(url){
   if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
     return loadJSON('/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json');
   }
