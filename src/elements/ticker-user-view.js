@@ -14,9 +14,9 @@ Polymer({
       type: Object,
       observer: '_isSourceFavoritedChanged'
     },
-    _topToolbarClass: {
-      type:  String,
-      value: 'ticker-app__top-toolbar'
+    _isScrollingUp: {
+      type: Boolean,
+      value: false
     },
     _prevScrollTop: {
       type:  Number,
@@ -38,19 +38,21 @@ Polymer({
   _onPanelScroll(e){
     const scrollTop = e.detail.target.scrollTop;
     if(this._prevScrollTop > scrollTop){
-      if(this._topToolbarClass !== 'ticker-app__top-toolbar is-scrolling-up'){
-        this.$.topToolbar.style.top = '';
-        this._topToolbarClass = 'ticker-app__top-toolbar is-scrolling-up';
+      if(!this._isScrollingUp){
+        this.$.toolbar.style.top = '';
+        this._isScrollingUp = true;
       }
     }
-    else{
-      if(this._topToolbarClass !== 'ticker-app__top-toolbar'){
-        this.$.topToolbar.style.top = `${scrollTop}px`;
-        this._topToolbarClass = 'ticker-app__top-toolbar';
-      }
+    else if(this._isScrollingUp){
+      this.$.toolbar.style.top = `${scrollTop}px`;
+      this._isScrollingUp = false;
     }
 
     this._prevScrollTop = scrollTop;
+  },
+
+  _getToolbarClass(isScrollingUp){
+    return `ticker-user-view__toolbar ${isScrollingUp ? 'is-scrolling-up' : ''}`;
   },
 
   _onToggleDrawer(e){

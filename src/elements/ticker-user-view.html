@@ -17,6 +17,19 @@
   color: white;
 }
 
+.ticker-user-view__toolbar {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.ticker-user-view__toolbar.is-scrolling-up {
+  position: fixed;
+  animation: slide-down 300ms ease-out;
+  -webkit-animation: slide-down 300ms ease-out;
+  box-shadow: 0 3px 3px rgba(0,0,0, 0.333);
+}
+
 @media (min-width: 639px) {
   .ticker-user-view__button--menu {
     display: none;
@@ -33,8 +46,8 @@
 </style>
 <dom-module id='ticker-user-view'>
   <template>
-    <paper-header-panel id='headerPanel' class='fit' mode='scroll' on-scroll='_onPanelScroll'>
-      <paper-toolbar id='topToolbar' class-name='[[_topToolbarClass]]'>
+    <paper-header-panel id='headerPanel' class='fit' mode='scroll' on-content-scroll='_onPanelScroll'>
+      <paper-toolbar id='toolbar' class-name='[[_getToolbarClass(_isScrollingUp)]]'>
         <div class='ticker-user-view__button ticker-user-view__button--menu' on-click="_onToggleDrawer">
           <paper-ripple></paper-ripple>
           <iron-icon icon='ticker:menu'></iron-icon>

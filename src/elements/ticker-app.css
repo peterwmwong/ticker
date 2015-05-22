@@ -3,26 +3,3 @@
 paper-drawer-panel .paper-drawer-panel {
   z-index: 1;
 }
-
-.ticker-app__top-toolbar {
-  z-index: 1;
-  width: 100%;
-}
-
-.ticker-app__top-toolbar {
-  position: absolute;
-}
-
-.ticker-app__top-toolbar.is-scrolling-up {
-  position: fixed;
-  animation: slide-down 300ms ease-out;
-  -webkit-animation: slide-down 300ms ease-out;
-  box-shadow: 0 3px 3px rgba(0,0,0, 0.333);
-}
-
-@media (min-width: 639px) {
-  .ticker-app__bottom-toolbar {
-    height: 192px;
-    background-color: #3F51B5;
-  }
-}
