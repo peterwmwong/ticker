@@ -28,14 +28,16 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^0.9.0",
+    "paper-button": "PolymerElements/paper-button#^0.9.0",
     "paper-styles": "PolymerElements/paper-styles#^0.9.0",
+    "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "7cfb2e0769",
+  "_release": "e6bf68bb30",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "7cfb2e0769b0049b17cebdc737b76ee446bceb23"
+    "commit": "e6bf68bb305fe6a3ae79553d7b95565eeb39ff40"
   },
   "_source": "git://github.com/PolymerElements/paper-drawer-panel.git",
   "_target": "master",

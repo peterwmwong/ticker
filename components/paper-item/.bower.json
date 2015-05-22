@@ -35,11 +35,11 @@
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "89e5f8e74b",
+  "_release": "365caf441b",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "89e5f8e74b756f07912e43ddd6d7938eab0c8991"
+    "commit": "365caf441b925e3545279c13aede097e4ab9d57a"
   },
   "_source": "git://github.com/PolymerElements/paper-item.git",
   "_target": "master",
