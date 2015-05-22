@@ -33,6 +33,10 @@ to...
 node_modules/.bin/vulcanize --inline-scripts --inline-css --abspath '/Users/peter.wong/projects/ticker' /app.html > app-built.html; vulcanize --strip -output index.html app-built.html; rm app-built.html
 ```
 
+```sh
+node_modules/.bin/vulcanize --inline-scripts --inline-css --abspath '/Users/peter.wong/projects/ticker' /app.html > app-built.html; vulcanize -strip -output app-built2.html app-built.html; rm app-built.html; node_modules/.bin/crisper --source app-built2.html --html index.html --js index.js; rm app-built2.html
+```
+
 ### Basis
 
 - Bug: Why doesn't mapperGet resolve the promise with the model?
