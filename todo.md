@@ -1,6 +1,7 @@
 - update babel >5.3 for perf optimizations
 - Fix blinking after selecting a new source
 - refactor: rename `<ticker-user-view>` to something else (`<ticker-source-page>`?)
+- perf: investigate asynchronous font loading for roboto font
 - store/retrieve previous events in localStorage
 - Search icon button disappears w/large windows
 - consider using x-autobind to replace ticker-app
