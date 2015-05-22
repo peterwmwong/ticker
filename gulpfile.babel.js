@@ -24,6 +24,8 @@ import vulcanize         from 'vulcanize';
 
 import iconsetsTask      from './build_tasks/build-iconsets.js';
 
+import connectGzip       from 'connect-gzip';
+
 // Constants
 // ---------
 
@@ -58,7 +60,12 @@ gulp.task('prod-server', ()=>
     livereload: false,
     port: 8082,
     root: [__dirname],
-    fallback: __dirname + '/index.html'
+    fallback: __dirname + '/index.html',
+    middleware: function(){
+      return [
+        connectGzip.gzip()
+      ];
+    }
   })
 );
 
@@ -111,29 +118,23 @@ gulp.task('code-elements', ()=>
     .pipe(livereload())
 );
 
-// add custom browserify options here
+const codeBundle = browserify({
+  entries       : [`${PATHS.src}states/appState.js`],
+  insertGlobals : false,
+  detectGlobals : false,
+  debug         : true
+}).transform(babelify);
 
-gulp.task('code', (()=>{
-  const b = watchify(browserify({
-    entries       : [`${PATHS.src}states/appState.js`],
-    insertGlobals : false,
-    detectGlobals : false,
-    debug         : true
-  }).transform(babelify));
+function buildCodeBundle(){
+  return codeBundle.bundle()
+    .on('log',  ()=>gutil.log('Browserify Log'))
+    .on('error', e=>gutil.log('Browserify Error', e))
+    .pipe(source('appState.js'))
+    .pipe(gulp.dest(PATHS.build))
+    .pipe(livereload());
+}
 
-  function bundle(){
-    return b.bundle()
-      .on('error', e=>gutil.log('Browserify Error', e))
-      .pipe(source('appState.js'))
-      .pipe(gulp.dest(PATHS.build))
-      .pipe(livereload());
-  }
-
-  b.on('update', bundle); // on any dep update, runs the bundler
-  b.on('log', gutil.log); // output build logs to terminal
-
-  return bundle;
-})());
+gulp.task('code', buildCodeBundle);
 
 gulp.task('compile', ['code', 'code-elements', 'styles', 'templates']);
 
@@ -145,10 +146,12 @@ gulp.task('compile', ['code', 'code-elements', 'styles', 'templates']);
 gulp.task('watch', ()=>{
   livereload.listen({liveCSS: false});
 
-  gulp.watch(`${PATHS.src}**/*.html`, ['templates']);
-  gulp.watch(`${PATHS.src}**/*.css`, ['styles']);
-  gulp.watch(`${PATHS.src}(models|states|helpers)/**/*.js`, ['code']);
+  gulp.watch(`${PATHS.src}**/*.html`,        ['templates']);
+  gulp.watch(`${PATHS.src}**/*.css`,         ['styles']);
   gulp.watch(`${PATHS.src}elements/**/*.js`, ['code-elements']);
+
+  codeBundle.bundle();
+  watchify(codeBundle).on('update', buildCodeBundle);
 });
 
 
