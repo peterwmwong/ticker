@@ -2,7 +2,8 @@ import Polymorphic from './polymorphic.js';
 import hasManyArray from './hasManyArray.js';
 import {
   errorWrongType,
-  errorMapperDidntReturnPromise
+  errorMapperDidntReturnPromise,
+  errorMapperMethodNotImplemented
 } from './errors.js';
 
 // TODO(pwong): Should be inserted by a build step. gulp-replace or something.
@@ -104,32 +105,57 @@ export default class Model {
     return new this(json);
   }
 
-  static get(id){
-    this._ensureModelPrepared();
-    if(this._desc.mapper.get){
-      return this._desc.mapper.get(id).then(data=>this.loadJSON(data));
+  static cacheGet(id){
+    if(!IS_PROD && !this.desc.mapper.cacheGet){
+      errorMapperMethodNotImplemented(this, 'cacheGet');
     }
+
+    let result = this.desc.mapper.cacheGet(id);
+    if(result){
+      return this.loadJSON(result);
+    }
+  }
+
+  static get(id){
+    if(!IS_PROD && !this.desc.mapper.get){
+      errorMapperMethodNotImplemented(this, 'get');
+    }
+
+    const promise = this.desc.mapper.get(id);
+
+    if(!IS_PROD && !(promise instanceof Promise)){
+      errorMapperDidntReturnPromise(this, 'get', promise);
+    }
+
+    return promise.then(data=>this.loadJSON(data));
   }
 
   static query(options){
-    this._ensureModelPrepared();
-    if(this._desc.mapper.query){
-      const promise = this._desc.mapper.query(options);
-      if(!IS_PROD && !(promise instanceof Promise)){
-        errorMapperDidntReturnPromise(this, 'query', promise);
-      }
-      return promise.then(dataArray=>
-        dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
-      );
+    if(!IS_PROD && !this.desc.mapper.query){
+      errorMapperMethodNotImplemented(this, 'query');
     }
+
+    const promise = this.desc.mapper.query(options);
+
+    if(!IS_PROD && !(promise instanceof Promise)){
+      errorMapperDidntReturnPromise(this, 'query', promise);
+    }
+    return promise.then(dataArray=>
+      dataArray ? dataArray.map(data=>this.loadJSON(data)) : []
+    );
   }
 
   save(){
-    if(this.constructor._desc.mapper.save){
-      return this.constructor._desc.mapper.save(this).then(data=>
-        data === this ? this : this.loadJSON(data)
-      );
+    if(!IS_PROD && !this.constructor.desc.mapper.save){
+      errorMapperMethodNotImplemented(this.constructor, 'save');
     }
+
+    const promise = this.constructor.desc.mapper.save(this);
+    if(!IS_PROD && !(promise instanceof Promise)){
+      errorMapperDidntReturnPromise(this.constructor, 'save', promise);
+    }
+
+    return promise.then(data=>data === this ? this : this.loadJSON(data));
   }
 
   toJSON(){
