@@ -50,9 +50,18 @@ gulp.task('server', ()=>
     port: 8081,
     root: [__dirname],
     fallback: __dirname + '/app-chrome.html'
-    // fallback: __dirname + '/index.html'
   })
 );
+
+gulp.task('prod-server', ()=>
+  connect.server({
+    livereload: false,
+    port: 8082,
+    root: [__dirname],
+    fallback: __dirname + '/index.html'
+  })
+);
+
 
 // Compile Tasks
 // -------------
