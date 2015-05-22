@@ -43,9 +43,7 @@ const appState = new StateChart({
   }
 });
 
-if(TICKER_CONFIG.statechartTrace){
-  appState.rootState.scState.trace = true;
-}
+appState.rootState.scState.trace = true;
 appState.start();
 
 
