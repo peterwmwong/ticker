@@ -61,7 +61,7 @@ gulp.task('prod-server', ()=>
     port: 8082,
     root: [__dirname],
     fallback: __dirname + '/index.html',
-    middleware: function(){
+    middleware(){
       return [
         connectGzip.gzip()
       ];
