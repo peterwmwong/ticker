@@ -23,7 +23,7 @@
     "browserify": "^10.2.1",
     "connect-gzip": "^0.1.6",
     "crisper": "^1.0.3",
-    "eslint": "^0.19.0",
+    "eslint": "^0.21.2",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "gulp-cached": "^1.1.0",

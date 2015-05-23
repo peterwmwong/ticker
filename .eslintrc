@@ -16,8 +16,6 @@
     "modules": true
   },
   "rules": {
-    "no-loop-func": 0,
-    "no-var": 2,
     "brace-style": [2, "stroustrup", {"allowSingleLine": true }],
     "camelcase": [0, {"properties": "never"}],
     "comma-dangle": "never",
@@ -31,6 +29,7 @@
     }],
     "new-parens": 2,
     "no-irregular-whitespace": true,
+    "no-loop-func": 0,
     "no-multi-spaces": 0,
     "no-multiple-empty-lines": 0,
     "no-multiple-empty-lines": 1,
@@ -38,6 +37,8 @@
     "no-underscore-dangle": false,
     "no-unused-expressions": 0,
     "no-unused-vars": [2, {"args": "none"}],
+    "no-var": 2,
+    "object-shorthand": [2, "always"],
     "quotes": [2, "single", "avoid-escape"],
     "space-before-blocks": [2, "never"],
     "strict": 0
