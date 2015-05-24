@@ -51,7 +51,7 @@ gulp.task('server', ()=>
     livereload: false,
     port: 8081,
     root: [__dirname],
-    fallback: __dirname + '/app-chrome.html'
+    fallback: __dirname + '/app.html'
   })
 );
 

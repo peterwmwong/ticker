@@ -1,24 +1,114 @@
 <!doctype html>
 <html>
 <head>
-
   <title>Ticker</title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta content="yes" name="apple-mobile-web-app-capable" />
-  <meta content="default" name="apple-mobile-web-app-status-bar-style" />
-  <meta name='theme-color' content='#536DFE'>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#536DFE" />
+
   <link rel="apple-touch-icon" href="images/AppIcon60x60.png" />
   <link rel="apple-touch-icon" sizes="120x120" href="images/AppIcon60x60-2x.png" />
 
+  <link rel="stylesheet" type="text/css" href="/build/all.css">
+  <!-- <link rel="import" type="css" href="/build/all.css"> -->
+
   <script src="/components/webcomponentsjs/webcomponents-lite.min.js"></script>
-  <link rel="import" href="/build/elements/ticker-app.html">
 
+  <link rel="import" href="/components/polymer/polymer.html">
+  <link rel="import" href="/components/paper-drawer-panel/paper-drawer-panel.html">
+  <link rel="import" href="/components/paper-ripple/paper-ripple.html">
+  <link rel="import" href="/components/paper-toolbar/paper-toolbar.html">
+  <link rel="import" href="/components/iron-icon/iron-icon.html">
+
+  <link rel="import" href="/build/elements/ticker-icons.html">
+
+  <style>
+  paper-toolbar {
+    display: block;
+    background: #3F51B5;
+    color: #FFF;
+    height: 56px;
+  }
+
+  .ticker-user-view__button {
+    width: 56px;
+    height: 56px;
+    line-height: 53px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+  }
+
+  .ticker-user-view__toolbar {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .ticker-user-view__toolbar.is-scrolling-up {
+    position: fixed;
+    animation: slide-down 300ms ease-out;
+    -webkit-animation: slide-down 300ms ease-out;
+    box-shadow: 0 3px 3px rgba(0,0,0, 0.333);
+  }
+
+  .ticker-user-view__button--search {
+    margin-right: -16px;
+  }
+
+  .ticker-user-view__button--menu {
+    margin-left: -16px;
+  }
+
+  @media (min-width: 639px) {
+    .ticker-user-view__button--menu {
+      display: none;
+    }
+
+    .ticker-user-view__title {
+      padding-left: 2px;
+    }
+  }
+  </style>
 </head>
-<body class='fullbleed'>
+<body style="margin:0;height:100vh;">
+  <paper-drawer-panel id="drawer">
+    <div main>
+      <paper-toolbar id="toolbar" class-name="ticker-user-view__toolbar">
+        <div class="ticker-user-view__button ticker-user-view__button--menu">
+          <paper-ripple></paper-ripple>
+          <iron-icon icon="ticker:menu" paper-drawer-toggle></iron-icon>
+        </div>
 
-  <ticker-app></ticker-app>
+        <span class="ticker-user-view__title flex t-normal">Hello</span>
 
+        <div class="ticker-user-view__button ticker-user-view__button--favorite" on-click="_onFavorite">
+          <paper-ripple></paper-ripple>
+          <iron-icon icon="[[_favOrUnfavIcon]]"></iron-icon>
+        </div>
+
+        <div class="ticker-user-view__button ticker-user-view__button--search" on-click="_onOpenSearch">
+          <paper-ripple></paper-ripple>
+          <iron-icon icon="ticker:search"></iron-icon>
+        </div>
+      </paper-toolbar>
+
+      <div class="Card l-margin-t2">
+        <div class="Card-title">Hello</div>
+      </div>
+
+      <div class="Card">
+        <div class="Card-title">Hello</div>
+      </div>
+    </div>
+    <div drawer>
+      <!-- <ticker-drawer></ticker-drawer> -->
+    </div>
+  </paper-drawer-panel>
 </body>
 </html>
