@@ -13,7 +13,7 @@ mv index.min.js index.js
 
 # Remove render/layout blocks...
 #   - scripts
-sed -i -- 's/<script src="index.js"><\/script>/<script>requestAnimationFrame\(function\(\){var s=document.createElement\("script"\);s.src="\/index.js";document.body.appendChild\(s\);}\)<\/script>/' index.html
+sed -i -- 's/<script src="index.js"><\/script>/<script src="\/index.js" defer async><\/script>/' index.html
 #   - fonts
 sed -i -- 's/<link rel="stylesheet" href="\/\/fonts.googleapis.com\/css\?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic">//' index.html
 
