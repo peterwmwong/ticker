@@ -4,7 +4,7 @@
       source='[[actor]]'
       class='ticker-event-summary__actor-avatar'></ticker-avatar>
     <span class='ticker-event-summary__actor'>[[actor.login]]</span>
-    <span>[[action]]</span>
+    <span>[[actorsAction]]</span>
     <span class='ticker-event-summary__subject'>
       <iron-icon
         class='ticker-event-summary__subject__icon'
@@ -17,10 +17,10 @@
 Polymer({
   is:'ticker-event-summary',
   properties:{
-    actor      :{type:Object},
-    action     :{type:String},
-    subjectIcon:{type:String},
-    subject    :{type:String}
+    actor        :{type:Object},
+    actorsAction :{type:String},
+    subjectIcon  :{type:String},
+    subject      :{type:String}
   },
   created:function(){ this.className = 'Card-action'; }
 });

@@ -6,7 +6,7 @@
   <template is='dom-template' id='IssuesEvent,PullRequestEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='[[event.payload.action]]'
+      actors-action='[[event.payload.action]]'
       subject-icon='[[issuePRIcon(event)]]'
       subject='[[issuePRSubject(event)]]'></ticker-event-summary>
   </template>
@@ -14,7 +14,7 @@
   <template is='dom-template' id='ReleaseEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='published a release'
+      actors-action='published a release'
       subject-icon='github:versions'
       subject='[[releaseSubject(event)]]'></ticker-event-summary>
   </template>
@@ -22,7 +22,7 @@
   <template is='dom-template' id='CreateEvent,DeleteEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='[[createDeleteAction(event)]]'
+      actors-action='[[createDeleteAction(event)]]'
       subject-icon='[[createDeleteIcon(event)]]'
       subject='[[createDeleteSubject(event)]]'></ticker-event-summary>
   </template>
@@ -30,7 +30,7 @@
   <template is='dom-template' id='IssueCommentEvent,PullRequestReviewCommentEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='commented on'
+      actors-action='commented on'
       subject-icon='[[issuePRIcon(event)]]'
       subject='[[issuePRSubject(event)]]'></ticker-event-summary>
 
@@ -43,7 +43,7 @@
   <template is='dom-template' id='CommitCommentEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='commented on'
+      actors-action='commented on'
       subject-icon='github:git-commit'
       subject='[[event.payload.comment.commit_id]]'></ticker-event-summary>
     <div class='ticker-event__action'>
@@ -55,7 +55,7 @@
   <template is='dom-template' id='PushEvent'>
     <ticker-event-summary
       actor='[[event.actor]]'
-      action='[[pushAction(event)]]'
+      actors-action='[[pushAction(event)]]'
       subject-icon='github:git-branch'
       subject='[[pushSubject(event)]]'></ticker-event-summary>
 
