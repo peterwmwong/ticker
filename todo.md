@@ -1,4 +1,6 @@
-- move ticker-icons to `iconsets/`
+- make production build (actually replace IS_DEV)
+- try re-enabling liveCSS
+- save Last Login
 - perf: investigate asynchronous font loading for roboto font
 - Fix blinking after selecting a new source
 - refactor: rename `<ticker-user-view>` to something else (`<ticker-source-page>`?)
@@ -8,7 +10,7 @@
 - unify utility class prefix to "u-"
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - Create app icon
-- save Last Login
+- move ticker-icons to `iconsets/`
 
 ### Build
 
