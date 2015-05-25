@@ -23,14 +23,14 @@
 
   /* Layout */
 
-  --baseline  : 4px;
-  --h-baseline: 4px;
+  --baseline   : 4px;
+  --h-baseline : 4px;
 
   /* Typography */
 
-  --font-weight-thin    : 100;
-  --font-weight-light   : 300;
-  --font-weight-normal  : 400;
-  --font-weight-semibold: 500;
-  --font-weight-bold    : 500;
+  --font-weight-thin     : 100;
+  --font-weight-light    : 300;
+  --font-weight-normal   : 400;
+  --font-weight-semibold : 500;
+  --font-weight-bold     : 500;
 }
