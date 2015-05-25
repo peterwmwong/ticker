@@ -1,6 +1,5 @@
 import loadJSON          from '../../helpers/load.js';
 import {loadAll}         from '../../helpers/MapperUtils.js';
-import './GithubEventMapper.js';
 import './GithubIssue.js';
 import './GithubUser.js';
 
