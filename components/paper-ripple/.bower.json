@@ -25,11 +25,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/paper-ripple",
-  "_release": "1acb08328f",
+  "_release": "aa1da3e661",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "1acb08328f0f0c70fc6ecc47db1f7c80e6596337"
+    "commit": "aa1da3e661673d60c3c397d29fe44e305399df88"
   },
   "_source": "git://github.com/PolymerElements/paper-ripple.git",
   "_target": "master",

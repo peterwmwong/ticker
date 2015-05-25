@@ -212,10 +212,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _pathMatchesEffect: function(path, effect) {
-        var effectArg = effect.arg.name;
+        var effectArg = effect.trigger.name;
         return (effectArg == path) ||
           (effectArg.indexOf(path + '.') === 0) ||
-          (effect.arg.wildcard && path.indexOf(effectArg) === 0);
+          (effect.trigger.wildcard && path.indexOf(effectArg) === 0);
       },
 
       linkPaths: function(to, from) {
@@ -290,6 +290,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           indexSplices: splices
         };
         this.set(path + '.splices', change);
+        if (added != removed.length) {
+          this.notifyPath(path + '.length', array.length);
+        }
         // Null here to allow potentially large splice records to be GC'ed
         change.keySplices = null;
         change.indexSplices = null;
