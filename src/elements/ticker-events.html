@@ -1,21 +1,13 @@
 <link rel='import' href='./common/ticker-event.html'>
 
-<style>
-ticker-events {
-  padding-top: 60px;
-}
-
-@media (min-width: 639px) {
-  ticker-events {
-    padding: 72px 8px 0 8px;
-  }
-}
-</style>
 <dom-module id='ticker-events'>
   <template>
-    <template is='dom-repeat' items='[[events]]'>
-      <ticker-event event='[[item]]'></ticker-event>
-    </template>
+    <div class='fit' style='z-index:-1'><content></content></div>
+    <div id='eventsContainer'>
+      <template is='dom-repeat' items='[[events]]'>
+        <ticker-event event='[[item]]'></ticker-event>
+      </template>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -23,6 +15,12 @@ Polymer({
   is: 'ticker-events',
   behaviors:[
     syncState(['events'])
-  ]
+  ],
+  observers:[
+    'eventsChanged(events)'
+  ],
+  eventsChanged:function(events){
+    this.$.eventsContainer.className += ' is-fading-in';
+  }
 });
 </script>

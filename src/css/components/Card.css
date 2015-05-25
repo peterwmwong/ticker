@@ -17,6 +17,7 @@
   display: flex;
   font-size: 1.8rem;
   line-height: calc(var(--baseline) * 6);
+  height: calc(var(--baseline) * 6);
   padding: calc(var(--baseline) * 4);
   padding-bottom: calc(var(--baseline) * 3);
 }

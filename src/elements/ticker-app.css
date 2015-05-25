@@ -1,5 +1,0 @@
-/* TODO(pwong): Make sure the drawer sits above main content. This is brittle,
-                breaks encapsulation and shouldn't exist. */
-paper-drawer-panel .paper-drawer-panel {
-  z-index: 1;
-}

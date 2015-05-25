@@ -1,0 +1,19 @@
+ticker-events {
+  display: block;
+  position: relative;
+}
+
+#eventsContainer {
+  background-color: var(--gray-lightest);
+}
+
+#eventsContainer.is-fading-in {
+  animation: fade-in 250ms ease-out forwards;
+  -webkit-animation: fade-in 250ms ease-out forwards;
+}
+
+@media (min-width: 639px) {
+  ticker-events {
+    padding: 0 8px;
+  }
+}

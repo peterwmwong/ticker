@@ -1,0 +1,30 @@
+/*
+
+Styles for the short window of time when the initial HTML (index.html) has loaded
+and rendered, but BEFORE Polymer and custom elements have fully initialized.
+
+The goal is to provide a very fast perceived load time by appearing to be loaded.
+
+*/
+
+paper-toolbar {
+  display: block;
+  background: #3F51B5;
+  color: #FFF;
+  height: 56px;
+}
+
+.App__placeholderCard__summary {
+  background: #f9fafb;
+  line-height: calc(var(--h-baseline) * 8);
+  padding: calc(var(--h-baseline) * 4);
+}
+
+.App__placeholderCard__avatar {
+  background-color: var(--gray-lightest);
+  border-radius: 50%;
+  display: inline-block;
+  height: calc(var(--h-baseline) * 8);
+  overflow: hidden;
+  width: calc(var(--h-baseline) * 8);
+}

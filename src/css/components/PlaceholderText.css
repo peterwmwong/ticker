@@ -1,0 +1,7 @@
+.PlaceholderText {
+  display: inline-block;
+  height: 16px;
+  width: 100px;
+  background-color: var(--gray-lightest);
+  margin: 4px 0;
+}
