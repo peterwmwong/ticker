@@ -9,7 +9,7 @@ import User   from '../models/User.js';
 
 export default {
   attrs:{
-    'firebaseRef':()=>new window.Firebase(TICKER_CONFIG.firebaseUrl),
+    'firebaseRef':()=>new window.Firebase('https://ticker-dev.firebaseio.com'),
   },
   states:{
     'determineAuth':{

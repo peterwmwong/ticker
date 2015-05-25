@@ -6,9 +6,6 @@ import {
   errorMapperMethodNotImplemented
 } from './errors.js';
 
-// TODO(pwong): Should be inserted by a build step. gulp-replace or something.
-const IS_PROD = false;
-
 function instanceOfType(obj, type){ return obj.constructor === type; }
 
 function mergeAttrPropertiesDescriptor(attr, propsDescriptor){
@@ -51,7 +48,7 @@ function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
           // Reach inside the new association and set inverse association
           if(inverse){ newValue[inverse] = this; }
         }
-        else if(IS_PROD){
+        else if(IS_DEV){
           errorWrongType(type, newValue);
         }
       }
@@ -106,7 +103,7 @@ export default class Model {
   }
 
   static cacheGet(id){
-    if(!IS_PROD && !this.desc.mapper.cacheGet){
+    if(IS_DEV && !this.desc.mapper.cacheGet){
       errorMapperMethodNotImplemented(this, 'cacheGet');
     }
 
@@ -117,13 +114,13 @@ export default class Model {
   }
 
   static get(id){
-    if(!IS_PROD && !this.desc.mapper.get){
+    if(IS_DEV && !this.desc.mapper.get){
       errorMapperMethodNotImplemented(this, 'get');
     }
 
     const promise = this.desc.mapper.get(id);
 
-    if(!IS_PROD && !(promise instanceof Promise)){
+    if(IS_DEV && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this, 'get', promise);
     }
 
@@ -131,13 +128,13 @@ export default class Model {
   }
 
   static query(options){
-    if(!IS_PROD && !this.desc.mapper.query){
+    if(IS_DEV && !this.desc.mapper.query){
       errorMapperMethodNotImplemented(this, 'query');
     }
 
     const promise = this.desc.mapper.query(options);
 
-    if(!IS_PROD && !(promise instanceof Promise)){
+    if(IS_DEV && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this, 'query', promise);
     }
     return promise.then(dataArray=>
@@ -146,12 +143,12 @@ export default class Model {
   }
 
   save(){
-    if(!IS_PROD && !this.constructor.desc.mapper.save){
+    if(IS_DEV && !this.constructor.desc.mapper.save){
       errorMapperMethodNotImplemented(this.constructor, 'save');
     }
 
     const promise = this.constructor.desc.mapper.save(this);
-    if(!IS_PROD && !(promise instanceof Promise)){
+    if(IS_DEV && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this.constructor, 'save', promise);
     }
 

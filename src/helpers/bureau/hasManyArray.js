@@ -1,9 +1,8 @@
 import {errorWrongType} from './errors.js';
 
-const IS_PROD = false;
 const ARRAY_PROTO = Array.prototype;
 const ARRAY_FUNCTIONS = {
-  splice: function(index, numToRemove, ...itemsToAdd){
+  splice(index, numToRemove, ...itemsToAdd){
     const spliceArgs = [index, numToRemove];
     const {type, inverse, instanceOf} = this._hasMany;
     itemsToAdd.filter(newItem=>{
@@ -12,7 +11,7 @@ const ARRAY_FUNCTIONS = {
         if(inverse){ newItem[inverse] = this; }
         spliceArgs.push(newItem);
       }
-      else if(!IS_PROD){
+      else if(IS_DEV){
         errorWrongType(type, newItem);
       }
     });
@@ -27,14 +26,14 @@ const ARRAY_FUNCTIONS = {
     return removedItems;
   },
 
-  push: function(...items){
+  push(...items){
     this.splice.apply(this, [this.length, 0].concat(items));
     return this.length;
   },
 
-  pop: function(){ return this.splice.apply(this, [this.length, 1])[0]; },
+  pop(){ return this.splice.apply(this, [this.length, 1])[0]; },
 
-  unshift: function(...items){
+  unshift(...items){
     this.splice.apply(this, [0, 0].concat(items));
     return this.length;
   }

@@ -1,4 +1,4 @@
-/* global __dirname, process, require */
+/* global __dirname, process */
 
 import babel             from 'gulp-babel';
 import babelify          from 'babelify';
@@ -8,6 +8,7 @@ import cache             from 'gulp-cached';
 import connect           from 'gulp-connect';
 import gulp              from 'gulp';
 import gutil             from 'gulp-util';
+import history           from 'connect-history-api-fallback';
 import livereload        from 'gulp-livereload';
 import plumber           from 'gulp-plumber';
 import postcss           from 'gulp-postcss';
@@ -20,6 +21,7 @@ import replace           from 'gulp-replace';
 import rimraf            from 'rimraf';
 import source            from 'vinyl-source-stream';
 import sourcemaps        from 'gulp-sourcemaps';
+import versionify        from 'browserify-versionify';
 import vulcanize         from 'vulcanize';
 
 import iconsetsTask      from './build_tasks/build-iconsets.js';
@@ -30,7 +32,6 @@ import connectGzip       from 'connect-gzip';
 // ---------
 
 const ENVIRONMENT = process.argv[2] === 'production' ? 'production' : 'development';
-const CONFIG = require('./config/' + ENVIRONMENT + '.js');
 const PATHS = {
   src       : './src/',
   build     : './build/',
@@ -60,9 +61,13 @@ gulp.task('prod-server', ()=>
     livereload: false,
     port: 8082,
     root: [__dirname],
-    fallback: __dirname + '/index.html',
     middleware(){
       return [
+        history({
+          rewrites:[
+            {from: /\/github\/.*/, to: '/index.html'}
+          ]
+        }),
         connectGzip.gzip()
       ];
     }
@@ -95,12 +100,6 @@ gulp.task('styles', ()=>
 gulp.task('templates', ()=>
   gulp.src(`${PATHS.src}**/*.html`)
     .pipe(cache('templates'))
-    .pipe(
-      replace(
-        /<CONFIG><\/CONFIG>/g,
-        `<script>window.TICKER_CONFIG = ${JSON.stringify(CONFIG)}</script>`
-      )
-    )
     .pipe(remember('templates'))
     .pipe(gulp.dest(PATHS.build))
     .pipe(livereload())
@@ -111,6 +110,7 @@ gulp.task('code-elements', ()=>
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(cache('scripts'))
+    .pipe(replace(/IS_DEV/g, `${ENVIRONMENT === 'development'}`))
     .pipe(babel({modules:'ignore'}))
     .pipe(remember('scripts'))
     .pipe(sourcemaps.write('.'))
@@ -123,7 +123,10 @@ const codeBundle = browserify({
   insertGlobals : false,
   detectGlobals : false,
   debug         : true
-}).transform(babelify);
+}).transform(versionify, {
+    placeholder:'IS_DEV',
+    version:`${ENVIRONMENT === 'development'}`
+  }).transform(babelify);
 
 function buildCodeBundle(){
   return codeBundle.bundle()

@@ -1,6 +1,7 @@
 {
   "parser": "babel-eslint",
   "globals": {
+    "IS_DEV": true,
     "Basis": true,
     "Polymer": true,
     "Firebase": true,
