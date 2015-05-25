@@ -1,11 +1,10 @@
-- update babel >5.3 for perf optimizations
+- move ticker-icons to `iconsets/`
+- perf: investigate asynchronous font loading for roboto font
 - Fix blinking after selecting a new source
 - refactor: rename `<ticker-user-view>` to something else (`<ticker-source-page>`?)
-- perf: investigate asynchronous font loading for roboto font
 - store/retrieve previous events in localStorage
 - Search icon button disappears w/large windows
 - consider using x-autobind to replace ticker-app
-- Utility classes should leverage PostCSS variables
 - unify utility class prefix to "u-"
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - Create app icon
