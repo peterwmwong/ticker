@@ -11,6 +11,7 @@
 - sweep utility classes and remove overlap with iron-(flex)-layout
 - Create app icon
 - move ticker-icons to `iconsets/`
+- [statechart bug] routing to a state that yields the same states are forcibly reentered
 
 ### Build
 
