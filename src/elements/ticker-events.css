@@ -3,17 +3,14 @@ ticker-events {
   position: relative;
 }
 
-#eventsContainer {
-  background-color: var(--gray-lightest);
-}
-
 #eventsContainer.is-fading-in {
+  background-color: var(--gray-lightest);
   animation: fade-in 250ms ease-out forwards;
   -webkit-animation: fade-in 250ms ease-out forwards;
 }
 
 @media (min-width: 639px) {
-  ticker-events {
+  #eventsContainer {
     padding: 0 8px;
   }
 }

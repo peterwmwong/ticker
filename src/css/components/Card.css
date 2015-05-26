@@ -7,6 +7,10 @@
   margin-bottom: 4px;
 }
 
+.Card + .Card {
+  margin-top: calc(var(--baseline));
+}
+
 .Card-title {
   align-items: baseline;
   background: white;

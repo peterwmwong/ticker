@@ -34,9 +34,9 @@
   <link rel="import" href="/build/elements/ticker-search.html">
   <link rel="import" href="/build/elements/ticker-drawer.html">
 </head>
-<body style="margin:0;height:100vh;">
+<body class="fullbleed">
   <paper-drawer-panel id="drawer">
-    <div main class="l-height100pct scroll">
+    <div main class="fit scroll">
       <paper-toolbar id="toolbar" class-name="App__toolbar">
         <div
           class="App__button App__button--menu"
@@ -61,8 +61,8 @@
         </div>
       </paper-toolbar>
 
-      <ticker-events class="l-margin-t2">
-        <div class="Card">
+      <ticker-events class="l-margin-t2" style="transform:translateZ(0);-webkit-transform:translateZ(0)">
+        <div class="Card App__placeholderCard">
           <div class="Card-title"><div class="PlaceholderText"></div></div>
           <div class="App__placeholderCard__summary">
             <div class="App__placeholderCard__avatar"></div>
@@ -72,7 +72,7 @@
           </div>
         </div>
 
-        <div class="Card l-margin-t2">
+        <div class="Card App__placeholderCard">
           <div class="Card-title"><div class="PlaceholderText"></div></div>
           <div class="App__placeholderCard__summary">
             <div class="App__placeholderCard__avatar"></div>
@@ -82,7 +82,7 @@
           </div>
         </div>
 
-        <div class="Card l-margin-t2">
+        <div class="Card App__placeholderCard">
           <div class="Card-title"><div class="PlaceholderText"></div></div>
           <div class="App__placeholderCard__summary">
             <div class="App__placeholderCard__avatar"></div>

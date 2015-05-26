@@ -28,3 +28,9 @@ paper-toolbar {
   overflow: hidden;
   width: calc(var(--h-baseline) * 8);
 }
+
+@media (min-width: 639px) {
+  .App__placeholderCard {
+    margin: 0 8px;
+  }
+}
