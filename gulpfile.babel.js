@@ -22,7 +22,6 @@ import rimraf            from 'rimraf';
 import source            from 'vinyl-source-stream';
 import sourcemaps        from 'gulp-sourcemaps';
 import versionify        from 'browserify-versionify';
-import vulcanize         from 'vulcanize';
 
 import iconsetsTask      from './build_tasks/build-iconsets.js';
 
@@ -31,7 +30,7 @@ import connectGzip       from 'connect-gzip';
 // Constants
 // ---------
 
-const ENVIRONMENT = process.argv[2] === 'production' ? 'production' : 'development';
+const IS_DEV = process.argv[2] !== 'production';
 const PATHS = {
   src       : './src/',
   build     : './build/',
@@ -110,7 +109,7 @@ gulp.task('code-elements', ()=>
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(cache('scripts'))
-    .pipe(replace(/IS_DEV/g, `${ENVIRONMENT === 'development'}`))
+    .pipe(replace(/IS_DEV/g, `${IS_DEV}`))
     .pipe(babel({modules:'ignore'}))
     .pipe(remember('scripts'))
     .pipe(sourcemaps.write('.'))
@@ -125,7 +124,7 @@ const codeBundle = browserify({
   debug         : true
 }).transform(versionify, {
     placeholder:'IS_DEV',
-    version:`${ENVIRONMENT === 'development'}`
+    version:`${IS_DEV}`
   }).transform(babelify);
 
 function buildCodeBundle(){
@@ -168,14 +167,7 @@ gulp.task('compile-watch', ['compile', 'iconsets'], ()=>
   gulp.start('watch')
 );
 
-gulp.task('production', ['clean', 'spec-clean'], ()=>
+gulp.task('production', ['clean'], ()=>
   gulp.start('prod-compile')
 );
-gulp.task('prod-compile', ['templates', 'styles', 'code-prod', 'iconsets'], ()=>
-  vulcanize.setOptions({
-    inline:true,
-    strip:true,
-    input:'build/index.html',
-    output:'build/index.html'
-  }, vulcanize.processDocument )
-);
+gulp.task('prod-compile', ['compile', 'iconsets']);

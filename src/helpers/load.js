@@ -1,4 +1,27 @@
+const IS_MOCKING = true;
+
 export default function loadJSON(url){
+  if(IS_MOCKING && IS_DEV){
+    if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
+      url = '/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json';
+    }
+    else if(/https:\/\/api.github.com\/repos\/[^\/]*\/[^\/]*$/.test(url)){
+      url = 'src/helpers/mock_data/GithubRepoMOCK.json';
+    }
+    else if(/https:\/\/api.github.com\/users\/[^\/]*$/.test(url)){
+      url = 'src/helpers/mock_data/GithubUserMOCK.json';
+    }
+    else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url)){
+      url = 'src/helpers/mock_data/GithubUserQueryMOCK.json';
+    }
+    else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url)){
+      url = 'src/helpers/mock_data/GithubRepoQueryMOCK.json';
+    }
+    else{
+      throw `loadMock: No mock for ${url}`;
+    }
+  }
+
   return new Promise((resolve, reject)=>{
     const xhr = new window.XMLHttpRequest();
     const accessToken = localStorage.getItem('ticker:token:github');
@@ -20,29 +43,7 @@ export default function loadJSON(url){
 }
 
 loadJSON.setAccessToken = function(accessToken){
-  localStorage.setItem('ticker:token:github', accessToken);
+  if(!IS_MOCKING){
+    localStorage.setItem('ticker:token:github', accessToken);
+  }
 };
-
-
-export function loadMOCKJSON(url){
-  if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
-    return loadJSON('/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json');
-  }
-  else if(/https:\/\/api.github.com\/repos\/[^\/]*\/[^\/]*$/.test(url)){
-    return loadJSON('/src/helpers/mock_data/GithubRepoMOCK.json');
-  }
-  else if(/https:\/\/api.github.com\/users\/[^\/]*$/.test(url)){
-    return loadJSON('/src/helpers/mock_data/GithubUserMOCK.json');
-  }
-  else if(/https:\/\/api.github.com\/search\/users\?q=.*/.test(url)){
-    return loadJSON('/src/helpers/mock_data/GithubUserQueryMOCK.json');
-  }
-  else if(/https:\/\/api.github.com\/search\/repositories\?q=.*/.test(url)){
-    return loadJSON('/src/helpers/mock_data/GithubRepoQueryMOCK.json');
-  }
-  else{
-    throw `loadMock: No mock for ${url}`;
-  }
-}
-
-loadMOCKJSON.setAccessToken = function(accessToken){  /* NOOP */ };

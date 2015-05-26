@@ -1,4 +1,3 @@
-- make production build (actually replace IS_DEV)
 - try re-enabling liveCSS
 - save Last Login
 - perf: investigate asynchronous font loading for roboto font
