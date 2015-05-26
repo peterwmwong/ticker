@@ -5,7 +5,7 @@
 
 <dom-module id='ticker-drawer'>
   <template>
-    <template is='dom-repeat' items='[[favoritedSources]]'>
+    <template is='dom-repeat' items='[[_favoritedSources]]'>
       <paper-icon-item icon-width='45px'>
         <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
         <paper-item-body two-line>
@@ -24,8 +24,23 @@
 <script>
 Polymer({
   is: 'ticker-drawer',
+  properties:{
+    _favoritedSources:{
+      type:Array
+    }
+  },
   behaviors:[
     syncState(['favoritedSources'])
-  ]
+  ],
+  observers:[
+    '_onFavoritedSourcesChange(favoritedSources)'
+  ],
+  _onFavoritedSourcesChange:function(){
+    // TODO(pwong): When selecting a new source, the statechart unfortunately
+    //              exits and re-enters causing `favoritedSources` to flicker.
+    this.debounce('favoritedSources', function(){
+      this._favoritedSources = this.favoritedSources;
+    }, 100);
+  }
 })
 </script>
