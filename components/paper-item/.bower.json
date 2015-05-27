@@ -5,7 +5,6 @@
   ],
   "keywords": [
     "web-components",
-    "web-component",
     "polymer"
   ],
   "main": [
@@ -35,11 +34,11 @@
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "365caf441b",
+  "_release": "54c38be3d0",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "365caf441b925e3545279c13aede097e4ab9d57a"
+    "commit": "54c38be3d058710e8fe7bfffec7a317aa87a170b"
   },
   "_source": "git://github.com/PolymerElements/paper-item.git",
   "_target": "master",

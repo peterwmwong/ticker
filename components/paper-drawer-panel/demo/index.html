@@ -26,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style is="custom-style">
       #paperDrawerPanel {
         --paper-drawer-panel-left-drawer-container: {
-          border-right-width: 100px;
+          border-right-width: 1px;
           border-right-style: solid;
           border-right-color: var(--google-grey-300);
         };
@@ -58,10 +58,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div drawer></div>
       <div main>
         <div>
-          <paper-button onclick="flipDrawer()">flip drawer</paper-button>
+          <paper-button onclick="flipDrawer()" raised>flip drawer</paper-button>
         </div>
         <div>
-          <paper-button paper-drawer-toggle>toggle drawer</paper-button>
+          <paper-button paper-drawer-toggle raised>toggle drawer</paper-button>
         </div>
       </div>
     </paper-drawer-panel>

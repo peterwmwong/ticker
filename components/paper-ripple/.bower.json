@@ -8,7 +8,6 @@
   "keywords": [
     "web-components",
     "polymer",
-    "paper",
     "ripple"
   ],
   "main": "paper-ripple.html",
@@ -25,11 +24,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/paper-ripple",
-  "_release": "aa1da3e661",
+  "_release": "10cc4f3088",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "aa1da3e661673d60c3c397d29fe44e305399df88"
+    "commit": "10cc4f308815884068732c3feb464ca1d99a0f61"
   },
   "_source": "git://github.com/PolymerElements/paper-ripple.git",
   "_target": "master",

@@ -6,9 +6,7 @@
   ],
   "keywords": [
     "web-components",
-    "web-component",
     "polymer",
-    "paper",
     "drawer",
     "responsive",
     "layout"
@@ -28,16 +26,16 @@
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^0.9.0",
-    "paper-button": "PolymerElements/paper-button#^0.9.0",
-    "paper-styles": "PolymerElements/paper-styles#^0.9.0",
+    "paper-button": "PolymerElements/paper-button#^0.9.2",
+    "paper-styles": "PolymerElements/paper-styles#^0.9.5",
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "e6bf68bb30",
+  "_release": "b4a95385ed",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "e6bf68bb305fe6a3ae79553d7b95565eeb39ff40"
+    "commit": "b4a95385ed41cf317ebd54e348c0bf875d93f66e"
   },
   "_source": "git://github.com/PolymerElements/paper-drawer-panel.git",
   "_target": "master",

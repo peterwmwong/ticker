@@ -1,12 +1,11 @@
 {
   "name": "paper-item",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "authors": [
     "The Polymer Authors"
   ],
   "keywords": [
     "web-components",
-    "web-component",
     "polymer"
   ],
   "main": [

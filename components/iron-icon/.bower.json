@@ -6,6 +6,11 @@
   "author": [
     "The Polymer Authors"
   ],
+  "keywords": [
+    "web-components",
+    "polymer",
+    "icon"
+  ],
   "dependencies": {
     "iron-flex-layout": "polymerelements/iron-flex-layout#^0.9.0",
     "iron-meta": "polymerelements/iron-meta#^0.9.0",
@@ -15,16 +20,16 @@
     "test-fixture": "polymerelements/test-fixture#^0.9.0",
     "iron-iconset": "polymerelements/iron-iconset#^0.9.0",
     "iron-icons": "polymerelements/iron-icons#^0.9.0",
-    "iron-doc-viewer": "polymerelements/iron-doc-viewer#^0.9.0",
+    "iron-component-page": "polymerelements/iron-component-page#^0.9.0",
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/iron-icon",
-  "_release": "d31c379ff5",
+  "_release": "b82a116593",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "d31c379ff5cb0f60c6773104addec8d7681ceb45"
+    "commit": "b82a116593142a719dedf9f72f5f60803584ca17"
   },
   "_source": "git://github.com/PolymerElements/iron-icon.git",
   "_target": "master",

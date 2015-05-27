@@ -1,5 +1,6 @@
 {
   "name": "iron-selector",
+  "version": "0.9.4",
   "description": "Manages a set of elements that can be selected",
   "private": true,
   "main": [
@@ -27,13 +28,13 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "homepage": "https://github.com/PolymerElements/iron-selector",
-  "_release": "4a56a58e76",
+  "_release": "0.9.4",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "4a56a58e7666c07c5bf52ac5b88e8f9da989658c"
+    "type": "version",
+    "tag": "v0.9.4",
+    "commit": "ec543fc7a999eb6a26c604048de0386f35d1cfc2"
   },
   "_source": "git://github.com/PolymerElements/iron-selector.git",
-  "_target": "master",
+  "_target": "^0.9.0",
   "_originalSource": "PolymerElements/iron-selector"
 }

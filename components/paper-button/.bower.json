@@ -35,11 +35,11 @@
     "web-component-tester": "*",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "_release": "60654b9786",
+  "_release": "22a122fa64",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "60654b9786580b6e17245b50f2b631f42c0c5a0e"
+    "commit": "22a122fa6455074d9f1cb4131bc747a808d57f11"
   },
   "_source": "git://github.com/PolymerElements/paper-button.git",
   "_target": "master",
