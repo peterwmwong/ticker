@@ -1,4 +1,6 @@
-if(IS_DEV){
+const IS_MOCKING = false;
+
+if(IS_MOCKING && IS_DEV){
   window.Firebase = class {
     constructor(url){ this.url = url; }
     onAuth(cb){ return cb({github:{id:'284734', accessToken:'123'}}); }

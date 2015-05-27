@@ -1,4 +1,4 @@
-const IS_MOCKING = true;
+const IS_MOCKING = false;
 
 export default function loadJSON(url){
   if(IS_MOCKING && IS_DEV){
