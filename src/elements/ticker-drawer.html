@@ -1,10 +1,19 @@
 <link rel='import' href='../../components/paper-item/paper-icon-item.html'>
 <link rel='import' href='../../components/paper-item/paper-item-body.html'>
+<link rel='import' href='../../components/paper-button/paper-button.html'>
 <link rel='import' href='common/ticker-avatar.html'>
 <link rel='import' href='common/ticker-repo-name.html'>
 
+<style>
+ticker-drawer {
+  display: block;
+}
+</style>
 <dom-module id='ticker-drawer'>
   <template>
+    <div class='t-align-center'>
+      <paper-button class='l-margin-2' hidden$='[[user]]' on-tap='_onSignin'>Signin to Github</paper-button>
+    </div>
     <template is='dom-repeat' items='[[_favoritedSources]]'>
       <paper-icon-item icon-width='45px'>
         <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
@@ -30,11 +39,14 @@ Polymer({
     }
   },
   behaviors:[
-    syncState(['favoritedSources'])
+    syncState(['favoritedSources', 'user'])
   ],
   observers:[
     '_onFavoritedSourcesChange(favoritedSources)'
   ],
+  _onSignin:function(){
+    appState.fire('authWithGithub');
+  },
   _onFavoritedSourcesChange:function(){
     // TODO(pwong): When selecting a new source, the statechart unfortunately
     //              exits and re-enters causing `favoritedSources` to flicker.

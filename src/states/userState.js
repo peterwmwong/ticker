@@ -64,6 +64,9 @@ export default {
     },
     'ready':{
       params:['user'],
+      attrs:{
+        'user':({user})=>user
+      },
       enter({user}){ this.fire('userReady', user); }
     }
   }
