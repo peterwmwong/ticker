@@ -4,6 +4,8 @@ import {StateChart, goto} from '../helpers/svengali.js';
 import userState          from './userState.js';
 import searchState        from './searchState.js';
 import sourceState        from './sourceState.js';
+import '../helpers/loadFonts.js';
+import '../helpers/loadLivereload.js';
 
 const appState = new StateChart({
   route:'/',
@@ -66,11 +68,3 @@ window.syncState = syncState;
 window.appState = appState;
 
 export default appState;
-
-if(IS_DEV){
-  window.requestAnimationFrame(()=>{
-    let s = document.createElement('script');
-    s.src = `http://${(location.host || 'localhost').split(':')[0]}:35729/livereload.js?snipver=1`;
-    document.body.appendChild(s);
-  });
-}
