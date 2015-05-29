@@ -79,6 +79,9 @@ gulp.task('prod-server', ()=>
 
 gulp.task('iconsets', ()=>
   iconsetsTask(gulp.src('vendor/icons/github/*.svg'))
+    .pipe(replace(/[ ]{2}<svg viewBox=".*[\n]/g, ''))
+    .pipe(replace(/[ ]{2}<\/svg>.*[\n]/g, ''))
+    .pipe(replace(/<g id="\w/g, '<g id="'))
     .pipe(gulp.dest(`${PATHS.build}/iconsets`))
 );
 

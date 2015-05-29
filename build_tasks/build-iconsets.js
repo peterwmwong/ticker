@@ -8,36 +8,40 @@ SVG files from `src` are piped through svg-sprite to...
 2. Combine all svg definitions
 
 */
-import svgSprite from 'gulp-svg-sprites';
+import svgSprite from 'gulp-svg-sprite';
 
-const outputTemplate =
-`<link rel="import" href="../../components/iron-iconset-svg/iron-iconset-svg.html">
-<iron-iconset-svg name="github" size="1024"><svg><defs>
-
-{#svg}<g id="{name}" transform="{correctiveTransform}">{raw|s}</g>
-{/svg}
-</defs></svg></iron-iconset-svg>`;
+function findPath(svg){
+  let child = svg.firstChild;
+  while(child){
+    if(child.nodeName === 'path'){
+      return child;
+    }
+    child = child.nextSibling;
+  }
+}
 
 export default src=>
   src.pipe(svgSprite({
-    transformData:data=>{
-      data.svg.forEach(svg=>{
-        // Center the icons
-        if(svg.viewBox){
-          const viewBox = svg.viewBox.split(' ');
-          const width = +viewBox[2];
-          const translateX = (1024 - width) / 2;
-          svg.correctiveTransform = `translate(${translateX},0)`;
+    transform:[{
+      custom:(shape, sprite, callback)=>{
+        const pathString = findPath(shape.dom.firstChild).toString();
+        const width = shape.width;
+        const translateX = (1024 - width) / 2;
+        shape.setSVG(`
+  <svg>
+  <g id="${shape.id}" transform="translate(${translateX}, 0)">
+    ${pathString}
+  </g>
+  </svg>`);
+        callback(null);
+      }
+    }],
+    mode: {
+      'defs':{
+        example:{
+          template: 'build_tasks/github-iconset-tmpl.html',
+          dest: 'github'
         }
-      });
-      return data;
-    },
-    mode: 'defs',
-    svg: {
-      defs: 'github.html'
-    },
-    preview: false,
-    templates: {
-      defs: outputTemplate
+      }
     }
   }));

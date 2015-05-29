@@ -2,11 +2,7 @@
 
 gulp production
 
-# TODO: hackaround vulcanize not inline regular stylesheets
-cat app.html | sed 's/<link rel="stylesheet" type="text\/css" href="\/build\/all.css">/<link rel="import" type="css" href="\/build\/all.css">/' > app.tmp.html
-
-node_modules/.bin/vulcanize --inline-scripts --inline-css --abspath '/Users/peter.wong/projects/ticker' /app.tmp.html > index.unminified.html
-rm app.tmp.html
+node_modules/.bin/vulcanize --inline-scripts --inline-css --abspath '/Users/peter.wong/projects/ticker' /app.html > index.unminified.html
 
 # Leverage the old vulcanize to properly minify HTML
 vulcanize -strip -output index.min.html index.unminified.html
