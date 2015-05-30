@@ -1,9 +1,12 @@
 const IS_MOCKING = false;
 
 export default function loadJSON(url){
-  if(IS_MOCKING && IS_DEV){
-    if(/https:\/\/api.github.com\/(repos|users)\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
+  if(IS_DEV && IS_MOCKING){
+    if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
       url = '/src/helpers/mock_data/GithubEventMapper-allEvents-MOCK.json';
+    }
+    else if(/https:\/\/api.github.com\/users\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){
+      url = '/src/helpers/mock_data/GithubEventMapperMock.json';
     }
     else if(/https:\/\/api.github.com\/repos\/[^\/]*\/[^\/]*$/.test(url)){
       url = 'src/helpers/mock_data/GithubRepoMOCK.json';
