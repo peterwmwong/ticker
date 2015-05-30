@@ -1,4 +1,4 @@
-import {reenter}  from '../helpers/svengali.js';
+import {reenter, goto}  from '../helpers/svengali.js';
 import GithubEvent from '../models/github/GithubEvent.js';
 
 export default {
@@ -20,6 +20,11 @@ export default {
               (['updates', 'repos', 'info'].indexOf(tab) + 1) && reenter({tab})
           }
         }
+      },
+      events:{
+        'gotoGithubUserSource':({sourceUser})=>reenter({sourceUser}),
+        'gotoGithubRepoSource':({sourceUser, sourceRepo})=>
+          goto('../GithubRepo', {sourceUser, sourceRepo})
       }
     },
     'GithubRepo':{
@@ -47,6 +52,12 @@ export default {
               ) && reenter({tab})
           }
         }
+      },
+      events:{
+        'gotoGithubRepoSource':({sourceUser, sourceRepo})=>
+          reenter({sourceUser, sourceRepo}),
+        'gotoGithubUserSource':({sourceUser})=>
+          goto('../GithubUser', {sourceUser})
       }
     }
   }

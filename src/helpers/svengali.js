@@ -3,6 +3,24 @@
 const EMPTY_OBJ  = {};
 let nextStateUID = 1;
 
+function performExits(scState){
+  if(scState.isCurrent('.')){
+    if(scState.substates){
+      scState.substates.map(performExits);
+    }
+    scState.__svengaliState__._doExit();
+  }
+}
+
+function performEnter(scState, params){
+  if(scState.isCurrent('.')){
+    scState.__svengaliState__._doEnter(params);
+    if(scState.substates){
+      scState.substates.forEach(substate=>performEnter(substate, params));
+    }
+  }
+}
+
 /*
 Public: An encapsulation of a state chart's attrs and behavior
 
@@ -327,6 +345,7 @@ export class State {
       concurrent : !!parallelStates,
       history    : !!history
     });
+    scState.__svengaliState__ = this;
 
     if(params){
       scState.canEnter = (destStates, enterParams)=>this._doCanEnter(enterParams);
@@ -390,8 +409,11 @@ export class State {
   }
 
   _doReenter(reenterObj){
-    this._doExit();
-    this._doEnter(reenterObj.params);
+    // Find all current children
+    // - Run exits (reverse depth order)
+    performExits(this.scState);
+    // - Run enter
+    performEnter(this.scState, reenterObj.params);
   }
 
   _transitionToSameState(reenterObj){
