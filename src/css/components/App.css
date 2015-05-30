@@ -18,7 +18,6 @@
 .App__toolbar.is-scrolling-up {
   position: fixed;
   animation: slide-down 300ms ease-out;
-  -webkit-animation: slide-down 300ms ease-out;
   box-shadow: 0 3px 3px rgba(0,0,0, 0.333);
 }
 

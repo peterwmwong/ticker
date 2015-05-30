@@ -16,8 +16,6 @@
   background: white;
   border-bottom: 1px solid #e7ebee;
   color: #05242e;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
   font-size: 1.8rem;
   line-height: calc(var(--baseline) * 6);

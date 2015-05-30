@@ -59,18 +59,6 @@ marked-element img {
   width: 100%;
 }
 
-::-webkit-input-placeholder {
- color: var(--gray-lighter);
-}
-
-::input-placeholder {
- color: var(--gray-lighter);
-}
-
-::-moz-placeholder {
- color: var(--gray-lighter);
-}
-
-::-ms-input-placeholder {
+::placeholder {
  color: var(--gray-lighter);
 }

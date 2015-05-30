@@ -22,21 +22,14 @@
 .t-italic {
   font-style: italic;
 }
-/*.t-thin {
-  font-weight: 100 !important;
-}*/
+
 .t-light {
   font-weight: 300 !important;
 }
 .t-normal {
   font-weight: 400 !important;
 }
-/*.t-semibold {
-  font-weight: 500 !important;
-}
-.t-bold {
-  font-weight: 700 !important;
-}*/
+
 .t-align-left {
   text-align: left;
 }

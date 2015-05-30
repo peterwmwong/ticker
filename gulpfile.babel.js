@@ -1,5 +1,6 @@
 /* global __dirname, process */
 
+import autoprefixer      from 'autoprefixer';
 import babel             from 'gulp-babel';
 import babelify          from 'babelify';
 import watchify          from 'watchify';
@@ -92,7 +93,8 @@ gulp.task('styles', ()=>
       postcssImport({glob:true}),
       postcssMixins(),
       postcssProperties(),
-      postcssCalc()
+      postcssCalc(),
+      autoprefixer({browsers: ['last 2 version']})
     ]))
     .pipe(gulp.dest(PATHS.build))
     .pipe(livereload())

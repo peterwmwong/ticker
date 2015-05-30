@@ -1,4 +1,4 @@
-@define-mixin defColor $colorName $classNamePostfix {
+@define-mixin defColor $colorName, $classNamePostfix {
   .c-$(classNamePostfix) {
     color: var(--$colorName) !important;
     fill:  var(--$colorName) !important;
@@ -13,22 +13,22 @@
   }
 }
 
-@mixin defColor color-confirm       confirm;
-@mixin defColor color-confirm-light confirm-light;
-@mixin defColor color-error         error;
-@mixin defColor color-error-light   error-light;
-@mixin defColor color-highlight     highlight;
-@mixin defColor color-notify        notify;
-@mixin defColor color-warning       warning;
-@mixin defColor color-warning-light warning-light;
+@mixin defColor color-confirm,       confirm;
+@mixin defColor color-confirm-light, confirm-light;
+@mixin defColor color-error,         error;
+@mixin defColor color-error-light,   error-light;
+@mixin defColor color-highlight,     highlight;
+@mixin defColor color-notify,        notify;
+@mixin defColor color-warning,       warning;
+@mixin defColor color-warning-light, warning-light;
 
-@mixin defColor color-transparent transparent;
-@mixin defColor color-white       white;
-@mixin defColor color-black       black;
+@mixin defColor color-transparent, transparent;
+@mixin defColor color-white,       white;
+@mixin defColor color-black,       black;
 
-@mixin defColor gray-darkest  gray-darkest;
-@mixin defColor gray-darker   gray-darker;
-@mixin defColor gray-dark     gray-dark;
-@mixin defColor gray-light    gray-light;
-@mixin defColor gray-lighter  gray-lighter;
-@mixin defColor gray-lightest gray-lightest;
+@mixin defColor gray-darkest,  gray-darkest;
+@mixin defColor gray-darker,   gray-darker;
+@mixin defColor gray-dark,     gray-dark;
+@mixin defColor gray-light,    gray-light;
+@mixin defColor gray-lighter,  gray-lighter;
+@mixin defColor gray-lightest, gray-lightest;
