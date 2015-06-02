@@ -3,15 +3,6 @@
 const EMPTY_OBJ  = {};
 let nextStateUID = 1;
 
-function performExits(scState){
-  if(scState.isCurrent('.')){
-    if(scState.substates){
-      scState.substates.map(performExits);
-    }
-    scState.__svengaliState__._doExit();
-  }
-}
-
 function performEnter(scState, params){
   if(scState.isCurrent('.')){
     scState.__svengaliState__._doEnter(params);
@@ -410,10 +401,10 @@ export class State {
 
   _doReenter(reenterObj){
     // Find all current children
-    // - Run exits (reverse depth order)
-    performExits(this.scState);
-    // - Run enter
     performEnter(this.scState, reenterObj.params);
+
+    statechart.router.params(reenterObj.params);
+    statechart.router.flush();
   }
 
   _transitionToSameState(reenterObj){
