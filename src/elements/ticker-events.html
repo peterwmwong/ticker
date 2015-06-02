@@ -4,23 +4,60 @@
   <template>
     <div class='fit' style='z-index:-1'><content></content></div>
     <div id='eventsContainer'>
-      <template is='dom-repeat' items='[[events]]'>
+      <template is='dom-repeat' items='[[_events]]'>
         <ticker-event event='[[item]]'></ticker-event>
       </template>
     </div>
   </template>
 </dom-module>
 <script>
+(function(){
+var CHUNK_SIZE = 3;
+
 Polymer({
   is: 'ticker-events',
+  properties:{
+    _events:{
+      type:Array,
+      value:[]
+    },
+    _currentRenderIndex:{
+      type:Number,
+      value:0
+    }
+  },
   behaviors:[
     syncState(['events'])
   ],
   observers:[
-    'eventsChanged(events)'
+    '_eventsChanged(events)'
   ],
-  eventsChanged:function(events){
-    this.$.eventsContainer.className += ' is-fading-in';
+  _eventsChanged:function(events){
+    if(events && events.length){
+      this._beginRenderingChunks();
+      this.toggleClass('is-fading-in', true, this.$.eventsContainer);
+    }
+    else {
+      this.toggleClass('is-fading-in', false, this.$.eventsContainer);
+    }
+  },
+  _beginRenderingChunks:function(){
+    this.__renderChunks = this.__renderChunks || this._renderChunks.bind(this);
+    this._currentRenderIndex = 0;
+    this.__renderChunks();
+  },
+  _renderChunks:function(){
+    var curIndex = this._currentRenderIndex;
+    var nextIndex = curIndex + CHUNK_SIZE;
+    var newAdditions = this.events.slice(curIndex, nextIndex);
+    this.splice.apply(this, ['_events', curIndex, CHUNK_SIZE].concat(newAdditions));
+
+    if(nextIndex < this.events.length){
+      this._currentRenderIndex = nextIndex;
+      window.requestAnimationFrame(this.__renderChunks);
+    }
   }
 });
+
+})();
 </script>
