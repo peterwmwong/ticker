@@ -1,5 +1,3 @@
-const IS_MOCKING = false;
-
 export default function loadJSON(url){
   if(IS_DEV && IS_MOCKING){
     if(/https:\/\/api.github.com\/repos\/[A-z\-]+\/([A-z\-]+\/)?events/.test(url)){

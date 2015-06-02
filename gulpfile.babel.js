@@ -31,6 +31,7 @@ import connectGzip       from 'connect-gzip';
 // Constants
 // ---------
 
+const IS_MOCKING = true;
 const IS_DEV = process.argv[2] !== 'production';
 const PATHS = {
   src       : './src/',
@@ -115,6 +116,7 @@ gulp.task('code-elements', ()=>
     .pipe(sourcemaps.init())
     .pipe(cache('scripts'))
     .pipe(replace(/IS_DEV/g, `${IS_DEV}`))
+    .pipe(replace(/IS_MOCKING/g, `${IS_MOCKING}`))
     .pipe(babel({modules:'ignore'}))
     .pipe(remember('scripts'))
     .pipe(sourcemaps.write('.'))
@@ -130,7 +132,12 @@ const codeBundle = browserify({
 }).transform(versionify, {
     placeholder:'IS_DEV',
     version:`${IS_DEV}`
-  }).transform(babelify);
+  })
+  .transform(versionify, {
+    placeholder:'IS_MOCKING',
+    version:`${IS_MOCKING}`
+  })
+  .transform(babelify);
 
 function buildCodeBundle(){
   return codeBundle.bundle()

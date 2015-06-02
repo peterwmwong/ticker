@@ -2,6 +2,7 @@
   "parser": "babel-eslint",
   "globals": {
     "IS_DEV": true,
+    "IS_MOCKING": true,
     "Basis": true,
     "Polymer": true,
     "Firebase": true,

@@ -45,7 +45,7 @@ const appState = new StateChart({
   }
 });
 
-appState.rootState.scState.trace = true;
+appState.rootState.scState.trace = IS_DEV;
 appState.start();
 
 

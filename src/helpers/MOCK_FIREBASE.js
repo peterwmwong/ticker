@@ -1,5 +1,3 @@
-const IS_MOCKING = false;
-
 if(IS_MOCKING && IS_DEV){
   window.Firebase = class {
     constructor(url){ this.url = url; }
@@ -12,7 +10,9 @@ if(IS_MOCKING && IS_DEV){
             'username': 'peterwmwong',
             'sources': [
               {'type': 'GithubRepoSource', 'full_name':'polymer/polymer'},
-              {'type': 'GithubUserSource', 'login':'polymer'}
+              {'type': 'GithubRepoSource', 'full_name':'facebook/react'},
+              {'type': 'GithubUserSource', 'login':'polymer'},
+              {'type': 'GithubUserSource', 'login':'facebook'}
             ]
           })
         });
