@@ -42,11 +42,11 @@ Polymer({
     }
   },
   _beginRenderingChunks:function(){
-    this.__renderChunks = this.__renderChunks || this._renderChunks.bind(this);
+    this.__renderChunk = this.__renderChunk || this._renderChunk.bind(this);
     this._currentRenderIndex = 0;
-    this.__renderChunks();
+    this.__renderChunk();
   },
-  _renderChunks:function(){
+  _renderChunk:function(){
     var curIndex = this._currentRenderIndex;
     var nextIndex = curIndex + CHUNK_SIZE;
     var newAdditions = this.events.slice(curIndex, nextIndex);
@@ -54,7 +54,7 @@ Polymer({
 
     if(nextIndex < this.events.length){
       this._currentRenderIndex = nextIndex;
-      window.requestAnimationFrame(this.__renderChunks);
+      window.requestAnimationFrame(this.__renderChunk);
     }
   }
 });
