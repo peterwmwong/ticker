@@ -1,10 +1,9 @@
-import '../helpers/MOCK_FIREBASE.js';
-
 import {StateChart, goto} from '../helpers/svengali.js';
 import userState          from './userState.js';
 import searchState        from './searchState.js';
 import sourceState        from './sourceState.js';
 import '../helpers/loadFonts.js';
+import '../helpers/loadFirebase.js';
 import '../helpers/loadLivereload.js';
 
 const appState = new StateChart({
