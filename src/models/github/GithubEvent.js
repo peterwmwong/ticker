@@ -32,13 +32,6 @@ export default class GithubEvent extends Model {
       mapper:{
         query:({type, id})=>
           loadJSON(`https://api.github.com/${type}/${id}/events`)
-        // query:({type, id})=>
-        //   new Promise(resolve=>{
-        //     setTimeout(
-        //       ()=>resolve(loadJSON(`https://api.github.com/${type}/${id}/events`)),
-        //       1000
-        //     );
-        //   })
       },
       attr:{
         created_at: Date,
