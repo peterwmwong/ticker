@@ -2,7 +2,7 @@
   "name": "ticker",
   "private": true,
   "dependencies": {
-    "firebase"           : "~2.2.4",
+    "firebase"           : "~2.2.6",
     "iron-icon"          : "PolymerElements/iron-icon#master",
     "iron-iconset-svg"   : "PolymerElements/iron-iconset-svg#master",
     "iron-flex-layout"   : "PolymerElements/iron-flex-layout#master",
@@ -12,6 +12,6 @@
     "paper-ripple"       : "PolymerElements/paper-ripple#master",
     "paper-toolbar"      : "PolymerElements/paper-toolbar#master",
     "polymer"            : "Polymer/polymer#master",
-    "webcomponentsjs"    : "~0.7.2"
+    "webcomponentsjs"    : "~0.7.3"
   }
 }

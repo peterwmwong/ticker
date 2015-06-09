@@ -9,7 +9,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+
 <link rel="import" href="color.html">
+<link rel="import" href="typography.html">
 <link rel="import" href="shadow.html">
 
 <style is="custom-style">
@@ -20,6 +24,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     margin: 0;
     padding: 24px;
     background-color: var(--paper-grey-50);
+  }
+
+  .horizontal-section-container {
+    @apply(--layout-horizontal);
+    @apply(--layout-center-justified);
+    @apply(--layout-wrap);
+  }
+
+  .vertical-section-container {
+    @apply(--layout-vertical);
+    @apply(--center-justified);
   }
 
   .horizontal-section {
@@ -39,7 +54,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     @apply(--shadow-elevation-2dp);
   }
 
-  /* TODO: remove this hack and replace it with a nicer css class */
+  .centered {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  code {
+    color: var(--google-grey-700);
+  }
+
+  /* TODO: remove this hack and use horizontal-section-container instead */
   body > div.layout.horizontal.center-justified {
     @apply(--layout-wrap);
   }
