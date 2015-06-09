@@ -55,10 +55,12 @@ Polymer({
   },
   _onSourceSelect:function(e){
     var userRepo = e.model.item.displayName.split('/');
-    appState.fire(
-      userRepo[1] ? 'gotoGithubRepoSource' : 'gotoGithubUserSource',
-      {sourceUser:userRepo[0], sourceRepo:userRepo[1]}
-    );
+    setTimeout(function(){
+      appState.fire(
+        userRepo[1] ? 'gotoGithubRepoSource' : 'gotoGithubUserSource',
+        {sourceUser:userRepo[0], sourceRepo:userRepo[1]}
+      );
+    }, 100);
   }
 })
 </script>
