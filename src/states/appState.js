@@ -9,7 +9,7 @@ import '../helpers/loadLivereload.js';
 const appState = new StateChart({
   route:'/',
   parallelStates:{
-    'userState':userState,
+    userState,
     'appSearch':searchState,
     'appDrawer':{
       states:{

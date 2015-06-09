@@ -24,15 +24,13 @@ export default class User extends Model {
       mapper: {
         save:user=>
           new Promise((resolve, reject)=>
-            new Firebase(`https://ticker-dev.firebaseio.com/users/${user.id}`).set(
-              user.toJSON(),
-              err=>err ? reject(err) : resolve(user)
-            )
+            new Firebase(`https://ticker-dev.firebaseio.com/users/${user.id}`)
+              .set(user.toJSON(), err=>err ? reject(err) : resolve(user))
           ),
         get:id=>
           new Promise((resolve, reject)=>
-            new Firebase(`https://ticker-dev.firebaseio.com/users/${id}`).
-              once('value', data=>{
+            new Firebase(`https://ticker-dev.firebaseio.com/users/${id}`)
+              .once('value', data=>{
                 const val = data.val();
                 if(val){
                   resolve(val);
