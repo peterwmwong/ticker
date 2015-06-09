@@ -35,7 +35,7 @@
 <body class="fullbleed">
   <paper-drawer-panel>
     <div main class="fit scroll">
-      <paper-toolbar id="toolbar" class-name="App__toolbar">
+      <paper-toolbar class-name="App__toolbar" style="z-index:0">
         <div class="App__button App__button--menu" style="margin-left: -16px">
           <paper-ripple></paper-ripple>
           <iron-icon icon="ticker:menu" paper-drawer-toggle></iron-icon>
@@ -86,10 +86,9 @@
         </div>
       </ticker-events>
     </div>
-    <div drawer>
+    <div drawer class='scroll'>
       <ticker-drawer style="width:100%"></ticker-drawer>
     </div>
   </paper-drawer-panel>
-
 </body>
 </html>
