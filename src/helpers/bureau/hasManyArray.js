@@ -1,8 +1,13 @@
 import {errorWrongType} from './errors.js';
 
+const EMPTY_ARRAY = [];
 const ARRAY_PROTO = Array.prototype;
 const ARRAY_FUNCTIONS = {
   splice(index, numToRemove, ...itemsToAdd){
+    return this._splice(index, numToRemove, itemsToAdd);
+  },
+
+  _splice(index, numToRemove, itemsToAdd){
     const spliceArgs = [index, numToRemove];
     const {type, inverse, instanceOf} = this._hasMany;
     itemsToAdd.filter(newItem=>{
@@ -27,14 +32,14 @@ const ARRAY_FUNCTIONS = {
   },
 
   push(...items){
-    this.splice.apply(this, [this.length, 0].concat(items));
+    this._splice(this.length, 0, items);
     return this.length;
   },
 
-  pop(){ return this.splice.apply(this, [this.length, 1])[0]; },
+  pop(){ return this._splice(this.length - 1, 1, EMPTY_ARRAY)[0]; },
 
   unshift(...items){
-    this.splice.apply(this, [0, 0].concat(items));
+    this._splice(0, 0, items);
     return this.length;
   }
 };
