@@ -142,6 +142,20 @@ export default class Model {
     );
   }
 
+  static localQuery(options){
+    if(IS_DEV && !this.desc.mapper.localQuery){
+      errorMapperMethodNotImplemented(this, 'localQuery');
+    }
+
+    const results = this.desc.mapper.localQuery(options);
+
+    if(IS_DEV && !(results instanceof Array)){
+      errorMapperDidntReturnPromise(this, 'localQuery', results);
+    }
+
+    return results.map(data=>this.loadJSON(data));
+  }
+
   save(){
     if(IS_DEV && !this.constructor.desc.mapper.save){
       errorMapperMethodNotImplemented(this.constructor, 'save');

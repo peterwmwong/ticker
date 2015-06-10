@@ -47,12 +47,13 @@ Polymer({
     this.__renderChunk();
   },
   _renderChunk:function(){
+    var events = this.events;
     var curIndex = this._currentRenderIndex;
     var nextIndex = curIndex + CHUNK_SIZE;
-    var newAdditions = this.events.slice(curIndex, nextIndex);
+    var newAdditions = events.slice(curIndex, nextIndex);
     this.splice.apply(this, ['_events', curIndex, CHUNK_SIZE].concat(newAdditions));
 
-    if(nextIndex < this.events.length){
+    if(nextIndex < events.length){
       this._currentRenderIndex = nextIndex;
       window.requestAnimationFrame(this.__renderChunk);
     }

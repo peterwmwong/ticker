@@ -1,6 +1,7 @@
 ## Features/Fixes
 
-- store/retrieve previous events in localStorage
+- WIP: store/retrieve previous events in localStorage
+- See if IDMap reduces re-rendering of ticker-events
 - Indicate source events are "loading" when switching sources
   -       1st time: show "loading"
   - After 1st time: show previously loaded events and small loading indicator (also last loaded)

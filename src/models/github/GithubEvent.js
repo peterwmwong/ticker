@@ -30,6 +30,10 @@ export default class GithubEvent extends Model {
   static get desc(){
     return {
       mapper:{
+        localQuery:({type, id})=>{
+          const local = localStorage.getItem(`ticker:GithubEvent:${type}/${id}`);
+          return local ? JSON.parse(local) : [];
+        },
         query:({type, id})=>
           loadJSON(`https://api.github.com/${type}/${id}/events`)
       },

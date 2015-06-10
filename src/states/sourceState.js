@@ -7,24 +7,24 @@ export default {
       route:'/github/:sourceUser',
       attrs:{
         'sourceName':({sourceUser})=>sourceUser,
-        'appView':'source-GithubUser'
-      },
-      states:{
-        'tab':{
-          attrs:{
-            'tab':({tab})=>tab || 'updates',
-            'events':params=>GithubEvent.query({type:'users', id:params.sourceUser})
-          },
-          events:{
-            'tabChanged':tab=>
-              (['updates', 'repos', 'info'].indexOf(tab) + 1) && reenter({tab})
-          }
-        }
+        'appView':'source-GithubUser',
+        'events':params=>GithubEvent.localQuery({type:'users', id:params.sourceUser})
       },
       events:{
         'gotoGithubUserSource':({sourceUser})=>reenter({sourceUser}),
         'gotoGithubRepoSource':({sourceUser, sourceRepo})=>
           goto('../GithubRepo', {sourceUser, sourceRepo})
+      },
+      states:{
+        'loadRemoteEvents':{
+          attrs:{
+            'events':params=>new Promise(resolve=>{
+              setTimeout(()=>{
+                resolve(GithubEvent.query({type:'users', id:params.sourceUser}));
+              }, 5000);
+            })
+          }
+        }
       }
     },
     'GithubRepo':{
