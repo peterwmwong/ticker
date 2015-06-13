@@ -24,11 +24,11 @@
     "web-component-tester": "*"
   },
   "homepage": "https://github.com/PolymerElements/iron-iconset-svg",
-  "_release": "73fbb9b472",
+  "_release": "d909fa093c",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "73fbb9b4722f0b48bccba1fe0ae5de9765fe17c6"
+    "commit": "d909fa093ce23da7aa3ce844c6b080848e0580f6"
   },
   "_source": "git://github.com/PolymerElements/iron-iconset-svg.git",
   "_target": "master",
