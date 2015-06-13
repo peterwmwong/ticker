@@ -18,10 +18,10 @@
   "homepage": "https://github.com/peterwmwong/ticker",
   "dependencies": {
     "autoprefixer": "^5.2.0",
-    "babel": "^5.5.4",
-    "babel-eslint": "^3.1.13",
+    "babel": "^5.5.7",
+    "babel-eslint": "^3.1.15",
     "babelify": "^6.1.1",
-    "browserify": "^10.2.1",
+    "browserify": "^10.2.3",
     "browserify-versionify": "^1.0.4",
     "connect-gzip": "^0.1.6",
     "connect-history-api-fallback": "^1.1.0",
@@ -39,18 +39,18 @@
     "gulp-replace": "^0.5.3",
     "gulp-size": "^1.0.0",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-svg-sprite": "^1.2.2",
+    "gulp-svg-sprite": "^1.2.3",
     "gulp-util": "^3.0.5",
     "postcss-calc": "^4.1.0",
     "postcss-custom-properties": "^3.0.0",
     "postcss-import": "^5.0.0",
     "postcss-mixins": "^0.3.0",
     "postcss-url": "^3.2.0",
-    "rimraf": "^2.3.4",
+    "rimraf": "^2.4.0",
     "uglify-js": "^2.4.23",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "vulcanize": "^1.9.1",
-    "watchify": "^3.2.1"
+    "vulcanize": "^1.9.2",
+    "watchify": "^3.2.2"
   }
 }
