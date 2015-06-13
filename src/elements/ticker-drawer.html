@@ -7,6 +7,10 @@
 <style>
 ticker-drawer {
   display: block;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 </style>
 <dom-module id='ticker-drawer'>
@@ -18,7 +22,6 @@ ticker-drawer {
       <paper-icon-item class='l-position-relative' icon-width='45px'>
         <ticker-avatar item-icon source='[[item]]'></ticker-avatar>
         <paper-item-body two-line on-tap='_onSourceSelect'>
-          <paper-ripple></paper-ripple>
           <span>[[item.login]]</span>
           <ticker-repo-name repo-name='[[item.full_name]]'
                             hidden='[[!item.full_name]]'></ticker-repo-name>

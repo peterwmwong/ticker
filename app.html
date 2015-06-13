@@ -24,7 +24,6 @@
   <link rel="import" href="/components/paper-toolbar/paper-toolbar.html">
   <link rel="import" href="/components/iron-flex-layout/iron-flex-layout.html">
   <link rel="import" href="/components/iron-icon/iron-icon.html">
-  <link rel="import" href="/components/paper-ripple/paper-ripple.html">
 
   <link rel="import" href="/build/elements/ticker-icons.html">
   <link rel="import" href="/build/iconsets/defs/github.html">
@@ -37,19 +36,16 @@
     <div main class="fit scroll">
       <paper-toolbar class-name="App__toolbar" style="z-index:0">
         <div class="App__button App__button--menu" style="margin-left: -16px">
-          <paper-ripple></paper-ripple>
           <iron-icon icon="ticker:menu" paper-drawer-toggle></iron-icon>
         </div>
 
         <span class="App__title flex t-normal"></span>
 
         <!-- <div class="App__button App__button--favorite">
-          <paper-ripple></paper-ripple>
           <iron-icon icon="[[_favOrUnfavIcon]]"></iron-icon>
         </div> -->
 
         <div class="App__button App__button--search" style="margin-right: -16px">
-          <paper-ripple></paper-ripple>
           <iron-icon icon="ticker:search"></iron-icon>
         </div>
       </paper-toolbar>
