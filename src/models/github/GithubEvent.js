@@ -36,6 +36,10 @@ export default class GithubEvent extends Model {
         },
         query:({type, id})=>
           loadJSON(`https://api.github.com/${type}/${id}/events`)
+            .then(events=>{
+              localStorage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events));
+              return events;
+            })
       },
       attr:{
         created_at: Date,

@@ -18,11 +18,7 @@ export default {
       states:{
         'loadRemoteEvents':{
           attrs:{
-            'events':params=>new Promise(resolve=>{
-              setTimeout(()=>{
-                resolve(GithubEvent.query({type:'users', id:params.sourceUser}));
-              }, 5000);
-            })
+            'events':params=>GithubEvent.query({type:'users', id:params.sourceUser})
           }
         }
       }
@@ -31,33 +27,24 @@ export default {
       route:'/github/:sourceUser/:sourceRepo',
       attrs:{
         'sourceName':({sourceUser, sourceRepo})=>`${sourceUser}/${sourceRepo}`,
-        'appView':'source-GithubRepo'
-      },
-      states:{
-        'tab':{
-          attrs:{
-            'tab':({tab})=>tab || 'updates',
-            'events'(){
-              return GithubEvent.query({type:'repos', id:this.attrs.sourceName});
-            }
-          },
-          events:{
-            'tabChanged':tab=>
-              ([
-                'updates',
-                'code',
-                'pullRequests',
-                'issues',
-                'info'].indexOf(tab) + 1
-              ) && reenter({tab})
-          }
+        'appView':'source-GithubRepo',
+        'events'(params){
+          return GithubEvent.localQuery({type:'repos', id:this.attrs.sourceName});
         }
       },
       events:{
+        'gotoGithubUserSource':({sourceUser})=>goto('../GithubUser', {sourceUser}),
         'gotoGithubRepoSource':({sourceUser, sourceRepo})=>
-          reenter({sourceUser, sourceRepo}),
-        'gotoGithubUserSource':({sourceUser})=>
-          goto('../GithubUser', {sourceUser})
+          reenter({sourceUser, sourceRepo})
+      },
+      states:{
+        'loadRemoteEvents':{
+          attrs:{
+            'events'(params){
+              return GithubEvent.query({type:'repos', id:this.attrs.sourceName});
+            }
+          }
+        }
       }
     }
   }
