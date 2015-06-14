@@ -10,6 +10,7 @@
 
 ## Development
 
+- T E S T S
 - unify utility class prefix to "u-"
 - refactor: rename `<ticker-user-view>` to something else (`<ticker-source-page>`?)
 - Move `helper/load*` into an `initializers/` directory

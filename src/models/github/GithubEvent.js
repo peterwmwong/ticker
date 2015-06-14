@@ -3,6 +3,7 @@ import Model      from '../../helpers/bureau/model.js';
 import GithubUser from './GithubUser.js';
 import GithubRepo from './GithubRepo.js';
 import timeAgo    from '../../helpers/timeAgo.js';
+import storage    from '../../helpers/storage.js';
 
 // TOOD(pwong): We don't may need more then just property access in the future
 // const TYPE_TO_PAYLOAD = {
@@ -31,13 +32,13 @@ export default class GithubEvent extends Model {
     return {
       mapper:{
         localQuery:({type, id})=>{
-          const local = localStorage.getItem(`ticker:GithubEvent:${type}/${id}`);
+          const local = storage.getItem(`ticker:GithubEvent:${type}/${id}`);
           return local ? JSON.parse(local) : [];
         },
         query:({type, id})=>
           loadJSON(`https://api.github.com/${type}/${id}/events`)
             .then(events=>{
-              localStorage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events));
+              storage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events));
               return events;
             })
       },
