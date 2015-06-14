@@ -44,8 +44,11 @@ const ARRAY_FUNCTIONS = {
   }
 };
 
-export default function hasManyArray(hasMany){
-  const array = [];
+export default function hasManyArray(hasMany, array){
+  if(hasMany.inverse){
+    const inverse = hasMany.inverse;
+    array.forEach(item=>item[inverse] = item);
+  }
   array._hasMany = hasMany;
   for(let method in ARRAY_FUNCTIONS){ array[method] = ARRAY_FUNCTIONS[method]; }
   return array;

@@ -25,10 +25,8 @@ function mergeHasManyPropertiesDescriptor(hasMany, propsDescriptor){
         : instanceOfType;
     propsDescriptor[name] = {
       get(){
-        if(!(name in this._associations)){
-          this._associations[name] = hasManyArray(assoc);
-        }
-        return this._associations[name];
+        return this._associations[name] ||
+          (this._associations[name] = hasManyArray(assoc, []));
       }
     };
   }
@@ -46,7 +44,7 @@ function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
           this._associations[name] = newValue;
 
           // Reach inside the new association and set inverse association
-          if(inverse){ newValue[inverse] = this; }
+          if(inverse) newValue[inverse] = this;
         }
         else if(IS_DEV){
           errorWrongType(type, newValue);
@@ -74,7 +72,7 @@ function loadJSONHasOne(hasOne, json){
 function loadJSONHasMany(hasMany, json){
   for(let name in hasMany){
     let type = hasMany[name].type;
-    if(json[name] instanceof Array){
+    if(instanceOfType(json[name], Array)){
       json[name] = json[name].map(a=>type.loadJSON(a));
     }
   }
@@ -108,9 +106,7 @@ export default class Model {
     }
 
     let result = this.desc.mapper.cacheGet(id);
-    if(result){
-      return this.loadJSON(result);
-    }
+    return result && this.loadJSON(result);
   }
 
   static get(id){
@@ -174,9 +170,7 @@ export default class Model {
     const json = {};
     let name;
     for(name in desc.attr){
-      if(this[name]){
-        json[name] = this[name];
-      }
+      if(this[name]) json[name] = this[name];
     }
 
     for(name in desc.hasMany){
@@ -184,9 +178,7 @@ export default class Model {
     }
 
     for(name in desc.hasOne){
-      if(this[name]){
-        json[name] = this[name].toJSON();
-      }
+      if(this[name]) json[name] = this[name].toJSON();
     }
     return json;
   }
@@ -194,7 +186,7 @@ export default class Model {
   // Private
 
   static _ensureModelPrepared(){
-    if(this.__modelPrepared){ return; }
+    if(this._desc) return;
     const desc = this._desc = this.desc;
 
     // Generate the properties (getter/setters) for all attributes and
@@ -204,15 +196,14 @@ export default class Model {
     mergeHasManyPropertiesDescriptor(desc.hasMany, propsDescriptor);
     mergeHasOnePropertiesDescriptor(desc.hasOne, propsDescriptor);
     Object.defineProperties(this.prototype, propsDescriptor);
-
-    this.__modelPrepared = true;
   }
 
   _initHasMany(rawData){
-    for(let name in this.constructor._desc.hasMany){
+    const hasMany = this.constructor._desc.hasMany;
+    for(let name in hasMany){
       let data = rawData[name];
-      if(data instanceof Array){
-        this[name].push(...data);
+      if(instanceOfType(data, Array)){
+        this._associations[name] = hasManyArray(hasMany[name], data);
       }
     }
   }
