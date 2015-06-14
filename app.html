@@ -32,7 +32,7 @@
   <link rel="import" href="/build/elements/ticker-drawer.html">
 </head>
 <body class="fullbleed">
-  <paper-drawer-panel>
+  <paper-drawer-panel id="tickerAppDrawer">
     <div main class="fit scroll">
       <paper-toolbar class-name="App__toolbar" style="z-index:0">
         <div class="App__button App__button--menu" style="margin-left: -16px">
@@ -83,7 +83,7 @@
       </ticker-events>
     </div>
     <div drawer class='scroll'>
-      <ticker-drawer style="width:100%"></ticker-drawer>
+      <ticker-drawer style="width:100%" onclose="tickerAppDrawer.closeDrawer()"></ticker-drawer>
     </div>
   </paper-drawer-panel>
 </body>
