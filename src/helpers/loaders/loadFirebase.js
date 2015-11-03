@@ -34,7 +34,7 @@ export default ()=>{
   else{
     window.requestAnimationFrame(()=>{
       const s = document.createElement('script');
-      s.src = `vendor/firebase/firebase.js`;
+      s.src = `../vendor/firebase/firebase.js`;
       document.body.appendChild(s);
     });
   }
