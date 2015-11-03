@@ -8,7 +8,7 @@ export default ()=>
   new Promise(resolve=>{
     if(isAdded()){
       const s = document.createElement('script');
-      s.src = `vendor/highlightjs/highlight.pack.js`;
+      s.src = `../vendor/highlightjs/highlight.pack.js`;
       document.body.appendChild(s);
       checkHighlight(resolve);
     }
