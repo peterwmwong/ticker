@@ -1,0 +1,20 @@
+{
+  "login": "pesto",
+  "id": 125612,
+  "avatar_url": "https://avatars.githubusercontent.com/u/125612?v=2",
+  "gravatar_id": "1c7bded9fd1b6e5ca8e9f77a6222302c",
+  "url": "https://api.github.com/users/p",
+  "html_url": "https://github.com/p",
+  "followers_url": "https://api.github.com/users/p/followers",
+  "following_url": "https://api.github.com/users/p/following{/other_user}",
+  "gists_url": "https://api.github.com/users/p/gists{/gist_id}",
+  "starred_url": "https://api.github.com/users/p/starred{/owner}{/repo}",
+  "subscriptions_url": "https://api.github.com/users/p/subscriptions",
+  "organizations_url": "https://api.github.com/users/p/orgs",
+  "repos_url": "https://api.github.com/users/p/repos",
+  "events_url": "https://api.github.com/users/p/events{/privacy}",
+  "received_events_url": "https://api.github.com/users/p/received_events",
+  "type": "User",
+  "site_admin": false,
+  "score": 75.656136
+}

@@ -1,45 +1,43 @@
-import Model from 'helpers/model/Model.js';
-import Source from 'models/sources/Source.js';
+import Source  from './sources/Source';
+import Model   from '../helpers/bureau/model';
+import storage from '../helpers/storage';
 
-function updateCreate(user){
-  return new Promise((resolve, reject)=>
-    new Firebase(`${CONFIG.firebaseUrl}/users/${user.id}`).set({
-      id:user.id,
-      githubUsername:user.githubUsername,
-      sources:user.sources.map(s=>s.toSourceJSON())
-    }, error=>error ? reject(error) : resolve(user))
-  );
-}
+export default class User extends Model{
+  static get desc(){
+    return {
+      attr:{
+        id:String,
+        username:String
+      },
+      hasMany:{
+        sources:{ type:Source }
+      },
+      mapper: {
+        localGet:id=>{
+          const local = storage.getItem(`ticker:User:${id}`);
+          return local ? JSON.parse(local) : null;
+        },
+        save:user=>
+          new Promise((resolve, reject)=>
+            new Firebase(`https://ticker-dev.firebaseio.com/users/${user.id}`)
+              .set(user.toJSON(), (err)=>{
+                if(err) return reject(err);
+                storage.setItem(`ticker:User:${user.id}`, JSON.stringify(user));
+                resolve(user);
+              })
+          ),
+        get:id=>
+          new Promise((resolve, reject)=>
+            new Firebase(`https://ticker-dev.firebaseio.com/users/${id}`)
+              .once('value', data=>{
+                const val = data.val();
+                if(!val) reject("Couldn't find User");
 
-class User extends Model {
-  constructor(attrs){
-    this._sources = attrs.sources;
-    super(attrs);
+                storage.setItem(`ticker:User:${val.id}`, JSON.stringify(val));
+                resolve(val);
+              })
+          )
+      }
+    };
   }
-  get sources(){return this._sources}
 }
-
-User.create($=>{
-  $.attr('githubUsername', 'string');
-
-  $.mapper = {
-    create:updateCreate,
-    update:updateCreate,
-    get:user=>
-      new Promise((resolve, reject)=>
-        new Firebase(`${CONFIG.firebaseUrl}/users/${user.id}`).
-          once('value', data=>{
-            var val = data.val();
-            if(val){
-              user.$load(val);
-              user._sources = val.sources.map(s=>Source.load(s));
-              resolve(user);
-            } else {
-              reject("Couldn't find User");
-            }
-          })
-      )
-  };
-});
-
-export default User;

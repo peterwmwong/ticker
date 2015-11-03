@@ -1,24 +1,33 @@
-import loadJSON        from '../../helpers/load.js';
-import {load, loadAll} from '../../helpers/MapperUtils.js';
-import Model           from '../../helpers/model/Model.js';
+import loadJSON    from '../../helpers/load';
+import Model       from '../../helpers/bureau/model';
 
-class GithubUser extends Model{}
-GithubUser.create($=>{
-  $.attr('avatar_url', 'string');
-  $.attr('login',      'string');
-  $.attr('url',        'string');
-  $.attr('score',      'number');
+export default class GithubUser extends Model{
+  static get desc(){
+    return {
+      attr:{
+        avatar_url:String,
+        last_updated:Date,
+        login:String,
+        score:Number,
+        type:String,
+        url:String
+      },
 
-  $.mapper = {
-    get: async (model)=>{
-      var response = await loadJSON(`https://api.github.com/users/${model.id}`);
-      response.id = model.id;
-      return load(model, response);
-    },
+      mapper:{
+        get:id=>loadJSON(`https://api.github.com/users/${id}`),
+        query:({term})=>
+          loadJSON(
+            `https://api.github.com/search/users?q=${term}&per_page=10`
+          ).then(({items})=>
+            items.map(u=>{
+              u.id = u.login;
+              return u;
+            })
+          )
+      }
+    };
+  }
 
-    query: async (array, {term})=>
-      loadAll(array, (await loadJSON(`https://api.github.com/search/users?q=${term}`)).items)
-  };
-});
-
-export default GithubUser;
+  get displayName(){ return this.login; }
+  get tickerUrl(){ return `/github/${this.login}`; }
+}

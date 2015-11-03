@@ -1,18 +1,33 @@
-import Model from '../../helpers/model/Model.js';
-import GithubRepoMapper from './GithubRepoMapper.js';
+import loadJSON from '../../helpers/load';
+import Model    from '../../helpers/bureau/model';
 
-class GithubRepo extends Model{}
-GithubRepo.create($=>{
-  $.mapper = GithubRepoMapper;
+export default class GithubRepo extends Model{
+  static get desc(){
+    return {
+      attr:{
+        description:String,
+        full_name:String,
+        last_updated:Date,
+        name:String,
+        // Only populated when loaded from the query endpoint
+        score:Number
+      },
 
-  $.attr('full_name', 'string');
-  $.attr('name',      'string');
-  $.attr('url',       'string');
+      mapper:{
+        get:id=>loadJSON(`https://api.github.com/repos/${id}`),
+        query:({term})=>
+          loadJSON(
+            `https://api.github.com/search/repositories?q=${term}&per_page=10`
+          ).then(({items})=>
+            items.map(u=>{
+              u.id = u.full_name;
+              return u;
+            })
+          )
+      }
+    };
+  }
 
-  // TODO(pwong): GTFO. This only applies to the search API endpoint.
-  //              We should move this out as a sub class, like GithubRepoSearch
-  //              or make a GithubSearchResult that is composed of this.
-  $.attr('score',    'number');
-});
-
-export default GithubRepo;
+  get displayName(){ return this.full_name || this.name; }
+  get tickerUrl(){ return `/github/${this.full_name}`; }
+}
