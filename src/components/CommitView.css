@@ -1,0 +1,25 @@
+.CommitView {
+  color: #666;
+  background-color: white;
+  line-height: 28px;
+  overflow-x: scroll;
+}
+
+.CommitView > span {
+  display: inline-block;
+  padding: 2px 0;
+}
+
+.CommitView .hljs-addition,
+.CommitView .hljs-deletion {
+  font-weight: 400;
+}
+.CommitView .hljs-addition {
+  color: #272;
+  background: rgba(112, 255, 112, 0.1);
+}
+
+.CommitView .hljs-deletion {
+  color: #F77;
+  background: rgba(255, 112, 112, 0.1);
+}

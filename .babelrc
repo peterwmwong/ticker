@@ -1,0 +1,4 @@
+{
+  "plugins": ["transform-object-rest-spread", "syntax-jsx", "xvdom"],
+  "presets": ["es2015"]
+}

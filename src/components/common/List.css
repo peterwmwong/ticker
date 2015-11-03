@@ -1,0 +1,6 @@
+.List-item {
+  display: block;
+  border-bottom: 1px solid #EEE;
+  padding: 20px 16px;
+  cursor: pointer;
+}
