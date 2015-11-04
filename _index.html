@@ -11,13 +11,12 @@
 {% if (o.htmlWebpackPlugin.files.favicon) { %}
 <link rel="shortcut icon" href="{%=o.htmlWebpackPlugin.files.favicon%}">
 {% } %}
-{% for (var css in o.htmlWebpackPlugin.files.css) { %}
-<link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
-{% } %}
 {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
 <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
 {% } %}
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="/node_modules/octicons/octicons/octicons.css" rel="stylesheet">
+{% for (var css in o.htmlWebpackPlugin.files.css) { %}
+<link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
+{% } %}
+<link href="../node_modules/octicons/octicons/octicons.css" rel="stylesheet">
 </head>
 </html>

@@ -26,7 +26,8 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('main.css'),
     new HtmlWebpackPlugin({
-      title   : 'prezmeplease',
+      filename: 'index.html',
+      title   : 'ticker',
       template: '_index.html'
     })
   ]

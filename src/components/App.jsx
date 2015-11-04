@@ -4,6 +4,7 @@ import Toolbar        from './Toolbar.jsx';
 import UserView       from './UserView.jsx';
 import RepoView       from './RepoView.jsx';
 import CommitView     from './CommitView.jsx';
+import loadMaterialIcons from '../helpers/loaders/loadMaterialIcons';
 import {
   authWithOAuthPopup,
   getCurrentUser
@@ -31,6 +32,7 @@ App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
     window.onhashchange = onHashChange;
     getCurrentUser().then(onCurrentUserChange);
+    loadMaterialIcons();
     return onHashChange();
   },
   onHashChange: (props, state, {viewRepo, viewUser})=>{
