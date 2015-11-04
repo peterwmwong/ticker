@@ -63,186 +63,73 @@ marked-element img {
 ::placeholder {
   color: hsl(198, 16%, 87%);
 }
-.u-border-1 {
-  border-width: 1px !important;
-  border-style: solid !important;
-}
-.u-border-b1 {
-  border-bottom-width: 1px !important;
-  border-bottom-style: solid !important;
-}
-.u-border-radius-2 {
-  border-radius: 2px !important;
-}
 .c-confirm {
   color: #72bd61 !important;
   fill: #72bd61 !important;
-}
-.c-bg-confirm {
-  background-color: #72bd61 !important;
-}
-.c-border-confirm {
-  border-color: #72bd61 !important;
 }
 .c-confirm-light {
   color: #98cf8c !important;
   fill: #98cf8c !important;
 }
-.c-bg-confirm-light {
-  background-color: #98cf8c !important;
-}
-.c-border-confirm-light {
-  border-color: #98cf8c !important;
-}
 .c-error {
   color: #f44856 !important;
   fill: #f44856 !important;
-}
-.c-bg-error {
-  background-color: #f44856 !important;
-}
-.c-border-error {
-  border-color: #f44856 !important;
 }
 .c-error-light {
   color: #f44856 !important;
   fill: #f44856 !important;
 }
-.c-bg-error-light {
-  background-color: #f44856 !important;
-}
-.c-border-error-light {
-  border-color: #f44856 !important;
-}
 .c-highlight {
   color: #fef9ec !important;
   fill: #fef9ec !important;
-}
-.c-bg-highlight {
-  background-color: #fef9ec !important;
-}
-.c-border-highlight {
-  border-color: #fef9ec !important;
 }
 .c-notify {
   color: #f7e3b1 !important;
   fill: #f7e3b1 !important;
 }
-.c-bg-notify {
-  background-color: #f7e3b1 !important;
-}
-.c-border-notify {
-  border-color: #f7e3b1 !important;
-}
 .c-warning {
   color: #fca431 !important;
   fill: #fca431 !important;
-}
-.c-bg-warning {
-  background-color: #fca431 !important;
-}
-.c-border-warning {
-  border-color: #fca431 !important;
 }
 .c-warning-light {
   color: #fdcc8b !important;
   fill: #fdcc8b !important;
 }
-.c-bg-warning-light {
-  background-color: #fdcc8b !important;
-}
-.c-border-warning-light {
-  border-color: #fdcc8b !important;
-}
 .c-transparent {
   color: rgba(255, 255, 255, 0) !important;
   fill: rgba(255, 255, 255, 0) !important;
-}
-.c-bg-transparent {
-  background-color: rgba(255, 255, 255, 0) !important;
-}
-.c-border-transparent {
-  border-color: rgba(255, 255, 255, 0) !important;
 }
 .c-white {
   color: #FFF !important;
   fill: #FFF !important;
 }
-.c-bg-white {
-  background-color: #FFF !important;
-}
-.c-border-white {
-  border-color: #FFF !important;
-}
 .c-black {
   color: #000 !important;
   fill: #000 !important;
-}
-.c-bg-black {
-  background-color: #000 !important;
-}
-.c-border-black {
-  border-color: #000 !important;
 }
 .c-gray-darkest {
   color: hsl(195, 80%, 10%) !important;
   fill: hsl(195, 80%, 10%) !important;
 }
-.c-bg-gray-darkest {
-  background-color: hsl(195, 80%, 10%) !important;
-}
-.c-border-gray-darkest {
-  border-color: hsl(195, 80%, 10%) !important;
-}
 .c-gray-darker {
   color: hsl(192, 14%, 40%) !important;
   fill: hsl(192, 14%, 40%) !important;
-}
-.c-bg-gray-darker {
-  background-color: hsl(192, 14%, 40%) !important;
-}
-.c-border-gray-darker {
-  border-color: hsl(192, 14%, 40%) !important;
 }
 .c-gray-dark {
   color: hsl(192, 14%, 50%) !important;
   fill: hsl(192, 14%, 50%) !important;
 }
-.c-bg-gray-dark {
-  background-color: hsl(192, 14%, 50%) !important;
-}
-.c-border-gray-dark {
-  border-color: hsl(192, 14%, 50%) !important;
-}
 .c-gray-light {
   color: hsl(191, 15%, 73%) !important;
   fill: hsl(191, 15%, 73%) !important;
-}
-.c-bg-gray-light {
-  background-color: hsl(191, 15%, 73%) !important;
-}
-.c-border-gray-light {
-  border-color: hsl(191, 15%, 73%) !important;
 }
 .c-gray-lighter {
   color: hsl(198, 16%, 87%) !important;
   fill: hsl(198, 16%, 87%) !important;
 }
-.c-bg-gray-lighter {
-  background-color: hsl(198, 16%, 87%) !important;
-}
-.c-border-gray-lighter {
-  border-color: hsl(198, 16%, 87%) !important;
-}
 .c-gray-lightest {
   color: hsl(206, 19%, 92%) !important;
   fill: hsl(206, 19%, 92%) !important;
-}
-.c-bg-gray-lightest {
-  background-color: hsl(206, 19%, 92%) !important;
-}
-.c-border-gray-lightest {
-  border-color: hsl(206, 19%, 92%) !important;
 }
 .u-pointer-cursor {
   cursor: pointer;
@@ -417,18 +304,13 @@ marked-element img {
     padding: 0 8px;
   }
 }
-ticker-avatar {
-  text-align: center;
-}
 .ticker-avatar-icon {
-  border-radius: 50%;
-  overflow: hidden;
   background: hsl(206, 19%, 92%);
-}
-ticker-avatar, .ticker-avatar-icon {
+  border-radius: 50%;
   display: inline-block;
-  width: 32px;
   height: 32px;
+  overflow: hidden;
+  width: 32px;
 }
 .ticker-event-summary {
   background: #f9fafb;

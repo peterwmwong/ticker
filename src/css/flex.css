@@ -168,18 +168,6 @@
   -webkit-align-self: stretch;
   align-self: stretch;
 }
-.block {
-  display: block;
-}
-[hidden] {
-  display: none !important;
-}
-.invisible {
-  visibility: hidden !important;
-}
-.relative {
-  position: relative;
-}
 .fit {
   position: absolute;
   top: 0;
