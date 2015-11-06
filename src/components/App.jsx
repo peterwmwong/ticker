@@ -10,38 +10,9 @@ import {
   getCurrentUser
 } from '../helpers/getCurrentUser';
 
-const viewUser = (props, state, dispatch, user)=>({...state, view: 'user', data: user});
-const viewRepo = (props, state, dispatch, repo)=>({...state, view: 'repo', data: repo});
-const onCurrentUserChange = (props, state, dispatch, currentUser)=>({
-  ...state,
-  currentUser
-});
-
-const enableDrawer  = (props, state, dispatch)=>({...state, drawerEnabled: true});
-const disableDrawer = (props, state, dispatch)=>({...state, drawerEnabled: false});
-const selectSource  = (props, state, dispatch, source)=>{
-  window.location.hash = `#github/${source.displayName}`;
-  return state;
-};
-
-function onHashChange(props, state, dispatch){
-  const hash = window.location.hash;
-  if(hash){
-    const [, owner, repo] = hash.split('/');
-    if(repo)       return dispatch(viewRepo, `${owner}/${repo}`);
-    else if(owner) return dispatch(viewUser, owner);
-  }
-  return {...state, view: 'waiting'};
-}
-
-const login = (props, state, dispatch)=>{
-  authWithOAuthPopup().then(()=>dispatch(onCurrentUserChange));
-  return state;
-};
-
-const App = (props, state, dispatch)=>
+const App = (props, state, actions)=>
   <body className='App fit fullbleed'>
-    <Toolbar title={state.data} onRequestDrawer={()=>dispatch(enableDrawer)} />
+    <Toolbar title={state.data} onRequestDrawer={actions.enableDrawer} />
     {
         state.view === 'user'   ? <UserView   user={state.data} />
       : state.view === 'repo'   ? <RepoView   repo={state.data} />
@@ -51,17 +22,43 @@ const App = (props, state, dispatch)=>
     <AppDrawer
       user={state.currentUser}
       enabled={state.drawerEnabled}
-      onSelectSource={()=>dispatch(selectSource)}
-      onRequestDisable={()=>dispatch(disableDrawer)}
-      onLogin={()=>dispatch(login)}
+      onSelectSource={actions.selectSource}
+      onRequestDisable={actions.disableDrawer}
+      onLogin={actions.login}
     />
   </body>;
 
-App.getInitialState = (props, state, dispatch)=>{
-  window.onhashchange = ()=>dispatch(onHashChange);
-  getCurrentUser().then(()=>dispatch(onCurrentUserChange));
-  loadMaterialIcons();
-  return dispatch(onHashChange);
-}
+App.state = {
+  onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
+    window.onhashchange = onHashChange;
+    getCurrentUser().then(onCurrentUserChange);
+    loadMaterialIcons();
+    return onHashChange();
+  },
+  onHashChange: (props, state, {viewRepo, viewUser})=>{
+    const hash = window.location.hash;
+    if(hash){
+      const [, owner, repo] = hash.split('/');
+      if(repo)       return viewRepo(`${owner}/${repo}`);
+      else if(owner) return viewUser(owner);
+    }
+    return {...state, view: 'waiting'};
+  },
+  viewUser:  (props, state, actions, user)=>({...state, view: 'user', data: user}),
+  viewRepo:  (props, state, actions, repo)=>({...state, view: 'repo', data: repo}),
+  onCurrentUserChange: (props, state, actions, currentUser)=>({
+    ...state,
+    currentUser
+  }),
+  enableDrawer:  (props, state, actions)=>({...state, drawerEnabled: true}),
+  disableDrawer: (props, state, actions)=>({...state, drawerEnabled: false}),
+  selectSource:  (props, state, actions, source)=>{
+    window.location.hash = `#github/${source.displayName}`
+  },
+  login: (props, state, {onCurrentUserChange})=>{
+    authWithOAuthPopup().then(onCurrentUserChange);
+    return state;
+  }
+};
 
 export default App;

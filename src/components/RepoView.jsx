@@ -8,12 +8,14 @@ const RepoView = ({user}, {events})=>
     )}
   </div>;
 
-const loadEvents = (props, state, dispatch, events)=>({events});
-
-RepoView.getInitialState = RepoView.onProps = ({repo}, state, dispatch)=>{
-  const queryParams = {type:'repos', id:repo};
-  GithubEvent.query(queryParams).then(events=>dispatch(loadEvents, events));
-  return {events: GithubEvent.localQuery(queryParams)};
+RepoView.state = {
+  onInit: ({repo}, state, {loadEvents})=>{
+    const queryParams = {type:'repos', id:repo};
+    GithubEvent.query(queryParams).then(loadEvents);
+    return {events: GithubEvent.localQuery(queryParams)};
+  },
+  onProps: (props, state, {onInit})=>onInit(),
+  loadEvents: (props, state, actions, events)=>({events})
 };
 
 export default RepoView;

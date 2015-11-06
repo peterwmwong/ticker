@@ -8,12 +8,14 @@ const UserView = ({user}, {events})=>
     )}
   </div>;
 
-const loadEvents = (props, state, dispatch, events)=>({events});
-
-UserView.getInitialState = UserView.onProps = ({user}, state, dispatch)=>{
-  const queryParams = {type:'users', id:user};
-  GithubEvent.query(queryParams).then(events=>dispatch(loadEvents, events));
-  return {events: GithubEvent.localQuery(queryParams)};
+UserView.state = {
+  onInit: ({user}, state, {loadEvents})=>{
+    const queryParams = {type:'users', id:user};
+    GithubEvent.query(queryParams).then(loadEvents);
+    return {events: GithubEvent.localQuery(queryParams)};
+  },
+  onProps: (props, state, {onInit})=>onInit(),
+  loadEvents: (props, state, actions, events)=>({events})
 };
 
 export default UserView;
