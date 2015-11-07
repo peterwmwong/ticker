@@ -379,6 +379,20 @@ marked-element img {
   font-size: 32px !important;
 }
 
+.material-icons {
+  min-width: 24px;
+}
+
+.material-icons,
+.octicon {
+  transform: scale(0);
+}
+
+.ticker-material-icons-loaded .material-icons,
+.ticker-octicons-loaded .octicon {
+  transform: scale(1);
+}
 .octicon {
   font-size: 32px;
+  min-width: 20px;
 }

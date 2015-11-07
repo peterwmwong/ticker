@@ -9,7 +9,7 @@ export default ()=>
     if(isAdded()){
       const s = document.createElement('script');
       s.src = `../vendor/highlightjs/highlight.pack.js`;
-      document.body.appendChild(s);
+      document.head.appendChild(s);
       checkHighlight(resolve);
     }
   });
