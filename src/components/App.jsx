@@ -1,10 +1,11 @@
 import './App.css';
-import AppDrawer      from './AppDrawer.jsx';
-import Toolbar        from './Toolbar.jsx';
-import UserView       from './UserView.jsx';
-import RepoView       from './RepoView.jsx';
-import CommitView     from './CommitView.jsx';
+import AppDrawer         from './AppDrawer.jsx';
+import Toolbar           from './Toolbar.jsx';
+import UserView          from './UserView.jsx';
+import RepoView          from './RepoView.jsx';
+import CommitView        from './CommitView.jsx';
 import loadMaterialIcons from '../helpers/loaders/loadMaterialIcons';
+import loadFonts         from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
   getCurrentUser
@@ -32,6 +33,7 @@ App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
     window.onhashchange = onHashChange;
     getCurrentUser().then(onCurrentUserChange);
+    loadFonts();
     loadMaterialIcons();
     return onHashChange();
   },
