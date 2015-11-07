@@ -2,7 +2,7 @@ import GithubEvent from '../models/github/GithubEvent';
 import EventCard from './EventCard.jsx';
 
 const RepoView = ({user}, {events})=>
-  <div className="l-margin-t2">
+  <div className="l-margin-t3">
     {events.map(event=>
       <EventCard key={event.id} event={event} />
     )}
