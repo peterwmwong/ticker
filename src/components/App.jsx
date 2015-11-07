@@ -4,7 +4,6 @@ import Toolbar           from './Toolbar.jsx';
 import UserView          from './UserView.jsx';
 import RepoView          from './RepoView.jsx';
 import CommitView        from './CommitView.jsx';
-import loadMaterialIcons from '../helpers/loaders/loadMaterialIcons';
 import loadFonts         from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
@@ -34,7 +33,6 @@ App.state = {
     window.onhashchange = onHashChange;
     getCurrentUser().then(onCurrentUserChange);
     loadFonts();
-    loadMaterialIcons();
     return onHashChange();
   },
   onHashChange: (props, state, {viewRepo, viewUser})=>{

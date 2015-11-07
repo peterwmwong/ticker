@@ -55,11 +55,8 @@ export const getCurrentUser = ()=>{
   if(currentUser) return Promise.resolve(currentUser);
 
   const lastUserId = storage.getItem(LAST_LOGIN_ID_STORAGE_KEY);
-  const lastUser   = lastUserId && User.localGet(lastUserId);
-  if(lastUser){
-    currentUser = lastUser;
-    return Promise.resolve(currentUser);
-  }
+  currentUser = lastUserId && User.localGet(lastUserId);
+  if(currentUser) return Promise.resolve(currentUser);
 
   return waitForFirebase()
     .then(authWithFirebase)
