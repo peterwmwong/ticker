@@ -26,7 +26,7 @@ const getSummary = event=>{
   case 'IssuesEvent':
   case 'PullRequestEvent':
     return {
-      actorsAction: event.payload.action,
+      actorsAction: `${event.payload.action} this issue`,
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event)
     };
@@ -50,14 +50,14 @@ const getSummary = event=>{
   case 'IssueCommentEvent':
   case 'PullRequestReviewCommentEvent':
     return {
-      actorsAction: 'commented on',
+      actorsAction: 'commented...',
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event)
     };
 
   case 'CommitCommentEvent':
     return {
-      actorsAction: 'commented on',
+      actorsAction: 'commented...',
       subjectIcon: 'git-commit',
       subject: event.payload.comment.commit_id
     };
@@ -76,16 +76,18 @@ const getSummary = event=>{
 export default ({event})=>{
   const {actorsAction, subject, subjectIcon} = getSummary(event);
   return (
-    <div className="Card-action ticker-event-summary layout horizontal center">
-      <Avatar avatarUrl={event.actor.avatar_url} className="l-margin-r2" />
-      <span className="ticker-event-summary__actor">{event.actor.login}</span>
-      <span className="t-nowrap">{actorsAction}</span>
-      {subjectIcon &&
-        <GithubIcon name={subjectIcon} className="l-padding-h2" />
-      }
-      {subject &&
-        <div className="ticker-event-summary__subject">{subject}</div>
-      }
+    <div className="Card-action ticker-event-summary">
+      {subjectIcon && (
+        <div className="layout horizontal center l-padding-b4">
+          <GithubIcon name={subjectIcon} className="l-padding-r2" />
+          <div className="ticker-event-summary__subject">{subject}</div>
+        </div>
+      )}
+      <div className="layout horizontal center l-padding-l4">
+        <Avatar avatarUrl={event.actor.avatar_url} className="l-margin-r2" />
+        <span className="ticker-event-summary__actor">{event.actor.login}</span>
+        <span className="t-nowrap">{actorsAction}</span>
+      </div>
     </div>
   );
 }

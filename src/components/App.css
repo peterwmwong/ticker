@@ -5,13 +5,14 @@ html {
   font-size: 10px;
 }
 body {
-  background-color: hsl(206, 19%, 92%);
+  background-color: hsl(0, 0%, 92%);
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 10px;
   font-size: 1.6em;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
   text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
 }
 a {
   color: inherit;
@@ -189,10 +190,10 @@ marked-element img {
   font-style: italic;
 }
 .t-light {
-  font-weight: 300 !important;
+  font-weight: 400 !important;
 }
 .t-normal {
-  font-weight: 400 !important;
+  font-weight: 500 !important;
 }
 .t-align-left {
   text-align: left;
@@ -220,9 +221,13 @@ marked-element img {
   overflow: hidden;
   width: 32px;
 }
+.App__placeholderCard {
+  margin: 0 8px;
+}
 @media (min-width: 639px) {
   .App__placeholderCard {
-    margin: 0 8px;
+    margin: 0 auto;
+    max-width: 620px;
   }
 }
 .App__button {
@@ -257,12 +262,13 @@ marked-element img {
   }
 }
 .Card {
-  border: 1px solid rgba(0, 0, 0, 0.075);
-  border-top-color: rgba(0, 0, 0, 0.025);
-  border-bottom-color: rgba(0, 0, 0, 0.1);
+  background: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top-color: #FFF;
+  border-bottom-color: rgba(0, 0, 0, 0.15);
   border-bottom-width: 2px;
   overflow: hidden;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 .Card + .Card {
   margin-top: 4px;
@@ -272,7 +278,6 @@ marked-element img {
   -ms-flex-align: baseline;
   align-items: baseline;
   background: white;
-  border-bottom: 1px solid #e7ebee;
   color: #05242e;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -280,9 +285,9 @@ marked-element img {
   font-size: 1.8rem;
   line-height: 24px;
   height: 24px;
-  padding: 16px;
-  padding-bottom: 12px;
+  padding: 16px 16px 0 16px;
 }
+
 .PlaceholderText {
   display: inline-block;
   height: 16px;
@@ -313,7 +318,7 @@ marked-element img {
   width: 32px;
 }
 .ticker-event-summary {
-  background: #f9fafb;
+  background: #FFF;
   color: #05242e;
   display: block;
   line-height: 32px !important;
@@ -321,7 +326,7 @@ marked-element img {
   padding: 16px;
 }
 .ticker-event-summary__actor {
-  font-weight: 400;
+  font-weight: 500;
   margin-right: 4px;
 }
 .ticker-event-summary__actor-avatar {
@@ -333,7 +338,7 @@ marked-element img {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
-  font-weight: 400;
+  font-weight: 500;
   max-width: calc(100% - 48px);
 }
 .ticker-event-summary__subject__icon {
@@ -347,7 +352,6 @@ marked-element img {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  background: #f9fafb;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -367,11 +371,14 @@ marked-element img {
   padding-left: 4px;
 }
 
-.icon-24,
-.octicon {
+.icon-24 {
   font-size: 24px !important;
 }
 
 .icon-32 {
   font-size: 32px !important;
+}
+
+.octicon {
+  font-size: 32px;
 }
