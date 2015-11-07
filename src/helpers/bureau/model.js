@@ -46,7 +46,7 @@ function mergeHasOnePropertiesDescriptor(hasOne, propsDescriptor){
           // Reach inside the new association and set inverse association
           if(inverse) newValue[inverse] = this;
         }
-        else if(IS_DEV){
+        else if(process.env.NODE_ENV === 'development'){
           errorWrongType(type, newValue);
         }
       }
@@ -101,7 +101,7 @@ export default class Model{
   }
 
   static cacheGet(id){
-    if(IS_DEV && !this.desc.mapper.cacheGet){
+    if(process.env.NODE_ENV === 'development' && !this.desc.mapper.cacheGet){
       errorMapperMethodNotImplemented(this, 'cacheGet');
     }
 
@@ -110,13 +110,13 @@ export default class Model{
   }
 
   static get(id){
-    if(IS_DEV && !this.desc.mapper.get){
+    if(process.env.NODE_ENV === 'development' && !this.desc.mapper.get){
       errorMapperMethodNotImplemented(this, 'get');
     }
 
     const promise = this.desc.mapper.get(id);
 
-    if(IS_DEV && !(promise instanceof Promise)){
+    if(process.env.NODE_ENV === 'development' && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this, 'get', promise);
     }
 
@@ -124,13 +124,13 @@ export default class Model{
   }
 
   static query(options){
-    if(IS_DEV && !this.desc.mapper.query){
+    if(process.env.NODE_ENV === 'development' && !this.desc.mapper.query){
       errorMapperMethodNotImplemented(this, 'query');
     }
 
     const promise = this.desc.mapper.query(options);
 
-    if(IS_DEV && !(promise instanceof Promise)){
+    if(process.env.NODE_ENV === 'development' && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this, 'query', promise);
     }
     return promise.then(dataArray=>
@@ -139,13 +139,13 @@ export default class Model{
   }
 
   static localQuery(options){
-    if(IS_DEV && !this.desc.mapper.localQuery){
+    if(process.env.NODE_ENV === 'development' && !this.desc.mapper.localQuery){
       errorMapperMethodNotImplemented(this, 'localQuery');
     }
 
     const results = this.desc.mapper.localQuery(options);
 
-    if(IS_DEV && !(results instanceof Array)){
+    if(process.env.NODE_ENV === 'development' && !(results instanceof Array)){
       errorMapperDidntReturnPromise(this, 'localQuery', results);
     }
 
@@ -153,7 +153,7 @@ export default class Model{
   }
 
   static localGet(id){
-    if(IS_DEV && !this.desc.mapper.localGet){
+    if(process.env.NODE_ENV === 'development' && !this.desc.mapper.localGet){
       errorMapperMethodNotImplemented(this, 'localGet');
     }
     const result = this.desc.mapper.localGet(id);
@@ -161,12 +161,12 @@ export default class Model{
   }
 
   save(){
-    if(IS_DEV && !this.constructor.desc.mapper.save){
+    if(process.env.NODE_ENV === 'development' && !this.constructor.desc.mapper.save){
       errorMapperMethodNotImplemented(this.constructor, 'save');
     }
 
     const promise = this.constructor.desc.mapper.save(this);
-    if(IS_DEV && !(promise instanceof Promise)){
+    if(process.env.NODE_ENV === 'development' && !(promise instanceof Promise)){
       errorMapperDidntReturnPromise(this.constructor, 'save', promise);
     }
 

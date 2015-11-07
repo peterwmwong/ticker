@@ -16,7 +16,7 @@ const ARRAY_FUNCTIONS = {
         if(inverse){ newItem[inverse] = this; }
         spliceArgs.push(newItem);
       }
-      else if(IS_DEV){
+      else if(process.env.NODE_ENV === 'development'){
         errorWrongType(type, newItem);
       }
     });

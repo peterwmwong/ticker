@@ -19,7 +19,9 @@ const registry = (()=>{
 function removeLRUItem(){
   const lruKey = Object.keys(registry).sort((a, b)=>registry[b] - registry[a]).pop();
   if(lruKey){
-    if(IS_DEV) console.warn(`[storage] ${lruKey} bumped`); //eslint-disable-line
+    if(process.env.NODE_ENV === 'development'){
+      console.warn(`[storage] ${lruKey} bumped`); //eslint-disable-line
+    }
     localStorage.removeItem(lruKey);
     updateRegistryKey(lruKey, null);
   }
