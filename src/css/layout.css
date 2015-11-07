@@ -195,12 +195,6 @@
 .l-margin-4 {
   margin: 16px 16px !important;
 }
-.l-margin-5 {
-  margin: 20px 20px !important;
-}
-.l-margin-6 {
-  margin: 24px 24px !important;
-}
 .l-margin-h0 {
   margin-left: 0px !important;
   margin-right: 0px !important;
@@ -240,22 +234,6 @@
 .l-margin-v4 {
   margin-top: 16px !important;
   margin-bottom: 16px !important;
-}
-.l-margin-h5 {
-  margin-left: 20px !important;
-  margin-right: 20px !important;
-}
-.l-margin-v5 {
-  margin-top: 20px !important;
-  margin-bottom: 20px !important;
-}
-.l-margin-h6 {
-  margin-left: 24px !important;
-  margin-right: 24px !important;
-}
-.l-margin-v6 {
-  margin-top: 24px !important;
-  margin-bottom: 24px !important;
 }
 .l-margin-r0 {
   margin-right: 0px !important;
@@ -316,30 +294,6 @@
 }
 .l-margin-b4 {
   margin-bottom: 16px !important;
-}
-.l-margin-r5 {
-  margin-right: 20px !important;
-}
-.l-margin-l5 {
-  margin-left: 20px !important;
-}
-.l-margin-t5 {
-  margin-top: 20px !important;
-}
-.l-margin-b5 {
-  margin-bottom: 20px !important;
-}
-.l-margin-r6 {
-  margin-right: 24px !important;
-}
-.l-margin-l6 {
-  margin-left: 24px !important;
-}
-.l-margin-t6 {
-  margin-top: 24px !important;
-}
-.l-margin-b6 {
-  margin-bottom: 24px !important;
 }
 .l-height7 {
   height: 28px !important;
