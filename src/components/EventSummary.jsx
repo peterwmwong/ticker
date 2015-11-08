@@ -74,6 +74,7 @@ const getSummary = event=>{
 };
 
 export default ({event})=>{
+  const {avatar_url, login} = event.actor;
   const {actorsAction, subject, subjectIcon} = getSummary(event);
   return (
     <div className="Card-action ticker-event-summary">
@@ -83,11 +84,11 @@ export default ({event})=>{
           <div className="ticker-event-summary__subject">{subject}</div>
         </div>
       )}
-      <div className="layout horizontal center l-padding-l4">
-        <Avatar avatarUrl={event.actor.avatar_url} className="l-margin-r2" />
-        <span className="ticker-event-summary__actor">{event.actor.login}</span>
+      <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
+        <Avatar avatarUrl={avatar_url} className="l-margin-r2" />
+        <span className="ticker-event-summary__actor">{login}</span>
         <span className="t-nowrap">{actorsAction}</span>
-      </div>
+      </a>
     </div>
   );
 }

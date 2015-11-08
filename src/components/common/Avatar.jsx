@@ -3,7 +3,7 @@ const onerror = ({target})=>
 
 export default ({avatarUrl, className=''})=>
   <img
-    src={avatarUrl ? `${avatarUrl}&s=32` : ''}
+    src={avatarUrl ? `${avatarUrl}v=3&s=32` : ''}
     className={`${className} ticker-avatar-icon`}
     onerror={onerror}
   />

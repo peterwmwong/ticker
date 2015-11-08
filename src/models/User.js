@@ -7,7 +7,7 @@ export default class User extends Model{
     return {
       attr:{
         id:String,
-        username:String
+        githubUsername:String
       },
       hasMany:{
         sources:{ type:Source }
