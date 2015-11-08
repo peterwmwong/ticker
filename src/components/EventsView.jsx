@@ -10,13 +10,14 @@ const EventsView = ({id, onRequestDrawer}, {events})=>
     )}
   </div>;
 
+const onInit = (props, state, {loadEvents})=>(
+  GithubEvent.query(props).then(loadEvents),
+  {events: GithubEvent.localQuery(props)}
+);
+
 EventsView.state = {
-  onInit: ({type, id}, state, {loadEvents})=>{
-    const queryParams = {type, id};
-    GithubEvent.query(queryParams).then(loadEvents);
-    return {events: GithubEvent.localQuery(queryParams)};
-  },
-  onProps: (props, state, {onInit})=>onInit(),
+  onInit: onInit,
+  onProps: onInit,
   loadEvents: (props, state, actions, events)=>({events})
 };
 
