@@ -14,7 +14,6 @@ EventsView.state = {
   onInit: ({type, id}, state, {loadEvents})=>{
     const queryParams = {type, id};
     GithubEvent.query(queryParams).then(loadEvents);
-    debugger; //eslint-disable-line
     return {events: GithubEvent.localQuery(queryParams)};
   },
   onProps: (props, state, {onInit})=>onInit(),
