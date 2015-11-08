@@ -174,7 +174,7 @@ marked-element img {
   border-bottom-color: rgba(0, 0, 0, 0.15);
   border-bottom-width: 2px;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-top: 8px;
 }
 .Card + .Card {
   margin-top: 4px;
