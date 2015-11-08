@@ -19,7 +19,6 @@ const App = (props, state, actions)=>
     <AppDrawer
       user={state.currentUser}
       enabled={state.drawerEnabled}
-      onSelectSource={actions.selectSource}
       onRequestDisable={actions.disableDrawer}
       onLogin={actions.login}
     />
@@ -59,10 +58,6 @@ App.state = {
   }),
   enableDrawer:  (props, state, actions)=>({...state, drawerEnabled: true}),
   disableDrawer: (props, state, actions)=>({...state, drawerEnabled: false}),
-  selectSource:  (props, state, actions, source)=>{
-    window.location.hash = `#github/${source.displayName}`
-    return state;
-  },
   login: (props, state, {onCurrentUserChange})=>{
     authWithOAuthPopup().then(onCurrentUserChange);
     return state;

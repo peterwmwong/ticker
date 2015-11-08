@@ -1,13 +1,12 @@
 export default ({className, displayName})=>{
   const [owner, repo] = displayName.split('/');
+  const href = `#github/${displayName}`;
   return repo ? (
-    <span className={className}>
+    <a className={`${className} c-gray-darkest t-normal`} href={href}>
       <span className="c-gray-dark t-light">{owner}/</span>
-      <span className="c-gray-darkest t-normal">{repo}</span>
-    </span>
+      {repo}
+    </a>
   ) : (
-    <span className={className}>
-      <span className="c-gray-darkest t-normal">{owner}</span>
-    </span>
+    <a className={`${className} c-gray-darkest t-normal`} href={href}>{owner}</a>
   );
 }
