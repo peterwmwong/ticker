@@ -14,8 +14,10 @@ const waitForFirebase = (props, state, actions)=>
       setTimeout(checkForFirebase, 32);
     };
 
-    loadFirebase();
-    checkForFirebase();
+    setTimeout(()=>{
+      loadFirebase();
+      setTimeout(checkForFirebase, 100);
+    }, 500); // Add Firebase in a way that doesn't block first paint
   });
 
 const authWithFirebase = firebaseRef=>
@@ -51,13 +53,13 @@ export const authWithOAuthPopup = ()=>
   })
   .then(authData=>getOrCreateUser(authData.github));
 
+export const getPreviousUser = ()=>{
+  const lastUserId = storage.getItem(LAST_LOGIN_ID_STORAGE_KEY);
+  if(lastUserId) return User.localGet(lastUserId);
+}
+
 export const getCurrentUser = ()=>{
   if(currentUser) return Promise.resolve(currentUser);
-
-  const lastUserId = storage.getItem(LAST_LOGIN_ID_STORAGE_KEY);
-  currentUser = lastUserId && User.localGet(lastUserId);
-  if(currentUser) return Promise.resolve(currentUser);
-
   return waitForFirebase()
     .then(authWithFirebase)
     .then(getOrCreateUser)

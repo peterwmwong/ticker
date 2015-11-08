@@ -4,7 +4,8 @@ import EventsView        from './EventsView.jsx';
 import loadFonts         from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
-  getCurrentUser
+  getCurrentUser,
+  getPreviousUser
 } from '../helpers/getCurrentUser';
 
 const App = (props, state, actions)=>
@@ -26,10 +27,13 @@ const App = (props, state, actions)=>
 
 App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
-    window.onhashchange = onHashChange;
-    getCurrentUser().then(onCurrentUserChange);
     loadFonts();
-    return onHashChange();
+    getCurrentUser().then(onCurrentUserChange);
+    window.onhashchange = onHashChange
+    return {
+      ...onHashChange(),
+      currentUser: getPreviousUser()
+    };
   },
   onHashChange: (props, state, {viewRepo, viewUser})=>{
     const hash = window.location.hash;
