@@ -15,6 +15,11 @@ export default class GithubRepo extends Model{
 
       mapper:{
         get:id=>loadJSON(`https://api.github.com/repos/${id}`),
+        localQuery:({type, id})=>{
+          // START HERE!!!
+          // const local = storage.getItem(`ticker:GithubEvent:${type}/${id}`);
+          // return local ? JSON.parse(local) : [];
+        },
         query:({term})=>
           loadJSON(
             `https://api.github.com/search/repositories?q=${term}&per_page=10`

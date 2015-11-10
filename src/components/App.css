@@ -53,16 +53,16 @@ marked-element img {
   width: 100%;
 }
 ::-webkit-input-placeholder {
-  color: hsl(198, 16%, 87%);
+  color: hsl(198, 0, 87%);
 }
 ::-moz-placeholder {
-  color: hsl(198, 16%, 87%);
+  color: hsl(198, 0, 87%);
 }
 :-ms-input-placeholder {
-  color: hsl(198, 16%, 87%);
+  color: hsl(198, 0, 87%);
 }
 ::placeholder {
-  color: hsl(198, 16%, 87%);
+  color: hsl(198, 0, 87%);
 }
 .u-pointer-cursor {
   cursor: pointer;
@@ -146,18 +146,20 @@ marked-element img {
   text-align: center;
   color: white;
 }
+.App__content {
+  padding-top: 56px;
+}
 .App__toolbar {
-  display: block;
   background: #3F51B5;
   color: white;
   height: 56px;
   line-height: 56px;
+  transition: -webkit-transform 150ms ease-out;
+  transition: transform 150ms ease-out;
+  transform: translate3d(0,0,0);
 }
-.App__toolbar.is-scrolling-up {
-  position: fixed;
-  -webkit-animation: slide-down 300ms ease-out;
-  animation: slide-down 300ms ease-out;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.333);
+.App__toolbar.is-scrolling-down {
+  transform: translate3d(0,-100%,0);
 }
 @media (min-width: 639px) {
   .App__button--menu {
@@ -281,7 +283,7 @@ marked-element img {
 
 .material-icons,
 .octicon {
-  transform: scale(0);
+  /*transform: scale(0);*/
 }
 
 .ticker-material-icons-loaded .material-icons,

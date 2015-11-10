@@ -1,27 +1,34 @@
 import './App.css';
-import AppDrawer         from './AppDrawer.jsx';
-import EventsView        from './EventsView.jsx';
-import loadFonts         from '../helpers/loaders/loadFonts';
+import AppDrawer  from './AppDrawer.jsx';
+import AppSearch  from './AppSearch.jsx';
+import EventsView from './EventsView.jsx';
+import loadFonts  from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
   getCurrentUser,
   getPreviousUser
 } from '../helpers/getCurrentUser';
 
-const App = (props, state, actions)=>
+const App = (
+  props,
+  {currentUser, drawerEnabled, searchEnabled, view, type, id},
+  {enableDrawer, disableDrawer, enableSearch, disableSearch, login}
+)=>
   <body className='App fit fullbleed'>
-    {state.view === 'events' &&
+    {view === 'events' &&
       <EventsView
-        type={state.type}
-        id={state.id}
-        onRequestDrawer={actions.enableDrawer}
+        type={type}
+        id={id}
+        onRequestDrawer={enableDrawer}
+        onRequestSearch={enableSearch}
       />
     }
+    <AppSearch enabled={searchEnabled} onRequestDisable={disableSearch} />
     <AppDrawer
-      user={state.currentUser}
-      enabled={state.drawerEnabled}
-      onRequestDisable={actions.disableDrawer}
-      onLogin={actions.login}
+      user={currentUser}
+      enabled={drawerEnabled}
+      onRequestDisable={disableDrawer}
+      onLogin={login}
     />
   </body>;
 
@@ -62,6 +69,8 @@ App.state = {
   }),
   enableDrawer:  (props, state, actions)=>({...state, drawerEnabled: true}),
   disableDrawer: (props, state, actions)=>({...state, drawerEnabled: false}),
+  enableSearch:  (props, state, actions)=>({...state, searchEnabled: true}),
+  disableSearch: (props, state, actions)=>({...state, searchEnabled: false}),
   login: (props, state, {onCurrentUserChange})=>{
     authWithOAuthPopup().then(onCurrentUserChange);
     return state;
