@@ -8,15 +8,15 @@ const EventsView = (
   {onScroll}
 )=>
   <div className="fit scroll App__content" onscroll={onScroll} scrollTop={scrollTop}>
+    {events.map(event=>
+      <EventCard key={event.id} event={event} />
+    )}
     <Toolbar
       className={`fixed fixed--top ${isScrollingDown ? 'is-scrolling-down' : ''}`}
       title={id}
       onRequestDrawer={onRequestDrawer}
       onRequestSearch={onRequestSearch}
     />
-    {events.map(event=>
-      <EventCard key={event.id} event={event} />
-    )}
   </div>;
 
 const onInit = (props, state, {loadEvents})=>(

@@ -36,7 +36,7 @@ App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
     loadFonts();
     getCurrentUser().then(onCurrentUserChange);
-    window.onhashchange = onHashChange
+    window.onhashchange = onHashChange;
     return {
       ...onHashChange(),
       currentUser: getPreviousUser()
@@ -55,13 +55,18 @@ App.state = {
     ...state,
     view: 'events',
     type: 'users',
-    id: user
+    id: user,
+    drawerEnabled: false,
+    searchEnabled: false
   }),
   viewRepo:  (props, state, actions, repo)=>({
     ...state,
     view: 'events',
     type: 'repos',
-    id: repo
+    id: repo,
+    drawerEnabled: false,
+    searchEnabled: false
+    
   }),
   onCurrentUserChange: (props, state, actions, currentUser)=>({
     ...state,

@@ -14,7 +14,9 @@
 }
 
 .AppDrawer-sheet {
-  background-color: rgba(0,0,0,0);
+  background-color: #000;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
 }
 
 .AppDrawer.is-enabled .AppDrawer-sheet {
@@ -23,8 +25,7 @@
     bottom: 0;
     right: 0;
     left: 0;
-  background-color: rgba(0,0,0, 0.5);
-  transition: background-color 250ms ease-out;
+  opacity: 0.75;
 }
 
 .AppDrawer.is-enabled .AppDrawer-content {

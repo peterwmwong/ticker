@@ -9,3 +9,10 @@ Mad scientist experiments using xvdom.
 ```
 
 ### TODOS
+
+- Refactor: common backdrop for App (App level element below AppSearch and AppDrawer)
+- Refactor: App.state.{drawerEnabled/searchEnabled} -> App.state.overlay
+- Feature: AppSearch should provide results from favorited sources
+  - Possible Heuristic:
+    - Simple contains
+    - Simple contains w/Limit
