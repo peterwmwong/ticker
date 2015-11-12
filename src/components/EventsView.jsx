@@ -7,6 +7,7 @@ const EventsView = (
   {events, scrollTop, isScrollingDown},
   {onScroll}
 )=>
+  // TODO: Figure out a way to not set the scrollTop on initial render
   <div className="fit scroll App__content" onscroll={onScroll} scrollTop={scrollTop}>
     {events.map(event=>
       <EventCard key={event.id} event={event} />
