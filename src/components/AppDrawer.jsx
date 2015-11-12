@@ -5,7 +5,7 @@ import SourceName from './SourceName.jsx';
 
 export default ({user, enabled, onLogin})=>
   <div className={`AppDrawer ${enabled ? 'is-enabled' : ''}`}>
-    <div className='AppDrawer-content layout vertical scroll'>
+    <div className='AppDrawer-content scroll'>
       {!user &&
         <div className="List-item l-padding-v6" onclick={onLogin}>Login</div>
       }

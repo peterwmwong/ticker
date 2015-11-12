@@ -159,6 +159,7 @@ marked-element img {
   transform: translate3d(0,0,0);
 }
 .App__toolbar.is-scrolling-down {
+  -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
 }
 @media (min-width: 639px) {
@@ -283,11 +284,13 @@ marked-element img {
 
 .material-icons,
 .octicon {
+  -webkit-transform: scale(0);
   transform: scale(0);
 }
 
 .ticker-material-icons-loaded .material-icons,
 .ticker-octicons-loaded .octicon {
+  -webkit-transform: scale(1);
   transform: scale(1);
 }
 .octicon {
