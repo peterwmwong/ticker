@@ -103,12 +103,21 @@
   -webkit-align-self: stretch;
   align-self: stretch;
 }
+.fixed,
 .fit {
-  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+}
+.fit {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.fixed.fixed--top {
+  bottom: auto;
 }
 body.fullbleed {
   margin: 0;

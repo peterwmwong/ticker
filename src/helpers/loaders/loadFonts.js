@@ -2,7 +2,7 @@ let added = false;
 export default ()=>{
   if(!added){
     added = true;
-    window.requestAnimationFrame(()=>{
+    window.setTimeout(()=>{
       const s3 = document.createElement('link');
       s3.rel = 'stylesheet';
       s3.href = 'https://fonts.googleapis.com/css?family=Roboto:500,400';
@@ -26,6 +26,6 @@ export default ()=>{
       document.head.appendChild(s3);
       document.head.appendChild(s);
       document.head.appendChild(s2);
-    }, 100);
+    }, 300);
   }
 }
