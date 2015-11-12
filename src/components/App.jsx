@@ -1,3 +1,4 @@
+import './App-old.css';
 import './App.css';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
@@ -11,8 +12,8 @@ import {
 
 const App = (
   props,
-  {currentUser, drawerEnabled, searchEnabled, view, type, id},
-  {enableDrawer, disableDrawer, enableSearch, disableSearch, login}
+  {currentUser, overlayView, view, type, id},
+  {enableDrawer, enableSearch, disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
     {view === 'events' &&
@@ -23,11 +24,14 @@ const App = (
         onRequestSearch={enableSearch}
       />
     }
-    <AppSearch enabled={searchEnabled} onRequestDisable={disableSearch} />
+    <div
+      className={`App-backdrop fit ${overlayView ? 'is-enabled' : ''}`}
+      onclick={disableOverlay}
+    />
+    <AppSearch enabled={overlayView === 'search'} onRequestDisable={disableOverlay} />
     <AppDrawer
       user={currentUser}
-      enabled={drawerEnabled}
-      onRequestDisable={disableDrawer}
+      enabled={overlayView === 'drawer'}
       onLogin={login}
     />
   </body>;
@@ -57,25 +61,23 @@ App.state = {
     type: 'users',
     id: user,
     drawerEnabled: false,
-    searchEnabled: false
+    overlayView: ''
   }),
   viewRepo:  (props, state, actions, repo)=>({
     ...state,
     view: 'events',
     type: 'repos',
     id: repo,
-    drawerEnabled: false,
-    searchEnabled: false
-    
+    overlayView: ''
+
   }),
   onCurrentUserChange: (props, state, actions, currentUser)=>({
     ...state,
     currentUser
   }),
-  enableDrawer:  (props, state, actions)=>({...state, drawerEnabled: true}),
-  disableDrawer: (props, state, actions)=>({...state, drawerEnabled: false}),
-  enableSearch:  (props, state, actions)=>({...state, searchEnabled: true}),
-  disableSearch: (props, state, actions)=>({...state, searchEnabled: false}),
+  enableSearch:  (props, state, actions)=>({...state,  overlayView: 'search'}),
+  enableDrawer:  (props, state, actions)=>({...state,  overlayView: 'drawer'}),
+  disableOverlay: (props, state, actions)=>({...state, overlayView: ''}),
   login: (props, state, {onCurrentUserChange})=>{
     authWithOAuthPopup().then(onCurrentUserChange);
     return state;
