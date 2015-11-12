@@ -29,7 +29,7 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
           onclick={onRequestDisable}
         >
           <Avatar
-            avatarUrl={`https://avatars.githubusercontent.com/u/1234?`}
+            avatarUrl={result.avatar_url}
             className="l-margin-r4"
           />
           <SourceName displayName={result.login || result.full_name} />
@@ -42,16 +42,22 @@ AppSearch.state = {
   onInit: (props, state, actions)=>({term: '', searchResults: []}),
   onProps: (props, state, actions)=>actions.onInit(),
   onSearchInput: (props, state, actions, event)=>{
-    const term = event.target.value;
-    const params = {term};
+    return {
+      ...state,
+      curSearch: state.curSearch || setTimeout(actions.doSearch, 300),
+      term:event.target.value
+    };
+  },
+  doSearch: (props, state, actions)=>{
+    const params = {term: state.term};
     Promise.all([
       GithubRepo.query(params), GithubUser.query(params)
     ]).then(([repos, users])=>{
       actions.onSearchResults(
-        [...repos, ...users].sort((a,b)=>a.score - b.score).slice(0, 5)
+        [...repos, ...users].sort((a,b)=>b.score - a.score).slice(0, 5)
       );
-    })
-    return {...state, term};
+    });
+    return {...state, curSearch:null};
   },
   onSearchResults: (props, state, actions, searchResults)=>({
     ...state,

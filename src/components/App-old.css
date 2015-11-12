@@ -283,7 +283,7 @@ marked-element img {
 
 .material-icons,
 .octicon {
-  /*transform: scale(0);*/
+  transform: scale(0);
 }
 
 .ticker-material-icons-loaded .material-icons,
