@@ -71,10 +71,8 @@ App.state = {
     overlayView: ''
 
   }),
-  onCurrentUserChange: (props, state, actions, currentUser)=>({
-    ...state,
-    currentUser
-  }),
+  onCurrentUserChange: (props, state, actions, currentUser)=>
+    (currentUser ? {...state, currentUser} : state),
   enableSearch:  (props, state, actions)=>({...state,  overlayView: 'search'}),
   enableDrawer:  (props, state, actions)=>({...state,  overlayView: 'drawer'}),
   disableOverlay: (props, state, actions)=>({...state, overlayView: ''}),
