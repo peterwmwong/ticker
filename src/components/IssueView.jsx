@@ -6,17 +6,17 @@ import Avatar             from './common/Avatar.jsx';
 import SourceName         from './SourceName.jsx';
 import Toolbar            from './Toolbar.jsx';
 
-const CommentCard = ({comment})=>
+const CommentCard = ({comment:{user, body}})=>
   <div className="Card App__placeholderCard">
     <div className="Card-action ticker-event-summary">
-      <a className="layout horizontal center" href={`#github/${comment.user.login}`}>
-        <Avatar avatarUrl={comment.user.avatar_url} className="l-margin-r2" />
-        <span className="ticker-event-summary__actor">{comment.user.login}</span>
+      <a className="layout horizontal center" href={`#github/${user.login}`}>
+        <Avatar avatarUrl={user.avatar_url} className="l-margin-r2" />
+        <span className="ticker-event-summary__actor">{user.login}</span>
       </a>
     </div>
     <div className="ticker-event__action">
       <div className="ticker-event__action__text">
-        {comment.body}
+        {body}
       </div>
     </div>
   </div>;
@@ -68,12 +68,12 @@ const IssueView = (
 
 IssueView.state = {
   onInit: ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
-    GithubIssue.get(`${repo}/${issueId}`).then(loadIssue);
-    GithubIssueComment.query({issueId:`${repo}/${issueId}`})
-      .then(loadIssueComments);
+    const id = `${repo}/${issueId}`;
+    GithubIssue.get(id).then(loadIssue);
+    GithubIssueComment.query({id}).then(loadIssueComments);
     return {
-      issue: (GithubIssue.localGet(`${repo}/${issueId}`) || ISSUE_PLACEHOLDER_OBJ),
-      issueComments: GithubIssueComment.localQuery({issueId:`${repo}/${issueId}`})
+      issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
+      issueComments: GithubIssueComment.localQuery({id})
     };
   },
   onProps: (props, state, actions)=>actions.onInit(),

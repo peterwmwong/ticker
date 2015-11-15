@@ -15,18 +15,21 @@ export default class GithubIssueComment extends Model{
       },
 
       mapper:{
-        localQuery:({issueId})=>{
-          const local = storage.getItem(`ticker:GithubIssueComment:${issueId}`);
+        localQuery:({id})=>{
+          const local = storage.getItem(`ticker:GithubIssueComment:${id}`);
           return local ? JSON.parse(local) : [];
         },
-        query:({issueId})=>{
-          const [owner, repo, id] = issueId.split('/');
+        query:({id})=>{
+          const [owner, repo, issueId] = id.split('/');
           return loadJSON(
-            `https://api.github.com/repos/${owner}/${repo}/issues/${id}/comments`
+            `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}/comments`
             // https://api.github.com/repos/facebook/react/issues/123/comments
             // https://api.github.com/repos/facebook/react/issues/5462/comments
             // `src/helpers/mock_data/GithubIssueCommentsMOCK.json`
-          );
+          ).then(comments=>(
+            storage.setItem(`ticker:GithubIssueComment:${id}`, JSON.stringify(comments)),
+            comments
+          ));
         }
       }
     };
