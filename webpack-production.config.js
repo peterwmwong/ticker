@@ -3,7 +3,8 @@ var webpack = require('webpack');
 
 config.plugins.push(
   new webpack.optimize.UglifyJsPlugin({
-    mangle: true
+    mangle: true,
+    sourceMap: false
   })
 );
 

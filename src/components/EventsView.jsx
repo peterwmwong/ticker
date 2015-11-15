@@ -30,10 +30,12 @@ EventsView.state = {
   onProps: onInit,
   loadEvents: (props, state, actions, events)=>({...state, events}),
   onScroll: (props, state, actions, scrollEvent)=>{
-    const scrollTop       = scrollEvent.target.scrollTop;
-    const isScrollingDown = scrollTop > 56 && scrollTop - state.scrollTop > 0;
-    console.log('onScroll', scrollTop, isScrollingDown);
-    return {...state, scrollTop, isScrollingDown};
+    const scrollTop = scrollEvent.target.scrollTop;
+    return {
+      ...state,
+      scrollTop,
+      isScrollingDown: scrollTop > 56 && scrollTop - state.scrollTop > 0
+    };
   }
 };
 

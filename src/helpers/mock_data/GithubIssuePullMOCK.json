@@ -1,0 +1,57 @@
+{
+  "url": "https://api.github.com/repos/facebook/react/issues/5462",
+  "labels_url": "https://api.github.com/repos/facebook/react/issues/5462/labels{/name}",
+  "comments_url": "https://api.github.com/repos/facebook/react/issues/5462/comments",
+  "events_url": "https://api.github.com/repos/facebook/react/issues/5462/events",
+  "html_url": "https://github.com/facebook/react/pull/5462",
+  "id": 116652275,
+  "number": 5462,
+  "title": "RFC: Initial outline for new devtools api",
+  "user": {
+    "login": "jimfb",
+    "id": 9595985,
+    "avatar_url": "https://avatars.githubusercontent.com/u/9595985?v=3",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/jimfb",
+    "html_url": "https://github.com/jimfb",
+    "followers_url": "https://api.github.com/users/jimfb/followers",
+    "following_url": "https://api.github.com/users/jimfb/following{/other_user}",
+    "gists_url": "https://api.github.com/users/jimfb/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/jimfb/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/jimfb/subscriptions",
+    "organizations_url": "https://api.github.com/users/jimfb/orgs",
+    "repos_url": "https://api.github.com/users/jimfb/repos",
+    "events_url": "https://api.github.com/users/jimfb/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/jimfb/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "labels": [
+    {
+      "url": "https://api.github.com/repos/facebook/react/labels/CLA%20Signed",
+      "name": "CLA Signed",
+      "color": "e7e7e7"
+    },
+    {
+      "url": "https://api.github.com/repos/facebook/react/labels/GH%20Review:%20review-needed",
+      "name": "GH Review: review-needed",
+      "color": "fbca04"
+    }
+  ],
+  "state": "open",
+  "locked": false,
+  "assignee": null,
+  "milestone": null,
+  "comments": 7,
+  "created_at": "2015-11-12T22:09:41Z",
+  "updated_at": "2015-11-13T02:22:11Z",
+  "closed_at": null,
+  "pull_request": {
+    "url": "https://api.github.com/repos/facebook/react/pulls/5462",
+    "html_url": "https://github.com/facebook/react/pull/5462",
+    "diff_url": "https://github.com/facebook/react/pull/5462.diff",
+    "patch_url": "https://github.com/facebook/react/pull/5462.patch"
+  },
+  "body": "Posting primarily to get feedback/thoughts/comments, and catch concerns early rather than late in the process.\r\n\r\nThe basic idea is to use a a [CQRS](https://msdn.microsoft.com/en-us/library/dn568103.aspx) (or more specifically, [Event Sourcing](https://msdn.microsoft.com/en-us/library/dn589792.aspx)) pattern whereby the core will emit an event every time it does something (starts a render, ends a render, registers a dom-event-handler, resolves a ref, etc).  The devtools can listen to each of these events, and derive a shadow copy of any state desired.  This allows devtools to \"follow along\" with everything React is doing, and emit very information-full error messages, without us actually routing things through the core for the sole purpose of warnings.\r\n\r\nDevtools are registered with React, which is global state, but is effectively what was happening before (except the current devtools uses monkeypatching, this is an explicit public API)\r\n\r\nThe \"devmode\" build of React (ie. the one that emits warnings) would simply be a copy of React bundled with a default devtool that registers its self with React, and keeps the necessary state to emit warnings.  This means that the production and dev code paths become more similar, because the only difference is that in production `emitEvent` is a no-op.\r\n\r\nThis was built with lessons learned from other tools (hot-reloading, people wanting to customize the warnings module, etc) in mind.  It allows other people to build custom devtools/warnings/etc.  See https://github.com/facebook/react/issues/5306 for details on the objectives.",
+  "closed_by": null
+}

@@ -10,7 +10,7 @@ body {
   font-size: 10px;
   font-size: 1.6em;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.5;
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
 }
@@ -36,7 +36,6 @@ code, pre {
   border: 1px solid #dee5e7;
   color: #586f74;
   border-radius: 2px;
-  line-height: 1.5;
 }
 code {
   padding: 0px 4px;
@@ -103,16 +102,19 @@ marked-element img {
   white-space: nowrap;
 }
 .c-gray-darkest {
-  color: hsl(195, 80%, 10%) !important;
-  fill: hsl(195, 80%, 10%) !important;
+  color: hsl(195, 0%, 10%) !important;
+  fill: hsl(195, 0%, 10%) !important;
 }
 .c-gray-dark {
-  color: hsl(192, 14%, 50%) !important;
-  fill: hsl(192, 14%, 50%) !important;
+  color: hsl(192, 0%, 50%) !important;
+  fill: hsl(192, 0%, 50%) !important;
 }
 .c-gray-light {
-  color: hsl(191, 15%, 73%) !important;
-  fill: hsl(191, 15%, 73%) !important;
+  color: hsl(191, 0%, 73%) !important;
+  fill: hsl(191, 0%, 73%) !important;
+}
+.c-bg-white {
+  background-color: #FFF;
 }
 .App__placeholderCard__summary {
   background: #f9fafb;
@@ -254,7 +256,6 @@ marked-element img {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  line-height: 1.5;
   padding: 0 16px 16px 32px;
 }
 .ticker-event__action__icon {

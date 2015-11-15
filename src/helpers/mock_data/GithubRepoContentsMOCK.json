@@ -1,4 +1,4 @@
-export default [
+[
 {
   "name": ".bowerrc",
   "path": ".bowerrc",
@@ -284,4 +284,4 @@ export default [
     "html": "https://github.com/Polymer/polymer/tree/master/workbench"
   }
 }
-];
+]

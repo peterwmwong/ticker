@@ -3,6 +3,7 @@ import './App.css';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
 import EventsView from './EventsView.jsx';
+import IssueView  from './IssueView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
@@ -12,17 +13,23 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id},
+  {currentUser, overlayView, view, type, id, issueId, repo},
   {enableDrawer, enableSearch, disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
-    {view === 'events' &&
-      <EventsView
-        type={type}
-        id={id}
-        onRequestDrawer={enableDrawer}
-        onRequestSearch={enableSearch}
-      />
+    {   view === 'events' ? <EventsView
+                              type={type}
+                              id={id}
+                              onRequestDrawer={enableDrawer}
+                              onRequestSearch={enableSearch}
+                            />
+      : view === 'issue' ?  <IssueView
+                              repo={repo}
+                              issueId={issueId}
+                              onRequestDrawer={enableDrawer}
+                              onRequestSearch={enableSearch}
+                            />
+      : null
     }
     <div
       className={`App-backdrop fit ${overlayView ? 'is-enabled' : ''}`}
@@ -46,16 +53,18 @@ App.state = {
       currentUser: getPreviousUser()
     };
   },
-  onHashChange: (props, state, {viewRepo, viewUser})=>{
-    const hash = window.location.hash;
-    if(hash){
-      const [, owner, repo] = hash.split('/');
-      if(repo)       return viewRepo(`${owner}/${repo}`);
-      else if(owner) return viewUser(owner);
-    }
-    return {...state, view: 'waiting'};
+
+  onHashChange: (props, state, actions)=>{
+    const [, owner, repo, repoResource, repoResourceId] = window.location.hash.split('/');
+    return (
+         repo ? actions[repoResource ? `viewRepo_${repoResource}` : 'viewRepo'](
+          `${owner}/${repo}`, repoResourceId )
+      : owner ? actions.viewUser(owner)
+      : {...state, view: 'waiting'}
+    )
   },
-  viewUser:  (props, state, actions, user)=>({
+
+  viewUser: (props, state, actions, user)=>({
     ...state,
     view: 'events',
     type: 'users',
@@ -63,23 +72,34 @@ App.state = {
     drawerEnabled: false,
     overlayView: ''
   }),
-  viewRepo:  (props, state, actions, repo)=>({
+
+  viewRepo: (props, state, actions, repo)=>({
     ...state,
     view: 'events',
     type: 'repos',
     id: repo,
     overlayView: ''
-
   }),
-  onCurrentUserChange: (props, state, actions, currentUser)=>
-    (currentUser ? {...state, currentUser} : state),
-  enableSearch:  (props, state, actions)=>({...state,  overlayView: 'search'}),
-  enableDrawer:  (props, state, actions)=>({...state,  overlayView: 'drawer'}),
+
+  viewRepo_issues: (props, state, actions, repo, issueId)=>({
+    ...state,
+    view: 'issue',
+    repo,
+    issueId,
+    overlayView: ''
+  }),
+
+  enableSearch:   (props, state, actions)=>({...state, overlayView: 'search'}),
+  enableDrawer:   (props, state, actions)=>({...state, overlayView: 'drawer'}),
   disableOverlay: (props, state, actions)=>({...state, overlayView: ''}),
-  login: (props, state, {onCurrentUserChange})=>{
-    authWithOAuthPopup().then(onCurrentUserChange);
-    return state;
-  }
+
+  login: (props, state, {onCurrentUserChange})=>(
+    authWithOAuthPopup().then(onCurrentUserChange),
+    state
+  ),
+
+  onCurrentUserChange: (props, state, actions, currentUser)=>
+    currentUser ? {...state, currentUser} : state
 };
 
 export default App;
