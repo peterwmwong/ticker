@@ -21,6 +21,9 @@ const issuePRSubject = ({payload})=>
 
 const releaseSubject = ({payload:{release}})=> release.name || release.tag_name;
 
+const issuePRSubjectUrl = ({repo, payload})=>
+  `#github/${repo.displayName}/issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
+
 const getSummary = event=>{
   switch(event.type){
   case 'IssuesEvent':
@@ -29,7 +32,7 @@ const getSummary = event=>{
       actorsAction: `${event.payload.action} this issue`,
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event),
-      subjectUrl: `#github/${event.repo.displayName}/issues/${event.payload.number || event.payload.issue.number}`
+      subjectUrl: issuePRSubjectUrl(event)
     };
 
   case 'ReleaseEvent':
@@ -54,7 +57,7 @@ const getSummary = event=>{
       actorsAction: 'commented...',
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event),
-      subjectUrl: `#github/${event.repo.displayName}/issues/${event.payload.issue ? event.payload.issue.number: event.payload.pull_request.number}`
+      subjectUrl: issuePRSubjectUrl(event)
     };
 
   case 'CommitCommentEvent':
