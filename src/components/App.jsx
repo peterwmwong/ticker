@@ -55,24 +55,16 @@ App.state = {
   },
 
   onHashChange: (props, state, actions)=>{
-    const hash = window.location.hash;
-    if(hash){
-      const [, owner, repo, repoResource, repoResourceId] = hash.split('/');
-      if(repo){
-        const repoName = `${owner}/${repo}`;
-        if(repoResource && actions[`viewRepo_${repoResource}`]){
-          return actions[`viewRepo_${repoResource}`](repoName, repoResourceId);
-        }
-        else{
-          return actions.viewRepo(repoName);
-        }
-      }
-      else if(owner) return actions.viewUser(owner);
-    }
-    return {...state, view: 'waiting'};
+    const [, owner, repo, repoResource, repoResourceId] = window.location.hash.split('/');
+    return (
+         repo ? actions[repoResource ? `viewRepo_${repoResource}` : 'viewRepo'](
+          `${owner}/${repo}`, repoResourceId )
+      : owner ? actions.viewUser(owner)
+      : {...state, view: 'waiting'}
+    )
   },
 
-  viewUser:  (props, state, actions, user)=>({
+  viewUser: (props, state, actions, user)=>({
     ...state,
     view: 'events',
     type: 'users',
@@ -81,7 +73,7 @@ App.state = {
     overlayView: ''
   }),
 
-  viewRepo:  (props, state, actions, repo)=>({
+  viewRepo: (props, state, actions, repo)=>({
     ...state,
     view: 'events',
     type: 'repos',
@@ -89,7 +81,7 @@ App.state = {
     overlayView: ''
   }),
 
-  viewRepo_issues:  (props, state, actions, repo, issueId)=>({
+  viewRepo_issues: (props, state, actions, repo, issueId)=>({
     ...state,
     view: 'issue',
     repo,
