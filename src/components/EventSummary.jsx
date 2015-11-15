@@ -28,7 +28,8 @@ const getSummary = event=>{
     return {
       actorsAction: `${event.payload.action} this issue`,
       subjectIcon: issuePRIcon(event),
-      subject: issuePRSubject(event)
+      subject: issuePRSubject(event),
+      subjectUrl: `#github/${event.repo.displayName}/issues/${event.payload.number || event.payload.issue.number}`
     };
 
   case 'ReleaseEvent':
@@ -52,7 +53,8 @@ const getSummary = event=>{
     return {
       actorsAction: 'commented...',
       subjectIcon: issuePRIcon(event),
-      subject: issuePRSubject(event)
+      subject: issuePRSubject(event),
+      subjectUrl: `#github/${event.repo.displayName}/issues/${event.payload.issue ? event.payload.issue.number: event.payload.pull_request.number}`
     };
 
   case 'CommitCommentEvent':
@@ -75,15 +77,13 @@ const getSummary = event=>{
 
 export default ({event})=>{
   const {avatar_url, login} = event.actor;
-  const {actorsAction, subject, subjectIcon} = getSummary(event);
+  const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
     <div className="Card-action ticker-event-summary">
-      {subjectIcon && (
-        <div className="layout horizontal center l-padding-b4">
-          <GithubIcon name={subjectIcon} className="l-padding-r2" />
-          <div className="ticker-event-summary__subject">{subject}</div>
-        </div>
-      )}
+      <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
+        <GithubIcon name={subjectIcon} className="l-padding-r2" />
+        <div className="ticker-event-summary__subject">{subject}</div>
+      </a>
       <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
         <Avatar avatarUrl={avatar_url} className="l-margin-r2" />
         <span className="ticker-event-summary__actor">{login}</span>
