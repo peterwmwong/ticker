@@ -25,7 +25,6 @@ export default class GithubIssue extends Model{
           const [owner, repo, issueid] = id.split('/');
           return loadJSON(
             `https://api.github.com/repos/${owner}/${repo}/issues/${issueid}`
-            // https://api.github.com/repos/facebook/react/issues/${id}
             // `src/helpers/mock_data/GithubIssuePullMOCK.json`
           ).then(issue=>(
             storage.setItem(`ticker:GithubIssue:${id}`, JSON.stringify(issue)),
