@@ -30,7 +30,9 @@ export default ({event})=>
   <div className="Card App__placeholderCard">
     <div className="Card-title">
       <SourceName className="flex" displayName={event.repo.name} />
-      <span className='c-gray-dark t-font-size-11'>{timeAgo(Date.parse(event.created_at))}</span>
+      <span className='c-gray-dark t-font-size-11'>
+        {timeAgo(Date.parse(event.created_at))}
+      </span>
     </div>
     <EventSummary event={event} />
     {renderEventAction(event)}

@@ -6,10 +6,5 @@ export default {
     loadJSON(
       `https://api.github.com/search/repositories?q=${term}&per_page=5`
       // `src/helpers/mock_data/GithubRepoQueryMOCK.json`
-    ).then(({items})=>
-      items.map(u=>(
-        u.id = u.full_name,
-        u
-      ))
-    )
+    ).then(({items})=>items)
 };

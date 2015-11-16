@@ -41,13 +41,11 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
 AppSearch.state = {
   onInit: (props, state, actions)=>({term: '', searchResults: []}),
   onProps: (props, state, actions)=>actions.onInit(),
-  onSearchInput: (props, state, actions, event)=>{
-    return {
-      ...state,
-      curSearch: state.curSearch || setTimeout(actions.doSearch, 300),
-      term:event.target.value
-    };
-  },
+  onSearchInput: (props, state, actions, event)=>({
+    ...state,
+    curSearch: state.curSearch || setTimeout(actions.doSearch, 300),
+    term:event.target.value
+  }),
   doSearch: (props, state, actions)=>{
     const params = {term: state.term};
     Promise.all([
