@@ -8,9 +8,9 @@ export default function loadJSON(url){
     }
     xhr.responseType = 'json';
     xhr.send();
-    xhr.onerror = ()=>reject(xhr);
+    xhr.onerror = reject;
     xhr.onload  = ()=>{
-      let response = xhr.response;
+      const response = xhr.response;
       if(!response){
         reject(new Error('Not found'));
         return;

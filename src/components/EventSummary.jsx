@@ -22,7 +22,7 @@ const issuePRSubject = ({payload})=>
 const releaseSubject = ({payload:{release}})=> release.name || release.tag_name;
 
 const issuePRSubjectUrl = ({repo, payload})=>
-  `#github/${repo.displayName}/issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
+  `#github/${repo.name}/issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
 
 const getSummary = event=>{
   switch(event.type){

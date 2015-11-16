@@ -47,7 +47,7 @@ const IssueView = (
               {issue.user.login}
             </div>
             <div className="c-gray-dark t-font-size-11">
-              {timeAgo(issue.created_at)}
+              {timeAgo(Date.parse(issue.created_at))}
             </div>
           </div>
         </div>
