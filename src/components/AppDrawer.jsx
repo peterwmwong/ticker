@@ -18,8 +18,10 @@ export default ({user, enabled, onLogin})=>
           {user.githubUsername}
         </div>
       }
-      {user && user.sources.map(source=>
-        <SourceName key={source.displayName} className="List-item" displayName={source.displayName}/>
+      {user && user.sources.map(source=>{
+        const displayName = source.login || source.full_name;
+        return <SourceName key={displayName} className="List-item" displayName={displayName}/>
+      }
       )}
     </div>
   </div>;

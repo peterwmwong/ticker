@@ -1,6 +1,7 @@
 import GithubIcon   from './common/GithubIcon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';
+import timeAgo      from '../helpers/timeAgo';
 
 const renderEventAction = event=>{
   switch(event.type){
@@ -28,8 +29,8 @@ const renderEventAction = event=>{
 export default ({event})=>
   <div className="Card App__placeholderCard">
     <div className="Card-title">
-      <SourceName className="flex" displayName={event.repo.displayName} />
-      <span className='c-gray-dark t-font-size-11'>{event.timeAgo}</span>
+      <SourceName className="flex" displayName={event.repo.name} />
+      <span className='c-gray-dark t-font-size-11'>{timeAgo(Date.parse(event.created_at))}</span>
     </div>
     <EventSummary event={event} />
     {renderEventAction(event)}
