@@ -1,5 +1,4 @@
 import loadJSON   from '../../helpers/load';
-import timeAgo    from '../../helpers/timeAgo';
 import storage    from '../../helpers/storage';
 
 // TOOD(pwong): We don't may need more then just property access in the future

@@ -8,16 +8,14 @@ import Toolbar            from './Toolbar.jsx';
 
 const CommentCard = ({comment:{user, body}})=>
   <div className="Card App__placeholderCard">
-    <div className="Card-action ticker-event-summary">
+    <div className="Card-action l-padding-4">
       <a className="layout horizontal center" href={`#github/${user.login}`}>
         <Avatar avatarUrl={user.avatar_url} className="l-margin-r2" />
-        <span className="ticker-event-summary__actor">{user.login}</span>
+        <span className="t-normal">{user.login}</span>
       </a>
     </div>
-    <div className="ticker-event__action">
-      <div className="ticker-event__action__text">
-        {body}
-      </div>
+    <div className="l-padding-4 l-padding-t0 t-word-wrap-break-word">
+      {body}
     </div>
   </div>;
 
@@ -37,7 +35,7 @@ const IssueView = (
     <div className="App__content c-bg-white l-padding-h4 l-padding-b6">
       <div className="IssueView-main l-padding-t6">
         <SourceName displayName={repo} />
-        <h2 className="l-margin-t0 l-margin-b4">
+        <h2 className="l-margin-t0 l-margin-b4 t-word-wrap-break-word">
           #{issueId}: {issue.title}
         </h2>
         <div className="layout horizontal center l-padding-b2">

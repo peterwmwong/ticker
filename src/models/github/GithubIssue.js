@@ -1,5 +1,5 @@
-import loadJSON   from '../../helpers/load';
-import storage    from '../../helpers/storage';
+import loadJSON from '../../helpers/load';
+import storage  from '../../helpers/storage';
 
 export default {
   localGet: id=>

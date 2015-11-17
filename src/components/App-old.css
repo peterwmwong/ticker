@@ -116,19 +116,6 @@ marked-element img {
 .c-bg-white {
   background-color: #FFF;
 }
-.App__placeholderCard__summary {
-  background: #f9fafb;
-  line-height: 32px;
-  padding: 16px;
-}
-.App__placeholderCard__avatar {
-  background-color: hsl(206, 19%, 92%);
-  border-radius: 50%;
-  display: inline-block;
-  height: 32px;
-  overflow: hidden;
-  width: 32px;
-}
 .App__placeholderCard {
   margin: 0 8px;
 }
@@ -137,16 +124,6 @@ marked-element img {
     margin: 0 auto;
     max-width: 620px;
   }
-}
-.App__button {
-  width: 56px;
-  height: 56px;
-  line-height: 53px;
-  border-radius: 50%;
-  position: relative;
-  cursor: pointer;
-  text-align: center;
-  color: white;
 }
 .App__content {
   padding-top: 56px;
@@ -165,9 +142,6 @@ marked-element img {
   transform: translate3d(0,-100%,0);
 }
 @media (min-width: 639px) {
-  .App__button--menu {
-    display: none;
-  }
   .App__title {
     padding-left: 2px;
   }
@@ -198,71 +172,14 @@ marked-element img {
   height: 24px;
   padding: 16px 16px 0 16px;
 }
-
-.PlaceholderText {
-  display: inline-block;
-  height: 16px;
-  width: 100px;
-  background-color: hsl(206, 19%, 92%);
-  margin: 4px 0;
-}
-.ticker-events {
-  display: block;
-  position: relative;
-}
 .ticker-avatar-icon {
   background: hsl(206, 19%, 92%);
   border-radius: 50%;
-  display: inline-block;
   height: 32px;
-  overflow: hidden;
   width: 32px;
 }
-.ticker-event-summary {
-  background: #FFF;
-  color: #05242e;
-  display: block;
-  line-height: 32px !important;
-  overflow: hidden;
-  padding: 16px;
-}
-.ticker-event-summary__actor {
-  font-weight: 500;
-  margin-right: 4px;
-}
-.ticker-event-summary__actor-avatar {
-  margin-bottom: 1px;
-  margin-right: 12px;
-}
-.ticker-event-summary__subject {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  font-weight: 500;
-  max-width: calc(100% - 48px);
-}
-.ticker-event-summary__subject__icon {
-  fill: #fca431;
-  padding: 0 4px;
-  width: 22px !important;
-  height: 22px !important;
-  margin-top: -2px;
-}
 .ticker-event__action {
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   padding: 0 16px 16px 32px;
-}
-.ticker-event__action__icon {
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-  fill: hsl(191, 15%, 73%);
 }
 .ticker-event__action__text {
   -webkit-flex: 1;
