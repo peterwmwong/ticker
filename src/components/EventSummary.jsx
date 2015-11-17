@@ -82,15 +82,15 @@ export default ({event})=>{
   const {avatar_url, login} = event.actor;
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
-    <div className="Card-action ticker-event-summary">
+    <div className="Card-action l-padding-4">
       <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
         <GithubIcon name={subjectIcon} className="l-padding-r2" />
-        <div className="ticker-event-summary__subject">{subject}</div>
+        <div className="flex t-truncate t-normal">{subject}</div>
       </a>
       <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
         <Avatar avatarUrl={avatar_url} className="l-margin-r2" />
-        <span className="ticker-event-summary__actor">{login}</span>
-        <span className="t-nowrap">{actorsAction}</span>
+        <span className="t-normal l-margin-r1">{login}</span>
+        <span>{actorsAction}</span>
       </a>
     </div>
   );

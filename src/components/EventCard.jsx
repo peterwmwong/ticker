@@ -10,17 +10,15 @@ const renderEventAction = event=>{
   case 'CommitCommentEvent':
     return (
       <div className="ticker-event__action">
-        <div className="ticker-event__action__text">
-          {event.payload.comment.body}
-        </div>
+        {event.payload.comment.body}
       </div>
     );
 
   case 'PushEvent':
     return event.payload.commits.map(commit=>
-      <div key={commit.sha} className="ticker-event__action">
-        <GithubIcon name="git-commit" className="l-padding-l1 l-padding-r3 icon-24" />
-        <span className="ticker-event__action__text">{commit.message}</span>
+      <div key={commit.sha} className="ticker-event__action layout horizontal center">
+        <GithubIcon name="git-commit" className="l-padding-l1 l-padding-r4 icon-24" />
+        <span className="flex">{commit.message}</span>
       </div>
     );
   }
