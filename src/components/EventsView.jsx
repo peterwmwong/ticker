@@ -4,11 +4,10 @@ import Toolbar     from './Toolbar.jsx';
 
 const EventsView = (
   {id, onRequestDrawer, onRequestSearch},
-  {events, scrollTop, isScrollingDown},
+  {events, isScrollingDown},
   {onScroll}
 )=>
-  // TODO: Figure out a way to not set the scrollTop on initial render
-  <div className="fit scroll App__content" onscroll={onScroll} scrollTop={scrollTop}>
+  <div className="fit scroll App__content" onscroll={onScroll}>
     {events.map(event=>
       <EventCard key={event.id} event={event} />
     )}
@@ -22,13 +21,20 @@ const EventsView = (
 
 const onInit = (props, state, {loadEvents})=>(
   GithubEvent.query(props).then(loadEvents),
-  {events: GithubEvent.localQuery(props), scrollTop: 0, isScrollingDown: false}
+  {
+    events: loadEvents(GithubEvent.localQuery(props)).events,
+    scrollTop: 0,
+    isScrollingDown: false
+  }
 );
 
 EventsView.state = {
   onInit: onInit,
   onProps: onInit,
-  loadEvents: (props, state, actions, events)=>({...state, events}),
+  loadEvents: (props, state, actions, events)=>({
+    ...state,
+    events: events.filter(e=>e.type !== 'WatchEvent')
+  }),
   onScroll: (props, state, actions, scrollEvent)=>{
     const scrollTop = scrollEvent.target.scrollTop;
     return {

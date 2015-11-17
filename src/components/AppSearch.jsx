@@ -14,7 +14,7 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
         <input
           type="text"
           className="AppSearch-searchInput flex l-padding-h4"
-          placeholder="Search repositories or users..."
+          placeholder="Search repositories or users…"
           value={term}
           oninput={onSearchInput}
         />
