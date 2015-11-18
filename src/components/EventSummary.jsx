@@ -93,8 +93,8 @@ export default ({event})=>{
         </a>
       }
       <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
-        <Avatar avatarUrl={avatar_url} className="l-margin-r2" />
-        <span className="t-normal l-margin-r1">{login}</span>
+        <Avatar avatarUrl={avatar_url} />
+        <span className="t-normal l-margin-r1 l-margin-l2">{login}</span>
         <span>{actorsAction}</span>
       </a>
     </div>

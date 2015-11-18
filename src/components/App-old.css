@@ -7,7 +7,6 @@ html {
 body {
   background-color: hsl(0, 0%, 92%);
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  font-size: 10px;
   font-size: 1.6em;
   font-weight: 400;
   line-height: 1.5;
@@ -48,18 +47,9 @@ pre code {
   background-color: transparent;
   border: none;
 }
-marked-element img {
-  width: 100%;
-}
-::-webkit-input-placeholder {
-  color: hsl(198, 0, 87%);
-}
-::-moz-placeholder {
-  color: hsl(198, 0, 87%);
-}
-:-ms-input-placeholder {
-  color: hsl(198, 0, 87%);
-}
+::-webkit-input-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder,
 ::placeholder {
   color: hsl(198, 0, 87%);
 }
@@ -80,26 +70,14 @@ marked-element img {
 .t-word-wrap-break-word {
   word-wrap: break-word;
 }
-.t-italic {
-  font-style: italic;
-}
 .t-light {
   font-weight: 400 !important;
 }
 .t-normal {
   font-weight: 500 !important;
 }
-.t-align-left {
-  text-align: left;
-}
-.t-align-right {
-  text-align: right;
-}
 .t-align-center {
   text-align: center;
-}
-.t-nowrap {
-  white-space: nowrap;
 }
 .c-gray-darkest {
   color: hsl(195, 0%, 10%) !important;
@@ -141,11 +119,6 @@ marked-element img {
   -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
 }
-@media (min-width: 639px) {
-  .App__title {
-    padding-left: 2px;
-  }
-}
 .Card {
   background: #FFF;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -159,10 +132,6 @@ marked-element img {
   margin-top: 4px;
 }
 .Card-title {
-  -webkit-align-items: baseline;
-  -ms-flex-align: baseline;
-  align-items: baseline;
-  background: white;
   color: #05242e;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -172,20 +141,8 @@ marked-element img {
   height: 24px;
   padding: 16px 16px 0 16px;
 }
-.ticker-avatar-icon {
-  background: hsl(206, 19%, 92%);
-  border-radius: 50%;
-  height: 32px;
-  width: 32px;
-}
 .ticker-event__action {
   padding: 0 16px 16px 32px;
-}
-.ticker-event__action__text {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding-left: 4px;
 }
 
 .icon-24 {
