@@ -2,6 +2,11 @@ import GithubEvent from '../models/github/GithubEvent';
 import EventCard   from './EventCard.jsx';
 import Toolbar     from './Toolbar.jsx';
 
+const EVENT_TYPES_TO_HIDE = {
+  'WatchEvent': true,
+  'GollumEvent': true
+};
+
 const EventsView = (
   {id, onRequestDrawer, onRequestSearch},
   {events, isScrollingDown},
@@ -33,7 +38,7 @@ EventsView.state = {
   onProps: onInit,
   loadEvents: (props, state, actions, events)=>({
     ...state,
-    events: events.filter(e=>e.type !== 'WatchEvent')
+    events: events.filter(e=>!EVENT_TYPES_TO_HIDE[e.type])
   }),
   onScroll: (props, state, actions, scrollEvent)=>{
     const scrollTop = scrollEvent.target.scrollTop;
