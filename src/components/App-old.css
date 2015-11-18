@@ -213,5 +213,6 @@ marked-element img {
 }
 .octicon {
   font-size: 32px;
-  min-width: 20px;
+  min-width: 32px;
+  min-height: 32px;
 }

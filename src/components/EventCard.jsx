@@ -17,7 +17,7 @@ const renderEventAction = event=>{
   case 'PushEvent':
     return event.payload.commits.map(commit=>
       <div key={commit.sha} className="ticker-event__action layout horizontal center">
-        <GithubIcon name="git-commit" className="l-padding-l1 l-padding-r4 icon-24" />
+        <GithubIcon name="git-commit" className="l-padding-r2 icon-24" />
         <span className="flex">{commit.message}</span>
       </div>
     );
