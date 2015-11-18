@@ -10,8 +10,8 @@ const CommentCard = ({comment:{user, body}})=>
   <div className="Card App__placeholderCard">
     <div className="Card-action l-padding-4">
       <a className="layout horizontal center" href={`#github/${user.login}`}>
-        <Avatar avatarUrl={user.avatar_url} className="l-margin-r2" />
-        <span className="t-normal">{user.login}</span>
+        <Avatar avatarUrl={user.avatar_url} />
+        <span className="t-normal l-margin-l2">{user.login}</span>
       </a>
     </div>
     <div className="l-padding-4 l-padding-t0 t-word-wrap-break-word">
@@ -39,8 +39,8 @@ const IssueView = (
           #{issueId}: {issue.title}
         </h2>
         <div className="layout horizontal center l-padding-b2">
-          <Avatar avatarUrl={issue.user.avatar_url} className="l-margin-r2" />
-          <div>
+          <Avatar avatarUrl={issue.user.avatar_url} />
+          <div className="l-margin-l2">
             <div className="t-normal">
               {issue.user.login}
             </div>

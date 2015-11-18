@@ -54,7 +54,7 @@ const getSummary = event=>{
   case 'IssueCommentEvent':
   case 'PullRequestReviewCommentEvent':
     return {
-      actorsAction: 'commented...',
+      actorsAction: 'commented…',
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event),
       subjectUrl: issuePRSubjectUrl(event)
@@ -62,7 +62,7 @@ const getSummary = event=>{
 
   case 'CommitCommentEvent':
     return {
-      actorsAction: 'commented...',
+      actorsAction: 'commented…',
       subjectIcon: 'git-commit',
       subject: event.payload.comment.commit_id
     };
@@ -74,6 +74,9 @@ const getSummary = event=>{
       subject: pushSubject(event)
     };
 
+  case 'ForkEvent':
+    return { actorsAction: 'forked this repository' };
+
   default: return {};
   }
 };
@@ -83,13 +86,15 @@ export default ({event})=>{
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
     <div className="Card-action l-padding-4">
-      <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
-        <GithubIcon name={subjectIcon} className="l-padding-r2" />
-        <div className="flex t-truncate t-normal">{subject}</div>
-      </a>
+      {subject &&
+        <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
+          <GithubIcon name={subjectIcon} className="l-padding-r2" />
+          <div className="flex t-truncate t-normal">{subject}</div>
+        </a>
+      }
       <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
-        <Avatar avatarUrl={avatar_url} className="l-margin-r2" />
-        <span className="t-normal l-margin-r1">{login}</span>
+        <Avatar avatarUrl={avatar_url} />
+        <span className="t-normal l-margin-r1 l-margin-l2">{login}</span>
         <span>{actorsAction}</span>
       </a>
     </div>

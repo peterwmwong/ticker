@@ -1,9 +1,11 @@
+import './Avatar.css';
+
 const onerror = ({target})=>
   target.src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
-export default ({avatarUrl, className=''})=>
+export default ({avatarUrl})=>
   <img
-    src={avatarUrl ? `${avatarUrl}v=3&s=32` : ''}
-    className={`${className} ticker-avatar-icon`}
+    className='Avatar'
     onerror={onerror}
+    src={avatarUrl ? `${avatarUrl}v=3&s=32` : ''}
   />
