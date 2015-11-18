@@ -38,9 +38,11 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
     </ul>
   </div>;
 
+const onInit = ()=>({term: '', searchResults: []});
+
 AppSearch.state = {
-  onInit: (props, state, actions)=>({term: '', searchResults: []}),
-  onProps: (props, state, actions)=>actions.onInit(),
+  onInit: onInit,
+  onProps: onInit,
   onSearchInput: (props, state, actions, event)=>({
     ...state,
     curSearch: state.curSearch || setTimeout(actions.doSearch, 300),

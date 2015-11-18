@@ -57,24 +57,25 @@ const IssueView = (
     )}
     <Toolbar
       className="fixed fixed--top"
-      title={`#${issueId}: ${issue.title}`}
+      title={`#${issueId}: ${issue.title || ''}`}
       onRequestDrawer={onRequestDrawer}
       onRequestSearch={onRequestSearch}
     />
   </div>;
 
+const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
+  const id = `${repo}/${issueId}`;
+  GithubIssue.get(id).then(loadIssue);
+  GithubIssueComment.query({id}).then(loadIssueComments);
+  return {
+    issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
+    issueComments: GithubIssueComment.localQuery({id})
+  };
+};
 
 IssueView.state = {
-  onInit: ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
-    const id = `${repo}/${issueId}`;
-    GithubIssue.get(id).then(loadIssue);
-    GithubIssueComment.query({id}).then(loadIssueComments);
-    return {
-      issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
-      issueComments: GithubIssueComment.localQuery({id})
-    };
-  },
-  onProps: (props, state, actions)=>actions.onInit(),
+  onInit: onInit,
+  onProps: onInit,
   loadIssue: (props, state, actions, issue)=>({...state, issue}),
   loadIssueComments: (props, state, actions, issueComments)=>({...state, issueComments})
 };
