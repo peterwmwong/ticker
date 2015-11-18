@@ -28,11 +28,11 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
           result={result}
           onclick={onRequestDisable}
         >
-          <Avatar
-            avatarUrl={result.avatar_url}
-            className="l-margin-r4"
+          <Avatar avatarUrl={result.avatar_url} />
+          <SourceName
+            className="l-margin-l4"
+            displayName={result.login || result.full_name}
           />
-          <SourceName displayName={result.login || result.full_name} />
         </li>
       )}
     </ul>
