@@ -1,15 +1,12 @@
-const isAdded = ()=>!document.querySelector('script[src$="highlight.pack.js"]');
-const checkHighlight = resolve=>{
-  if(window.hljs) return resolve(hljs);
-  setTimeout(()=>checkHighlight(resolve), 100);
-}
+let loadingPromise;
 
 export default ()=>
-  new Promise(resolve=>{
-    if(isAdded()){
+  loadingPromise || (loadingPromise = new Promise(resolve=>{
+    if(window.hljs) return resolve(window.hljs);
+    window.requestAnimationFrame(()=>{
       const s = document.createElement('script');
       s.src = `../vendor/highlightjs/highlight.pack.js`;
+      s.onload = ()=>resolve(window.hljs)
       document.head.appendChild(s);
-      checkHighlight(resolve);
-    }
-  });
+    });
+  }));

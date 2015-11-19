@@ -9,28 +9,28 @@ const renderEventAction = event=>{
   case 'PullRequestReviewCommentEvent':
   case 'CommitCommentEvent':
     return (
-      <div className="ticker-event__action">
-        {event.payload.comment.body}
-      </div>
+      <div className="ticker-event__action" textContent={event.payload.comment.body} />
     );
 
   case 'PushEvent':
     return event.payload.commits.map(commit=>
-      <div key={commit.sha} className="ticker-event__action layout horizontal center">
+      <a
+        key={commit.sha}
+        className="ticker-event__action layout horizontal center"
+        href={`#github/${event.repo.name}/commits/${commit.sha}`}
+      >
         <GithubIcon name="git-commit" className="l-padding-r2 icon-24" />
-        <span className="flex">{commit.message}</span>
-      </div>
+        <span className="flex" textContent={commit.message} />
+      </a>
     );
   }
 }
 
 export default ({event})=>
-  <div className="Card App__placeholderCard">
+  <div className="Card">
     <div className="Card-title">
       <SourceName className="flex" displayName={event.repo.name} />
-      <span className='c-gray-dark t-font-size-11'>
-        {timeAgo(Date.parse(event.created_at))}
-      </span>
+      <span className="c-gray-dark t-font-size-11" textContent={timeAgo(Date.parse(event.created_at))} />
     </div>
     <EventSummary event={event} />
     {renderEventAction(event)}

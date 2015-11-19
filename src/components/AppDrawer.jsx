@@ -17,7 +17,7 @@ export default ({user, enabled, onLogin})=>
               <Avatar
                 avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`}
               />
-              <span className="l-margin-l4">{user.githubUsername}</span>
+            <span className="l-margin-l4" textContent={user.githubUsername} />
             </div>
             {user.sources.map(source=>{
               const displayName = source.login || source.full_name;

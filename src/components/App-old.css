@@ -29,23 +29,8 @@ p, ul, li {
 li {
   list-style-type: none;
 }
-code, pre {
-  font-family: "Source Code Pro", monospace;
-  background-color: #f0f3f5;
-  border: 1px solid #dee5e7;
-  color: #586f74;
-  border-radius: 2px;
-}
-code {
-  padding: 0px 4px;
-}
 pre {
-  padding: 8px;
-}
-pre code {
-  border-radius: 0;
-  background-color: transparent;
-  border: none;
+  margin: 0;
 }
 ::-webkit-input-placeholder,
 ::-moz-placeholder,
@@ -58,6 +43,9 @@ pre code {
 }
 .t-font-size-11 {
   font-size: 1.1rem !important;
+}
+.t-font-size-18 {
+  font-size: 1.8rem !important;
 }
 .t-font-size-20 {
   font-size: 2rem !important;
@@ -94,17 +82,8 @@ pre code {
 .c-bg-white {
   background-color: #FFF;
 }
-.App__placeholderCard {
-  margin: 0 8px;
-}
-@media (min-width: 639px) {
-  .App__placeholderCard {
-    margin: 0 auto;
-    max-width: 620px;
-  }
-}
 .App__content {
-  padding-top: 56px;
+  padding-top: 60px;
 }
 .App__toolbar {
   background: #3F51B5;
@@ -126,10 +105,13 @@ pre code {
   border-bottom-color: rgba(0, 0, 0, 0.15);
   border-bottom-width: 2px;
   overflow: hidden;
-  margin-top: 8px;
+  margin: 4px 8px 0 8px;
 }
-.Card + .Card {
-  margin-top: 4px;
+@media (min-width: 639px) {
+  .Card {
+    margin: 4px auto 0 auto;
+    max-width: 620px;
+  }
 }
 .Card-title {
   color: #05242e;
