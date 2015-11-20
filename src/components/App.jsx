@@ -3,6 +3,7 @@ import './App.css';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
 import EventsView from './EventsView.jsx';
+import CommitView from './CommitView.jsx';
 import IssueView  from './IssueView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
 import {
@@ -13,7 +14,7 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, issueId, repo},
+  {currentUser, overlayView, view, type, id, issueId, commitId, repo},
   {enableDrawer, enableSearch, disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
@@ -26,6 +27,12 @@ const App = (
       : view === 'issue' ?  <IssueView
                               repo={repo}
                               issueId={issueId}
+                              onRequestDrawer={enableDrawer}
+                              onRequestSearch={enableSearch}
+                            />
+      : view === 'commit' ? <CommitView
+                              repo={repo}
+                              commitId={commitId}
                               onRequestDrawer={enableDrawer}
                               onRequestSearch={enableSearch}
                             />
@@ -86,6 +93,14 @@ App.state = {
     view: 'issue',
     repo,
     issueId,
+    overlayView: ''
+  }),
+
+  viewRepo_commits: (props, state, actions, repo, commitId)=>({
+    ...state,
+    view: 'commit',
+    repo,
+    commitId,
     overlayView: ''
   }),
 

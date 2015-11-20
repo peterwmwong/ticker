@@ -50,7 +50,6 @@ const getSummary = event=>{
       subject: createDeleteSubject(event)
     };
 
-
   case 'IssueCommentEvent':
   case 'PullRequestReviewCommentEvent':
     return {
@@ -64,7 +63,8 @@ const getSummary = event=>{
     return {
       actorsAction: 'commented…',
       subjectIcon: 'git-commit',
-      subject: event.payload.comment.commit_id
+      subject: event.payload.comment.commit_id,
+      subjectUrl: `#github/${event.repo.name}/commits/${event.payload.comment.commit_id}`
     };
 
   case 'PushEvent':
@@ -89,13 +89,13 @@ export default ({event})=>{
       {subject &&
         <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
           <GithubIcon name={subjectIcon} className="l-padding-r2" />
-          <div className="flex t-truncate t-normal">{subject}</div>
+          <div className="flex t-truncate t-normal" textContent={subject} />
         </a>
       }
       <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
         <Avatar avatarUrl={avatar_url} />
-        <span className="t-normal l-margin-r1 l-margin-l2">{login}</span>
-        <span>{actorsAction}</span>
+        <span className="t-normal l-margin-r1 l-margin-l2" textContent={login} />
+        <span textContent={actorsAction} />
       </a>
     </div>
   );

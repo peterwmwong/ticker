@@ -7,7 +7,7 @@ import SourceName         from './SourceName.jsx';
 import Toolbar            from './Toolbar.jsx';
 
 const CommentCard = ({comment:{user, body}})=>
-  <div className="Card App__placeholderCard">
+  <div className="Card">
     <div className="Card-action l-padding-4">
       <a className="layout horizontal center" href={`#github/${user.login}`}>
         <Avatar avatarUrl={user.avatar_url} />
@@ -30,10 +30,9 @@ const IssueView = (
   {issue, issueComments},
   {actions}
 )=>
-  // TODO: Figure out a way to not set the scrollTop on initial render
-  <div className="fit scroll">
-    <div className="App__content c-bg-white l-padding-h4 l-padding-b6">
-      <div className="IssueView-main l-padding-t6">
+  <div>
+    <div className="IssueView-header App__content c-bg-white l-padding-h4 l-padding-b6 l-margin-b2">
+      <div className="IssueView-main l-padding-t4">
         <SourceName displayName={repo} />
         <h2 className="l-margin-t0 l-margin-b4 t-word-wrap-break-word">
           #{issueId}: {issue.title}
@@ -57,24 +56,25 @@ const IssueView = (
     )}
     <Toolbar
       className="fixed fixed--top"
-      title={`#${issueId}: ${issue.title}`}
+      title={`#${issueId}: ${issue.title || ''}`}
       onRequestDrawer={onRequestDrawer}
       onRequestSearch={onRequestSearch}
     />
   </div>;
 
+const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
+  const id = `${repo}/${issueId}`;
+  GithubIssue.get(id).then(loadIssue);
+  GithubIssueComment.query({id}).then(loadIssueComments);
+  return {
+    issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
+    issueComments: GithubIssueComment.localQuery({id})
+  };
+};
 
 IssueView.state = {
-  onInit: ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
-    const id = `${repo}/${issueId}`;
-    GithubIssue.get(id).then(loadIssue);
-    GithubIssueComment.query({id}).then(loadIssueComments);
-    return {
-      issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
-      issueComments: GithubIssueComment.localQuery({id})
-    };
-  },
-  onProps: (props, state, actions)=>actions.onInit(),
+  onInit: onInit,
+  onProps: onInit,
   loadIssue: (props, state, actions, issue)=>({...state, issue}),
   loadIssueComments: (props, state, actions, issueComments)=>({...state, issueComments})
 };
