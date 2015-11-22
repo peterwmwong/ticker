@@ -1,3 +1,4 @@
+@import '../css/colors.css';
 @import '../css/flex.css';
 @import '../css/layout.css';
 
@@ -12,6 +13,10 @@ body {
   line-height: 1.5;
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  font-weight: 500;
+  line-height: 1.2;
 }
 a {
   color: inherit;
@@ -31,6 +36,7 @@ li {
 }
 pre {
   margin: 0;
+  font-family: "Source Code Pro", monospace;
 }
 ::-webkit-input-placeholder,
 ::-moz-placeholder,
@@ -67,21 +73,6 @@ pre {
 .t-align-center {
   text-align: center;
 }
-.c-gray-darkest {
-  color: hsl(195, 0%, 10%) !important;
-  fill: hsl(195, 0%, 10%) !important;
-}
-.c-gray-dark {
-  color: hsl(192, 0%, 50%) !important;
-  fill: hsl(192, 0%, 50%) !important;
-}
-.c-gray-light {
-  color: hsl(191, 0%, 73%) !important;
-  fill: hsl(191, 0%, 73%) !important;
-}
-.c-bg-white {
-  background-color: #FFF;
-}
 .App__content {
   padding-top: 60px;
 }
@@ -93,6 +84,7 @@ pre {
   transition: -webkit-transform 150ms ease-out;
   transition: transform 150ms ease-out;
   transform: translate3d(0,0,0);
+  z-index: 1;
 }
 .App__toolbar.is-scrolling-down {
   -webkit-transform: translate3d(0,-100%,0);
@@ -115,9 +107,6 @@ pre {
 }
 .Card-title {
   color: #05242e;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   font-size: 1.8rem;
   line-height: 24px;
   height: 24px;
