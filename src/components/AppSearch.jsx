@@ -6,7 +6,7 @@ import GithubRepo from '../models/github/GithubRepo';
 import GithubUser from '../models/github/GithubUser';
 
 const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearchInput})=>
-  <div className={`AppSearch l-padding-1 ${enabled ? 'is-enabled' : ''}`}>
+  <div className={`AppSearch l-padding-1 fixed fixed--top ${enabled ? 'is-enabled' : ''}`}>
     <div className="AppSearch-searchInputContainer">
       <div className="AppSearch-inkdrop fit" />
       <div className="AppSearch-searchBar layout horizontal">

@@ -1,8 +1,4 @@
-.AppDrawer-content {
-  position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
+.AppDrawer {
   width: 300px;
   max-width: 75vw;
   background-color: white;
@@ -10,11 +6,12 @@
   /* Extra 1% to hide the box shadow */
   transform: translate3d(-101%, 0, 0);
   -webkit-transform: translate3d(-101%, 0, 0);
-  transition: transform 250ms ease-out;
-  transition: -webkit-transform 250ms ease-out;
+  transition: transform 200ms ease-out;
+  transition: -webkit-transform 200ms ease-out;
+  z-index: 2;
 }
 
-.AppDrawer.is-enabled .AppDrawer-content {
+.AppDrawer.is-enabled {
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
