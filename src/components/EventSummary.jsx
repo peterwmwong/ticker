@@ -1,8 +1,8 @@
-import Avatar from './common/Avatar.jsx';
+import Actor      from './common/Actor.jsx';
 import GithubIcon from './common/GithubIcon.jsx';
 
 const createDeleteAction = event=>
-  `${event.type === 'CreateEvent' ? 'created' : 'deleted'} a ${event.payload.ref_type}`;
+  `${event.type === 'CreateEvent' ? 'created' : 'deleted'} a ${event.payload.ref_type}.`;
 
 const createDeleteIcon = event=> `git-branch`;
 
@@ -29,7 +29,7 @@ const getSummary = event=>{
   case 'IssuesEvent':
   case 'PullRequestEvent':
     return {
-      actorsAction: `${event.payload.action} this issue`,
+      actorsAction: `${event.payload.action} this issue.`,
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event),
       subjectUrl: issuePRSubjectUrl(event)
@@ -75,7 +75,7 @@ const getSummary = event=>{
     };
 
   case 'ForkEvent':
-    return { actorsAction: 'forked this repository' };
+    return { actorsAction: 'forked this repository.' };
 
   default: return {};
   }
@@ -85,18 +85,19 @@ export default ({event})=>{
   const {avatar_url, login} = event.actor;
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
-    <div className="Card-action l-padding-4">
+    <div>
       {subject &&
         <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
           <GithubIcon name={subjectIcon} className="l-padding-r2" />
           <div className="flex t-truncate t-normal" textContent={subject} />
         </a>
       }
-      <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
-        <Avatar avatarUrl={avatar_url} />
-        <span className="t-normal l-margin-r1 l-margin-l2" textContent={login} />
-        <span textContent={actorsAction} />
-      </a>
+      <Actor
+        action={actorsAction}
+        actionDate={event.created_at}
+        className="l-padding-l4"
+        user={event.actor}
+      />
     </div>
   );
 }

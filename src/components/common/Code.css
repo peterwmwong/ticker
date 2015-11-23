@@ -1,0 +1,38 @@
+.Code {
+  color: #444;
+  overflow-x: scroll;
+  padding: 0 16px 16px 16px;
+}
+
+.Code > span {
+  display: inline-block;
+}
+
+.Code .hljs-addition,
+.Code .hljs-deletion {
+  position: relative;
+  z-index: 1;
+}
+
+.Code .hljs-addition {
+  color: #050;
+}
+
+.Code .hljs-deletion {
+  color: #C00;
+}
+
+.Code .hljs-addition:after,
+.Code .hljs-deletion:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -8px;
+  left: -16px;
+  background: rgba(255, 112, 112, 0.1);
+}
+
+.Code .hljs-addition:after {
+  background: rgba(112, 255, 112, 0.1);
+}

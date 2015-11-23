@@ -12,7 +12,7 @@ const EventsView = (
   {events, isScrollingDown},
   {onScroll}
 )=>
-  <div className="fit scroll App__content" onscroll={onScroll}>
+  <div className="fit scroll App__content l-margin-t2" onscroll={onScroll}>
     {events.map(event=>
       <EventCard key={event.id} event={event} />
     )}

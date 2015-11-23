@@ -17,6 +17,7 @@ body {
 h1, h2, h3 {
   font-weight: 500;
   line-height: 1.2;
+  margin: 0;
 }
 a {
   color: inherit;
@@ -47,8 +48,11 @@ pre {
 .u-pointer-cursor {
   cursor: pointer;
 }
-.t-font-size-11 {
-  font-size: 1.1rem !important;
+.t-font-size-10 {
+  font-size: 1rem !important;
+}
+.t-font-size-12 {
+  font-size: 1.2rem !important;
 }
 .t-font-size-18 {
   font-size: 1.8rem !important;
@@ -59,6 +63,9 @@ pre {
 .t-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.t-no-wrap {
   white-space: nowrap;
 }
 .t-word-wrap-break-word {
@@ -74,7 +81,7 @@ pre {
   text-align: center;
 }
 .App__content {
-  padding-top: 60px;
+  padding-top: 56px;
 }
 .App__toolbar {
   background: #3F51B5;
@@ -97,23 +104,44 @@ pre {
   border-bottom-color: rgba(0, 0, 0, 0.15);
   border-bottom-width: 2px;
   overflow: hidden;
-  margin: 4px 8px 0 8px;
+  margin: 0 8px;
 }
-@media (min-width: 639px) {
-  .Card {
-    margin: 4px auto 0 auto;
-    max-width: 620px;
-  }
+.Card--fullBleed {
+  margin: 0;
 }
 .Card-title {
   color: #05242e;
   font-size: 1.8rem;
   line-height: 24px;
-  height: 24px;
-  padding: 16px 16px 0 16px;
 }
-.ticker-event__action {
-  padding: 0 16px 16px 32px;
+.Card-title,
+.Card-content {
+  padding: 16px;
+}
+.Card-content + .Card-content,
+.Card-title + .Card-content {
+  padding-top: 0;
+}
+.Card + .Card {
+  margin-top: 4px;
+}
+@media (min-width: 639px) {
+  .Card {
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .Card--fullBleed .Card-title,
+  .Card--fullBleed .Card-content {
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .Card-content {
+    margin-top: 0;
+  }
+  .Card--fullBleed {
+    margin: 0;
+    max-width: none;
+  }
 }
 
 .icon-24 {
