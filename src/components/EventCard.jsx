@@ -1,3 +1,4 @@
+import './common/Card.css';
 import GithubIcon   from './common/GithubIcon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';

@@ -1,3 +1,4 @@
+import './common/Card.css';
 import './common/Pill.css';
 import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
@@ -41,7 +42,6 @@ const CommitView = (
   {repo, commitId, onRequestDrawer, onRequestSearch},
   {files, commit, committer, stats}
 )=>
-  // <div textContent={commit.message} />
   <div>
     <div className="App__content Card Card--fullBleed">
       <div className="Card-content">

@@ -1,0 +1,51 @@
+.Card {
+  background: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top-color: #FFF;
+  border-bottom-color: rgba(0, 0, 0, 0.15);
+  border-bottom-width: 2px;
+  overflow: hidden;
+  margin: 0 8px;
+}
+
+.Card--fullBleed {
+  margin: 0;
+}
+
+.Card-title {
+  font-size: 1.8rem;
+  line-height: 24px;
+}
+
+.Card-title,
+.Card-content {
+  padding: 16px;
+}
+
+.Card-content + .Card-content,
+.Card-title + .Card-content {
+  padding-top: 0;
+}
+
+.Card + .Card {
+  margin-top: 4px;
+}
+
+@media (min-width: 639px) {
+  .Card {
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .Card--fullBleed .Card-title,
+  .Card--fullBleed .Card-content {
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .Card-content {
+    margin-top: 0;
+  }
+  .Card--fullBleed {
+    margin: 0;
+    max-width: none;
+  }
+}

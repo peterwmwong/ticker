@@ -14,10 +14,10 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 {
+h1 {
   font-weight: 500;
   line-height: 1.2;
-  margin: 0;
+  font-size: 2.8rem;
 }
 a {
   color: inherit;
@@ -28,7 +28,7 @@ blockquote {
   padding: 0 8px;
   border-left: 4px solid hsl(206, 19%, 92%);
 }
-p, ul, li {
+h1, pre, p, ul, li {
   margin: 0;
   padding: 0;
 }
@@ -36,7 +36,6 @@ li {
   list-style-type: none;
 }
 pre {
-  margin: 0;
   font-family: "Source Code Pro", monospace;
 }
 ::-webkit-input-placeholder,
@@ -77,9 +76,6 @@ pre {
 .t-normal {
   font-weight: 500 !important;
 }
-.t-align-center {
-  text-align: center;
-}
 .App__content {
   padding-top: 56px;
 }
@@ -96,52 +92,6 @@ pre {
 .App__toolbar.is-scrolling-down {
   -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
-}
-.Card {
-  background: #FFF;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-top-color: #FFF;
-  border-bottom-color: rgba(0, 0, 0, 0.15);
-  border-bottom-width: 2px;
-  overflow: hidden;
-  margin: 0 8px;
-}
-.Card--fullBleed {
-  margin: 0;
-}
-.Card-title {
-  color: #05242e;
-  font-size: 1.8rem;
-  line-height: 24px;
-}
-.Card-title,
-.Card-content {
-  padding: 16px;
-}
-.Card-content + .Card-content,
-.Card-title + .Card-content {
-  padding-top: 0;
-}
-.Card + .Card {
-  margin-top: 4px;
-}
-@media (min-width: 639px) {
-  .Card {
-    margin: 0 auto;
-    max-width: 620px;
-  }
-  .Card--fullBleed .Card-title,
-  .Card--fullBleed .Card-content {
-    margin: 0 auto;
-    max-width: 620px;
-  }
-  .Card-content {
-    margin-top: 0;
-  }
-  .Card--fullBleed {
-    margin: 0;
-    max-width: none;
-  }
 }
 
 .icon-24 {
