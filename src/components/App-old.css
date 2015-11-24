@@ -1,3 +1,4 @@
+@import '../css/colors.css';
 @import '../css/flex.css';
 @import '../css/layout.css';
 
@@ -13,6 +14,11 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
 }
+h1 {
+  font-weight: 500;
+  line-height: 1.2;
+  font-size: 2.8rem;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -22,7 +28,7 @@ blockquote {
   padding: 0 8px;
   border-left: 4px solid hsl(206, 19%, 92%);
 }
-p, ul, li {
+h1, pre, p, ul, li {
   margin: 0;
   padding: 0;
 }
@@ -30,7 +36,7 @@ li {
   list-style-type: none;
 }
 pre {
-  margin: 0;
+  font-family: "Source Code Pro", monospace;
 }
 ::-webkit-input-placeholder,
 ::-moz-placeholder,
@@ -41,8 +47,11 @@ pre {
 .u-pointer-cursor {
   cursor: pointer;
 }
-.t-font-size-11 {
-  font-size: 1.1rem !important;
+.t-font-size-10 {
+  font-size: 1rem !important;
+}
+.t-font-size-12 {
+  font-size: 1.2rem !important;
 }
 .t-font-size-18 {
   font-size: 1.8rem !important;
@@ -55,6 +64,9 @@ pre {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.t-no-wrap {
+  white-space: nowrap;
+}
 .t-word-wrap-break-word {
   word-wrap: break-word;
 }
@@ -64,26 +76,8 @@ pre {
 .t-normal {
   font-weight: 500 !important;
 }
-.t-align-center {
-  text-align: center;
-}
-.c-gray-darkest {
-  color: hsl(195, 0%, 10%) !important;
-  fill: hsl(195, 0%, 10%) !important;
-}
-.c-gray-dark {
-  color: hsl(192, 0%, 50%) !important;
-  fill: hsl(192, 0%, 50%) !important;
-}
-.c-gray-light {
-  color: hsl(191, 0%, 73%) !important;
-  fill: hsl(191, 0%, 73%) !important;
-}
-.c-bg-white {
-  background-color: #FFF;
-}
 .App__content {
-  padding-top: 60px;
+  padding-top: 56px;
 }
 .App__toolbar {
   background: #3F51B5;
@@ -93,38 +87,11 @@ pre {
   transition: -webkit-transform 150ms ease-out;
   transition: transform 150ms ease-out;
   transform: translate3d(0,0,0);
+  z-index: 1;
 }
 .App__toolbar.is-scrolling-down {
   -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
-}
-.Card {
-  background: #FFF;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-top-color: #FFF;
-  border-bottom-color: rgba(0, 0, 0, 0.15);
-  border-bottom-width: 2px;
-  overflow: hidden;
-  margin: 4px 8px 0 8px;
-}
-@media (min-width: 639px) {
-  .Card {
-    margin: 4px auto 0 auto;
-    max-width: 620px;
-  }
-}
-.Card-title {
-  color: #05242e;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  font-size: 1.8rem;
-  line-height: 24px;
-  height: 24px;
-  padding: 16px 16px 0 16px;
-}
-.ticker-event__action {
-  padding: 0 16px 16px 32px;
 }
 
 .icon-24 {

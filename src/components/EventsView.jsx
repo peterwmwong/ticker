@@ -7,15 +7,15 @@ const EVENT_TYPES_TO_HIDE = {
   'GollumEvent': true
 };
 
+const renderEventCard = event=> <EventCard key={event.id} event={event} />;
+
 const EventsView = (
   {id, onRequestDrawer, onRequestSearch},
   {events, isScrollingDown},
   {onScroll}
 )=>
-  <div className="fit scroll App__content" onscroll={onScroll}>
-    {events.map(event=>
-      <EventCard key={event.id} event={event} />
-    )}
+  <div className="fit scroll App__content l-margin-t2" onscroll={onScroll}>
+    {events.map(renderEventCard)}
     <Toolbar
       className={`fixed fixed--top ${isScrollingDown ? 'is-scrolling-down' : ''}`}
       title={id}

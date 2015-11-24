@@ -1,48 +1,67 @@
-import './CommitView.css';
-import loadHighlight from '../helpers/loaders/loadHighlight';
-import GithubCommit  from '../models/github/GithubCommit';
-import Toolbar       from './Toolbar.jsx';
+import './common/Card.css';
+import './common/Pill.css';
+import GithubCommit from '../models/github/GithubCommit';
+import Actor        from './common/Actor.jsx';
+import Code         from './common/Code.jsx';
+import Toolbar      from './Toolbar.jsx';
 
-const INITIAL_STATE = {};
+const COMMIT_PLACEHOLDER = {
+  files: [],
+  commit: {
+    message: '',
+    committer: {
+      date: 0
+    }
+  },
+  committer: {
+    avatar_url: '',
+    login: ''
+  },
+  stats: {
+    additions: 0,
+    deletions: 0
+  }
+};
 
-const File = ({file}, {patchHTML})=>{
-  const [, path, fname] = /^(.*\/)?([^\/]+)$/.exec(file.filename);
+const renderFile = ({additions, deletions, filename, patch})=>{
+  const [, path, fname] = /^(.*\/)?([^\/]+)$/.exec(filename);
   return (
-    <div className="Card">
-      <div className="Card-title l-padding-b4">
-        <span className="c-gray-dark t-light" textContent={path} />
-        {fname}
+    <div key={filename} className="Card">
+      <div className="Card-title layout horizontal center t-no-wrap">
+        <div className="c-gray-dark t-truncate" textContent={path} />
+        <div className="flex t-normal l-padding-r1" textContent={fname} />
+        <div className="Pill bg-green c-green" textContent={`+${additions}`} />
+        <div className="Pill bg-red c-red" textContent={`–${deletions}`} />
       </div>
-      {patchHTML ? <pre className="CommitView-fileContents" innerHTML={patchHTML} />
-                 : <pre className="CommitView-fileContents" textContent={file.patch}/>
-      }
+      {patch && <Code code={patch} />}
     </div>
   );
 };
 
-File.state = {
-  onInit: (props, state, {highlight})=>(
-    loadHighlight().then(highlight),
-    INITIAL_STATE
-  ),
-  highlight: ({file}, state, actions, hljs)=>({
-    patchHTML: file.patch && hljs.highlight('diff', file.patch).value
-  })
-}
-
 const CommitView = (
   {repo, commitId, onRequestDrawer, onRequestSearch},
-  {commit}
+  {files, commit, committer, stats}
 )=>
   <div>
-    <div className="App__content">
-      {commit && commit.files.map(file=>
-        <File key={file.filename} file={file} />
-      )}
+    <div className="App__content Card Card--fullBleed">
+      <div className="Card-content">
+        <pre textContent={commit.message} />
+        <div className="layout horizontal center l-margin-t4">
+          <Actor
+            className="flex"
+            actionDate={commit.committer.date}
+            user={committer}
+          />
+          <div className="t-font-size-12 l-margin-h2" textContent={`${files.length} files changed`} />
+          <div className="Pill bg-green c-green" textContent={`+${stats.additions}`} />
+          <div className="Pill bg-red c-red" textContent={`–${stats.deletions}`} />
+        </div>
+      </div>
     </div>
+    {files.map(renderFile)}
     <Toolbar
       className="fixed fixed--top"
-      title={`${repo} ${commitId}`}
+      title={commitId}
       onRequestDrawer={onRequestDrawer}
       onRequestSearch={onRequestSearch}
     />
@@ -51,9 +70,9 @@ const CommitView = (
 CommitView.state = {
   onInit: ({repo, commitId}, state, {onCommit})=>(
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
-    INITIAL_STATE
+    COMMIT_PLACEHOLDER
   ),
-  onCommit:(props, state, action, commit)=>({commit})
+  onCommit:(props, state, action, commit)=>commit
 };
 
 export default CommitView;

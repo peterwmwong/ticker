@@ -39,7 +39,7 @@ const App = (
       : null
     }
     <div
-      className={`App-backdrop fit ${overlayView ? 'is-enabled' : ''}`}
+      className={`App-backdrop fixed ${overlayView ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
     />
     <AppSearch enabled={overlayView === 'search'} onRequestDisable={disableOverlay} />

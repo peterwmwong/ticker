@@ -1,17 +1,5 @@
-import Avatar from './common/Avatar.jsx';
+import Actor      from './common/Actor.jsx';
 import GithubIcon from './common/GithubIcon.jsx';
-
-const createDeleteAction = event=>
-  `${event.type === 'CreateEvent' ? 'created' : 'deleted'} a ${event.payload.ref_type}`;
-
-const createDeleteIcon = event=> `git-branch`;
-
-const createDeleteSubject = ({payload:{ref, ref_type}, repo})=>
-  ref_type === 'branch' ? ref : repo.name;
-
-const pushAction = event=>`pushed ${event.payload.commits.length} commits to`;
-
-const pushSubject = event=> event.payload.ref.replace(/.*\//, '');
 
 const issuePRIcon = event=>
   `${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
@@ -19,17 +7,16 @@ const issuePRIcon = event=>
 const issuePRSubject = ({payload})=>
   payload.pull_request ? payload.pull_request.title : payload.issue.title;
 
-const releaseSubject = ({payload:{release}})=> release.name || release.tag_name;
-
 const issuePRSubjectUrl = ({repo, payload})=>
   `#github/${repo.name}/issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
 
 const getSummary = event=>{
+  const payload = event.payload;
   switch(event.type){
   case 'IssuesEvent':
   case 'PullRequestEvent':
     return {
-      actorsAction: `${event.payload.action} this issue`,
+      actorsAction: `${event.payload.action} this issue.`,
       subjectIcon: issuePRIcon(event),
       subject: issuePRSubject(event),
       subjectUrl: issuePRSubjectUrl(event)
@@ -37,17 +24,17 @@ const getSummary = event=>{
 
   case 'ReleaseEvent':
     return {
-      actorsAction: 'published',
+      actorsAction: 'published this release.',
       subjectIcon: 'versions',
-      subject: releaseSubject(event)
+      subject: payload.release.name || payload.release.tag_name
     };
 
   case 'CreateEvent':
   case 'DeleteEvent':
     return {
-      actorsAction: createDeleteAction(event),
-      subjectIcon: createDeleteIcon(event),
-      subject: createDeleteSubject(event)
+      actorsAction: `${event.type === 'CreateEvent' ? 'created' : 'deleted'} this ${payload.ref_type}.`,
+      subjectIcon: 'git-branch',
+      subject: payload.ref_type === 'branch' ? payload.ref : event.repo.name
     };
 
   case 'IssueCommentEvent':
@@ -63,40 +50,46 @@ const getSummary = event=>{
     return {
       actorsAction: 'commented…',
       subjectIcon: 'git-commit',
-      subject: event.payload.comment.commit_id,
-      subjectUrl: `#github/${event.repo.name}/commits/${event.payload.comment.commit_id}`
+      subject: payload.comment.commit_id,
+      subjectUrl: `#github/${event.repo.name}/commits/${payload.comment.commit_id}`
     };
 
   case 'PushEvent':
     return {
-      actorsAction: pushAction(event),
+      actorsAction: `pushed ${payload.commits.length} commits...`,
       subjectIcon: 'git-branch',
-      subject: pushSubject(event)
+      subject: payload.ref.replace(/.*\//, '')
+    };
+
+  case 'TeamAddEvent':
+    return {
+      actorsAction: `added the ${payload.team.name} team.`,
+      subjectIcon: 'git-branch'
     };
 
   case 'ForkEvent':
-    return { actorsAction: 'forked this repository' };
+    return { actorsAction: 'forked this repository.' };
 
   default: return {};
   }
 };
 
 export default ({event})=>{
-  const {avatar_url, login} = event.actor;
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
-    <div className="Card-action l-padding-4">
+    <div>
       {subject &&
         <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
-          <GithubIcon name={subjectIcon} className="l-padding-r2" />
-          <div className="flex t-truncate t-normal" textContent={subject} />
+          <GithubIcon name={subjectIcon} />
+          <div className="flex l-padding-l2 t-truncate t-normal" textContent={subject} />
         </a>
       }
-      <a className="layout horizontal center l-padding-l4" href={`#github/${login}`}>
-        <Avatar avatarUrl={avatar_url} />
-        <span className="t-normal l-margin-r1 l-margin-l2" textContent={login} />
-        <span textContent={actorsAction} />
-      </a>
+      <Actor
+        action={actorsAction}
+        actionDate={event.created_at}
+        className="l-padding-l4"
+        user={event.actor}
+      />
     </div>
   );
 }
