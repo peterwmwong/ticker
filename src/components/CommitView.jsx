@@ -49,7 +49,7 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
           <Actor
             className="flex"
             actionDate={commit.committer.date}
-            user={committer}
+            user={committer || {login:commit.committer.name}}
           />
           <div className="t-font-size-12 l-margin-h2" textContent={`${files.length} files changed`} />
           <div className="Pill bg-green c-green" textContent={`+${stats.additions}`} />
