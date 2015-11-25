@@ -3,7 +3,6 @@ import './common/Pill.css';
 import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
 import Code         from './common/Code.jsx';
-import Toolbar      from './Toolbar.jsx';
 
 const COMMIT_PLACEHOLDER = {
   files: [],
@@ -38,14 +37,14 @@ const renderFile = ({additions, deletions, filename, patch})=>{
   );
 };
 
-const CommitView = (
-  {repo, commitId, onRequestDrawer, onRequestSearch},
-  {files, commit, committer, stats}
-)=>
+const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
   <div>
     <div className="App__content Card Card--fullBleed">
       <div className="Card-content">
-        <pre textContent={commit.message} />
+        <pre
+          className="t-white-space-normal t-word-wrap-break-word"
+          textContent={commit.message}
+        />
         <div className="layout horizontal center l-margin-t4">
           <Actor
             className="flex"
@@ -59,17 +58,12 @@ const CommitView = (
       </div>
     </div>
     {files.map(renderFile)}
-    <Toolbar
-      className="fixed fixed--top"
-      title={commitId}
-      onRequestDrawer={onRequestDrawer}
-      onRequestSearch={onRequestSearch}
-    />
   </div>;
 
 CommitView.state = {
-  onInit: ({repo, commitId}, state, {onCommit})=>(
+  onInit: ({repo, commitId, onTitleChange}, state, {onCommit})=>(
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
+    onTitleChange(commitId),
     COMMIT_PLACEHOLDER
   ),
   onCommit:(props, state, action, commit)=>commit
