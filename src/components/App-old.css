@@ -70,6 +70,9 @@ pre {
 .t-word-wrap-break-word {
   word-wrap: break-word;
 }
+.t-white-space-normal {
+  white-space: normal;
+}
 .t-light {
   font-weight: 400 !important;
 }
@@ -78,6 +81,9 @@ pre {
 }
 .App__content {
   padding-top: 56px;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 .App__toolbar {
   background: #3F51B5;
@@ -86,6 +92,7 @@ pre {
   line-height: 56px;
   transition: -webkit-transform 150ms ease-out;
   transition: transform 150ms ease-out;
+  -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
   z-index: 1;
 }

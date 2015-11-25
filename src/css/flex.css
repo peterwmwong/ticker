@@ -116,7 +116,7 @@
 .fixed {
   position: fixed;
 }
-.fixed.fixed--top {
+.fixed--top {
   bottom: auto;
 }
 body.fullbleed {

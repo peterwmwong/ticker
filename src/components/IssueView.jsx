@@ -3,7 +3,6 @@ import GithubIssue        from '../models/github/GithubIssue';
 import GithubIssueComment from '../models/github/GithubIssueComment';
 import Actor              from './common/Actor.jsx';
 import SourceName         from './SourceName.jsx';
-import Toolbar            from './Toolbar.jsx';
 
 const ISSUE_PLACEHOLDER_OBJ = {
   user: {login:'', avatar_url:''},
@@ -12,17 +11,7 @@ const ISSUE_PLACEHOLDER_OBJ = {
   body: ''
 };
 
-const renderCommentCard = ({id, user, body, created_at})=>
-  <div id={id} className="Card">
-    <Actor actionDate={created_at} className="Card-content" user={user} />
-    <div className="Card-content t-word-wrap-break-word" textContent={body} />
-  </div>;
-
-const IssueView = (
-  {repo, issueId, onRequestDrawer, onRequestSearch},
-  {issue, issueComments},
-  {actions}
-)=>
+const IssueView = ({repo, issueId}, {issue, issueComments})=>
   <div>
     <div className="App__content Card Card--fullBleed">
       <div className="Card-title">
@@ -39,13 +28,12 @@ const IssueView = (
       />
       <div className="Card-content" textContent={issue.body} />
     </div>
-    {issueComments.map(renderCommentCard)}
-    <Toolbar
-      className="fixed fixed--top"
-      title={`#${issueId}: ${issue.title}`}
-      onRequestDrawer={onRequestDrawer}
-      onRequestSearch={onRequestSearch}
-    />
+    {issueComments.map(({id, user, body, created_at})=>
+      <div id={id} className="Card">
+        <Actor actionDate={created_at} className="Card-content" user={user} />
+        <div className="Card-content t-word-wrap-break-word" textContent={body} />
+      </div>
+    )}
   </div>;
 
 const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
@@ -53,7 +41,7 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
   GithubIssue.get(id).then(loadIssue);
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
-    issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
+    ...loadIssue((GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ)),
     issueComments: GithubIssueComment.localQuery({id})
   };
 };
@@ -61,7 +49,10 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
 IssueView.state = {
   onInit: onInit,
   onProps: onInit,
-  loadIssue: (props, state, actions, issue)=>({...state, issue}),
+  loadIssue: (props, state, actions, issue)=>{
+    props.onTitleChange(`#${props.issueId}: ${issue.title}`);
+    return {...state, issue};
+  },
   loadIssueComments: (props, state, actions, issueComments)=>({...state, issueComments})
 };
 
