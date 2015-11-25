@@ -15,10 +15,10 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, issueId, commitId, repo, scrollClass, title},
+  {currentUser, overlayView, view, type, id, issueId, commitId, repo, scrollClass, title, scrollTop},
   {enableDrawer, enableSearch, disableOverlay, login, onScroll, changeTitle}
 )=>
-  <body className='App fit fullbleed' onscroll={onScroll}>
+  <body className='App fit fullbleed' onscroll={onScroll} scrollTop={scrollTop}>
     {   view === 'events' ? <EventsView
                               type={type}
                               id={id}
@@ -67,9 +67,9 @@ App.state = {
     window.onhashchange = onHashChange;
     return {
       ...onHashChange(),
+      scrollTop: 0,
       currentUser: getPreviousUser(),
       title: '',
-      scrollTop: 0,
       scrollClass: ''
     };
   },
@@ -86,6 +86,7 @@ App.state = {
 
   viewUser: (props, state, actions, user)=>({
     ...state,
+    scrollTop: 0,
     view: 'events',
     type: 'users',
     id: user,
@@ -95,6 +96,7 @@ App.state = {
 
   viewRepo: (props, state, actions, repo)=>({
     ...state,
+    scrollTop: 0,
     view: 'events',
     type: 'repos',
     id: repo,
@@ -103,6 +105,7 @@ App.state = {
 
   viewRepo_issues: (props, state, actions, repo, issueId)=>({
     ...state,
+    scrollTop: 0,
     view: 'issue',
     repo,
     issueId,
@@ -111,6 +114,7 @@ App.state = {
 
   viewRepo_commits: (props, state, actions, repo, commitId)=>({
     ...state,
+    scrollTop: 0,
     view: 'commit',
     repo,
     commitId,
