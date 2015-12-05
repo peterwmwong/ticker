@@ -30,8 +30,8 @@ export default {
   },
   query:({type, id})=>
     loadJSON(`https://api.github.com/${type}/${id}/events`)
-      .then(events=>{
-        storage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events));
-        return events;
-      })
+      .then(events=>(
+        storage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events)),
+        events
+      ))
 };
