@@ -15,7 +15,7 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, issueId, commitId, repo, scrollClass, title, scrollTop},
+  {currentUser, overlayView, view, type, id, resourceId, scrollClass, title, scrollTop},
   {enableDrawer, enableSearch, disableOverlay, login, onScroll, changeTitle}
 )=>
   <body className='App fit fullbleed' onscroll={onScroll} scrollTop={scrollTop}>
@@ -27,15 +27,15 @@ const App = (
                               onTitleChange={changeTitle}
                             />
       : view === 'issue' ?  <IssueView
-                              repo={repo}
-                              issueId={issueId}
+                              repo={id}
+                              issueId={resourceId}
                               onRequestDrawer={enableDrawer}
                               onRequestSearch={enableSearch}
                               onTitleChange={changeTitle}
                             />
       : view === 'commit' ? <CommitView
-                              repo={repo}
-                              commitId={commitId}
+                              repo={id}
+                              commitId={resourceId}
                               onRequestDrawer={enableDrawer}
                               onRequestSearch={enableSearch}
                               onTitleChange={changeTitle}
@@ -107,8 +107,8 @@ App.state = {
     ...state,
     scrollTop: 0,
     view: 'issue',
-    repo,
-    issueId,
+    id: repo,
+    resourceId: issueId,
     overlayView: ''
   }),
 
@@ -116,8 +116,8 @@ App.state = {
     ...state,
     scrollTop: 0,
     view: 'commit',
-    repo,
-    commitId,
+    id: repo,
+    resourceId: commitId,
     overlayView: ''
   }),
 
