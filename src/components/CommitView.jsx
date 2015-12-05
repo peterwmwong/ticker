@@ -4,6 +4,7 @@ import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
 import Code         from './common/Code.jsx';
 
+const PATH_REGEX = /^(.*\/)?([^\/]+)$/;
 const COMMIT_PLACEHOLDER = {
   files: [],
   commit: {
@@ -23,12 +24,13 @@ const COMMIT_PLACEHOLDER = {
 };
 
 const renderFile = ({additions, deletions, filename, patch})=>{
-  const [, path, fname] = /^(.*\/)?([^\/]+)$/.exec(filename);
+  const [, path, fname] = PATH_REGEX.exec(filename);
   return (
     <div key={filename} className="Card">
       <div className="Card-title layout horizontal center t-no-wrap">
         <div className="c-gray-dark t-truncate" textContent={path} />
-        <div className="flex t-normal l-padding-r1" textContent={fname} />
+        <div className="t-normal l-padding-r1 t-truncate" textContent={fname} />
+        <div className="flex" />
         <div className="Pill bg-green c-green" textContent={`+${additions}`} />
         <div className="Pill bg-red c-red" textContent={`–${deletions}`} />
       </div>

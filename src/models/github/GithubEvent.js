@@ -24,14 +24,11 @@ import storage    from '../../helpers/storage';
 // };
 
 export default {
-  localQuery:({type, id})=>{
-    const local = storage.getItem(`ticker:GithubEvent:${type}/${id}`);
-    return local ? JSON.parse(local) : [];
-  },
+  localQuery:({type, id})=>(storage.getItemObj(`ticker:GithubEvent:${type}/${id}`) || []),
   query:({type, id})=>
     loadJSON(`https://api.github.com/${type}/${id}/events`)
-      .then(events=>{
-        storage.setItem(`ticker:GithubEvent:${type}/${id}`, JSON.stringify(events));
-        return events;
-      })
+      .then(events=>(
+        storage.setItemObj(`ticker:GithubEvent:${type}/${id}`, events),
+        events
+      ))
 };

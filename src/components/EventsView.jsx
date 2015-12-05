@@ -9,7 +9,7 @@ const EVENT_TYPES_TO_HIDE = {
 const EventsView = (props, state)=>
   <div className="App__content l-margin-t2">
     {state.events.map(event=>
-      <EventCard key={event.id} event={event} />
+      <EventCard key={event.id} event={event} recycle />
     )}
   </div>;
 
