@@ -1,13 +1,13 @@
 import storage from '../helpers/storage';
 
 export default {
-  localGet:id=>JSON.parse(storage.getItem(`ticker:User:${id}`) || null),
+  localGet:id=>storage.getItemObj(`ticker:User:${id}`),
   save:user=>
     new Promise((resolve, reject)=>
       new Firebase(`https://ticker-dev.firebaseio.com/users/${user.id}`)
         .set(user.toJSON(), (err)=>{
           if(err) return reject(err);
-          storage.setItem(`ticker:User:${user.id}`, JSON.stringify(user));
+          storage.setItemObj(`ticker:User:${user.id}`, user);
           resolve(user);
         })
     ),
@@ -17,7 +17,7 @@ export default {
         .once('value', data=>{
           const val = data.val();
           if(!val) reject("Couldn't find User");
-          storage.setItem(`ticker:User:${val.id}`, JSON.stringify(val));
+          storage.setItemObj(`ticker:User:${val.id}`, val);
           resolve(val);
         })
     )

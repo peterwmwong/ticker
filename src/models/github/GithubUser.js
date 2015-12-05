@@ -6,5 +6,5 @@ export default {
     loadJSON(
       `https://api.github.com/search/users?q=${term}&per_page=5`
       // `src/helpers/mock_data/GithubUserQueryMOCK.json`
-    ).then(({items})=>items)
+    ).then(d=>d.items)
 };
