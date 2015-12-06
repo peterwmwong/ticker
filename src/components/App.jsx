@@ -15,10 +15,10 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, resourceId, scrollClass, title, scrollTop},
+  {currentUser, overlayView, view, type, id, resourceId, scrollClass, title},
   {enableDrawer, enableSearch, disableOverlay, login, onScroll, changeTitle}
 )=>
-  <body className='App fit fullbleed' onscroll={onScroll} scrollTop={scrollTop}>
+  <body className='App fit fullbleed' onscroll={onScroll}>
     {   view === 'events' ? <EventsView
                               type={type}
                               id={id}
@@ -76,6 +76,7 @@ App.state = {
 
   onHashChange: (props, state, actions)=>{
     const [, owner, repo, repoResource, repoResourceId] = window.location.hash.split('/');
+    if(state) document.body.scrollTop = 0;
     return (
          repo ? actions[repoResource ? `viewRepo_${repoResource}` : 'viewRepo'](
           `${owner}/${repo}`, repoResourceId )
@@ -134,7 +135,7 @@ App.state = {
     currentUser ? {...state, currentUser} : state,
 
   changeTitle: (props, state, {doChangeTitle}, title)=>(
-    window.requestAnimationFrame(()=>doChangeTitle(title)),
+    window.setTimeout(()=>doChangeTitle(title), 250),
     state
   ),
   doChangeTitle: (props, state, actions, title)=>({...state, title}),
