@@ -1,16 +1,26 @@
-# xvdom experiments
+# Ticker
 
-Mad scientist experiments using xvdom.
+Stay up-to-date with the GitHub repositories and users.
+
+## Developing
 
 ```
 > npm install
 > npm run server
-> open http://localhost:8080/
+> open http://localhost:8080/#github/peterwmwong/ticker
 ```
 
 ### TODOS
 
-- Lazy loading highlightjs languages
+- Perf TTFP: Remove setting scrollTop. Replace with onscroll -> cache node
+- Feature: Repo and User Header
+  - Repo: Description, Readme, # PRs, # Recent commits
+  - User: # Recent... Pushes, Comments, PRs, Issues
+- Feature: Repo Files Tab
+  - File navigator
+- Feature: PRs Tab
+- Feature: Issues Tab
+- Perf: Lazy loading highlightjs languages
   - Goal: Lazy load highlightjs 1) core package 2) needed languages
   - Map file extensions to languages
     - https://github.com/github/linguist/blob/master/lib/linguist/languages.yml
