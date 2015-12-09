@@ -1,31 +1,21 @@
 let added = false;
+
+const load = (link, name)=>{
+  const el = document.createElement('link');
+  el.rel = 'stylesheet';
+  el.href = link;
+  el.onload = ()=>{
+    window.requestAnimationFrame(()=>{document.body.classList.add(`ticker-${name}-loaded`)});
+  };
+  document.head.appendChild(el);
+};
+
 export default ()=>{
-  if(!added){
-    added = true;
-    window.setTimeout(()=>{
-      const s3 = document.createElement('link');
-      s3.rel = 'stylesheet';
-      s3.href = 'https://fonts.googleapis.com/css?family=Roboto:500,400';
-
-      const s = document.createElement('link');
-      s.rel = 'stylesheet';
-      s.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-      s.onload = ()=>
-        window.requestAnimationFrame(()=>
-          document.body.classList.add('ticker-material-icons-loaded')
-        );
-
-      const s2 = document.createElement('link');
-      s2.rel = 'stylesheet';
-      s2.href = '../node_modules/octicons/octicons/octicons.css';
-      s2.onload = ()=>
-        window.requestAnimationFrame(()=>
-          document.body.classList.add('ticker-octicons-loaded')
-        );
-
-      document.head.appendChild(s3);
-      document.head.appendChild(s);
-      document.head.appendChild(s2);
-    }, 300);
-  }
+  if(added) return;
+  added = true;
+  window.setTimeout(()=>{
+    load('https://fonts.googleapis.com/css?family=Roboto:500,400', 'roboto-font');
+    load('https://fonts.googleapis.com/icon?family=Material+Icons', 'material-icons');
+    load('../node_modules/octicons/octicons/octicons.css', 'octicons');
+  }, 300);
 }
