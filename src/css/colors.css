@@ -11,6 +11,10 @@
   color: hsl(191, 0%, 73%) !important;
   fill: hsl(191, 0%, 73%) !important;
 }
+.c-gray-lighter {
+  color: hsl(191, 0%, 85%) !important;
+  fill: hsl(191, 0%, 85%) !important;
+}
 .c-white {
   color: #FFF !important;
   fill: #FFF !important;
@@ -31,4 +35,8 @@
 
 .bg-red {
   background: rgba(255, 112, 112, 0.1);
+}
+
+.bg-purple {
+  background: #3F51B5 !important;
 }

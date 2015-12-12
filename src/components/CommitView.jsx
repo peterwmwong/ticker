@@ -63,9 +63,8 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
   </div>;
 
 CommitView.state = {
-  onInit: ({repo, commitId, onTitleChange}, state, {onCommit})=>(
+  onInit: ({repo, commitId}, state, {onCommit})=>(
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
-    onTitleChange(commitId),
     COMMIT_PLACEHOLDER
   ),
   onCommit:(props, state, action, commit)=>commit

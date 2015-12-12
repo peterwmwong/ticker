@@ -6,6 +6,7 @@ import Toolbar    from './Toolbar.jsx';
 import EventsView from './EventsView.jsx';
 import CommitView from './CommitView.jsx';
 import IssueView  from './IssueView.jsx';
+import RepoView   from './RepoView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
@@ -19,27 +20,10 @@ const App = (
   {enableDrawer, enableSearch, disableOverlay, login, onScroll, changeTitle}
 )=>
   <body className='App fit fullbleed' onscroll={onScroll}>
-    {   view === 'events' ? <EventsView
-                              type={type}
-                              id={id}
-                              onRequestDrawer={enableDrawer}
-                              onRequestSearch={enableSearch}
-                              onTitleChange={changeTitle}
-                            />
-      : view === 'issue' ?  <IssueView
-                              repo={id}
-                              issueId={resourceId}
-                              onRequestDrawer={enableDrawer}
-                              onRequestSearch={enableSearch}
-                              onTitleChange={changeTitle}
-                            />
-      : view === 'commit' ? <CommitView
-                              repo={id}
-                              commitId={resourceId}
-                              onRequestDrawer={enableDrawer}
-                              onRequestSearch={enableSearch}
-                              onTitleChange={changeTitle}
-                            />
+    {   view === 'events' ? <EventsView type={type} id={id} />
+      : view === 'repo'   ? <RepoView   type={type} id={id} />
+      : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} onTitleChange={changeTitle} />
+      : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
       : null
     }
     <Toolbar
@@ -66,60 +50,59 @@ App.state = {
     getCurrentUser().then(onCurrentUserChange);
     window.onhashchange = onHashChange;
     return {
-      ...onHashChange(),
-      scrollTop: 0,
-      currentUser: getPreviousUser(),
       title: '',
-      scrollClass: ''
+      currentUser: getPreviousUser(),
+      scrollClass: '',
+      ...onHashChange()
     };
   },
 
   onHashChange: (props, state, actions)=>{
     const [, owner, repo, repoResource, repoResourceId] = window.location.hash.split('/');
     if(state) document.body.scrollTop = 0;
-    return (
+    return {
+      ...(
          repo ? actions[repoResource ? `viewRepo_${repoResource}` : 'viewRepo'](
-          `${owner}/${repo}`, repoResourceId )
-      : owner ? actions.viewUser(owner)
-      : {...state, view: 'waiting'}
-    )
+            `${owner}/${repo}`, repoResourceId )
+        : owner ? actions.viewUser(owner)
+        : {...state, view: 'waiting'}
+      ),
+      ...actions.onScroll(),
+      drawerEnabled: false,
+      overlayView: ''
+    }
   },
 
   viewUser: (props, state, actions, user)=>({
     ...state,
-    scrollTop: 0,
     view: 'events',
     type: 'users',
     id: user,
-    drawerEnabled: false,
-    overlayView: ''
+    title: user
   }),
 
   viewRepo: (props, state, actions, repo)=>({
     ...state,
-    scrollTop: 0,
-    view: 'events',
+    view: 'repo',
     type: 'repos',
     id: repo,
-    overlayView: ''
+    title: repo
   }),
 
   viewRepo_issues: (props, state, actions, repo, issueId)=>({
     ...state,
-    scrollTop: 0,
     view: 'issue',
     id: repo,
     resourceId: issueId,
-    overlayView: ''
+    title: issueId
   }),
 
   viewRepo_commits: (props, state, actions, repo, commitId)=>({
     ...state,
-    scrollTop: 0,
     view: 'commit',
     id: repo,
     resourceId: commitId,
-    overlayView: ''
+    title: commitId
   }),
 
   enableSearch:   (props, state, actions)=>({...state, overlayView: 'search'}),
@@ -140,14 +123,15 @@ App.state = {
   ),
   doChangeTitle: (props, state, actions, title)=>({...state, title}),
 
-  onScroll: (props, state, actions, scrollEvent)=>{
-    const scrollTop = document.body.scrollTop;
+  onScroll: (props, state, actions)=>{
+    const scrollTop = document.body ? document.body.scrollTop : 0;
     return {
       ...state,
       scrollTop,
       scrollClass: (
-        (scrollTop > 56 && scrollTop - state.scrollTop > 0) ? 'is-scrolling-down'
-          : ''
+          (scrollTop < 60) ? 'is-hiding'
+        : (scrollTop - state.scrollTop > 0) ? 'is-scrolling-down'
+        : ''
       )
     };
   }

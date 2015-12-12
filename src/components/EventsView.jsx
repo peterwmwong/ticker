@@ -7,7 +7,7 @@ const EVENT_TYPES_TO_HIDE = {
 };
 
 const EventsView = (props, state)=>
-  <div className="App__content l-margin-t2">
+  <div className="l-margin-t2">
     {state.events.map(event=>
       <EventCard key={event.id} event={event} recycle />
     )}
@@ -15,7 +15,6 @@ const EventsView = (props, state)=>
 
 const onInit = (props, state, {loadEvents})=>(
   GithubEvent.query(props).then(loadEvents),
-  props.onTitleChange(props.id),
   {events: loadEvents(GithubEvent.localQuery(props)).events}
 );
 
