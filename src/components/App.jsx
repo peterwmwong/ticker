@@ -22,7 +22,7 @@ const App = (
   <body className='App fit fullbleed' onscroll={onScroll}>
     {   view === 'events' ? <EventsView type={type} id={id} />
       : view === 'repo'   ? <RepoView   type={type} id={id} />
-      : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} onTitleChange={changeTitle} />
+      : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} />
       : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
       : null
     }
@@ -116,12 +116,6 @@ App.state = {
 
   onCurrentUserChange: (props, state, actions, currentUser)=>
     currentUser ? {...state, currentUser} : state,
-
-  changeTitle: (props, state, {doChangeTitle}, title)=>(
-    window.setTimeout(()=>doChangeTitle(title), 250),
-    state
-  ),
-  doChangeTitle: (props, state, actions, title)=>({...state, title}),
 
   onScroll: (props, state, actions)=>{
     const scrollTop = document.body ? document.body.scrollTop : 0;
