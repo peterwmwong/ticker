@@ -1,4 +1,4 @@
-import * as xvdom from 'xvdom/src/index.js';
+import xvdom from 'xvdom';
 import App from './components/App.jsx';
 window.xvdom = xvdom;
-document.body = xvdom.renderInstance(<App />);
+document.body = xvdom.render(<App />);
