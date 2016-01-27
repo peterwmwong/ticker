@@ -49,11 +49,14 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
 IssueView.state = {
   onInit: onInit,
   onProps: onInit,
-  loadIssue: (props, state, actions, issue)=>{
-    props.onTitleChange(`#${props.issueId}: ${issue.title}`);
-    return {...state, issue};
-  },
-  loadIssueComments: (props, state, actions, issueComments)=>({...state, issueComments})
+  loadIssue: (props, state, actions, issue)=>({
+    ...state,
+    issue
+  }),
+  loadIssueComments: (props, state, actions, issueComments)=>({
+    ...state,
+    issueComments
+  })
 };
 
 export default IssueView;
