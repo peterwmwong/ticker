@@ -29,7 +29,7 @@
   },
   "scripts": {
     "server": "NODE_ENV=development webpack-dev-server --config webpack-server.config.js",
-    "build-prod": "NODE_ENV=production webpack --config webpack-production.config.js; mv dist/index.html dist/index-pre.html; vulcanize --inline-scripts --inline-css dist/index-pre.html > dist/index.html; ls -al dist/index.html; rm dist/index-pre.html",
+    "build:prod": "NODE_ENV=production webpack --config webpack-production.config.js; mv dist/index.html dist/index-pre.html; vulcanize --inline-scripts --inline-css dist/index-pre.html > dist/index.html; ls -al dist/index.html; rm dist/index-pre.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
