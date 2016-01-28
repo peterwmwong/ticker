@@ -2,9 +2,9 @@ import './App-old.css';
 import './App.css';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
-import Toolbar    from './Toolbar.jsx';
 import EventsView from './EventsView.jsx';
 import CommitView from './CommitView.jsx';
+import Icon       from './common/Icon.jsx';
 import IssueView  from './IssueView.jsx';
 import RepoView   from './RepoView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
@@ -26,12 +26,11 @@ const App = (
       : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
       : null
     }
-    <Toolbar
-      className={`fixed fixed--top ${scrollClass}`}
-      title={title}
-      onRequestDrawer={enableDrawer}
-      onRequestSearch={enableSearch}
-    />
+    <div className={`App__toolbar layout horizontal fixed fixed--top ${scrollClass}`}>
+      <Icon name="&#xe5d2;" className="l-padding-h4" onClick={enableDrawer} />
+      <div className="App__title t-truncate t-font-size-20 flex" textContent={title} />
+      <Icon name="&#xE8B6;" className="l-padding-h4" onClick={enableSearch} />
+    </div>
     <div
       className={`App-backdrop fixed ${overlayView ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
