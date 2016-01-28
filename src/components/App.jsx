@@ -122,11 +122,9 @@ App.state = {
     return {
       ...state,
       scrollTop,
-      scrollClass: (
-          (scrollTop < 60) ? 'is-hiding'
-        : (scrollTop - state.scrollTop > 0) ? 'is-scrolling-down'
-        : ''
-      )
+      scrollClass:
+        (scrollTop < 60                  ? 'is-hiding'         : '') +
+        (scrollTop - state.scrollTop > 0 ? ' is-scrolling-down': '')
     };
   }
 };
