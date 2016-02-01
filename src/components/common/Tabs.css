@@ -1,0 +1,9 @@
+.Tabs {}
+
+.Tabs-tab {
+  border-bottom: 4px solid transparent;
+}
+
+.Tabs-tab.is-selected {
+  border-bottom-color: white;
+}

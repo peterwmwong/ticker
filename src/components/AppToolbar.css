@@ -1,0 +1,16 @@
+.AppToolbar {
+  background: #3F51B5;
+  color: white;
+  transition: -webkit-transform 150ms ease-out,
+              transform 150ms ease-out,
+              opacity 300ms ease-out,
+              background 300ms ease-out;
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  z-index: 1;
+}
+
+.AppToolbar.is-scrolling-down {
+  -webkit-transform: translate3d(0,-100%,0);
+  transform: translate3d(0,-100%,0);
+}

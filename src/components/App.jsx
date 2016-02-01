@@ -2,9 +2,9 @@ import './App-old.css';
 import './App.css';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
-import EventsView from './EventsView.jsx';
+import AppToolbar from './AppToolbar.jsx';
+import UserView   from './UserView.jsx';
 import CommitView from './CommitView.jsx';
-import Icon       from './common/Icon.jsx';
 import IssueView  from './IssueView.jsx';
 import RepoView   from './RepoView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
@@ -16,26 +16,24 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, resourceId, scrollClass, title},
-  {enableDrawer, enableSearch, disableOverlay, login, onScroll, changeTitle}
+  {currentUser, overlayView, view, type, id, resourceId},
+  {enableDrawer, enableSearch, disableOverlay, login, changeTitle}
 )=>
-  <body className='App fit fullbleed' onscroll={onScroll}>
-    {   view === 'events' ? <EventsView type={type} id={id} />
-      : view === 'repo'   ? <RepoView   type={type} id={id} />
+  <body className='App fit fullbleed'>
+    {   view === 'events' ? <UserView   id={id} />
+      : view === 'repo'   ? <RepoView   id={id} />
       : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} />
       : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
       : null
     }
-    <div className={`App__toolbar layout horizontal fixed fixed--top ${scrollClass}`}>
-      <Icon name="&#xe5d2;" className="l-padding-h4" onClick={enableDrawer} />
-      <div className="App__title t-truncate t-font-size-20 flex" textContent={title} />
-      <Icon name="&#xE8B6;" className="l-padding-h4" onClick={enableSearch} />
-    </div>
     <div
       className={`App-backdrop fixed ${overlayView ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
     />
-    <AppSearch enabled={overlayView === 'search'} onRequestDisable={disableOverlay} />
+    <AppSearch
+      enabled={overlayView === 'search'}
+      onRequestDisable={disableOverlay}
+    />
     <AppDrawer
       user={currentUser}
       enabled={overlayView === 'drawer'}
@@ -44,14 +42,15 @@ const App = (
   </body>;
 
 App.state = {
-  onInit: (props, state, {onHashChange, onCurrentUserChange})=>{
+  onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=>{
+    (AppToolbar.onDrawer=enableDrawer),
+    (AppToolbar.onSearch=enableSearch),
     loadFonts();
     getCurrentUser().then(onCurrentUserChange);
     window.onhashchange = onHashChange;
     return {
       title: '',
       currentUser: getPreviousUser(),
-      scrollClass: '',
       ...onHashChange()
     };
   },
@@ -66,7 +65,6 @@ App.state = {
         : owner ? actions.viewUser(owner)
         : {...state, view: 'waiting'}
       ),
-      ...actions.onScroll(),
       drawerEnabled: false,
       overlayView: ''
     }
@@ -75,7 +73,6 @@ App.state = {
   viewUser: (props, state, actions, user)=>({
     ...state,
     view: 'events',
-    type: 'users',
     id: user,
     title: user
   }),
@@ -83,7 +80,6 @@ App.state = {
   viewRepo: (props, state, actions, repo)=>({
     ...state,
     view: 'repo',
-    type: 'repos',
     id: repo,
     title: repo
   }),
@@ -114,18 +110,8 @@ App.state = {
   ),
 
   onCurrentUserChange: (props, state, actions, currentUser)=>
-    currentUser ? {...state, currentUser} : state,
+    currentUser ? {...state, currentUser} : state
 
-  onScroll: (props, state, actions)=>{
-    const scrollTop = document.body ? document.body.scrollTop : 0;
-    return {
-      ...state,
-      scrollTop,
-      scrollClass:
-        (scrollTop < 60                  ? 'is-hiding'         : '') +
-        (scrollTop - state.scrollTop > 0 ? ' is-scrolling-down': '')
-    };
-  }
 };
 
 export default App;

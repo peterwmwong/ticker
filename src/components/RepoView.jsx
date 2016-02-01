@@ -1,27 +1,42 @@
-import './RepoView.css';
-import GithubRepo from '../models/github/GithubRepo';
+import './View.css';
+import AppToolbar from './AppToolbar.jsx';
 import EventsView from './EventsView.jsx';
+import FilesView  from './FilesView.jsx';
+import Tabs       from './common/Tabs.jsx';
+import GithubRepo from '../models/github/GithubRepo';
 
-const RepoView = ({id, type}, repo)=>
+const TABS = [/*'News', */'Code', 'Pull Requests', 'Issues'];
+
+const RepoView = ({id}, {repo, tab}, {changeView})=>
   <div className="RepoView">
-    <div className="App__content Card Card--fullBleed bg-purple">
-      <div className="Card-title">
-        <h1 className="c-white t-word-wrap-break-word" textContent={id} />
-        <span className="c-white t-light" textContent={repo && repo.description} />
-      </div>
+    <AppToolbar
+      secondary={<Tabs tabs={TABS} selected={tab} onSelect={changeView} />}
+      title={id}
+    />
+    <div className="View-content">
+      {
+        tab === 'News'          ? <EventsView id={id} type='repos' />
+      : tab === 'Code'          ? <FilesView  repo={id} />
+      : tab === 'Pull Requests' ? <EventsView id={id} type='repos' />
+      : tab === 'Issues'        ? <EventsView id={id} type='repos' />
+      : null
+      }
     </div>
-    <EventsView id={id} type={type} />
   </div>;
 
 const init = ({id}, state, {loadRepo})=>(
   GithubRepo.get(id).then(loadRepo),
-  loadRepo(GithubRepo.localGet(id))
+  {
+    repo: loadRepo(GithubRepo.localGet(id)),
+    tab: TABS[0]
+  }
 );
 
 RepoView.state = {
   onInit: init,
   onProps: init,
-  loadRepo: (props, state, actions, repo)=>repo
+  changeView: (props, state, actions, tab)=>({...state, tab}),
+  loadRepo:  (props, state, actions, repo)=>({...state, repo})
 }
 
 export default RepoView;

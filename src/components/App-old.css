@@ -1,6 +1,7 @@
 @import '../css/colors.css';
 @import '../css/flex.css';
 @import '../css/layout.css';
+@import '../css/text.css';
 
 html {
   font-size: 10px;
@@ -22,6 +23,7 @@ h1 {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 blockquote {
   margin: 0;
@@ -47,70 +49,11 @@ pre {
 .u-pointer-cursor {
   cursor: pointer;
 }
-.t-font-size-10 {
-  font-size: 1rem !important;
-}
-.t-font-size-12 {
-  font-size: 1.2rem !important;
-}
-.t-font-size-18 {
-  font-size: 1.8rem !important;
-}
-.t-font-size-20 {
-  font-size: 2rem !important;
-}
-.t-truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.t-no-wrap {
-  white-space: nowrap;
-}
-.t-word-wrap-break-word {
-  word-wrap: break-word;
-}
-.t-white-space-normal {
-  white-space: normal;
-}
-.t-light {
-  font-weight: 400 !important;
-}
-.t-normal {
-  font-weight: 500 !important;
-}
 .App__content {
   padding-top: 56px;
   overflow: hidden;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-}
-.App__toolbar {
-  background: #3F51B5;
-  color: white;
-  height: 56px;
-  line-height: 56px;
-  transition: -webkit-transform 150ms ease-out,
-              transform 150ms ease-out,
-              opacity 300ms ease-out,
-              background 300ms ease-out;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  z-index: 1;
-}
-
-.App__toolbar.is-hiding.is-scrolling-down,
-.App__toolbar.is-scrolling-down {
-  -webkit-transform: translate3d(0,-100%,0);
-  transform: translate3d(0,-100%,0);
-}
-
-.App__toolbar.is-hiding {
-  background: transparent;
-}
-
-.App__toolbar.is-hiding .App__title {
-  opacity: 0;
 }
 
 .icon-24 {
@@ -127,8 +70,8 @@ pre {
 
 .material-icons,
 .octicon {
-  -webkit-transform: scale(0);
-  transform: scale(0);
+  /*-webkit-transform: scale(0);
+  transform: scale(0);*/
 }
 
 .ticker-material-icons-loaded .material-icons,

@@ -10,7 +10,7 @@ export default {
       storage.setItemObj(`ticker:GithubRepo:${id}`, repo),
       repo
     )),
-  localGet: id=>storage.getItemObj(`ticker:GithubRepo:${id}`),
+  localGet:id=>storage.getItemObj(`ticker:GithubRepo:${id}`),
   query:({term})=>
     loadJSON(
       `https://api.github.com/search/repositories?q=${term}&per_page=5`

@@ -1,0 +1,32 @@
+.t-font-size-10 {
+  font-size: 1rem !important;
+}
+.t-font-size-12 {
+  font-size: 1.2rem !important;
+}
+.t-font-size-18 {
+  font-size: 1.8rem !important;
+}
+.t-font-size-20 {
+  font-size: 2rem !important;
+}
+.t-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.t-no-wrap {
+  white-space: nowrap;
+}
+.t-word-wrap-break-word {
+  word-wrap: break-word;
+}
+.t-white-space-normal {
+  white-space: normal;
+}
+.t-light {
+  font-weight: 400 !important;
+}
+.t-normal {
+  font-weight: 500 !important;
+}
