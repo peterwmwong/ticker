@@ -1,7 +1,6 @@
 import './common/Card.css';
 import xvdom              from 'xvdom';
 import AppToolbar         from './AppToolbar.jsx';
-import SourceName         from './SourceName.jsx';
 import GithubIssue        from '../models/github/GithubIssue';
 import GithubIssueComment from '../models/github/GithubIssueComment';
 import Actor              from './common/Actor.jsx';
@@ -10,18 +9,19 @@ const ISSUE_PLACEHOLDER_OBJ = {
   user: {login:'', avatar_url:''},
   created_at: 0,
   title: '',
-  body: ''
+  body: '',
+  pull_request: false
 };
 
 const IssueView = ({repo, issueId}, {issue, issueComments})=>
   <div className="l-padding-t6">
-    <AppToolbar title={repo} />
+    <AppToolbar title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`} />
     <div className="Card Card--fullBleed l-margin-t4 l-padding-t6">
       <div className="Card-title">
-        <h1 className="t-word-wrap-break-word">
-          <span className="c-gray-dark l-margin-r2" textContent={`#${issueId}`} />
-          {issue.title}
-        </h1>
+        <h1
+          className="l-padding-b2 t-word-break-word"
+          textContent={issue.title}
+        />
       </div>
       <Actor
         actionDate={issue.created_at}
@@ -33,7 +33,7 @@ const IssueView = ({repo, issueId}, {issue, issueComments})=>
     {issueComments.map(({id, user, body, created_at})=>
       <div id={id} className="Card">
         <Actor actionDate={created_at} className="Card-content" user={user} />
-        <div className="Card-content t-word-wrap-break-word" textContent={body} />
+        <div className="Card-content t-word-break-word" textContent={body} />
       </div>
     )}
   </div>;
@@ -43,7 +43,7 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
   GithubIssue.get(id).then(loadIssue);
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
-    ...loadIssue((GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ)),
+    issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
     issueComments: GithubIssueComment.localQuery({id})
   };
 };

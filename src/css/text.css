@@ -24,8 +24,8 @@
 .t-no-wrap {
   white-space: nowrap;
 }
-.t-word-wrap-break-word {
-  word-wrap: break-word;
+.t-word-break-word {
+  word-break: break-word;
 }
 .t-white-space-normal {
   white-space: normal;
