@@ -1,9 +1,10 @@
 import './common/Card.css';
 import xvdom              from 'xvdom';
+import AppToolbar         from './AppToolbar.jsx';
+import SourceName         from './SourceName.jsx';
 import GithubIssue        from '../models/github/GithubIssue';
 import GithubIssueComment from '../models/github/GithubIssueComment';
 import Actor              from './common/Actor.jsx';
-import SourceName         from './SourceName.jsx';
 
 const ISSUE_PLACEHOLDER_OBJ = {
   user: {login:'', avatar_url:''},
@@ -13,14 +14,14 @@ const ISSUE_PLACEHOLDER_OBJ = {
 };
 
 const IssueView = ({repo, issueId}, {issue, issueComments})=>
-  <div>
-    <div className="App__content Card Card--fullBleed">
+  <div className="l-padding-t6">
+    <AppToolbar title={repo} />
+    <div className="Card Card--fullBleed l-margin-t4 l-padding-t6">
       <div className="Card-title">
-        <SourceName displayName={repo} />
-        <h1
-          className="l-margin-t1 t-word-wrap-break-word"
-          textContent={`#${issueId}: ${issue.title}`}
-        />
+        <h1 className="t-word-wrap-break-word">
+          <span className="c-gray-dark l-margin-r2" textContent={`#${issueId}`} />
+          {issue.title}
+        </h1>
       </div>
       <Actor
         actionDate={issue.created_at}
