@@ -6,7 +6,7 @@ import Tabs          from './common/Tabs.jsx';
 
 const TABS = ['News', 'Repos'];
 
-const UserView = ({id}, tab, {changeView})=>
+const UserView = ({id}, {tab}, {changeView})=>
   <div>
     <AppToolbar
       secondary={<Tabs tabs={TABS} selected={tab} onSelect={changeView} />}
@@ -21,9 +21,12 @@ const UserView = ({id}, tab, {changeView})=>
     </div>
   </div>;
 
+const onInit = ()=>({tab:TABS[0]});
+
 UserView.state = {
-  onInit: ()=>TABS[0],
-  changeView: (props, state, actions, tab)=>tab
+  onInit,
+  onProps: onInit,
+  changeView: (props, state, actions, tab)=>({tab})
 }
 
 export default UserView;
