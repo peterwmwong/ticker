@@ -12,9 +12,9 @@ setInterval(
 
 export default function timeAgo(dateTime){
   const diffms = timeAgoNow - dateTime;
-  return  diffms > WEEK_MS ? `${~~(diffms / WEEK_MS)}w`
-        : diffms > DAY_MS  ? `${~~(diffms / DAY_MS)}d`
-        : diffms > HOUR_MS ? `${~~(diffms / HOUR_MS)}h`
-        : diffms > MIN_MS  ? `${~~(diffms / MIN_MS)}m`
-        : '1m';
+  return  diffms > WEEK_MS ? `${~~(diffms / WEEK_MS)} weeks`
+        : diffms > DAY_MS  ? `${~~(diffms / DAY_MS)} days`
+        : diffms > HOUR_MS ? `${~~(diffms / HOUR_MS)} hours`
+        : diffms > MIN_MS  ? `${~~(diffms / MIN_MS)} minutes`
+        : '1 minute';
 }

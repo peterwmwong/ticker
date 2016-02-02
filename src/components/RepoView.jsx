@@ -1,9 +1,11 @@
-import xvdom      from 'xvdom';
-import AppToolbar from './AppToolbar.jsx';
-import EventsView from './EventsView.jsx';
-import FilesView  from './FilesView.jsx';
-import Tabs       from './common/Tabs.jsx';
-import GithubRepo from '../models/github/GithubRepo';
+import xvdom            from 'xvdom';
+import AppToolbar       from './AppToolbar.jsx';
+import EventsView       from './EventsView.jsx';
+import FilesView        from './FilesView.jsx';
+import PullRequestsView from './PullRequestsView.jsx';
+import IssuesView       from './IssuesView.jsx';
+import Tabs             from './common/Tabs.jsx';
+import GithubRepo       from '../models/github/GithubRepo';
 
 const TABS = ['News', 'Code', 'Pull Requests', 'Issues'];
 
@@ -16,9 +18,9 @@ const RepoView = ({id}, {repo, tab}, {changeView})=>
     <div className="l-padding-t24 l-padding-b2">
       {
         tab === 'News'          ? <EventsView id={id} type='repos' />
-      : tab === 'Code'          ? <FilesView  repo={id} />
-      : tab === 'Pull Requests' ? <EventsView id={id} type='repos' />
-      : tab === 'Issues'        ? <EventsView id={id} type='repos' />
+      : tab === 'Code'          ? <FilesView repo={id} />
+      : tab === 'Pull Requests' ? <PullRequestsView id={id}/>
+      : tab === 'Issues'        ? <IssuesView id={id}/>
       : null
       }
     </div>

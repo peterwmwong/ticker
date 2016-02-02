@@ -6,9 +6,14 @@ import GithubRepo from '../models/github/GithubRepo';
 const UserReposView = (props, repos)=>
   <div className='l-margin-t2 Card'>
     {repos.map(repo=>
-      <div className='List-item layout horizontal center'>
+      <div className='List-item layout horizontal center t-normal'>
         <GithubIcon name='repo' className='l-margin-r3' />
-        {repo.name}
+        <div className="t-normal">
+          {repo.name}
+          <div className="t-light t-font-size-14 c-gray-dark">
+            {repo.description}
+          </div>
+        </div>
       </div>
     )}
   </div>;
