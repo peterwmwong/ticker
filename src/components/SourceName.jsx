@@ -1,3 +1,5 @@
+import xvdom from 'xvdom';
+
 export default ({className, displayName})=>{
   const [owner, repo] = displayName.split('/');
   const href = `#github/${displayName}`;

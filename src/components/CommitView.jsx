@@ -1,5 +1,6 @@
 import './common/Card.css';
 import './common/Pill.css';
+import xvdom        from 'xvdom';
 import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
 import Code         from './common/Code.jsx';

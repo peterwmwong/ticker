@@ -4,8 +4,8 @@ import loadJSON from '../../helpers/load';
 export default {
   get:id=>
     loadJSON(
-      // `https://api.github.com/users/${id}`
-      `src/helpers/mock_data/GithubUserMOCK.json`
+      `https://api.github.com/users/${id}`
+      // `src/helpers/mock_data/GithubUserMOCK.json`
     ).then(user=>(
       storage.setItemObj(`ticker:GithubUser:${id}`, user),
       user

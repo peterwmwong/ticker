@@ -1,19 +1,19 @@
-import './View.css';
+import xvdom      from 'xvdom';
 import AppToolbar from './AppToolbar.jsx';
 import EventsView from './EventsView.jsx';
 import FilesView  from './FilesView.jsx';
 import Tabs       from './common/Tabs.jsx';
 import GithubRepo from '../models/github/GithubRepo';
 
-const TABS = [/*'News', */'Code', 'Pull Requests', 'Issues'];
+const TABS = ['News', 'Code', 'Pull Requests', 'Issues'];
 
 const RepoView = ({id}, {repo, tab}, {changeView})=>
-  <div className="RepoView">
+  <div>
     <AppToolbar
       secondary={<Tabs tabs={TABS} selected={tab} onSelect={changeView} />}
       title={id}
     />
-    <div className="View-content">
+    <div className="l-padding-t24 l-padding-b2">
       {
         tab === 'News'          ? <EventsView id={id} type='repos' />
       : tab === 'Code'          ? <FilesView  repo={id} />

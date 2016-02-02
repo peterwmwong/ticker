@@ -1,15 +1,12 @@
+import xvdom      from 'xvdom';
 import GithubIcon from './common/GithubIcon.jsx';
+import compare    from '../helpers/compare';
 import GithubFile from '../models/github/GithubFile';
 
 const TYPE_TO_ICON = {
   file: 'file-code',
   dir:  'file-directory'
 };
-
-const compare = (a, b)=>
-    a < b ? -1
-  : a > b ?  1
-  : 0;
 
 const sortFiles = files=>
   files.sort((a, b)=>
@@ -23,7 +20,7 @@ const File = ({file:{name, type}})=>
     {name}
   </div>
 
-const FilesView = (props, {sha, files})=>
+const FilesView = (props, {files})=>
   <div className='l-margin-t2 Card'>
     {files.map(file=>
       <File key={file.name} file={file} />

@@ -1,3 +1,4 @@
+import xvdom       from 'xvdom';
 import GithubEvent from '../models/github/GithubEvent';
 import EventCard   from './EventCard.jsx';
 

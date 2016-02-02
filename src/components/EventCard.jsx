@@ -1,4 +1,5 @@
 import './common/Card.css';
+import xvdom        from 'xvdom';
 import GithubIcon   from './common/GithubIcon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';

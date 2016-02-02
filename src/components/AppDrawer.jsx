@@ -1,5 +1,6 @@
 import './AppDrawer.css';
 import './common/List.css';
+import xvdom      from 'xvdom';
 import GithubIcon from './common/GithubIcon.jsx';
 import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';

@@ -1,4 +1,5 @@
 import './Code.css';
+import xvdom         from 'xvdom';
 import loadHighlight from '../../helpers/loaders/loadHighlight';
 
 const INITIAL_STATE = {};

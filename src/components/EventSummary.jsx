@@ -1,3 +1,4 @@
+import xvdom      from 'xvdom';
 import Actor      from './common/Actor.jsx';
 import GithubIcon from './common/GithubIcon.jsx';
 

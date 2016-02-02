@@ -1,5 +1,6 @@
 import './AppToolbar.css';
-import Icon from './common/Icon.jsx';
+import xvdom from 'xvdom';
+import Icon  from './common/Icon.jsx';
 
 const AppToolbar = ({title, secondary}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top ${scrollClass}`}>
@@ -20,13 +21,11 @@ AppToolbar.state = {
     onScroll()
   ),
 
-  onScroll: (props, state, actions)=>{
+  onScroll: (props, state)=>{
     const scrollTop = document.body ? document.body.scrollTop : 0;
     return {
       scrollTop,
-      scrollClass:
-        (scrollTop < 60                  ? 'is-hiding'         : '') +
-        (scrollTop - state.scrollTop > 0 ? ' is-scrolling-down': '')
+      scrollClass: scrollTop - state.scrollTop > 0 ? ' is-scrolling-down': ''
     };
   }
 };

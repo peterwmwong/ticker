@@ -1,5 +1,6 @@
 import './App-old.css';
 import './App.css';
+import xvdom      from 'xvdom';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
 import AppToolbar from './AppToolbar.jsx';
@@ -114,4 +115,4 @@ App.state = {
 
 };
 
-export default App;
+document.body = xvdom.render(<App />);

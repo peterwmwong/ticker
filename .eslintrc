@@ -33,7 +33,7 @@
     "no-underscore-dangle"   : 0,
     "no-unused-expressions"  : 0,
     "no-use-before-define"   : 2,
-    "no-unused-vars"         : [2, {"args": "none"}],
+    "no-unused-vars"         : [2, {"args": "after-used", "vars": "all"}],
     "no-var"                 : 2,
     "object-shorthand"       : [0, "always"],
     "quotes"                 : [2, "single", "avoid-escape"],
