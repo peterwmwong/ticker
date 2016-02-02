@@ -1,11 +1,12 @@
-import xvdom            from 'xvdom';
-import AppToolbar       from './AppToolbar.jsx';
-import EventsView       from './EventsView.jsx';
-import FilesView        from './FilesView.jsx';
-import PullRequestsView from './PullRequestsView.jsx';
-import IssuesView       from './IssuesView.jsx';
-import Tabs             from './common/Tabs.jsx';
-import GithubRepo       from '../models/github/GithubRepo';
+import xvdom           from 'xvdom';
+import AppToolbar      from './AppToolbar.jsx';
+import EventsView      from './EventsView.jsx';
+import FilesView       from './FilesView.jsx';
+import IssuesPullsView from './IssuesPullsView.jsx';
+import Tabs            from './common/Tabs.jsx';
+import GithubRepo      from '../models/github/GithubRepo';
+import GithubIssue     from '../models/github/GithubIssue';
+import GithubPull      from '../models/github/GithubPull';
 
 const TABS = ['News', 'Code', 'Pull Requests', 'Issues'];
 
@@ -19,8 +20,8 @@ const RepoView = ({id}, {repo, tab}, {changeView})=>
       {
         tab === 'News'          ? <EventsView id={id} type='repos' />
       : tab === 'Code'          ? <FilesView repo={id} />
-      : tab === 'Pull Requests' ? <PullRequestsView id={id}/>
-      : tab === 'Issues'        ? <IssuesView id={id}/>
+      : tab === 'Pull Requests' ? <IssuesPullsView id={id} modelClass={GithubPull} icon='git-pull-request' />
+      : tab === 'Issues'        ? <IssuesPullsView id={id} modelClass={GithubIssue} icon='issue-opened' />
       : null
       }
     </div>

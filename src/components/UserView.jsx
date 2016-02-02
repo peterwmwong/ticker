@@ -3,11 +3,10 @@ import AppToolbar    from './AppToolbar.jsx';
 import EventsView    from './EventsView.jsx';
 import UserReposView from './UserReposView.jsx';
 import Tabs          from './common/Tabs.jsx';
-import GithubUser    from '../models/github/GithubUser';
 
 const TABS = ['News', 'Repos'];
 
-const UserView = ({id}, {user, tab}, {changeView})=>
+const UserView = ({id}, tab, {changeView})=>
   <div>
     <AppToolbar
       secondary={<Tabs tabs={TABS} selected={tab} onSelect={changeView} />}
@@ -22,19 +21,12 @@ const UserView = ({id}, {user, tab}, {changeView})=>
     </div>
   </div>;
 
-const onInit = ({id}, state, {loadUser})=>(
-  GithubUser.get(id).then(loadUser),
-  {
-    user: loadUser(GithubUser.localGet(id)),
-    tab:  TABS[0]
-  }
-);
+const onInit = ()=>TABS[0];
 
 UserView.state = {
   onInit: onInit,
   onProps: onInit,
-  changeView: (props, state, actions, tab)=>({...state, tab}),
-  loadUser: (props, state, actions, user)=>({...state, user})
+  changeView: (props, state, actions, tab)=>tab
 }
 
 export default UserView;
