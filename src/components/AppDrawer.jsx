@@ -40,7 +40,7 @@ export default ({user, enabled, onLogin})=>(
       <div>
         <div
           className="List-item List-item--noBorder layout horizontal center"
-          onclick={user && onLogin}
+          onclick={!user && onLogin}
         >
           {user
             ? <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`}/>
