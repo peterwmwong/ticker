@@ -21,11 +21,8 @@ const UserView = ({id}, tab, {changeView})=>
     </div>
   </div>;
 
-const onInit = ()=>TABS[0];
-
 UserView.state = {
-  onInit: onInit,
-  onProps: onInit,
+  onInit: ()=>TABS[0],
   changeView: (props, state, actions, tab)=>tab
 }
 

@@ -14,11 +14,14 @@ const EventsView = (props, events)=>
     )}
   </div>;
 
+const onInit = (props, state, {loadEvents})=>(
+  GithubEvent.query(props).then(loadEvents),
+  loadEvents(GithubEvent.localQuery(props))
+);
+
 EventsView.state = {
-  onInit: (props, state, {loadEvents})=>(
-    GithubEvent.query(props).then(loadEvents),
-    loadEvents(GithubEvent.localQuery(props))
-  ),
+  onInit: onInit,
+  onProps: onInit,
   loadEvents: (props, state, actions, events)=>
     events.filter(e=>!EVENT_TYPES_TO_HIDE[e.type])
 };
