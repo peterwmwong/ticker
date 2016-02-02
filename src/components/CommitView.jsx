@@ -1,5 +1,6 @@
 import './common/Card.css';
 import './common/Pill.css';
+import xvdom        from 'xvdom';
 import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
 import Code         from './common/Code.jsx';
@@ -63,9 +64,8 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
   </div>;
 
 CommitView.state = {
-  onInit: ({repo, commitId, onTitleChange}, state, {onCommit})=>(
+  onInit: ({repo, commitId}, state, {onCommit})=>(
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
-    onTitleChange(commitId),
     COMMIT_PLACEHOLDER
   ),
   onCommit:(props, state, action, commit)=>commit

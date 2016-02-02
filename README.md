@@ -12,6 +12,7 @@ Stay up-to-date with the GitHub repositories and users.
 
 ### TODOS
 
+- Try babel-preset-es2015-loose
 - Perf TTFP: Remove setting scrollTop. Replace with onscroll -> cache node
 - Feature: Repo and User Header
   - Repo: Description, Readme, # PRs, # Recent commits

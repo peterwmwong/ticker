@@ -1,0 +1,11 @@
+.Tabs {}
+
+.Tabs-tab {
+  border-bottom: 4px solid transparent;
+  opacity: 0.5;
+}
+
+.Tabs-tab.is-selected {
+  border-bottom-color: white;
+  opacity: 1;
+}

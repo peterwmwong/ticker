@@ -1,3 +1,5 @@
+import xvdom from 'xvdom';
+
 export default ({name, className='', onClick})=>
   <i
     className={`${className} u-pointer-cursor material-icons layout horizontal center`}

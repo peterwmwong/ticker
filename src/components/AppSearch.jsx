@@ -1,4 +1,5 @@
 import './AppSearch.css';
+import xvdom      from 'xvdom';
 import Icon       from './common/Icon.jsx';
 import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';

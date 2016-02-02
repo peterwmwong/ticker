@@ -12,5 +12,14 @@ export default {
       storage.setItemObj(`ticker:GithubIssue:${id}`, issue),
       issue
     ));
+  },
+  localQuery: ({id})=>(storage.getItemObj(`ticker:GithubIssues${id}`) || []),
+  query: ({id})=>{
+    return loadJSON(
+      `https://api.github.com/repos/${id}/issues`
+    ).then(pulls=>(
+      storage.setItemObj(`ticker:GithubIssues:${id}`, pulls),
+      pulls
+    ));
   }
 };
