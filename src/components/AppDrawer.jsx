@@ -20,11 +20,11 @@ const renderGroup = (sourceNameProp, sources)=>
 
 const renderSources = sources=>
   <div>
-    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
+    <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
       Repositories
     </div>
     {renderGroup('full_name', sources.filter(s=>s.type === 'GithubRepoSource').sort(sortRepos))}
-    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
+    <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
       Users / Orgs
     </div>
     {renderGroup('login', sources.filter(s=>s.type === 'GithubUserSource').sort(sortUsers))}
