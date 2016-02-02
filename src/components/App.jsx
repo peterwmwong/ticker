@@ -47,7 +47,6 @@ App.state = {
     getCurrentUser().then(onCurrentUserChange);
     window.onhashchange = onHashChange;
     return {
-      title: '',
       currentUser: getPreviousUser(),
       ...onHashChange()
     };
@@ -71,31 +70,27 @@ App.state = {
   viewUser: (props, state, actions, user)=>({
     ...state,
     view: 'events',
-    id: user,
-    title: user
+    id: user
   }),
 
   viewRepo: (props, state, actions, repo)=>({
     ...state,
     view: 'repo',
-    id: repo,
-    title: repo
+    id: repo
   }),
 
   viewRepo_issues: (props, state, actions, repo, issueId)=>({
     ...state,
     view: 'issue',
     id: repo,
-    resourceId: issueId,
-    title: issueId
+    resourceId: issueId
   }),
 
   viewRepo_commits: (props, state, actions, repo, commitId)=>({
     ...state,
     view: 'commit',
     id: repo,
-    resourceId: commitId,
-    title: commitId
+    resourceId: commitId
   }),
 
   enableSearch:   (props, state)=>({...state, isSearchEnabled:true,  isDrawerEnabled:false}),
