@@ -25,7 +25,7 @@ AppToolbar.state = {
     const scrollTop = document.body ? document.body.scrollTop : 0;
     return {
       scrollTop,
-      scrollClass: scrollTop - state.scrollTop > 0 ? ' is-scrolling-down': ''
+      scrollClass: (scrollTop > 56 && scrollTop - state.scrollTop > 0) ? ' is-scrolling-down': ''
     };
   }
 };
