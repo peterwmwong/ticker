@@ -11,7 +11,7 @@ const AppToolbar = ({title, secondary}, {scrollClass})=>
     </div>
     {secondary}
   </div>;
-
+  
 const handleOnDrawer = ()=>AppToolbar.onDrawer && AppToolbar.onDrawer();
 const handleOnSearch = ()=>AppToolbar.onSearch && AppToolbar.onSearch();
 
