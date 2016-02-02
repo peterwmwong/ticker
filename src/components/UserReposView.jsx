@@ -3,18 +3,18 @@ import GithubIcon from './common/GithubIcon.jsx';
 import compare    from '../helpers/compare';
 import GithubRepo from '../models/github/GithubRepo';
 
-const UserReposView = (props, repos)=>
+const UserReposView = ({id}, repos)=>
   <div className='l-margin-t2 Card'>
     {repos.map(({name, description})=>
       <div className='List-item layout horizontal center t-normal'>
         <GithubIcon name='repo' className='l-margin-r3' />
-        <div className="t-normal">
+        <a className="t-normal" href={`#github/${id}/${name}`}>
           {name}
           <div
             className="t-light t-font-size-14 c-gray-dark"
             textContent={description}
           />
-        </div>
+        </a>
       </div>
     )}
   </div>;

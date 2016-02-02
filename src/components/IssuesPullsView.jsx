@@ -3,18 +3,18 @@ import GithubIcon from './common/GithubIcon.jsx';
 import compare    from '../helpers/compare';
 import timeAgo    from '../helpers/timeAgo';
 
-const IssuesPullsView = ({icon}, issues)=>
+const IssuesPullsView = ({id:modelId, icon}, issues)=>
   <div className='l-margin-t2 Card'>
     {issues.map(({id, number, title, created_at, user})=>
       <div key={id} className='List-item layout horizontal center'>
         <GithubIcon name={icon} className='l-margin-r3' />
-        <div className="t-normal">
+        <a className="t-normal" href={`#github/${modelId}/issues/${number}`}>
           {title}
           <div
             className="t-light t-font-size-14 c-gray-dark"
             textContent={`#${number} opened ${timeAgo(Date.parse(created_at))} ago by ${user.login}`}
           />
-        </div>
+        </a>
       </div>
     )}
   </div>;
