@@ -16,10 +16,10 @@ const ISSUE_PLACEHOLDER_OBJ = {
 const IssueView = ({repo, issueId}, {issue, issueComments})=>
   <div className="l-padding-t6">
     <AppToolbar title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`} />
-    <div className="Card Card--fullBleed l-margin-t4 l-padding-t6">
+    <div className="Card Card--fullBleed">
       <div className="Card-title">
         <h1
-          className="l-padding-b2 t-word-break-word"
+          className="t-word-break-word l-padding-t2 l-margin-b0"
           textContent={issue.title}
         />
       </div>

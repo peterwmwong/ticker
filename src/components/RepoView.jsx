@@ -3,12 +3,14 @@ import AppToolbar      from './AppToolbar.jsx';
 import EventsView      from './EventsView.jsx';
 import FilesView       from './FilesView.jsx';
 import IssuesPullsView from './IssuesPullsView.jsx';
+import ReadmeView      from './ReadmeView.jsx';
 import Tabs            from './common/Tabs.jsx';
 import GithubRepo      from '../models/github/GithubRepo';
 import GithubIssue     from '../models/github/GithubIssue';
 import GithubPull      from '../models/github/GithubPull';
 
-const TABS = ['News', 'Code', 'Pull Requests', 'Issues'];
+const TABS = ['Readme', 'News', 'Code', 'Pull Requests', 'Issues'];
+
 
 const RepoView = ({id}, {repo, tab}, {changeView})=>
   <div>
@@ -18,7 +20,8 @@ const RepoView = ({id}, {repo, tab}, {changeView})=>
     />
     <div className="l-padding-t24 l-padding-b2">
       {
-        tab === 'News'          ? <EventsView id={id} type='repos' />
+        tab === 'Readme'          ? <ReadmeView id={id} />
+      : tab === 'News'          ? <EventsView id={id} type='repos' />
       : tab === 'Code'          ? <FilesView repo={id} />
       : tab === 'Pull Requests' ? <IssuesPullsView id={id} modelClass={GithubPull} icon='git-pull-request' />
       : tab === 'Issues'        ? <IssuesPullsView id={id} modelClass={GithubIssue} icon='issue-opened' />
@@ -31,7 +34,7 @@ const init = ({id}, state, {loadRepo})=>(
   GithubRepo.get(id).then(loadRepo),
   {
     repo: loadRepo(GithubRepo.localGet(id)),
-    tab: TABS[0]
+    tab: TABS[1]
   }
 );
 
