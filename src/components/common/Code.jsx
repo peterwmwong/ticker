@@ -2,9 +2,7 @@ import './Code.css';
 import xvdom         from 'xvdom';
 import loadHighlight from '../../helpers/loaders/loadHighlight';
 
-const INITIAL_STATE = {};
-
-const Code = ({code}, {codeHTML})=>
+const Code = ({code}, codeHTML)=>
   <pre
     className="Code"
     innerHTML={codeHTML}
@@ -14,11 +12,10 @@ const Code = ({code}, {codeHTML})=>
 Code.state = {
   onInit: (props, state, {highlight})=>(
     loadHighlight().then(highlight),
-    INITIAL_STATE
+    ''
   ),
-  highlight: ({code}, state, actions, hljs)=>({
-    codeHTML: hljs.highlight('diff', code).value
-  })
+  highlight: ({code}, state, actions, hljs)=>
+    hljs.highlight('diff', code).value
 };
 
 export default Code;
