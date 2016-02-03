@@ -31,7 +31,7 @@ const removeLRUItem = ()=>{
 };
 
 const safeSetItem = (key, value)=>{
-  let remainingTries = 10;
+  let remainingTries = 20;
   while(remainingTries--){
     try{
       localStorage.setItem(key, value);

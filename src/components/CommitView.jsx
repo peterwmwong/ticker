@@ -45,7 +45,7 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
     <div className="App__content Card Card--fullBleed">
       <div className="Card-content">
         <pre
-          className="t-white-space-normal t-word-wrap-break-word"
+          className="t-white-space-normal t-word-break-word"
           textContent={commit.message}
         />
         <div className="layout horizontal center l-margin-t4">

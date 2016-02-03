@@ -17,8 +17,8 @@ import {
 
 const App = (
   props,
-  {currentUser, overlayView, view, type, id, resourceId},
-  {enableDrawer, enableSearch, disableOverlay, login, changeTitle}
+  {currentUser, isSearchEnabled, isDrawerEnabled, view, id, resourceId},
+  {disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
     {   view === 'events' ? <UserView   id={id} />
@@ -28,29 +28,25 @@ const App = (
       : null
     }
     <div
-      className={`App-backdrop fixed ${overlayView ? 'is-enabled' : ''}`}
+      className={`App-backdrop fixed ${isSearchEnabled || isDrawerEnabled ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
     />
-    <AppSearch
-      enabled={overlayView === 'search'}
-      onRequestDisable={disableOverlay}
-    />
+    <AppSearch enabled={isSearchEnabled} />
     <AppDrawer
       user={currentUser}
-      enabled={overlayView === 'drawer'}
+      enabled={isDrawerEnabled}
       onLogin={login}
     />
   </body>;
 
 App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=>{
-    (AppToolbar.onDrawer=enableDrawer),
-    (AppToolbar.onSearch=enableSearch),
+    AppToolbar.onDrawer = enableDrawer;
+    AppToolbar.onSearch = enableSearch;
     loadFonts();
     getCurrentUser().then(onCurrentUserChange);
     window.onhashchange = onHashChange;
     return {
-      title: '',
       currentUser: getPreviousUser(),
       ...onHashChange()
     };
@@ -66,52 +62,50 @@ App.state = {
         : owner ? actions.viewUser(owner)
         : {...state, view: 'waiting'}
       ),
-      drawerEnabled: false,
-      overlayView: ''
+      isDrawerEnabled: false,
+      isSearchEnabled: false
     }
   },
 
   viewUser: (props, state, actions, user)=>({
     ...state,
     view: 'events',
-    id: user,
-    title: user
+    id: user
   }),
 
   viewRepo: (props, state, actions, repo)=>({
     ...state,
     view: 'repo',
-    id: repo,
-    title: repo
+    id: repo
   }),
 
   viewRepo_issues: (props, state, actions, repo, issueId)=>({
     ...state,
     view: 'issue',
     id: repo,
-    resourceId: issueId,
-    title: issueId
+    resourceId: issueId
   }),
 
   viewRepo_commits: (props, state, actions, repo, commitId)=>({
     ...state,
     view: 'commit',
     id: repo,
-    resourceId: commitId,
-    title: commitId
+    resourceId: commitId
   }),
 
-  enableSearch:   (props, state, actions)=>({...state, overlayView: 'search'}),
-  enableDrawer:   (props, state, actions)=>({...state, overlayView: 'drawer'}),
-  disableOverlay: (props, state, actions)=>({...state, overlayView: ''}),
+  enableSearch:   (props, state)=>({...state, isSearchEnabled:true,  isDrawerEnabled:false}),
+  enableDrawer:   (props, state)=>({...state, isSearchEnabled:false, isDrawerEnabled:true}),
+  disableOverlay: (props, state)=>({...state, isSearchEnabled:false, isDrawerEnabled:false}),
 
   login: (props, state, {onCurrentUserChange})=>(
     authWithOAuthPopup().then(onCurrentUserChange),
     state
   ),
 
-  onCurrentUserChange: (props, state, actions, currentUser)=>
-    currentUser ? {...state, currentUser} : state
+  onCurrentUserChange: (props, state, actions, currentUser)=>({
+    ...state,
+    currentUser
+  })
 
 };
 

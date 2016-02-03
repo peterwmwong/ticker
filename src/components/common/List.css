@@ -4,3 +4,13 @@
   padding: 20px 16px;
   cursor: pointer;
 }
+
+.List-item--header {
+  border-top: 1px solid #EEE;
+  padding-bottom: 8px;
+}
+
+.List-item--noBorder,
+.List-item--header {
+  border-bottom: 0;
+}

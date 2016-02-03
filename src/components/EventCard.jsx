@@ -14,14 +14,14 @@ const renderEventAction = event=>{
     );
 
   case 'PushEvent':
-    return event.payload.commits.map(commit=>
+    return event.payload.commits.map(({sha, message})=>
       <a
-        key={commit.sha}
+        key={sha}
         className="layout horizontal center l-padding-l4 l-padding-t4"
-        href={`#github/${event.repo.name}/commits/${commit.sha}`}
+        href={`#github/${event.repo.name}/commits/${sha}`}
       >
         <GithubIcon name="git-commit" className="l-padding-r2 icon-24" />
-        <span className="flex" textContent={commit.message} />
+        {message}
       </a>
     );
   }

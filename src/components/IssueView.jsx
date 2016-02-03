@@ -1,25 +1,26 @@
 import './common/Card.css';
 import xvdom              from 'xvdom';
+import AppToolbar         from './AppToolbar.jsx';
 import GithubIssue        from '../models/github/GithubIssue';
 import GithubIssueComment from '../models/github/GithubIssueComment';
 import Actor              from './common/Actor.jsx';
-import SourceName         from './SourceName.jsx';
 
 const ISSUE_PLACEHOLDER_OBJ = {
   user: {login:'', avatar_url:''},
   created_at: 0,
   title: '',
-  body: ''
+  body: '',
+  pull_request: false
 };
 
 const IssueView = ({repo, issueId}, {issue, issueComments})=>
-  <div>
-    <div className="App__content Card Card--fullBleed">
+  <div className="l-padding-t6">
+    <AppToolbar title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`} />
+    <div className="Card Card--fullBleed">
       <div className="Card-title">
-        <SourceName displayName={repo} />
         <h1
-          className="l-margin-t1 t-word-wrap-break-word"
-          textContent={`#${issueId}: ${issue.title}`}
+          className="t-word-break-word l-padding-t2 l-margin-b0"
+          textContent={issue.title}
         />
       </div>
       <Actor
@@ -32,7 +33,7 @@ const IssueView = ({repo, issueId}, {issue, issueComments})=>
     {issueComments.map(({id, user, body, created_at})=>
       <div id={id} className="Card">
         <Actor actionDate={created_at} className="Card-content" user={user} />
-        <div className="Card-content t-word-wrap-break-word" textContent={body} />
+        <div className="Card-content t-word-break-word" textContent={body} />
       </div>
     )}
   </div>;
@@ -42,7 +43,7 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
   GithubIssue.get(id).then(loadIssue);
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
-    ...loadIssue((GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ)),
+    issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
     issueComments: GithubIssueComment.localQuery({id})
   };
 };

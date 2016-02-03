@@ -1,17 +1,15 @@
 import './AppSearch.css';
 import xvdom      from 'xvdom';
-import Icon       from './common/Icon.jsx';
 import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';
 import GithubRepo from '../models/github/GithubRepo';
 import GithubUser from '../models/github/GithubUser';
 
-const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearchInput})=>
+const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
   <div className={`AppSearch l-padding-1 fixed fixed--top ${enabled ? 'is-enabled' : ''}`}>
     <div className="AppSearch-searchInputContainer">
       <div className="AppSearch-inkdrop fit" />
       <div className="AppSearch-searchBar layout horizontal">
-        <Icon name="&#xe5d2;" className="l-padding-l4" onClick={onRequestDisable} />
         <input
           type="text"
           className="AppSearch-searchInput flex l-padding-h4"
@@ -27,7 +25,6 @@ const AppSearch = ({enabled, onRequestDisable}, {searchResults, term}, {onSearch
           key={result.id}
           className="layout horizontal center l-padding-v4 l-padding-h6"
           result={result}
-          onclick={onRequestDisable}
         >
           <Avatar avatarUrl={result.avatar_url} />
           <SourceName
