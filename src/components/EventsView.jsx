@@ -1,6 +1,6 @@
 import xvdom       from 'xvdom';
-import GithubEvent from '../models/github/GithubEvent';
 import EventCard   from './EventCard.jsx';
+import GithubEvent from '../models/github/GithubEvent';
 
 const EVENT_TYPES_TO_HIDE = {
   'WatchEvent': true,
