@@ -4,7 +4,7 @@ import compare    from '../helpers/compare';
 import GithubRepo from '../models/github/GithubRepo';
 
 const UserReposView = ({id}, repos)=>
-  <div className='l-margin-t2 Card'>
+  <div className='l-margin-t2 Card' hidden={!repos.length}>
     {repos.map(({name, description})=>
       <div className='List-item layout horizontal center t-normal'>
         <GithubIcon name='repo' className='l-margin-r3' />

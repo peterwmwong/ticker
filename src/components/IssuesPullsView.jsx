@@ -4,7 +4,7 @@ import compare    from '../helpers/compare';
 import timeAgo    from '../helpers/timeAgo';
 
 const IssuesPullsView = ({id:modelId, icon}, issues)=>
-  <div className='l-margin-t2 Card'>
+  <div className='l-margin-t2 Card' hidden={!issues.length} >
     {issues.map(({id, number, title, created_at, user})=>
       <div key={id} className='List-item layout horizontal center'>
         <GithubIcon name={icon} className='l-margin-r3' />
