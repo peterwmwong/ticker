@@ -1,6 +1,7 @@
 import './common/Card.css';
 import './common/Pill.css';
 import xvdom        from 'xvdom';
+import AppToolbar   from './AppToolbar.jsx';
 import GithubCommit from '../models/github/GithubCommit';
 import Actor        from './common/Actor.jsx';
 import Code         from './common/Code.jsx';
@@ -40,28 +41,45 @@ const renderFile = ({additions, deletions, filename, patch})=>{
   );
 };
 
-const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>
-  <div>
-    <div className="App__content Card Card--fullBleed">
-      <div className="Card-content">
-        <pre
-          className="t-white-space-normal t-word-break-word"
-          textContent={commit.message}
-        />
-        <div className="layout horizontal center l-margin-t4">
-          <Actor
-            className="flex"
-            actionDate={commit.committer.date}
-            user={committer || {login:commit.committer.name}}
+const getCommitTitleMessage = message=>{
+  const [title] = /.*/g.exec(message);
+  return title === message ? {title:'', message}
+    : {title, message:message.substr(title.length)};
+};
+
+const CommitView = ({repo, commitId}, {files, commit, committer, stats})=>{
+  const {title, message} = getCommitTitleMessage(commit.message);
+  return (
+    <div className="l-padding-t6">
+      <div className="Card Card--fullBleed l-padding-t5">
+        <AppToolbar title={commitId} />
+        <div className="Card-title">
+          {title && <h1
+            className="t-word-break-word l-margin-t4 l-margin-b0"
+            textContent={title}
+          />}
+        </div>
+        <div className="Card-content">
+          <div className="layout horizontal center l-margin-b4">
+            <Actor
+              className="flex"
+              actionDate={commit.committer.date}
+              user={committer || {login:commit.committer.name}}
+            />
+            <div className="t-font-size-12 l-margin-h2" textContent={`${files.length} files changed`} />
+            <div className="Pill bg-green c-green" textContent={`+${stats.additions}`} />
+            <div className="Pill bg-red c-red" textContent={`–${stats.deletions}`} />
+          </div>
+          <pre
+            className="t-white-space-normal t-word-break-word"
+            textContent={message}
           />
-          <div className="t-font-size-12 l-margin-h2" textContent={`${files.length} files changed`} />
-          <div className="Pill bg-green c-green" textContent={`+${stats.additions}`} />
-          <div className="Pill bg-red c-red" textContent={`–${stats.deletions}`} />
         </div>
       </div>
+      {files.map(renderFile)}
     </div>
-    {files.map(renderFile)}
-  </div>;
+  )
+};
 
 CommitView.state = {
   onInit: ({repo, commitId}, state, {onCommit})=>(
