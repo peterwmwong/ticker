@@ -17,12 +17,12 @@ import {
 
 const App = (
   props,
-  {currentUser, isSearchEnabled, isDrawerEnabled, view, id, resourceId},
+  {currentUser, isSearchEnabled, isDrawerEnabled, view, id, tab, resourceId},
   {disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
-    {   view === 'events' ? <UserView   id={id} />
-      : view === 'repo'   ? <RepoView   id={id} />
+    {   view === 'user'   ? <UserView   id={id}   tab={tab} />
+      : view === 'repo'   ? <RepoView   id={id}   tab={tab} />
       : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} />
       : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
       : null
@@ -53,30 +53,33 @@ App.state = {
   },
 
   onHashChange: (props, state, actions)=>{
-    const [, owner, repo, repoResource, repoResourceId] = window.location.hash.split('/');
     if(state) document.body.scrollTop = 0;
+    const [path, params] = window.location.hash.split('?');
+    const [, owner, repo, repoResource, repoResourceId] = path.split('/');
+    const [, tab] = (params && params.split('=')) || [];
     return {
       ...(
-         repo ? actions[repoResource ? `viewRepo_${repoResource}` : 'viewRepo'](
-            `${owner}/${repo}`, repoResourceId )
-        : owner ? actions.viewUser(owner)
-        : {...state, view: 'waiting'}
+          (repoResource && repoResourceId) ? actions[`viewRepo_${repoResource}`](`${owner}/${repo}`, repoResource, repoResourceId)
+        : repo ? actions.viewRepo(`${owner}/${repo}`, tab)
+        : actions.viewUser(owner, tab)
       ),
       isDrawerEnabled: false,
       isSearchEnabled: false
     }
   },
 
-  viewUser: (props, state, actions, user)=>({
+  viewUser: (props, state, actions, user, tab)=>({
     ...state,
-    view: 'events',
-    id: user
+    view: 'user',
+    id: user,
+    tab
   }),
 
-  viewRepo: (props, state, actions, repo)=>({
+  viewRepo: (props, state, actions, repo, tab)=>({
     ...state,
     view: 'repo',
-    id: repo
+    id: repo,
+    tab
   }),
 
   viewRepo_issues: (props, state, actions, repo, issueId)=>({
