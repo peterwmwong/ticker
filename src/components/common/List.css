@@ -8,6 +8,7 @@
 .List-item--header {
   border-top: 1px solid #EEE;
   padding-bottom: 8px;
+  cursor: default;
 }
 
 .List-item--noBorder,
