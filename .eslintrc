@@ -27,7 +27,6 @@
     "no-irregular-whitespace": 2,
     "no-loop-func"           : 0,
     "no-multi-spaces"        : 0,
-    "no-multiple-empty-lines": 0,
     "no-multiple-empty-lines": 1,
     "no-spaced-func"         : 2,
     "no-underscore-dangle"   : 0,
