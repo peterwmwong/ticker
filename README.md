@@ -12,15 +12,13 @@ Stay up-to-date with the GitHub repositories and users.
 
 ### TODOS
 
-- Try babel-preset-es2015-loose
-- Perf TTFP: Remove setting scrollTop. Replace with onscroll -> cache node
+- Feature: Repo Files Tab
+  - File navigator
+- Retain scroll position on back
+  - Anchor tag has each top event item?
 - Feature: Repo and User Header
   - Repo: Description, Readme, # PRs, # Recent commits
   - User: # Recent... Pushes, Comments, PRs, Issues
-- Feature: Repo Files Tab
-  - File navigator
-- Feature: PRs Tab
-- Feature: Issues Tab
 - Perf: Lazy loading highlightjs languages
   - Goal: Lazy load highlightjs 1) core package 2) needed languages
   - Map file extensions to languages
@@ -36,3 +34,4 @@ Stay up-to-date with the GitHub repositories and users.
   - Possible Heuristic:
     - Simple contains
     - Simple contains w/Limit
+- Try babel-preset-es2015-loose
