@@ -10,6 +10,56 @@ Stay up-to-date with the GitHub repositories and users.
 > open http://localhost:8080/#github/peterwmwong/ticker
 ```
 
+## URL strategy
+
+### Current strategy
+
+{"github" | "bitbucket"}/{org or user}/{repo}/{repo resource "issues" | "commits"}/{resource id}
+{"github" | "bitbucket"}/{org or user}/{repo}?tab={rep}
+
+### Problems
+
+- Mixed top level views
+- top level views don't match model hierarchy
+  - Repo/{repo resource}/{sub repo resource}
+
+### Proposed strategy
+
+{AppURL}?{ViewURL}
+
+AppURL
+  {github|bitbucket}/{user}
+  {github|bitbucket}/{user}/{repo?}
+
+ViewURL
+  ({path}/{id?})+
+
+UserViewURL extends ViewURL
+  {Resource:news|repos}
+
+RepoViewURL extends ViewURL
+  {Resource:readme|news|code|pulls|issues}/{SubResourcePath}
+
+SubResourcePath
+  ({path}/{id?})+
+
+{github|bitbucket}/{user}?{view url}
+  - UserView
+
+{github|bitbucket}/{user}/{repo?}?{view url}
+  - RepoView
+
+github/facebook/react?readme
+
+github/facebook/react?issues
+github/facebook/react?issues/12345
+
+github/facebook/react?code
+github/facebook/react?code/{sha}/
+github/facebook/react?code/{sha}/{path}
+
+github/facebook/react?code/{sha}/{path}
+
 ### TODOS
 
 - Feature: Repo Files Tab

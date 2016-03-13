@@ -9,7 +9,7 @@ const issuePRSubject = ({payload})=>
   payload.pull_request ? payload.pull_request.title : payload.issue.title;
 
 const issuePRSubjectUrl = ({repo, payload})=>
-  `#github/${repo.name}/issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
+  `#github/${repo.name}?issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
 
 const getSummary = event=>{
   const payload = event.payload;
@@ -52,7 +52,7 @@ const getSummary = event=>{
       actorsAction: 'commented…',
       subjectIcon: 'git-commit',
       subject: payload.comment.commit_id,
-      subjectUrl: `#github/${event.repo.name}/commits/${payload.comment.commit_id}`
+      subjectUrl: `#github/${event.repo.name}?commits/${payload.comment.commit_id}`
     };
 
   case 'PushEvent':

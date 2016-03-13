@@ -5,8 +5,6 @@ import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
 import AppToolbar from './AppToolbar.jsx';
 import UserView   from './UserView.jsx';
-import CommitView from './CommitView.jsx';
-import IssueView  from './IssueView.jsx';
 import RepoView   from './RepoView.jsx';
 import loadFonts  from '../helpers/loaders/loadFonts';
 import {
@@ -15,16 +13,18 @@ import {
   getPreviousUser
 } from '../helpers/getCurrentUser';
 
+if(process.env.NODE_ENV === 'development'){
+  window.log = (message, obj)=>(console.log(message, obj), obj)
+}
+
 const App = (
   props,
-  {currentUser, isSearchEnabled, isDrawerEnabled, view, id, tab, resourceId},
+  {currentUser, isSearchEnabled, isDrawerEnabled, view, viewId, viewPath},
   {disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
-    {   view === 'user'   ? <UserView   id={id}   tab={tab} />
-      : view === 'repo'   ? <RepoView   id={id}   tab={tab} />
-      : view === 'issue'  ? <IssueView  repo={id} issueId={resourceId} />
-      : view === 'commit' ? <CommitView repo={id} commitId={resourceId} />
+    {   view === 'user'   ? <UserView id={viewId} viewPath={viewPath} />
+      : view === 'repo'   ? <RepoView id={viewId} viewPath={viewPath} />
       : null
     }
     <div
@@ -52,48 +52,33 @@ App.state = {
     };
   },
 
-  onHashChange: (props, state, actions)=>{
+  onHashChange: (props, state, {viewRepo, viewUser})=>{
     if(state) document.body.scrollTop = 0;
-    const [path, params] = window.location.hash.split('?');
-    const [, owner, repo, repoResource, repoResourceId] = path.split('/');
-    const [, tab] = (params && params.split('=')) || [];
+    const [appPath, viewPath] = window.location.hash.split('?');
+    const [, owner, repo] = appPath.split('/');
     return {
       ...(
-          (repoResource && repoResourceId) ? actions[`viewRepo_${repoResource}`](`${owner}/${repo}`, repoResource, repoResourceId)
-        : repo ? actions.viewRepo(`${owner}/${repo}`, tab)
-        : actions.viewUser(owner, tab)
+        repo
+          ? viewRepo(`${owner}/${repo}`, viewPath)
+          : viewUser(owner, viewPath)
       ),
       isDrawerEnabled: false,
       isSearchEnabled: false
     }
   },
 
-  viewUser: (props, state, actions, user, tab)=>({
+  viewUser: (props, state, actions, user, viewPath)=>({
     ...state,
     view: 'user',
-    id: user,
-    tab
+    viewId: user,
+    viewPath
   }),
 
-  viewRepo: (props, state, actions, repo, tab)=>({
+  viewRepo: (props, state, actions, repo, viewPath)=>({
     ...state,
     view: 'repo',
-    id: repo,
-    tab
-  }),
-
-  viewRepo_issues: (props, state, actions, repo, issueId)=>({
-    ...state,
-    view: 'issue',
-    id: repo,
-    resourceId: issueId
-  }),
-
-  viewRepo_commits: (props, state, actions, repo, commitId)=>({
-    ...state,
-    view: 'commit',
-    id: repo,
-    resourceId: commitId
+    viewId: repo,
+    viewPath
   }),
 
   enableSearch:   (props, state)=>({...state, isSearchEnabled:true,  isDrawerEnabled:false}),

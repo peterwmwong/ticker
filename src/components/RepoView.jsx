@@ -1,12 +1,15 @@
 import xvdom           from 'xvdom';
+
 import AppToolbar      from './AppToolbar.jsx';
+import CommitView      from './CommitView.jsx';
 import EventsView      from './EventsView.jsx';
 import FilesView       from './FilesView.jsx';
-import IssuesPullsView from './IssuesPullsView.jsx';
-import ReadmeView      from './ReadmeView.jsx';
-import Tabs            from './common/Tabs.jsx';
 import GithubIssue     from '../models/github/GithubIssue';
 import GithubPull      from '../models/github/GithubPull';
+import IssuesPullsView from './IssuesPullsView.jsx';
+import IssueView       from './IssueView.jsx';
+import ReadmeView      from './ReadmeView.jsx';
+import Tabs            from './common/Tabs.jsx';
 
 const TABS = {
   readme:{
@@ -35,21 +38,27 @@ const TABS = {
 
 const titleForTab = tab=>TABS[tab].title
 
-const RepoView = ({id, tab='news'})=>
+const getTabPath = viewPath=>[
+  viewPath.split('/')
+]
+
+const RepoView = ({id, viewPath='news'})=>
+  (viewPath === 'issues' && )
+    ? <IssueView  repo={id} issueId={resourceId} />
   <div>
     <AppToolbar
       secondary={
         <Tabs
           tabs={Object.keys(TABS)}
-          selected={tab}
+          selected={viewPath}
           titleForTab={titleForTab}
-          hrefForTab={tab=>`#github/${id}?tab=${tab}`}
+          hrefForTab={tab=>`#github/${id}?${tab}`}
         />
       }
       title={id}
     />
     <div className="l-padding-t24 l-padding-b2">
-      {TABS[tab].view(id)}
+      {TABS[viewPath].view(id)}
     </div>
   </div>;
 
