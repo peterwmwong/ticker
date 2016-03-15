@@ -20,16 +20,15 @@ const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
       </div>
     </div>
     <ul className="AppSearch-searchResults">
-      {searchResults.map(result=>
+      {searchResults.map(({avatar_url, full_name, id, login, owner})=>
         <li
-          key={result.id}
+          key={id}
           className="layout horizontal center l-padding-v4 l-padding-h6"
-          result={result}
         >
-          <Avatar avatarUrl={result.avatar_url} />
+          <Avatar avatarUrl={avatar_url || (owner && owner.avatar_url)} />
           <SourceName
             className="l-margin-l4"
-            displayName={result.login || result.full_name}
+            displayName={login || full_name}
           />
         </li>
       )}
@@ -41,17 +40,17 @@ const onInit = ()=>({term: '', searchResults: []});
 AppSearch.state = {
   onInit: onInit,
   onProps: onInit,
-  onSearchInput: (props, state, actions, event)=>({
+  onSearchInput: (props, state, {doSearch}, event)=>({
     ...state,
-    curSearch: state.curSearch || setTimeout(actions.doSearch, 300),
+    curSearch: state.curSearch || setTimeout(doSearch, 300),
     term:event.target.value
   }),
-  doSearch: (props, state, actions)=>{
+  doSearch: (props, state, {onSearchResults})=>{
     const params = {term: state.term};
     Promise.all([
       GithubRepo.query(params), GithubUser.query(params)
     ]).then(([repos, users])=>{
-      actions.onSearchResults(
+      onSearchResults(
         [...repos, ...users].sort((a,b)=>b.score - a.score).slice(0, 5)
       );
     });

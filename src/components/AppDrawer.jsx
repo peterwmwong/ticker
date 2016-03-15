@@ -9,25 +9,36 @@ import compare    from '../helpers/compare';
 const sortRepos = (a, b)=>compare(a.full_name, b.full_name);
 const sortUsers = (a, b)=>compare(a.login,     b.login);
 
-const renderGroup = (sourceNameProp, sources)=>
-  sources.map(({[sourceNameProp]:name})=>
-    <SourceName
-      key={name}
-      className="List-item List-item--noBorder"
-      displayName={name}
-    />
-  );
+const SourceGroup = ({sourceNameProp, sources})=>
+  <div>
+    {sources.map(({avatar_url, [sourceNameProp]:name})=>
+      <div className="layout horizontal center l-padding-l4">
+        <Avatar avatarUrl={avatar_url}/>
+        <SourceName
+          key={name}
+          className="List-item List-item--noBorder"
+          displayName={name}
+        />
+      </div>
+    )}
+  </div>
 
-const renderSources = sources=>
+const SourceList = ({sources})=>
   <div>
     <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
       Repositories
     </div>
-    {renderGroup('full_name', sources.filter(s=>s.type === 'GithubRepoSource').sort(sortRepos))}
+    <SourceGroup
+      sourceNameProp='full_name'
+      sources={sources.filter(s=>s.type === 'GithubRepoSource').sort(sortRepos)}
+    />
     <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
       Users / Orgs
     </div>
-    {renderGroup('login', sources.filter(s=>s.type === 'GithubUserSource').sort(sortUsers))}
+    <SourceGroup
+      sourceNameProp='login'
+      sources={sources.filter(s=>s.type === 'GithubUserSource').sort(sortUsers)}
+    />
   </div>;
 
 // Lazily render drawer contents the first time the drawer is enabled.
@@ -51,7 +62,7 @@ export default ({user, enabled, onLogin})=>(
             textContent={user ? user.githubUsername : 'Login with GitHub'}
           />
         </div>
-        {user && renderSources(user.sources)}
+        {user && <SourceList sources={user.sources} />}
       </div>
     }
   </div>
