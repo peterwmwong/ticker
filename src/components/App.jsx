@@ -1,5 +1,6 @@
 import './App-old.css';
 import './App.css';
+import '../helpers/globalLogger';
 import xvdom      from 'xvdom';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
@@ -13,30 +14,19 @@ import {
   getPreviousUser
 } from '../helpers/getCurrentUser';
 
-if(process.env.NODE_ENV === 'development'){
-  window.log = (message, obj)=>(console.log(message, obj), obj)
-}
-
 const App = (
   props,
-  {currentUser, isSearchEnabled, isDrawerEnabled, view, viewId, viewPath},
+  {currentUser, isSearchEnabled, isDrawerEnabled, view, viewId, viewUrl},
   {disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
-    {   view === 'user'   ? <UserView id={viewId} viewPath={viewPath} />
-      : view === 'repo'   ? <RepoView id={viewId} viewPath={viewPath} />
-      : null
-    }
+    {view}
     <div
       className={`App-backdrop fixed ${isSearchEnabled || isDrawerEnabled ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
     />
     <AppSearch enabled={isSearchEnabled} />
-    <AppDrawer
-      user={currentUser}
-      enabled={isDrawerEnabled}
-      onLogin={login}
-    />
+    <AppDrawer user={currentUser} enabled={isDrawerEnabled} onLogin={login} />
   </body>;
 
 App.state = {
@@ -54,31 +44,27 @@ App.state = {
 
   onHashChange: (props, state, {viewRepo, viewUser})=>{
     if(state) document.body.scrollTop = 0;
-    const [appPath, viewPath] = window.location.hash.split('?');
-    const [, owner, repo] = appPath.split('/');
+    const [appUrl, viewUrl] = window.location.hash.split('?');
+    const [, owner, repo] = appUrl.split('/');
     return {
       ...(
         repo
-          ? viewRepo(`${owner}/${repo}`, viewPath)
-          : viewUser(owner, viewPath)
+          ? viewRepo(`${owner}/${repo}`, viewUrl)
+          : viewUser(owner, viewUrl)
       ),
       isDrawerEnabled: false,
       isSearchEnabled: false
     }
   },
 
-  viewUser: (props, state, actions, user, viewPath)=>({
+  viewUser: (props, state, actions, user, viewUrl)=>({
     ...state,
-    view: 'user',
-    viewId: user,
-    viewPath
+    view: <UserView id={user} viewUrl={viewUrl} />
   }),
 
-  viewRepo: (props, state, actions, repo, viewPath)=>({
+  viewRepo: (props, state, actions, repo, viewUrl)=>({
     ...state,
-    view: 'repo',
-    viewId: repo,
-    viewPath
+    view: <RepoView id={repo} viewUrl={viewUrl} />
   }),
 
   enableSearch:   (props, state)=>({...state, isSearchEnabled:true,  isDrawerEnabled:false}),

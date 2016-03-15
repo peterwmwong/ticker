@@ -15,23 +15,16 @@ const TABS = {
   }
 };
 
-const titleForTab = tab=>TABS[tab].title
-
-const UserView = ({id, tab='news'})=>
+const UserView = ({id, viewUrl='news'}) =>
   <div>
     <AppToolbar
       secondary={
-        <Tabs
-          tabs={Object.keys(TABS)}
-          selected={tab}
-          titleForTab={titleForTab}
-          hrefForTab={tab=>`#github/${id}?tab=${tab}`}
-        />
+        <Tabs tabs={TABS} selected={viewUrl} hrefPrefix={`#github/${id}?`}/>
       }
       title={id}
     />
     <div className="l-padding-t24 l-padding-b2">
-      {TABS[tab].view(id)}
+      {TABS[viewUrl].view(id)}
     </div>
   </div>;
 

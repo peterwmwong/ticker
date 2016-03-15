@@ -1,8 +1,6 @@
 import loadJSON   from '../../helpers/load';
 import storage    from '../../helpers/storage';
 
-const log = (label, obj)=>(console.log(label, obj), obj);
-
 export default {
   localQuery:({repo})=>(storage.getItemObj(`ticker:GithubFile:${repo}`) || []),
   query:({repo, sha='master', path=''})=>
