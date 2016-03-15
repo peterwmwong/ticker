@@ -56,7 +56,7 @@ AppSearch.state = {
     });
     return {...state, curSearch:null};
   },
-  onSearchResults: (props, state, actions, searchResults)=>debug({
+  onSearchResults: (props, state, actions, searchResults)=>({
     ...state,
     searchResults
   })
