@@ -2,6 +2,9 @@ import './AppToolbar.css';
 import xvdom from 'xvdom';
 import Icon  from './common/Icon.jsx';
 
+const handleOnDrawer = ()=>AppToolbar.onDrawer && AppToolbar.onDrawer();
+const handleOnSearch = ()=>AppToolbar.onSearch && AppToolbar.onSearch();
+
 const AppToolbar = ({title, secondary}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
     <div className='layout horizontal center-center l-height14'>
@@ -11,9 +14,6 @@ const AppToolbar = ({title, secondary}, {scrollClass})=>
     </div>
     {secondary}
   </div>;
-
-const handleOnDrawer = ()=>AppToolbar.onDrawer && AppToolbar.onDrawer();
-const handleOnSearch = ()=>AppToolbar.onSearch && AppToolbar.onSearch();
 
 AppToolbar.state = {
   onInit: (props, state, {onScroll})=>(

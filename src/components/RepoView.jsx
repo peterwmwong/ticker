@@ -1,48 +1,62 @@
 import xvdom           from 'xvdom';
+
 import AppToolbar      from './AppToolbar.jsx';
+import CommitView      from './CommitView.jsx';
 import EventsView      from './EventsView.jsx';
 import FilesView       from './FilesView.jsx';
-import IssuesPullsView from './IssuesPullsView.jsx';
-import ReadmeView      from './ReadmeView.jsx';
-import Tabs            from './common/Tabs.jsx';
-import GithubRepo      from '../models/github/GithubRepo';
 import GithubIssue     from '../models/github/GithubIssue';
 import GithubPull      from '../models/github/GithubPull';
+import IssuesPullsView from './IssuesPullsView.jsx';
+import IssueView       from './IssueView.jsx';
+import ReadmeView      from './ReadmeView.jsx';
+import Tabs            from './common/Tabs.jsx';
 
-const TABS = ['Readme', 'News', 'Code', 'Pull Requests', 'Issues'];
+const TABS = {
+  readme:{
+    title: 'Readme',
+    view: id => <ReadmeView id={id} />
+  },
+  news:{
+    title: 'News',
+    view: id => <EventsView id={id} type='repos' />
 
+  },
+  code:{
+    title: 'Code',
+    view: id => <FilesView repo={id} />
 
-const RepoView = ({id}, {repo, tab}, {changeView})=>
-  <div>
-    <AppToolbar
-      secondary={<Tabs tabs={TABS} selected={tab} onSelect={changeView} />}
-      title={id}
-    />
-    <div className="l-padding-t24 l-padding-b2">
-      {
-        tab === 'Readme'          ? <ReadmeView id={id} />
-      : tab === 'News'          ? <EventsView id={id} type='repos' />
-      : tab === 'Code'          ? <FilesView repo={id} />
-      : tab === 'Pull Requests' ? <IssuesPullsView id={id} modelClass={GithubPull} icon='git-pull-request' />
-      : tab === 'Issues'        ? <IssuesPullsView id={id} modelClass={GithubIssue} icon='issue-opened' />
-      : null
-      }
-    </div>
-  </div>;
-
-const init = ({id}, state, {loadRepo})=>(
-  GithubRepo.get(id).then(loadRepo),
-  {
-    repo: loadRepo(GithubRepo.localGet(id)),
-    tab: TABS[1]
+  },
+  pulls:{
+    title: 'Pull Requests',
+    view: id => <IssuesPullsView id={id} modelClass={GithubPull} icon='git-pull-request' />
+  },
+  issues:{
+    title: 'Issues',
+    view: id => <IssuesPullsView id={id} modelClass={GithubIssue} icon='issue-opened' />
   }
-);
+};
 
-RepoView.state = {
-  onInit: init,
-  onProps: init,
-  changeView: (props, state, actions, tab)=>({...state, tab}),
-  loadRepo:  (props, state, actions, repo)=>({...state, repo})
-}
-
-export default RepoView;
+export default ({id, viewUrl='news'}) => {
+  const [tab, resourceId] = viewUrl.split('/');
+  return (
+    resourceId
+      ? (
+          tab === 'issues'  ? <IssueView  repo={id}  issueId={resourceId} />
+        : tab === 'commits' ? <CommitView repo={id} commitId={resourceId} />
+        : null
+      )
+      : (
+        <div>
+          <AppToolbar
+            secondary={
+              <Tabs tabs={TABS} selected={tab} hrefPrefix={`#github/${id}?`} />
+            }
+            title={id}
+          />
+          <div className="l-padding-t24 l-padding-b2">
+            {TABS[tab].view(id)}
+          </div>
+        </div>
+      )
+  );
+};
