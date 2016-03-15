@@ -18,7 +18,7 @@ const renderEventAction = event=>{
       <a
         key={sha}
         className="layout horizontal center l-padding-l4 l-padding-t4"
-        href={`#github/${event.repo.name}/commits/${sha}`}
+        href={`#github/${event.repo.name}?commits/${sha}`}
       >
         <GithubIcon name="git-commit" className="l-padding-r2 icon-24" />
         {message}

@@ -8,7 +8,7 @@ const IssuesPullsView = ({id:modelId, icon}, issues)=>
     {issues.map(({id, number, title, created_at, user})=>
       <div key={id} className='List-item layout horizontal center'>
         <GithubIcon name={icon} className='l-margin-r3' />
-        <a className="t-normal" href={`#github/${modelId}/issues/${number}`}>
+        <a className="t-normal" href={`#github/${modelId}?issues/${number}`}>
           {title}
           <div
             className="t-light t-font-size-14 c-gray-dark"
