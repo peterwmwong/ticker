@@ -1,16 +1,23 @@
 import loadJSON   from '../../helpers/load';
 import storage    from '../../helpers/storage';
 
+// let num = 1;
+
+const storageKey = (repo, sha, pathArray)=>
+  `ticker:GithubFile:${repo}:${sha}:${pathArray.join('/')}`
+
 export default {
-  localQuery:({repo})=>(storage.getItemObj(`ticker:GithubFile:${repo}`) || []),
-  query:({repo, sha='master', path=''})=>
+  localQuery:({repo, sha='master', pathArray=[]})=>
+    storage.getItemObj(storageKey(repo, sha, pathArray)) || [],
+
+  query:({repo, sha='master', pathArray=[]})=>
     loadJSON(
-      // log('path:', path)
+      // (++num % 2)
       //   ? `src/helpers/mock_data/GithubRepoContentsMOCK2.json`
       //   : `src/helpers/mock_data/GithubRepoContentsMOCK.json`
-      `https://api.github.com/repos/${repo}/contents/${path}?ref=${sha}`
+      `https://api.github.com/repos/${repo}/contents/${pathArray.join('/')}?ref=${sha}`
     ).then(files=>(
-      storage.setItemObj(`ticker:GithubFile:${repo}`, files),
+      storage.setItemObj(storageKey(repo, sha, pathArray), files),
       files
     ))
 };

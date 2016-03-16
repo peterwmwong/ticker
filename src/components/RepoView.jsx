@@ -23,7 +23,7 @@ const TABS = {
   },
   code:{
     title: 'Code',
-    view: id => <FilesView repo={id} />
+    view: (id, head, tail) => <FilesView repo={id} sha={head} pathArray={tail} />
 
   },
   pulls:{
@@ -36,27 +36,25 @@ const TABS = {
   }
 };
 
+const stripURLEnding = url=> url.replace(/\/\s*$/, '');
+
 export default ({id, viewUrl='news'}) => {
-  const [tab, resourceId] = viewUrl.split('/');
+  const [tab, head, ...tail] = stripURLEnding(viewUrl).split('/');
   return (
-    resourceId
-      ? (
-          tab === 'issues'  ? <IssueView  repo={id}  issueId={resourceId} />
-        : tab === 'commits' ? <CommitView repo={id} commitId={resourceId} />
-        : null
-      )
-      : (
-        <div>
-          <AppToolbar
-            secondary={
-              <Tabs tabs={TABS} selected={tab} hrefPrefix={`#github/${id}?`} />
-            }
-            title={id}
-          />
-          <div className="l-padding-t24 l-padding-b2">
-            {TABS[tab].view(id)}
-          </div>
+      (tab === 'issues'  && head) ? <IssueView  repo={id} issueId={head} />
+    : (tab === 'commits' && head) ? <CommitView repo={id} commitId={head} />
+    : (
+      <div>
+        <AppToolbar
+          secondary={
+            <Tabs tabs={TABS} selected={tab} hrefPrefix={`#github/${id}?`} />
+          }
+          title={id}
+        />
+        <div className="l-padding-t24 l-padding-b2">
+          {TABS[tab].view(id, head, tail)}
         </div>
-      )
+      </div>
+    )
   );
 };
