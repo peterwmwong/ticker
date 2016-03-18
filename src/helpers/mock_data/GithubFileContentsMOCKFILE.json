@@ -1,0 +1,18 @@
+{
+  "name": "samples.html",
+  "path": "explainer/samples.html",
+  "sha": "ea225b1541e4d7ca6d53270954e5ed3809b72698",
+  "size": 1129,
+  "url": "https://api.github.com/repos/Polymer/polymer/contents/explainer/samples.html?ref=master",
+  "html_url": "https://github.com/Polymer/polymer/blob/master/explainer/samples.html",
+  "git_url": "https://api.github.com/repos/Polymer/polymer/git/blobs/ea225b1541e4d7ca6d53270954e5ed3809b72698",
+  "download_url": "https://raw.githubusercontent.com/Polymer/polymer/master/explainer/samples.html",
+  "type": "file",
+  "content": "PCFkb2N0eXBlIGh0bWw+CjwhLS0KQGxpY2Vuc2UKQ29weXJpZ2h0IChjKSAy\nMDE0IFRoZSBQb2x5bWVyIFByb2plY3QgQXV0aG9ycy4gQWxsIHJpZ2h0cyBy\nZXNlcnZlZC4KVGhpcyBjb2RlIG1heSBvbmx5IGJlIHVzZWQgdW5kZXIgdGhl\nIEJTRCBzdHlsZSBsaWNlbnNlIGZvdW5kIGF0IGh0dHA6Ly9wb2x5bWVyLmdp\ndGh1Yi5pby9MSUNFTlNFLnR4dApUaGUgY29tcGxldGUgc2V0IG9mIGF1dGhv\ncnMgbWF5IGJlIGZvdW5kIGF0IGh0dHA6Ly9wb2x5bWVyLmdpdGh1Yi5pby9B\nVVRIT1JTLnR4dApUaGUgY29tcGxldGUgc2V0IG9mIGNvbnRyaWJ1dG9ycyBt\nYXkgYmUgZm91bmQgYXQgaHR0cDovL3BvbHltZXIuZ2l0aHViLmlvL0NPTlRS\nSUJVVE9SUy50eHQKQ29kZSBkaXN0cmlidXRlZCBieSBHb29nbGUgYXMgcGFy\ndCBvZiB0aGUgcG9seW1lciBwcm9qZWN0IGlzIGFsc28Kc3ViamVjdCB0byBh\nbiBhZGRpdGlvbmFsIElQIHJpZ2h0cyBncmFudCBmb3VuZCBhdCBodHRwOi8v\ncG9seW1lci5naXRodWIuaW8vUEFURU5UUy50eHQKLS0+CjxodG1sPgo8aGVh\nZD4KCiAgPHRpdGxlPkV4cGxhaW5lciBTYW1wbGVzPC90aXRsZT4KCiAgPG1l\ndGEgY2hhcnNldD0idXRmLTgiPgogIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBj\nb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MS4w\nIj4KCiAgPGxpbmsgcmVsPSJpbXBvcnQiIGhyZWY9Ii4uL3BvbHltZXIuaHRt\nbCI+CgogIDxzdHlsZT4KICAgIGJvZHkgewogICAgICBmb250LWZhbWlseTog\nc2Fucy1zZXJpZjsKICAgICAgZm9udC1zaXplOiAxNXB4OwogICAgfQogIDwv\nc3R5bGU+Cgo8L2hlYWQ+Cjxib2R5PgoKICA8c2NyaXB0PgogICAgUG9seW1l\ncih7CgogICAgICBpczogJ3gtY3VzdG9tJywKCiAgICAgIHByb3BlcnRpZXM6\nIHsKICAgICAgICB1c2VyOiBTdHJpbmcKICAgICAgfSwKCiAgICAgIHJlYWR5\nOiBmdW5jdGlvbigpIHsKICAgICAgICB0aGlzLmlubmVySFRNTCA9ICdIZWxs\nbyBXb3JsZCwgbXkgdXNlciBpcyAnICsgKHRoaXMudXNlciB8fCAnbm9ib2R5\nJykgKyAnLic7CiAgICAgIH0KCiAgICB9KTsKICA8L3NjcmlwdD4KCiAgPHgt\nY3VzdG9tIHVzZXI9IlNjb3R0Ij48L3gtY3VzdG9tPgoKPC9ib2R5Pgo8L2h0\nbWw+Cg==\n",
+  "encoding": "base64",
+  "_links": {
+    "self": "https://api.github.com/repos/Polymer/polymer/contents/explainer/samples.html?ref=master",
+    "git": "https://api.github.com/repos/Polymer/polymer/git/blobs/ea225b1541e4d7ca6d53270954e5ed3809b72698",
+    "html": "https://github.com/Polymer/polymer/blob/master/explainer/samples.html"
+  }
+}

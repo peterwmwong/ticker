@@ -45,20 +45,15 @@ AppSearch.state = {
     curSearch: state.curSearch || setTimeout(doSearch, 300),
     term:event.target.value
   }),
-  doSearch: (props, state, {onSearchResults})=>{
-    const params = {term: state.term};
-    Promise.all([
-      GithubRepo.query(params), GithubUser.query(params)
-    ]).then(([repos, users])=>{
-      onSearchResults(
-        [...repos, ...users].sort((a,b)=>b.score - a.score).slice(0, 5)
-      );
-    });
-    return {...state, curSearch:null};
-  },
-  onSearchResults: (props, state, actions, searchResults)=>({
+  doSearch: (props, state, {onSearchResults})=>(
+    Promise
+      .all([GithubRepo.query(state), GithubUser.query(state)])
+      .then(onSearchResults),
+    {...state, curSearch:null}
+  ),
+  onSearchResults: (props, state, actions, [repos, users])=>({
     ...state,
-    searchResults
+    searchResults: repos.concat(users).sort((a,b)=>b.score - a.score).slice(0, 5)
   })
 };
 
