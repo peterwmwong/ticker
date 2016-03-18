@@ -3,7 +3,7 @@ import xvdom           from 'xvdom';
 import AppToolbar      from './AppToolbar.jsx';
 import CommitView      from './CommitView.jsx';
 import EventsView      from './EventsView.jsx';
-import FilesView       from './FilesView.jsx';
+import CodeView        from './code-view/CodeView.jsx';
 import GithubIssue     from '../models/github/GithubIssue';
 import GithubPull      from '../models/github/GithubPull';
 import IssuesPullsView from './IssuesPullsView.jsx';
@@ -23,7 +23,7 @@ const TABS = {
   },
   code:{
     title: 'Code',
-    view: (id, head, tail) => <FilesView repo={id} sha={head} pathArray={tail} />
+    view: (id, head, tail) => <CodeView repo={id} sha={head} pathArray={tail} />
 
   },
   pulls:{

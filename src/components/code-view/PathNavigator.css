@@ -1,9 +1,9 @@
-.PathToolbar-path + .PathToolbar-path:before {
+.PathNavigator-path + .PathNavigator-path:before {
   content: '';
   display: inline-block;
   width: 1px;
   height: 12px;
   background-color: #AAA;
-  margin: 0 4px;
+  margin: 0 8px;
   transform: rotate(25deg);
 }
