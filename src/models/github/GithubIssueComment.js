@@ -8,9 +8,8 @@ export default {
     return loadJSON(
       `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}/comments`
       // `src/helpers/mock_data/GithubIssueCommentsMOCK.json`
-    ).then(comments=>(
-      storage.setItemObj(`ticker:GithubIssueComment:${id}`, comments),
-      comments
-    ));
+    ).then(comments=>
+      storage.setItemObj(`ticker:GithubIssueComment:${id}`, comments)
+    );
   }
 };

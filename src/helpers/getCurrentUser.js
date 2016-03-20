@@ -24,7 +24,7 @@ const authWithFirebase = firebaseRef=>
   new Promise((resolve, reject)=>{
     firebaseRef.onAuth(authData=>{
       if(authData && authData.github) resolve(authData.github);
-      else reject();
+      else reject('Firebase auth failed');
     });
   });
 
