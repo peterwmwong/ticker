@@ -1,5 +1,6 @@
 import storage  from '../../helpers/storage';
 import loadJSON from '../../helpers/load';
+import atob from '../../helpers/atob';
 
 export default {
   get:id=>

@@ -1,4 +1,5 @@
-import loadJSON   from '../../helpers/load';
+import atob     from '../../helpers/atob';
+import loadJSON from '../../helpers/load';
 
 // let num = 0;
 // const MOCK_CONTENTS = [
