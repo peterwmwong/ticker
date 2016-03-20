@@ -7,8 +7,7 @@ export default {
       new Firebase(`https://ticker-dev.firebaseio.com/users/${user.id}`)
         .set(user.toJSON(), (err)=>{
           if(err) return reject(err);
-          storage.setItemObj(`ticker:User:${user.id}`, user);
-          resolve(user);
+          resolve(storage.setItemObj(`ticker:User:${user.id}`, user));
         })
     ),
   get:id=>
@@ -17,8 +16,7 @@ export default {
         .once('value', data=>{
           const val = data.val();
           if(!val) reject("Couldn't find User");
-          storage.setItemObj(`ticker:User:${val.id}`, val);
-          resolve(val);
+          resolve(storage.setItemObj(`ticker:User:${val.id}`, val));
         })
     )
 };

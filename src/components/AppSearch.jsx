@@ -42,8 +42,8 @@ AppSearch.state = {
   onProps: onInit,
   onSearchInput: (props, state, {doSearch}, event)=>({
     ...state,
-    curSearch: state.curSearch || setTimeout(doSearch, 300),
-    term:event.target.value
+    curSearch: (clearTimeout(state.curSearch), setTimeout(doSearch, 300)),
+    term: event.target.value
   }),
   doSearch: (props, state, {onSearchResults})=>(
     Promise
@@ -53,7 +53,11 @@ AppSearch.state = {
   ),
   onSearchResults: (props, state, actions, [repos, users])=>({
     ...state,
-    searchResults: repos.concat(users).sort((a,b)=>b.score - a.score).slice(0, 5)
+    searchResults:
+      (repos || [])
+        .concat(users || [])
+        .sort((a,b) => b.score - a.score)
+        .slice(0, 5)
   })
 };
 

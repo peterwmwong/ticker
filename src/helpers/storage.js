@@ -62,8 +62,12 @@ export default {
   setItem(key, value){
     safeSetItem(key, value);
     updateLRUItem(key);
+    return value;
   },
 
   getItemObj(key){ return JSON.parse(this.getItem(key) || null); },
-  setItemObj(key, value){ this.setItem(key, JSON.stringify(value)); }
+  setItemObj(key, value){
+    this.setItem(key, JSON.stringify(value));
+    return value;
+  }
 };
