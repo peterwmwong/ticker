@@ -8,28 +8,28 @@ const TYPE_TO_ICON = {
   dir:  'file-directory'
 };
 
-const sortFiles = (a, b) => compare(a.type, b.type) || compare(a.name, b.name)
+const sortFiles = (a, b)=> compare(a.type, b.type) || compare(a.name, b.name)
 
-const renderFile = (repo, sha, {content}) =>
-  <div className="Card l-padding-t4">
+const renderFile = (repo, sha, {content})=>
+  <div className='Card l-padding-t4'>
     <Code code={content} />
   </div>
 
-const renderDirectory = (repo, sha, files) =>
+const renderDirectory = (repo, sha, files)=>
   <div className='Card l-margin-t2'>
-    {files.map(({name, type, path}) =>
+    {files.map(({name, type, path})=>
       <a
-        key={name}
         className='List-item layout horizontal center t-normal'
         href={`#github/${repo}/?code/${sha}/${path}`}
+        key={name}
       >
-        <GithubIcon name={TYPE_TO_ICON[type]} className='l-margin-r3' />
+        <GithubIcon className='l-margin-r3' name={TYPE_TO_ICON[type]} />
         {name}
       </a>
     )}
   </div>;
 
-export default ({repo, sha, contents: {isFile, value}}) =>
+export default ({repo, sha, contents: {isFile, value}})=>
   isFile
     ? renderFile(repo, sha, value)
     : renderDirectory(repo, sha, value.sort(sortFiles));

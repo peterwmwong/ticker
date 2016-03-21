@@ -8,18 +8,18 @@ const REGISTRY_KEY = 'ticker:storage';
 
 // Map of storage key to last used timestamp.
 let registry;
-try{ registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)); }
+try{ registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)) }
 catch(e){} //eslint-disable-line
 
 // TODO: Remove when full migration
 if(registry && !(registry instanceof Array)){
-  registry = Object.keys(registry).sort((a, b)=>registry[b] - registry[a]);
+  registry = Object.keys(registry).sort((a, b)=> registry[b] - registry[a]);
   localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry));
 }
 
 if(!registry) localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry = []));
 
-const removeLRUItem = ()=>{
+const removeLRUItem = ()=> {
   const lruKey = registry.pop();
   if(lruKey){
     if(process.env.NODE_ENV === 'development'){
@@ -30,19 +30,21 @@ const removeLRUItem = ()=>{
   }
 };
 
-const safeSetItem = (key, value)=>{
-  let remainingTries = 20;
+const safeSetItem = (key, value)=> {
+  let remainingTries = registry.length;
   while(remainingTries--){
     try{
       localStorage.setItem(key, value);
       return;
     }
-    catch(e){ removeLRUItem(); }
+    catch(e){ removeLRUItem() }
   }
-  throw new Error(`Unable to make room to store ${key}.`);
+  if(process.env.NODE_ENV === 'development'){
+    console.warn(`Unable to make room to store ${key}.`); //eslint-disable-line
+  }
 };
 
-const updateRegistryKey = (key, isAdd)=>{
+const updateRegistryKey = (key, isAdd)=> {
   const keyIndex = registry.indexOf(key);
   if(keyIndex >= 0) registry.splice(keyIndex, 1);
   if(isAdd) registry.unshift(key);
@@ -50,7 +52,7 @@ const updateRegistryKey = (key, isAdd)=>{
   safeSetItem(REGISTRY_KEY, JSON.stringify(registry));
 };
 
-const updateLRUItem = (key)=>{ updateRegistryKey(key, true); };
+const updateLRUItem = (key)=> {updateRegistryKey(key, true)};
 
 export default {
   getItem(key){
@@ -65,7 +67,7 @@ export default {
     return value;
   },
 
-  getItemObj(key){ return JSON.parse(this.getItem(key) || null); },
+  getItemObj(key){ return JSON.parse(this.getItem(key) || null) },
   setItemObj(key, value){
     this.setItem(key, JSON.stringify(value));
     return value;

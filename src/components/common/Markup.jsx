@@ -3,9 +3,9 @@ import xvdom      from 'xvdom';
 import loadMarked from '../../helpers/loaders/loadMarked';
 
 const Markup = (props, contentHTML)=>
-  <div className="Markup" innerHTML={contentHTML} />;
+  <div className='Markup' innerHTML={contentHTML} />;
 
-const onInit = (props, state, {markup})=>(
+const onInit = (props, state, {markup})=> (
   loadMarked().then(markup),
   ''
 );
@@ -13,7 +13,7 @@ const onInit = (props, state, {markup})=>(
 Markup.state = {
   onInit,
   onProps: onInit,
-  markup: ({content}, state, actions, marked)=>marked(content)
+  markup: ({content}, state, actions, marked)=> marked(content)
 };
 
 export default Markup;

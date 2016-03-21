@@ -1,5 +1,4 @@
 import xvdom           from 'xvdom';
-
 import AppToolbar      from './AppToolbar.jsx';
 import CommitView      from './CommitView.jsx';
 import EventsView      from './EventsView.jsx';
@@ -14,44 +13,44 @@ import Tabs            from './common/Tabs.jsx';
 const TABS = {
   readme:{
     title: 'Readme',
-    view: id => <ReadmeView id={id} />
+    view: (id)=> <ReadmeView id={id} />
   },
   news:{
     title: 'News',
-    view: id => <EventsView id={id} type='repos' />
+    view: (id)=> <EventsView id={id} type='repos' />
 
   },
   code:{
     title: 'Code',
-    view: (id, head, tail) => <CodeView repo={id} sha={head} pathArray={tail} />
+    view: (id, head, tail)=> <CodeView pathArray={tail} repo={id} sha={head} />
 
   },
   pulls:{
     title: 'Pull Requests',
-    view: id => <IssuesPullsView id={id} modelClass={GithubPull} icon='git-pull-request' />
+    view: (id)=> <IssuesPullsView icon='git-pull-request' id={id} modelClass={GithubPull} />
   },
   issues:{
     title: 'Issues',
-    view: id => <IssuesPullsView id={id} modelClass={GithubIssue} icon='issue-opened' />
+    view: (id)=> <IssuesPullsView icon='issue-opened' id={id} modelClass={GithubIssue} />
   }
 };
 
-const stripURLEnding = url=> url.replace(/\/\s*$/, '');
+const stripURLEnding = (url)=> url.replace(/\/\s*$/, '');
 
-export default ({id, viewUrl='news'}) => {
+export default ({id, viewUrl='news'})=> {
   const [tab, head, ...tail] = stripURLEnding(viewUrl).split('/');
   return (
-      (tab === 'issues'  && head) ? <IssueView  repo={id} issueId={head} />
-    : (tab === 'commits' && head) ? <CommitView repo={id} commitId={head} />
+      (tab === 'issues'  && head) ? <IssueView  issueId={head} repo={id} />
+    : (tab === 'commits' && head) ? <CommitView commitId={head} repo={id} />
     : (
       <div>
         <AppToolbar
           secondary={
-            <Tabs tabs={TABS} selected={tab} hrefPrefix={`#github/${id}?`} />
+            <Tabs hrefPrefix={`#github/${id}?`} selected={tab} tabs={TABS} />
           }
           title={id}
         />
-        <div className="l-padding-t24 l-padding-b2">
+        <div className='l-padding-t24 l-padding-b2'>
           {TABS[tab].view(id, head, tail)}
         </div>
       </div>

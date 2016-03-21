@@ -2,7 +2,7 @@ import xvdom      from 'xvdom';
 import Actor      from './common/Actor.jsx';
 import GithubIcon from './common/GithubIcon.jsx';
 
-const issuePRIcon = event=>
+const issuePRIcon = (event)=>
   `${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
 
 const issuePRSubject = ({payload})=>
@@ -11,7 +11,7 @@ const issuePRSubject = ({payload})=>
 const issuePRSubjectUrl = ({repo, payload})=>
   `#github/${repo.name}?issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
 
-const getSummary = event=>{
+const getSummary = (event)=> {
   const payload = event.payload;
   switch(event.type){
   case 'IssuesEvent':
@@ -75,20 +75,20 @@ const getSummary = event=>{
   }
 };
 
-export default ({event})=>{
+export default ({event})=> {
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
     <div>
       {subject &&
-        <a className="layout horizontal center l-padding-b4" href={subjectUrl}>
+        <a className='layout horizontal center l-padding-b4' href={subjectUrl}>
           <GithubIcon name={subjectIcon} />
-          <div className="flex l-padding-l2 t-truncate t-normal" textContent={subject} />
+          <div className='flex l-padding-l2 t-truncate t-normal' textContent={subject} />
         </a>
       }
       <Actor
         action={actorsAction}
         actionDate={event.created_at}
-        className="l-padding-l4"
+        className='l-padding-l4'
         user={event.actor}
       />
     </div>

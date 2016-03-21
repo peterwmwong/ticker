@@ -8,13 +8,13 @@ import loadJSON from '../../helpers/load';
 //   'src/helpers/mock_data/GithubFileContentsMOCKFILE.json'
 // ];
 
-const addTransformedFileProperties = (fileContents) =>(
+const addTransformedFileProperties = (fileContents)=> (
   fileContents.parentPath = fileContents.path.replace(/[^\/]+$/, ''),
   fileContents.content    = atob(fileContents.content),
   fileContents
 )
 
-const createGithubFileContent = (contents) =>
+const createGithubFileContent = (contents)=>
   contents.constructor === Array
     ? {isFile: false, value: contents}
     : {isFile: true,  value: addTransformedFileProperties(contents)}

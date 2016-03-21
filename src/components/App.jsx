@@ -26,11 +26,11 @@ const App = (
       onclick={disableOverlay}
     />
     <AppSearch enabled={isSearchEnabled} />
-    <AppDrawer user={currentUser} enabled={isDrawerEnabled} onLogin={login} />
+    <AppDrawer enabled={isDrawerEnabled} onLogin={login} user={currentUser} />
   </body>;
 
 App.state = {
-  onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=>{
+  onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=> {
     AppToolbar.onDrawer = enableDrawer;
     AppToolbar.onSearch = enableSearch;
     loadFonts();
@@ -42,7 +42,7 @@ App.state = {
     };
   },
 
-  onHashChange: (props, state, {viewRepo, viewUser})=>{
+  onHashChange: (props, state, {viewRepo, viewUser})=> {
     if(state) document.body.scrollTop = 0;
     const [appUrl, viewUrl] = window.location.hash.split('?');
     const [, owner, repo] = appUrl.split('/');
@@ -57,26 +57,26 @@ App.state = {
     }
   },
 
-  viewUser: (props, state, actions, user, viewUrl)=>({
+  viewUser: (props, state, actions, user, viewUrl)=> ({
     ...state,
     view: <UserView id={user} viewUrl={viewUrl} />
   }),
 
-  viewRepo: (props, state, actions, repo, viewUrl)=>({
+  viewRepo: (props, state, actions, repo, viewUrl)=> ({
     ...state,
     view: <RepoView id={repo} viewUrl={viewUrl} />
   }),
 
-  enableSearch:   (props, state)=>({...state, isSearchEnabled:true,  isDrawerEnabled:false}),
-  enableDrawer:   (props, state)=>({...state, isSearchEnabled:false, isDrawerEnabled:true}),
-  disableOverlay: (props, state)=>({...state, isSearchEnabled:false, isDrawerEnabled:false}),
+  enableSearch:   (props, state)=> ({...state, isSearchEnabled:true,  isDrawerEnabled:false}),
+  enableDrawer:   (props, state)=> ({...state, isSearchEnabled:false, isDrawerEnabled:true}),
+  disableOverlay: (props, state)=> ({...state, isSearchEnabled:false, isDrawerEnabled:false}),
 
-  login: (props, state, {onCurrentUserChange})=>(
+  login: (props, state, {onCurrentUserChange})=> (
     authWithOAuthPopup().then(onCurrentUserChange),
     state
   ),
 
-  onCurrentUserChange: (props, state, actions, currentUser)=>({
+  onCurrentUserChange: (props, state, actions, currentUser)=> ({
     ...state,
     currentUser
   })

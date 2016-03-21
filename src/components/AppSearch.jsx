@@ -7,27 +7,27 @@ import GithubUser from '../models/github/GithubUser';
 
 const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
   <div className={`AppSearch l-padding-1 fixed fixed--top ${enabled ? 'is-enabled' : ''}`}>
-    <div className="AppSearch-searchInputContainer">
-      <div className="AppSearch-inkdrop fit" />
-      <div className="AppSearch-searchBar layout horizontal">
+    <div className='AppSearch-searchInputContainer'>
+      <div className='AppSearch-inkdrop fit' />
+      <div className='AppSearch-searchBar layout horizontal'>
         <input
-          type="text"
-          className="AppSearch-searchInput flex l-padding-h4"
-          placeholder="Search repositories or users…"
-          value={term}
+          className='AppSearch-searchInput flex l-padding-h4'
           oninput={onSearchInput}
+          placeholder='Search repositories or users…'
+          type='text'
+          value={term}
         />
       </div>
     </div>
-    <ul className="AppSearch-searchResults">
+    <ul className='AppSearch-searchResults'>
       {searchResults.map(({avatar_url, full_name, id, login, owner})=>
         <li
+          className='layout horizontal center l-padding-v4 l-padding-h6'
           key={id}
-          className="layout horizontal center l-padding-v4 l-padding-h6"
         >
           <Avatar avatarUrl={avatar_url || (owner && owner.avatar_url)} />
           <SourceName
-            className="l-margin-l4"
+            className='l-margin-l4'
             displayName={login || full_name}
           />
         </li>
@@ -35,28 +35,28 @@ const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
     </ul>
   </div>;
 
-const onInit = ()=>({term: '', searchResults: []});
+const onInit = ()=> ({term: '', searchResults: []});
 
 AppSearch.state = {
   onInit: onInit,
   onProps: onInit,
-  onSearchInput: (props, state, {doSearch}, event)=>({
+  onSearchInput: (props, state, {doSearch}, event)=> ({
     ...state,
     curSearch: (clearTimeout(state.curSearch), setTimeout(doSearch, 300)),
     term: event.target.value
   }),
-  doSearch: (props, state, {onSearchResults})=>(
+  doSearch: (props, state, {onSearchResults})=> (
     Promise
       .all([GithubRepo.query(state), GithubUser.query(state)])
       .then(onSearchResults),
     {...state, curSearch:null}
   ),
-  onSearchResults: (props, state, actions, [repos, users])=>({
+  onSearchResults: (props, state, actions, [repos, users])=> ({
     ...state,
     searchResults:
       (repos || [])
         .concat(users || [])
-        .sort((a,b) => b.score - a.score)
+        .sort((a,b)=> b.score - a.score)
         .slice(0, 5)
   })
 };
