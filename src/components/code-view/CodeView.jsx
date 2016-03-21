@@ -3,25 +3,25 @@ import PathNavigator      from './PathNavigator.jsx';
 import PathContents       from './PathContents.jsx';
 import GithubFileContents from '../../models/github/GithubFileContents';
 
-const CodeView = ({repo, pathArray=[], sha='master'}, contents) =>
+const CodeView = ({repo, pathArray=[], sha='master'}, contents)=>
   <div>
     <PathNavigator
-      repo={repo}
-      pathURLPrefix={`#github/${repo}/?code/`}
       pathArray={pathArray}
+      pathURLPrefix={`#github/${repo}/?code/`}
+      repo={repo}
       sha={sha}
     />
-    {contents && <PathContents repo={repo} sha={sha} contents={contents} />}
+    {contents && <PathContents contents={contents} repo={repo} sha={sha} />}
   </div>;
 
-const onInit = (props, state, {loadContents}) => {
+const onInit = (props, state, {loadContents})=> {
   GithubFileContents.query(props).then(loadContents);
 };
 
 CodeView.state = {
   onInit,
   onProps: onInit,
-  loadContents: (props, state, actions, contents) => contents
+  loadContents: (props, state, actions, contents)=> contents
 };
 
 export default CodeView;

@@ -7,23 +7,23 @@ import Tabs          from './common/Tabs.jsx';
 const TABS = {
   news:{
     title: 'News',
-    view: id=> <EventsView id={id} type='users' />
+    view: (id)=> <EventsView id={id} type='users' />
   },
   repos:{
     title: 'Repos',
-    view: id=> <UserReposView id={id} />
+    view: (id)=> <UserReposView id={id} />
   }
 };
 
-const UserView = ({id, viewUrl='news'}) =>
+const UserView = ({id, viewUrl='news'})=>
   <div>
     <AppToolbar
       secondary={
-        <Tabs tabs={TABS} selected={viewUrl} hrefPrefix={`#github/${id}?`}/>
+        <Tabs hrefPrefix={`#github/${id}?`} selected={viewUrl} tabs={TABS} />
       }
       title={id}
     />
-    <div className="l-padding-t24 l-padding-b2">
+    <div className='l-padding-t24 l-padding-b2'>
       {TABS[viewUrl].view(id)}
     </div>
   </div>;

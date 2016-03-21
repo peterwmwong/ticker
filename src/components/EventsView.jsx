@@ -8,13 +8,13 @@ const EVENT_TYPES_TO_HIDE = {
 };
 
 const EventsView = (props, events)=>
-  <div className="l-margin-t2">
-    {events.map(event=>
-      <EventCard key={event.id} event={event} recycle />
+  <div className='l-margin-t2'>
+    {events.map((event)=>
+      <EventCard event={event} key={event.id} recycle />
     )}
   </div>;
 
-const onInit = (props, state, {loadEvents})=>(
+const onInit = (props, state, {loadEvents})=> (
   GithubEvent.query(props).then(loadEvents),
   loadEvents(GithubEvent.localQuery(props))
 );
@@ -23,7 +23,7 @@ EventsView.state = {
   onInit: onInit,
   onProps: onInit,
   loadEvents: (props, state, actions, events)=>
-    events.filter(e=>!EVENT_TYPES_TO_HIDE[e.type])
+    events.filter((e)=> !EVENT_TYPES_TO_HIDE[e.type])
 };
 
 export default EventsView;

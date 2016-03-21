@@ -14,31 +14,31 @@ const ISSUE_PLACEHOLDER_OBJ = {
 };
 
 const IssueView = ({repo, issueId}, {issue, issueComments})=>
-  <div className="l-padding-t6">
+  <div className='l-padding-t6'>
     <AppToolbar title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`} />
-    <div className="Card Card--fullBleed">
-      <div className="Card-title">
+    <div className='Card Card--fullBleed'>
+      <div className='Card-title'>
         <h1
-          className="t-word-break-word l-padding-t2 l-margin-b0"
+          className='t-word-break-word l-padding-t2 l-margin-b0'
           textContent={issue.title}
         />
       </div>
       <Actor
         actionDate={issue.created_at}
-        className="Card-content"
+        className='Card-content'
         user={issue.user}
       />
-      <div className="Card-content" textContent={issue.body} />
+      <div className='Card-content' textContent={issue.body} />
     </div>
     {issueComments.map(({id, user, body, created_at})=>
-      <div id={id} className="Card">
-        <Actor actionDate={created_at} className="Card-content" user={user} />
-        <div className="Card-content t-word-break-word" textContent={body} />
+      <div className='Card' id={id} key={id}>
+        <Actor actionDate={created_at} className='Card-content' user={user} />
+        <div className='Card-content t-word-break-word' textContent={body} />
       </div>
     )}
   </div>;
 
-const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
+const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=> {
   const id = `${repo}/${issueId}`;
   GithubIssue.get(id).then(loadIssue);
   GithubIssueComment.query({id}).then(loadIssueComments);
@@ -51,11 +51,11 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=>{
 IssueView.state = {
   onInit: onInit,
   onProps: onInit,
-  loadIssue: (props, state, actions, issue)=>({
+  loadIssue: (props, state, actions, issue)=> ({
     ...state,
     issue
   }),
-  loadIssueComments: (props, state, actions, issueComments)=>({
+  loadIssueComments: (props, state, actions, issueComments)=> ({
     ...state,
     issueComments
   })

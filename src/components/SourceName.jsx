@@ -1,10 +1,10 @@
 import xvdom from 'xvdom';
 
-export default ({className, displayName})=>{
+export default ({className, displayName})=> {
   const [owner, repo] = displayName.split('/');
   return (
     <a className={`t-normal ${className}`} href={`#github/${displayName}`}>
-      <span className="c-gray-dark t-light" textContent={repo ? `${owner}/` : ''} />
+      <span className='c-gray-dark t-light' textContent={repo ? `${owner}/` : ''} />
       {repo || owner}
     </a>
   );

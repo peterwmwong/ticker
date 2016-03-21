@@ -24,9 +24,9 @@ import storage    from '../../helpers/storage';
 // };
 
 export default {
-  localQuery:({type, id})=>(storage.getItemObj(`ticker:GithubEvent:${type}/${id}`) || []),
+  localQuery:({type, id})=> (storage.getItemObj(`ticker:GithubEvent:${type}/${id}`) || []),
   query:({type, id})=>
-    loadJSON(`https://api.github.com/${type}/${id}/events`).then(events=>
+    loadJSON(`https://api.github.com/${type}/${id}/events`).then((events)=>
       storage.setItemObj(`ticker:GithubEvent:${type}/${id}`, events)
     )
 };
