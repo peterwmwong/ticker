@@ -1,17 +1,14 @@
-import storage  from '../../helpers/storage';
-import loadJSON from '../../helpers/load';
+import model  from '../../helpers/model';
 
-export default {
-  localQuery:({user})=> storage.getItemObj(`ticker:GithubRepos:user:${user}`),
-  query:({term, user})=>
-      term ? loadJSON(
-        `https://api.github.com/search/repositories?q=${term}&per_page=5`
-        // `src/helpers/mock_data/GithubUserQueryMOCK.json`
-      ).then((d)=> d.items)
-    : user ? loadJSON(
-        `https://api.github.com/users/${user}/repos`
-      ).then((items)=>
-        storage.setItemObj(`ticker:GithubRepos:user:${user}`, items)
-      )
+export default model({
+  query: ({term, user})=>
+    term ? {
+      url: `https://api.github.com/search/repositories?q=${term}&per_page=5`,
+      transform: (d)=> d.items
+    }
+    : user ? {
+      cache: `ticker:GithubRepos:user:${user}`,
+      url:   `https://api.github.com/users/${user}/repos`
+    }
     : null
-};
+});

@@ -1,11 +1,10 @@
-import loadJSON from '../../helpers/load';
+import model  from '../../helpers/model';
 
-export default {
+export default model({
   get: (id)=> {
     const [owner, repo, commitid] = id.split('/');
-    return loadJSON(
-      // `src/helpers/mock_data/GithubCommitMOCK.json`
-      `https://api.github.com/repos/${owner}/${repo}/commits/${commitid}`
-    );
+    return {
+      url: `https://api.github.com/repos/${owner}/${repo}/commits/${commitid}`
+    };
   }
-};
+});

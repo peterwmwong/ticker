@@ -1,9 +1,8 @@
-import loadJSON from '../../helpers/load';
+import model  from '../../helpers/model';
 
-export default {
-  query:({term})=>
-    loadJSON(
-      `https://api.github.com/search/users?q=${term}&per_page=5`
-      // `src/helpers/mock_data/GithubUserQueryMOCK.json`
-    ).then((d)=> d.items)
-};
+export default model({
+  query: ({term})=> ({
+    url: `https://api.github.com/search/users?q=${term}&per_page=5`,
+    transform: (d)=> d.items
+  })
+});

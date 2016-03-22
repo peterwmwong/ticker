@@ -1,5 +1,5 @@
 import atob     from '../../helpers/atob';
-import loadJSON from '../../helpers/load';
+import model  from '../../helpers/model';
 
 // let num = 0;
 // const MOCK_CONTENTS = [
@@ -19,10 +19,9 @@ const createGithubFileContent = (contents)=>
     ? {isFile: false, value: contents}
     : {isFile: true,  value: addTransformedFileProperties(contents)}
 
-export default {
-  query:({repo, sha='master', pathArray=[]})=>
-    loadJSON(
-      // MOCK_CONTENTS[num++ % MOCK_CONTENTS.length]
-      `https://api.github.com/repos/${repo}/contents/${pathArray.join('/')}?ref=${sha}`
-    ).then(createGithubFileContent)
-};
+export default model({
+  query: ({repo, sha='master', pathArray=[]})=> ({
+    url: `https://api.github.com/repos/${repo}/contents/${pathArray.join('/')}?ref=${sha}`,
+    transform: createGithubFileContent
+  })
+});

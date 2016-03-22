@@ -1,12 +1,8 @@
-import loadJSON from '../../helpers/load';
-import storage  from '../../helpers/storage';
+import model  from '../../helpers/model';
 
-export default {
-  localQuery: ({id})=> (storage.getItemObj(`ticker:GithubPulls:${id}`) || []),
-  query: ({id})=>
-    loadJSON(
-      `https://api.github.com/repos/${id}/pulls`
-    ).then((pulls)=>
-      storage.setItemObj(`ticker:GithubPulls:${id}`, pulls)
-    )
-};
+export default model({
+  query: (id)=> ({
+    cache: `GithubPulls:${id}`,
+    url: `https://api.github.com/repos/${id}/pulls`
+  })
+});
