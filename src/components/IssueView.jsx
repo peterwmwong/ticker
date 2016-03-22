@@ -44,7 +44,7 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=> {
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
     issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
-    issueComments: GithubIssueComment.localQuery({id})
+    issueComments: []
   };
 };
 

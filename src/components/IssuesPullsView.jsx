@@ -21,8 +21,8 @@ const IssuesPullsView = ({id:modelId, icon}, issues)=>
 
 IssuesPullsView.state = {
   onInit: ({id, modelClass}, state, {loadIssues})=> (
-    modelClass.query({id}).then(loadIssues),
-    loadIssues(modelClass.localQuery({id}) || [])
+    modelClass.query(id).then(loadIssues),
+    loadIssues(modelClass.localQuery(id) || [])
   ),
   loadIssues: (props, state, actions, issues)=>
     issues.sort((a, b)=> compare(b.created_at, a.created_at))

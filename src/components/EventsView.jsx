@@ -23,7 +23,7 @@ EventsView.state = {
   onInit: onInit,
   onProps: onInit,
   loadEvents: (props, state, actions, events)=>
-    events.filter((e)=> !EVENT_TYPES_TO_HIDE[e.type])
+    (events || []).filter((e)=> !EVENT_TYPES_TO_HIDE[e.type])
 };
 
 export default EventsView;

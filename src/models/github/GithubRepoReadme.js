@@ -1,13 +1,9 @@
-import storage  from '../../helpers/storage';
-import loadJSON from '../../helpers/load';
 import atob from '../../helpers/atob';
+import model  from '../../helpers/model';
 
-export default {
-  get:(id)=>
-    loadJSON(
-      `https://api.github.com/repos/${id}/readme`
-    ).then(({content})=>
-      storage.setItemObj(`ticker:GithubRepoReadme:${id}`, atob(content))
-    ),
-  localGet:(id)=> storage.getItemObj(`ticker:GithubRepoReadme:${id}`)
-};
+export default model({
+  get: (id)=> ({
+    url: `https://api.github.com/repos/${id}/readme`,
+    transform: ({content})=> atob(content)
+  })
+});

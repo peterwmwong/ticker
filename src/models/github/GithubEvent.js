@@ -1,5 +1,4 @@
-import loadJSON   from '../../helpers/load';
-import storage    from '../../helpers/storage';
+import model from '../../helpers/model';
 
 // TOOD(pwong): We don't may need more then just property access in the future
 // const TYPE_TO_PAYLOAD = {
@@ -23,10 +22,9 @@ import storage    from '../../helpers/storage';
 //   WatchEvent: WatchEvent
 // };
 
-export default {
-  localQuery:({type, id})=> (storage.getItemObj(`ticker:GithubEvent:${type}/${id}`) || []),
-  query:({type, id})=>
-    loadJSON(`https://api.github.com/${type}/${id}/events`).then((events)=>
-      storage.setItemObj(`ticker:GithubEvent:${type}/${id}`, events)
-    )
-};
+export default model({
+  query: ({type, id})=> ({
+    cache: `ticker:GithubEvent:${type}/${id}`,
+    url:   `https://api.github.com/${type}/${id}/events`
+  })
+});
