@@ -9,7 +9,6 @@
 *.DS_Store
 
 /node_modules/*
-/build/
 
 !/node_modules/octicons
 !/node_modules/marked

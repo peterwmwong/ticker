@@ -1,7 +1,8 @@
-import xvdom      from 'xvdom';
-import GithubIcon from '../common/GithubIcon.jsx';
-import Code       from '../common/Code.jsx';
-import compare    from '../../helpers/compare';
+import xvdom            from 'xvdom';
+import GithubIcon       from '../common/GithubIcon.jsx';
+import Code             from '../common/Code.jsx';
+import compare          from '../../helpers/compare';
+import getSyntaxForFile from '../../helpers/getSyntaxForFile';
 
 const TYPE_TO_ICON = {
   file: 'file-code',
@@ -10,9 +11,9 @@ const TYPE_TO_ICON = {
 
 const sortFiles = (a, b)=> compare(a.type, b.type) || compare(a.name, b.name)
 
-const renderFile = (repo, sha, {content})=>
+const renderFile = (repo, sha, {content, name})=>
   <div className='Card l-padding-t4'>
-    <Code code={content} />
+    <Code code={content} syntax={getSyntaxForFile(name)} />
   </div>
 
 const renderDirectory = (repo, sha, files)=>

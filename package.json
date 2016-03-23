@@ -20,10 +20,12 @@
     "eslint": "^2.4.0",
     "eslint-plugin-react": "^4.2.3",
     "extract-text-webpack-plugin": "^1.0.1",
+    "highlight.js": "^9.2.0",
     "html-webpack-plugin": "^1.7.0",
     "marked": "^0.3.5",
     "octicons": "^3.5.0",
     "style-loader": "^0.13.0",
+    "uglify-js": "^2.6.2",
     "vulcanize": "^1.14.7",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
@@ -31,6 +33,8 @@
     "xvdom": "peterwmwong/xvdom#master"
   },
   "scripts": {
+    "build:marked": "uglifyjs --compress --mangle -- node_modules/marked/lib/marked.js > vendor/marked/marked.min.js",
+    "build:highlightjs": "build/build-hljs-languages.sh",
     "server": "NODE_ENV=development webpack-dev-server --config webpack-server.config.js",
     "build:prod": "NODE_ENV=production webpack --config webpack-production.config.js; mv dist/index.html dist/index-pre.html; vulcanize --inline-scripts --inline-css dist/index-pre.html | sed 's/<body>//g' | sed 's/<\\/body>//g' > dist/index.html; ls -al dist/index.html; rm dist/index-pre.html"
   },
