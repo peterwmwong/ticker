@@ -4,5 +4,5 @@ let loadingPromise;
 
 export default ()=>
   loadingPromise = loadingPromise
-    || loadScript('/vendor/marked/marked.min.js')
+    || loadScript('../vendor/marked/marked.min.js')
         .then(()=> window.marked);
