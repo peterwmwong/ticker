@@ -12,7 +12,7 @@ const loadCore = ()=>
   loadingPromise = loadingPromise
     || Promise.all([
       loadScript('../vendor/highlightjs/highlight.min.js'),
-      loadStyle('../node_modules/highlight.js/styles/github.css')
+      loadStyle('../vendor/highlightjs/styles/github.css')
     ]).then(()=> window.hljs)
 
 export default (lang)=>

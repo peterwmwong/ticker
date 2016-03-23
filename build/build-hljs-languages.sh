@@ -11,3 +11,5 @@ for i in $(ls node_modules/highlight.js/lib/languages); do
   node_modules/.bin/uglifyjs --compress --mangle -- "$dest$i" > "$dest$a.min.js"
   rm "$dest$i"
 done
+
+cp node_modules/highlight.js/styles/github.css vendor/highlightjs/styles/
