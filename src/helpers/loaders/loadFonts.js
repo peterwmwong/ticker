@@ -1,21 +1,14 @@
-let added = false;
-
-const load = (link, name)=> {
-  const el = document.createElement('link');
-  el.rel = 'stylesheet';
-  el.href = link;
-  el.onload = ()=> {
-    window.requestAnimationFrame(()=> {document.body.classList.add(`ticker-${name}-loaded`)});
-  };
-  document.head.appendChild(el);
-};
+import loadStyle  from './loadStyle';
 
 export default ()=> {
-  if(added) return;
-  added = true;
   window.setTimeout(()=> {
-    load('https://fonts.googleapis.com/css?family=Roboto:500,400', 'roboto-font');
-    load('https://fonts.googleapis.com/icon?family=Material+Icons', 'material-icons');
-    load('../node_modules/octicons/octicons/octicons.css', 'octicons');
+    Promise.all([
+      loadStyle('https://fonts.googleapis.com/css?family=Roboto:500,400'),
+      loadStyle('https://fonts.googleapis.com/icon?family=Material+Icons'),
+      loadStyle('../node_modules/octicons/octicons/octicons.css')
+    ]).then(()=> {
+      document.body.className +=
+        ' ticker-roboto-font-loaded ticker-material-icons-loaded ticker-octicons-loaded';
+    })
   }, 300);
 }

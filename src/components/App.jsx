@@ -34,7 +34,9 @@ App.state = {
     AppToolbar.onDrawer = enableDrawer;
     AppToolbar.onSearch = enableSearch;
     loadFonts();
-    getCurrentUser().then(onCurrentUserChange);
+    getCurrentUser()
+      .then(onCurrentUserChange)
+      .catch(()=> onCurrentUserChange(null));
     window.onhashchange = onHashChange;
     return {
       currentUser: getPreviousUser(),

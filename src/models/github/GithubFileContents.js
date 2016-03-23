@@ -21,6 +21,7 @@ const createGithubFileContent = (contents)=>
 
 export default model({
   query: ({repo, sha='master', pathArray=[]})=> ({
+    // url: 'src/helpers/mock_data/GithubFileContentsMOCKFILE.json',
     url: `https://api.github.com/repos/${repo}/contents/${pathArray.join('/')}?ref=${sha}`,
     transform: createGithubFileContent
   })

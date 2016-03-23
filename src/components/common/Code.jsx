@@ -10,12 +10,12 @@ const Code = ({code}, codeHTML)=>
   />;
 
 Code.state = {
-  onInit: (props, state, {highlight})=> (
-    loadHighlight().then(highlight),
-    ''
-  ),
-  highlight: ({code}, state, actions, hljs)=>
-    hljs.highlight('diff', code).value
+  onInit: ({syntax}, state, {highlight})=> {
+    if(syntax) loadHighlight(syntax).then(highlight);
+    return '';
+  },
+  highlight: ({syntax, code}, state, actions, hljs)=>
+    hljs.highlight(syntax, code).value
 };
 
 export default Code;

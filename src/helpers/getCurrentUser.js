@@ -1,34 +1,29 @@
-import load         from './load';
-import loadFirebase from './loaders/loadFirebase';
-import User         from '../models/User';
-import storage      from '../helpers/storage';
+import load       from './load';
+import loadScript from './loaders/loadScript';
+import User       from '../models/User';
+import storage    from '../helpers/storage';
 
 const FIREBASEURL = 'https://ticker-dev.firebaseio.com';
 const LAST_LOGIN_ID_STORAGE_KEY = 'ticker:lastLoggedInUserId';
 let currentUser = null;
 
-const waitForFirebase = ()=>
+const loadFirebase = ()=>
   new Promise((resolve)=> {
-    const checkForFirebase = ()=> {
-      if(window.Firebase) resolve(new Firebase(FIREBASEURL));
-      else setTimeout(checkForFirebase, 32);
-    };
-
     setTimeout(()=> {
-      loadFirebase();
-      setTimeout(checkForFirebase, 100);
-    }, 500); // Add Firebase in a way that doesn't block first paint
-  });
+      loadScript('../vendor/firebase/firebase.js')
+        .then(resolve);
+    }, 500)
+  })
 
-const authWithFirebase = (firebaseRef)=>
+const authWithFirebase = ()=>
   new Promise((resolve, reject)=> {
-    firebaseRef.onAuth((authData)=> {
-      if(authData && authData.github) resolve(authData.github);
+    new Firebase(FIREBASEURL).onAuth((authData)=> {
+      if(authData && authData.github) resolve(authData);
       else reject('Firebase auth failed');
     });
   });
 
-const getOrCreateUser = ({id, username, accessToken})=> (
+const getOrCreateUser = ({github: {id, username, accessToken}})=> (
   // Give load access tokens to use for any third-party API requests.
   // For right now, just Github.
   // TODO(pwong): Split out access tokens into a seperate module?
@@ -51,7 +46,7 @@ export const authWithOAuthPopup = ()=>
       else resolve(github);
     });
   })
-  .then((authData)=> getOrCreateUser(authData.github));
+  .then(getOrCreateUser);
 
 export const getPreviousUser = ()=> {
   const lastUserId = storage.getItem(LAST_LOGIN_ID_STORAGE_KEY);
@@ -60,6 +55,6 @@ export const getPreviousUser = ()=> {
 
 export const getCurrentUser = ()=>
   currentUser ? Promise.resolve(currentUser)
-    : waitForFirebase()
+    : loadFirebase()
         .then(authWithFirebase)
         .then(getOrCreateUser);
