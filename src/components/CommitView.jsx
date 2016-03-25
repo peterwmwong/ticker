@@ -36,7 +36,7 @@ const renderFile = ({additions, deletions, filename, patch})=> {
         <div className='Pill bg-green c-green' textContent={`+${additions}`} />
         <div className='Pill bg-red c-red' textContent={`–${deletions}`} />
       </div>
-      {patch && <Code code={patch} />}
+      {patch && <Code code={patch} syntax='diff' />}
     </div>
   );
 };

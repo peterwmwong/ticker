@@ -1,8 +1,10 @@
 import './common/Card.css';
+import './common/EventCard.css';
 import xvdom        from 'xvdom';
 import GithubIcon   from './common/GithubIcon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';
+import Markup from './common/Markup.jsx';
 
 const renderEventAction = (event)=> {
   switch(event.type){
@@ -10,7 +12,10 @@ const renderEventAction = (event)=> {
   case 'PullRequestReviewCommentEvent':
   case 'CommitCommentEvent':
     return (
-      <div className='l-padding-l4 l-padding-t4' textContent={event.payload.comment.body} />
+      <Markup
+        className='l-padding-l4 l-padding-t4'
+        content={event.payload.comment.body}
+      />
     );
 
   case 'PushEvent':
@@ -28,7 +33,7 @@ const renderEventAction = (event)=> {
 }
 
 export default ({event})=>
-  <div className='Card'>
+  <div className='Card EventCard'>
     <div className='Card-title'>
       <SourceName displayName={event.repo.name} />
     </div>

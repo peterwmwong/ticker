@@ -10,6 +10,7 @@
 
 .Code .hljs-addition,
 .Code .hljs-deletion {
+  background: none;
   position: relative;
   z-index: 1;
 }
