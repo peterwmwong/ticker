@@ -39,21 +39,27 @@ const stripURLEnding = (url)=> url.replace(/\/\s*$/, '');
 
 export default ({id, viewUrl='news'})=> {
   const [tab, head, ...tail] = stripURLEnding(viewUrl).split('/');
+  // TODO: Temporary wrapper <div> to workaround xvdom dynamic stateful component
+  //       rerendering bug
   return (
-      (tab === 'issues'  && head) ? <IssueView  issueId={head} repo={id} />
-    : (tab === 'commits' && head) ? <CommitView commitId={head} repo={id} />
-    : (
-      <div>
-        <AppToolbar
-          secondary={
-            <Tabs hrefPrefix={`#github/${id}?`} selected={tab} tabs={TABS} />
-          }
-          title={id}
-        />
-        <div className='l-padding-t24 l-padding-b2'>
-          {TABS[tab].view(id, head, tail)}
-        </div>
-      </div>
-    )
+    <div>
+      {
+          (tab === 'issues'  && head) ? <IssueView  issueId={head} repo={id} />
+        : (tab === 'commits' && head) ? <CommitView commitId={head} repo={id} />
+        : (
+          <div>
+            <AppToolbar
+              secondary={
+                <Tabs hrefPrefix={`#github/${id}?`} selected={tab} tabs={TABS} />
+              }
+              title={id}
+            />
+            <div className='l-padding-t24 l-padding-b2'>
+              {TABS[tab].view(id, head, tail)}
+            </div>
+          </div>
+        )
+      }
+    </div>
   );
 };
