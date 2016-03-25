@@ -6,6 +6,10 @@
   margin-bottom: 0;
 }
 
+.Markup blockquote {
+  color: #777;
+}
+
 .Markup h1 {
   border-bottom: 1px solid hsl(191, 0%, 85%) !important;
   padding-bottom: 8px;
@@ -13,6 +17,7 @@
 
 .Markup a {
   text-decoration: underline;
+  word-break: break-word;
 }
 
 .Markup p {
@@ -29,9 +34,21 @@
   font-weight: 500;
 }
 
+.Markup code,
 .Markup pre {
   background-color: #F8F8F8;
+}
+
+.Markup pre {
   margin: 16px -16px;
   padding: 16px;
   overflow-x: auto;
+}
+
+.Markup code {
+  padding: 2px 4px;
+}
+
+.Markup pre code {
+  padding: 0;
 }

@@ -2,9 +2,9 @@ const FNAME_TO_SYNTAX = {
   'Gemfile.lock': 'ruby',
   'Gemfile'     : 'ruby',
   'Rakefile'    : 'ruby'
-}
+};
 
-const EXT_TO_SYNTAX = {
+export const EXT_TO_SYNTAX = {
   babelrc : 'json',
   eslintrc: 'json',
   gemspec : 'ruby',
@@ -14,8 +14,9 @@ const EXT_TO_SYNTAX = {
   md      : 'markdown',
   rb      : 'ruby',
   ts      : 'typescript',
-  yml     : 'yaml'
-}
+  yml     : 'yaml',
+  sh      : 'bash'
+};
 
 export default (fname)=> {
   const ext = (/\.([^.]*)$/.exec(fname) || [])[1];

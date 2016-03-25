@@ -4,9 +4,7 @@ import GithubRepoReadme from '../models/github/GithubRepoReadme';
 
 const ReadmeView = (props, readme)=>
   <div className='Card l-margin-t2'>
-    <div className='Card-content'>
-      <Markup content={readme} />
-    </div>
+    <Markup className='Card-content' content={readme} />
   </div>;
 
 const onInit = ({id}, state, {loadReadme})=> (

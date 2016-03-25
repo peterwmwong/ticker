@@ -4,6 +4,7 @@ import AppToolbar         from './AppToolbar.jsx';
 import GithubIssue        from '../models/github/GithubIssue';
 import GithubIssueComment from '../models/github/GithubIssueComment';
 import Actor              from './common/Actor.jsx';
+import Markup             from './common/Markup.jsx';
 
 const ISSUE_PLACEHOLDER_OBJ = {
   user: {login:'', avatar_url:''},
@@ -28,12 +29,12 @@ const IssueView = ({repo, issueId}, {issue, issueComments})=>
         className='Card-content'
         user={issue.user}
       />
-      <div className='Card-content' textContent={issue.body} />
+      <Markup className='Card-content' content={issue.body} />
     </div>
     {issueComments.map(({id, user, body, created_at})=>
       <div className='Card' id={id} key={id}>
         <Actor actionDate={created_at} className='Card-content' user={user} />
-        <div className='Card-content t-word-break-word' textContent={body} />
+        <Markup className='Card-content' content={body} />
       </div>
     )}
   </div>;
