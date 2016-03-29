@@ -9,10 +9,7 @@ const PullCommitsView = ({id, repo}, commits)=>
     {commits.map(({sha, author, commit:{committer, message}})=>
       <div className='List-item layout horizontal center' key={sha}>
         <GithubIcon className='l-margin-r3' name='git-commit' />
-        <a
-          className='t-normal'
-          href={`#github/${repo}?commits/${sha}`}
-        >
+        <a className='t-normal' href={`#github/${repo}?commits/${sha}`}>
           {message}
           <div
             className='t-light t-font-size-14 c-gray-dark'
@@ -26,7 +23,7 @@ const PullCommitsView = ({id, repo}, commits)=>
 PullCommitsView.state = {
   onInit: (props, state, {loadCommits})=> (
     GithubPullCommit.query(props).then(loadCommits),
-    loadCommits([])
+    []
   ),
   loadCommits: (props, state, actions, commits)=>
     commits.sort((a, b)=> compare(b.created_at, a.created_at))

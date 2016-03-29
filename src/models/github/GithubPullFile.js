@@ -1,10 +1,10 @@
 import model  from '../../helpers/model';
 
 export default model({
-  query: ({id})=> {
-    const [owner, repo, pull] = id.split('/');
+  query: ({repo, id})=> {
     return {
-      url: `https://api.github.com/repos/${owner}/${repo}/pulls/${pull}/files`
+      cache: `ticker:GithubPullFiles:${repo}:${id}`,
+      url: `https://api.github.com/repos/${repo}/pulls/${id}/files`
     };
   }
 });

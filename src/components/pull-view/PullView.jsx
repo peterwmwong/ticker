@@ -16,7 +16,7 @@ const TABS = {
   },
   diff:{
     title: 'Diff',
-    view: (repo, id)=> <PullDiffView id={id} />
+    view: (repo, id)=> <PullDiffView id={id} repo={repo} />
   }
 };
 
