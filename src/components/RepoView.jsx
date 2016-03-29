@@ -6,8 +6,9 @@ import CodeView        from './code-view/CodeView.jsx';
 import GithubIssue     from '../models/github/GithubIssue';
 import GithubPull      from '../models/github/GithubPull';
 import IssuesPullsView from './IssuesPullsView.jsx';
-import IssueView       from './IssueView.jsx';
+import IssuePullInfo   from './IssuePullInfo.jsx';
 import ReadmeView      from './ReadmeView.jsx';
+import PullView        from './pull-view/PullView.jsx';
 import Tabs            from './common/Tabs.jsx';
 
 const TABS = {
@@ -44,7 +45,8 @@ export default ({id, viewUrl='news'})=> {
   return (
     <div>
       {
-          (tab === 'issues'  && head) ? <IssueView  issueId={head} repo={id} />
+          (tab === 'issues'  && head) ? <IssuePullInfo  issueId={head}  repo={id} showToolbar />
+        : (tab === 'pulls'   && head) ? <PullView   pullId={head}   repo={id} tab={tail[0]} />
         : (tab === 'commits' && head) ? <CommitView commitId={head} repo={id} />
         : (
           <div>

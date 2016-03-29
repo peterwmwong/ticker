@@ -8,8 +8,10 @@ const issuePRIcon = (event)=>
 const issuePRSubject = ({payload})=>
   payload.pull_request ? payload.pull_request.title : payload.issue.title;
 
-const issuePRSubjectUrl = ({repo, payload})=>
-  `#github/${repo.name}?issues/${payload.number || (payload.issue ? payload.issue.number: payload.pull_request.number)}`;
+const issuePRSubjectUrl = ({repo:{name}, payload:{number, issue, pull_request}})=>
+  issue
+    ? `#github/${name}?issues/${number || issue.number}`
+    : `#github/${name}?pulls/${number || pull_request.number}`;
 
 const getSummary = (event)=> {
   const payload = event.payload;

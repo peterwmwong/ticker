@@ -5,10 +5,13 @@ import timeAgo    from '../helpers/timeAgo';
 
 const IssuesPullsView = ({id:modelId, icon}, issues)=>
   <div className='l-margin-t2 Card' hidden={!issues.length} >
-    {issues.map(({id, number, title, created_at, user})=>
-      <div className='List-item layout horizontal center' key={id}>
+    {issues.map(({base, number, title, created_at, user})=>
+      <div className='List-item layout horizontal center' key={number}>
         <GithubIcon className='l-margin-r3' name={icon} />
-        <a className='t-normal' href={`#github/${modelId}?issues/${number}`}>
+        <a
+          className='t-normal'
+          href={`#github/${modelId}?${base ? 'pulls' : 'issues'}/${number}`}
+        >
           {title}
           <div
             className='t-light t-font-size-14 c-gray-dark'

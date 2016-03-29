@@ -14,13 +14,21 @@ const ISSUE_PLACEHOLDER_OBJ = {
   pull_request: false
 };
 
-const IssueView = ({repo, issueId}, {issue, issueComments})=>
-  <div className='l-padding-t6'>
-    <AppToolbar title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`} />
+const IssuePullInfo = ({repo, issueId, showToolbar}, {issue, issueComments})=>
+  <div className={showToolbar ? 'l-padding-t6' : ''}>
+    {showToolbar &&
+      <AppToolbar
+        title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`}
+      />
+    }
     <div className='Card Card--fullBleed'>
       <div className='Card-title'>
         <h1
-          className='t-word-break-word l-padding-t2 l-margin-b0'
+          className={
+            `t-word-break-word l-margin-b0 ${
+              showToolbar ? 'l-padding-t2' : 'l-margin-t2'
+            }`
+          }
           textContent={issue.title}
         />
       </div>
@@ -45,11 +53,11 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=> {
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
     issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
-    issueComments: []
+    issueComments: GithubIssueComment.localQuery({id})
   };
 };
 
-IssueView.state = {
+IssuePullInfo.state = {
   onInit: onInit,
   onProps: onInit,
   loadIssue: (props, state, actions, issue)=> ({
@@ -62,4 +70,4 @@ IssueView.state = {
   })
 };
 
-export default IssueView;
+export default IssuePullInfo;
