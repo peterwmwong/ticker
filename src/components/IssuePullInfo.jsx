@@ -21,7 +21,7 @@ const IssuePullInfo = ({repo, issueId, showToolbar}, {issue, issueComments})=>
         title={`${issue.pull_request ? 'Pull Request' : 'Issue'} #${issueId}`}
       />
     }
-    <div className='Card Card--fullBleed'>
+    <div className='Card Card--fullBleed l-margin-b2'>
       <div className='Card-title'>
         <h1
           className={
@@ -53,7 +53,7 @@ const onInit = ({repo, issueId}, state, {loadIssue, loadIssueComments})=> {
   GithubIssueComment.query({id}).then(loadIssueComments);
   return {
     issue: (GithubIssue.localGet(id) || ISSUE_PLACEHOLDER_OBJ),
-    issueComments: GithubIssueComment.localQuery({id})
+    issueComments: []
   };
 };
 

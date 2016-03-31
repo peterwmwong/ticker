@@ -46,8 +46,8 @@ export default ({id, viewUrl='news'})=> {
     <div>
       {
           (tab === 'issues'  && head) ? <IssuePullInfo  issueId={head}  repo={id} showToolbar />
-        : (tab === 'pulls'   && head) ? <PullView   pullId={head}   repo={id} tab={tail[0]} />
-        : (tab === 'commits' && head) ? <CommitView commitId={head} repo={id} />
+        : (tab === 'pulls'   && head) ? <PullView       pullId={head}   repo={id} tab={tail[0]} />
+        : (tab === 'commits' && head) ? <CommitView     commitId={head} repo={id} />
         : (
           <div>
             <AppToolbar

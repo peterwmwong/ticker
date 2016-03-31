@@ -22,6 +22,6 @@ const renderFile = ({additions, deletions, filename, patch})=> {
 };
 
 export default ({files})=>
-  <div className='l-padding-t1'>
+  <div className='l-padding-t2'>
     {files.map(renderFile)}
   </div>;
