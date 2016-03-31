@@ -8,5 +8,5 @@ export default ({avatarUrl})=>
   <img
     className='Avatar'
     onerror={onerror}
-    src={avatarUrl ? `${avatarUrl}v=3&s=32` : EMPTY_IMAGE}
+    src={`${avatarUrl}v=3&s=32`}
   />

@@ -4,7 +4,7 @@ export default model({
   get: (id)=> {
     const [owner, repo, commitid] = id.split('/');
     return {
-      // url: 'src/helpers/mock_data/GithubCommitMOCK.json'//,
+      cache: `ticker:GithubCommit:${owner}:${repo}:${commitid}`,
       url: `https://api.github.com/repos/${owner}/${repo}/commits/${commitid}`
     };
   }

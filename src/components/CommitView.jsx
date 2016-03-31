@@ -3,10 +3,9 @@ import './common/Pill.css';
 import xvdom        from 'xvdom';
 import AppToolbar   from './AppToolbar.jsx';
 import GithubCommit from '../models/github/GithubCommit';
+import DiffFiles    from './common/DiffFiles.jsx';
 import Actor        from './common/Actor.jsx';
-import Code         from './common/Code.jsx';
 
-const PATH_REGEX = /^(.*\/)?([^\/]+)$/;
 const COMMIT_PLACEHOLDER = {
   files: [],
   commit: {
@@ -23,22 +22,6 @@ const COMMIT_PLACEHOLDER = {
     additions: 0,
     deletions: 0
   }
-};
-
-const renderFile = ({additions, deletions, filename, patch})=> {
-  const [, path, fname] = PATH_REGEX.exec(filename);
-  return (
-    <div className='Card' key={filename}>
-      <div className='Card-title layout horizontal center t-no-wrap'>
-        <div className='c-gray-dark t-truncate' textContent={path} />
-        <div className='t-normal l-padding-r1 t-truncate' textContent={fname} />
-        <div className='flex' />
-        <div className='Pill bg-green c-green' textContent={`+${additions}`} />
-        <div className='Pill bg-red c-red' textContent={`–${deletions}`} />
-      </div>
-      {patch && <Code code={patch} syntax='diff' />}
-    </div>
-  );
 };
 
 const getCommitTitleMessage = (message)=> {
@@ -76,15 +59,15 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats})=> {
           />
         </div>
       </div>
-      {files.map(renderFile)}
+      <DiffFiles files={files} />
     </div>
-  )
+  );
 };
 
 CommitView.state = {
   onInit: ({repo, commitId}, state, {onCommit})=> (
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
-    COMMIT_PLACEHOLDER
+    GithubCommit.localGet(`${repo}/${commitId}`) || COMMIT_PLACEHOLDER
   ),
   onCommit:(props, state, action, commit)=> commit
 };
