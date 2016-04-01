@@ -7,7 +7,7 @@ import AppSearch  from './AppSearch.jsx';
 import AppToolbar from './AppToolbar.jsx';
 import UserView   from './UserView.jsx';
 import RepoView   from './RepoView.jsx';
-import loadFonts  from '../helpers/loaders/loadFonts';
+// import loadFonts  from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
   getCurrentUser,
@@ -19,7 +19,7 @@ const App = (
   {currentUser, isSearchEnabled, isDrawerEnabled, view, viewId, viewUrl},
   {disableOverlay, login}
 )=>
-  <body className='App fit fullbleed'>
+  <body className='App fit fullbleed ticker-roboto-font-loaded ticker-material-icons-loaded ticker-octicons-loaded'>
     {view}
     <div
       className={`App-backdrop fixed ${isSearchEnabled || isDrawerEnabled ? 'is-enabled' : ''}`}
@@ -33,7 +33,7 @@ App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=> {
     AppToolbar.onDrawer = enableDrawer;
     AppToolbar.onSearch = enableSearch;
-    loadFonts();
+    // loadFonts();
     getCurrentUser()
       .then(onCurrentUserChange)
       .catch(()=> onCurrentUserChange(null));
