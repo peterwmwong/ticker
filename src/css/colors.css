@@ -1,15 +1,5 @@
-
-.c-gray-darkest {
-  color: hsl(195, 0%, 10%) !important;
-}
 .c-gray-dark {
-  color: hsl(192, 0%, 50%) !important;
-}
-.c-gray-light {
-  color: hsl(191, 0%, 73%) !important;
-}
-.c-gray-lighter {
-  color: hsl(191, 0%, 85%) !important;
+  color: hsl(192, 0%, 60%) !important;
 }
 .c-white {
   color: #FFF !important;

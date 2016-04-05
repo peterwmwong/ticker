@@ -29,7 +29,7 @@ const SourceGroup = ({sourceNameProp, sources, sort, type})=>
 
 const SourceList = ({sources})=>
   <div>
-    <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
+    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
       Repositories
     </div>
     <SourceGroup
@@ -38,7 +38,7 @@ const SourceList = ({sources})=>
       sources={sources}
       type='GithubRepoSource'
     />
-    <div className='List-item List-item--header c-gray-light t-normal t-uppercase'>
+    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
       Users / Orgs
     </div>
     <SourceGroup
