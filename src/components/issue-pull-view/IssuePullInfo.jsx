@@ -9,7 +9,7 @@ const IssuePullInfo = ({repo, issue}, issueComments)=>
     <div className='Card Card--fullBleed l-margin-b2'>
       <div className='Card-title'>
         <h1
-          className='t-word-break-word l-margin-b0 l-margin-t2'
+          className='t-word-break-word l-margin-v0'
           textContent={issue.title}
         />
       </div>
