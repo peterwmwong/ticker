@@ -8,9 +8,9 @@ const handleOnSearch = ()=> AppToolbar.onSearch && AppToolbar.onSearch();
 const AppToolbar = ({title, secondary}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
     <div className='layout horizontal center-center l-height14'>
-      <Icon className='l-padding-h4' name='&#xe5d2;' onClick={handleOnDrawer} />
+      <Icon className='l-padding-h4 c-white' name='three-bars' size='small' onClick={handleOnDrawer} />
       <div className='App__title t-truncate t-font-size-20 flex' textContent={title} />
-      <Icon className='l-padding-h4' name='&#xE8B6;' onClick={handleOnSearch} />
+      <Icon className='l-padding-h4 c-white t-bold' name='search' size='small' onClick={handleOnSearch} />
     </div>
     {secondary}
   </div>;

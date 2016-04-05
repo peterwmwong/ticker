@@ -1,5 +1,5 @@
 import xvdom            from 'xvdom';
-import GithubIcon       from '../common/GithubIcon.jsx';
+import Icon             from '../common/Icon.jsx';
 import Avatar           from '../common/Avatar.jsx';
 import GithubPullCommit from '../../models/github/GithubPullCommit.js';
 import compare          from '../../helpers/compare';
@@ -13,7 +13,7 @@ const PullCommitsView = ({id, repo}, commits)=>
       <div className='List-item layout horizontal center' key={sha}>
         {author
           ? <Avatar avatarUrl={author.avatar_url} />
-          : <GithubIcon name='person' />
+          : <Icon name='person' />
         }
         <a className='l-margin-l3 t-normal' href={`#github/${repo}?commits/${sha}`}>
           {message}

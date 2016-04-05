@@ -1,5 +1,5 @@
 import xvdom            from 'xvdom';
-import GithubIcon       from '../common/GithubIcon.jsx';
+import Icon             from '../common/Icon.jsx';
 import Code             from '../common/Code.jsx';
 import compare          from '../../helpers/compare';
 import getSyntaxForFile from '../../helpers/getSyntaxForFile';
@@ -24,7 +24,7 @@ const renderDirectory = (repo, sha, files)=>
         href={`#github/${repo}/?code/${sha}/${path}`}
         key={name}
       >
-        <GithubIcon className='l-margin-r3' name={TYPE_TO_ICON[type]} />
+        <Icon className='l-margin-r3' name={TYPE_TO_ICON[type]} />
         {name}
       </a>
     )}

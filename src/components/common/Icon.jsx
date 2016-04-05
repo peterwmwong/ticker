@@ -1,8 +1,8 @@
+import './Icon.css';
 import xvdom from 'xvdom';
 
-export default ({name, className='', onClick})=>
+export default ({className, name, onClick, size='med'})=>
   <i
-    className={`${className} u-pointer-cursor material-icons layout horizontal center`}
-    onclick={onClick}>
-    {name}
-  </i>
+    className={`Icon Icon--${size} octicon octicon-${name} ${className} layout vertical center-center`}
+    onclick={onClick}
+  />

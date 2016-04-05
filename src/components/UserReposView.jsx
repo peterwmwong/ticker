@@ -1,5 +1,5 @@
 import xvdom      from 'xvdom';
-import GithubIcon from './common/GithubIcon.jsx';
+import Icon       from './common/Icon.jsx';
 import compare    from '../helpers/compare';
 import GithubRepo from '../models/github/GithubRepo';
 
@@ -7,7 +7,7 @@ const UserReposView = ({id}, repos)=>
   <div className='l-margin-t2 Card' hidden={!repos.length}>
     {repos.map(({name, description})=>
       <div className='List-item layout horizontal center t-normal' key={name}>
-        <GithubIcon className='l-margin-r3' name='repo' />
+        <Icon className='l-margin-r3' name='repo' />
         <a className='t-normal' href={`#github/${id}/${name}`}>
           {name}
           <div

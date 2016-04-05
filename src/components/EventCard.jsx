@@ -1,10 +1,10 @@
 import './common/Card.css';
 import './common/EventCard.css';
 import xvdom        from 'xvdom';
-import GithubIcon   from './common/GithubIcon.jsx';
+import Icon         from './common/Icon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';
-import Markup from './common/Markup.jsx';
+import Markup       from './common/Markup.jsx';
 
 const renderEventAction = (event)=> {
   switch(event.type){
@@ -25,7 +25,7 @@ const renderEventAction = (event)=> {
         href={`#github/${event.repo.name}?commits/${sha}`}
         key={sha}
       >
-        <GithubIcon className='l-padding-r2 icon-24' name='git-commit' />
+        <Icon className='l-padding-r2 icon-24' name='git-commit' />
         {message}
       </a>
     );
