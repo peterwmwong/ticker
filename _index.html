@@ -8,14 +8,18 @@
 <meta name="theme-color" content="#3F51B5">
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no">
 <title>{%=o.htmlWebpackPlugin.options.title || 'Webpack App'%}</title>
+<link rel="stylesheet" href="../vendor/octicons/octicons.css">
+<link rel="stylesheet" href="../vendor/highlightjs/styles/github.css">
 {% if (o.htmlWebpackPlugin.files.favicon) { %}
 <link rel="shortcut icon" href="{%=o.htmlWebpackPlugin.files.favicon%}">
 {% } %}
 {% for (var css in o.htmlWebpackPlugin.files.css) { %}
 <link href="{%=o.htmlWebpackPlugin.files.css[css] %}" rel="stylesheet">
 {% } %}
+<script src="../vendor/marked/marked.min.js"></script>
 {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
 <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
 {% } %}
+<script src="../vendor/highlightjs/highlight.min.js"></script>
 </head>
 </html>

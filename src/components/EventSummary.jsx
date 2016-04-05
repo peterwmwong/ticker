@@ -1,6 +1,6 @@
-import xvdom      from 'xvdom';
-import Actor      from './common/Actor.jsx';
-import GithubIcon from './common/GithubIcon.jsx';
+import xvdom from 'xvdom';
+import Actor from './common/Actor.jsx';
+import Icon  from './common/Icon.jsx';
 
 const issuePRIcon = (event)=>
   `${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
@@ -83,7 +83,7 @@ export default ({event})=> {
     <div>
       {subject &&
         <a className='layout horizontal center l-padding-b4' href={subjectUrl}>
-          <GithubIcon name={subjectIcon} />
+          <Icon name={subjectIcon} />
           <div className='flex l-padding-l2 t-truncate t-normal' textContent={subject} />
         </a>
       }

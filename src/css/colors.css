@@ -1,23 +1,18 @@
 
 .c-gray-darkest {
   color: hsl(195, 0%, 10%) !important;
-  fill: hsl(195, 0%, 10%) !important;
 }
 .c-gray-dark {
   color: hsl(192, 0%, 50%) !important;
-  fill: hsl(192, 0%, 50%) !important;
 }
 .c-gray-light {
   color: hsl(191, 0%, 73%) !important;
-  fill: hsl(191, 0%, 73%) !important;
 }
 .c-gray-lighter {
   color: hsl(191, 0%, 85%) !important;
-  fill: hsl(191, 0%, 85%) !important;
 }
 .c-white {
   color: #FFF !important;
-  fill: #FFF !important;
 }
 .c-green {
   color : #0A0;

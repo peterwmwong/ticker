@@ -8,26 +8,34 @@ const getSyntaxForLanguage = (lang)=> {
   return ALL_LANGUAGES[syntax] && syntax;
 };
 
-const load = ()=>
-  loadScript('../vendor/marked/marked.min.js', 'marked').then((marked)=> {
-    const renderer = new marked.Renderer();
-    renderer.link = (href, title, text)=>
-      `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
+const renderer = new window.marked.Renderer();
+renderer.link = (href, title, text)=>
+  `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
 
-    marked.setOptions({
-      renderer,
-      highlight(code, lang, callback){
-        const syntax = getSyntaxForLanguage(lang);
-        if (!syntax) return callback(null, code);
+window.marked.setOptions({
+  renderer,
+  highlight(code, lang, callback){
+    const syntax = getSyntaxForLanguage(lang);
+    if (!syntax) return callback(null, code);
 
-        loadHighlight(syntax).then((hljs)=> {
-          callback(null, hljs.highlight(syntax, code).value)
-        });
+    loadHighlight(syntax).then((hljs)=> {
+      callback(null, hljs.highlight(syntax, code).value)
+    });
+  }
+});
+
+export default (content, cb)=> {
+  let result = null;
+  if(content){
+    window.marked(content, (err, r)=> {
+      if (result === null){
+        result = r;
+      }
+      else {
+        cb(r);
       }
     });
-    return marked;
-  });
-
-let loadingPromise;
-export default ()=>
-  loadingPromise || (loadingPromise = load());
+  }
+  result = result || '';
+  return result;
+}

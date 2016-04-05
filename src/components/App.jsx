@@ -7,7 +7,6 @@ import AppSearch  from './AppSearch.jsx';
 import AppToolbar from './AppToolbar.jsx';
 import UserView   from './UserView.jsx';
 import RepoView   from './RepoView.jsx';
-import loadFonts  from '../helpers/loaders/loadFonts';
 import {
   authWithOAuthPopup,
   getCurrentUser,
@@ -33,7 +32,6 @@ App.state = {
   onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=> {
     AppToolbar.onDrawer = enableDrawer;
     AppToolbar.onSearch = enableSearch;
-    loadFonts();
     getCurrentUser()
       .then(onCurrentUserChange)
       .catch(()=> onCurrentUserChange(null));

@@ -1,7 +1,7 @@
 import './AppDrawer.css';
 import './common/List.css';
 import xvdom      from 'xvdom';
-import GithubIcon from './common/GithubIcon.jsx';
+import Icon from './common/Icon.jsx';
 import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';
 import compare    from '../helpers/compare';
@@ -64,7 +64,7 @@ export default ({user, enabled, onLogin})=> {
           >
             {user
               ? <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
-              : <GithubIcon name='mark-github' />
+              : <Icon name='mark-github' />
             }
             <span
               className='l-margin-l4'
