@@ -38,7 +38,7 @@ const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
 const onInit = ()=> ({term: '', searchResults: []});
 
 AppSearch.state = {
-  onInit: onInit,
+  onInit,
   onProps: onInit,
   onSearchInput: (props, state, {doSearch}, event)=> ({
     ...state,
