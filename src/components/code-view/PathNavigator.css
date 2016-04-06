@@ -1,9 +1,6 @@
 .PathNavigator-path + .PathNavigator-path:before {
-  content: '';
+  content: '/';
   display: inline-block;
-  width: 1px;
-  height: 12px;
-  background-color: #AAA;
-  margin: 0 8px;
-  transform: rotate(25deg);
+  margin: 0 4px;
+  color: #BBB;
 }
