@@ -27,35 +27,15 @@ const SourceGroup = ({sourceNameProp, sources, sort, type})=>
     }
   </div>
 
-const SourceList = ({sources})=>
-  <div>
-    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
-      Repositories
-    </div>
-    <SourceGroup
-      sort={sortRepos}
-      sourceNameProp='full_name'
-      sources={sources}
-      type='GithubRepoSource'
-    />
-    <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
-      Users / Orgs
-    </div>
-    <SourceGroup
-      sort={sortUsers}
-      sourceNameProp='login'
-      sources={sources}
-      type='GithubUserSource'
-    />
-  </div>;
-
 // Lazily render drawer contents the first time the drawer is enabled.
 // Prevent un-rendering contents when disabled.
 let lazyRenderContents = false;
 export default ({user, enabled, onLogin})=> {
-  lazyRenderContents = enabled || lazyRenderContents;
+  lazyRenderContents  = enabled || lazyRenderContents;
+  const enabledClass  = enabled            ? 'is-enabled'  : '';
+  const renderedClass = lazyRenderContents ? 'is-rendered' : '';
   return (
-    <div className={`AppDrawer fixed scroll ${enabled ? 'is-enabled' : ''} ${lazyRenderContents ? 'is-rendered' : ''}`}>
+    <div className={`AppDrawer fixed scroll ${enabledClass} ${renderedClass}`}>
       {lazyRenderContents && (
         user ? (
           <div>
@@ -63,7 +43,24 @@ export default ({user, enabled, onLogin})=> {
               <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
               <span className='l-margin-l4' textContent={user.githubUsername} />
             </div>
-            <SourceList sources={user.sources} />
+            <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
+              Repositories
+            </div>
+            <SourceGroup
+              sort={sortRepos}
+              sourceNameProp='full_name'
+              sources={user.sources}
+              type='GithubRepoSource'
+            />
+            <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
+              Users / Orgs
+            </div>
+            <SourceGroup
+              sort={sortUsers}
+              sourceNameProp='login'
+              sources={user.sources}
+              type='GithubUserSource'
+            />
           </div>
         ) : (
           <div
