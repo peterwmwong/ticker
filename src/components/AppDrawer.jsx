@@ -55,25 +55,26 @@ let lazyRenderContents = false;
 export default ({user, enabled, onLogin})=> {
   lazyRenderContents = enabled || lazyRenderContents;
   return (
-    <div className={`AppDrawer fixed scroll ${enabled ? 'is-enabled' : ''}`}>
-      {lazyRenderContents &&
-        <div>
+    <div className={`AppDrawer fixed scroll ${enabled ? 'is-enabled' : ''} ${lazyRenderContents ? 'is-rendered' : ''}`}>
+      {lazyRenderContents && (
+        user ? (
+          <div>
+            <div className='List-item List-item--noBorder layout horizontal center'>
+              <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
+              <span className='l-margin-l4' textContent={user.githubUsername} />
+            </div>
+            <SourceList sources={user.sources} />
+          </div>
+        ) : (
           <div
             className='List-item List-item--noBorder layout horizontal center'
-            onclick={!user && onLogin}
+            onclick={onLogin}
           >
-            {user
-              ? <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
-              : <Icon name='mark-github' />
-            }
-            <span
-              className='l-margin-l4'
-              textContent={user ? user.githubUsername : 'Login with GitHub'}
-            />
+            <Icon name='mark-github' />
+            <span className='l-margin-l4' textContent='Login with GitHub' />
           </div>
-          {user && <SourceList sources={user.sources} />}
-        </div>
-      }
+        )
+      )}
     </div>
   )
 };
