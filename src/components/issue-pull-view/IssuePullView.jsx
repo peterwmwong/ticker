@@ -3,6 +3,7 @@ import IssuePullInfo   from './IssuePullInfo.jsx';
 import PullCommitsView from './PullCommitsView.jsx';
 import PullDiffView    from './PullDiffView.jsx';
 import AppToolbar      from '../AppToolbar.jsx';
+import Icon            from '../common/Icon.jsx';
 import Tabs            from '../common/Tabs.jsx';
 import GithubIssue     from '../../models/github/GithubIssue';
 
@@ -21,9 +22,17 @@ const TABS = {
   }
 };
 
-const IssuePullView = ({id, repo, tab='info'}, issue)=>
+const IssuePullView = ({id, repo, tab='info'}, issue, {onBack})=>
   <div>
     <AppToolbar
+      left={
+        <Icon
+          className='c-white'
+          name='chevron-left'
+          onClick={onBack}
+          size='small'
+        />
+      }
       secondary={
         (!!issue && !!issue.pull_request) &&
           <Tabs
@@ -50,6 +59,7 @@ const onInit = ({repo, id}, state, {loadIssue})=> {
 IssuePullView.state = {
   onInit,
   onProps: onInit,
+  onBack: ({repo})=> {window.location.hash=`#github/${repo}`},
   loadIssue: (props, state, actions, issue)=> issue
 };
 

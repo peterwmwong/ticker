@@ -5,6 +5,7 @@ import AppToolbar   from './AppToolbar.jsx';
 import GithubCommit from '../models/github/GithubCommit';
 import DiffFiles    from './common/DiffFiles.jsx';
 import Actor        from './common/Actor.jsx';
+import Icon         from './common/Icon.jsx';
 
 const COMMIT_PLACEHOLDER = {
   files: [],
@@ -30,12 +31,22 @@ const getCommitTitleMessage = (message)=> {
     : {title, message:message.substr(title.length)};
 };
 
-const CommitView = ({repo, commitId}, {files, commit, committer, stats})=> {
+const CommitView = ({repo, commitId}, {files, commit, committer, stats}, {onBack})=> {
   const {title, message} = getCommitTitleMessage(commit.message);
   return (
     <div className='l-padding-t6'>
       <div className='Card Card--fullBleed l-padding-t5'>
-        <AppToolbar title={commitId} />
+        <AppToolbar
+          left={
+            <Icon
+              className='c-white'
+              name='chevron-left'
+              onClick={onBack}
+              size='small'
+            />
+          }
+          title={commitId}
+        />
         <div className='Card-title'>
           {title && <h1
             className='t-word-break-word l-margin-t4 l-margin-b0'
@@ -69,6 +80,7 @@ CommitView.state = {
     GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
     GithubCommit.localGet(`${repo}/${commitId}`) || COMMIT_PLACEHOLDER
   ),
+  onBack: ({repo})=> {window.location.hash=`#github/${repo}`},
   onCommit:(props, state, action, commit)=> commit
 };
 

@@ -6,14 +6,9 @@ import GithubIssue        from '../models/github/GithubIssue';
 import GithubPull         from '../models/github/GithubPull';
 import IssuesPullsView    from './IssuesPullsView.jsx';
 import ReadmeView         from './ReadmeView.jsx';
+import RepoUserToolbar    from './RepoUserToolbar.jsx';
 import IssuePullView      from './issue-pull-view/IssuePullView.jsx';
-import Tabs               from './common/Tabs.jsx';
-import Icon               from './common/Icon.jsx';
 import {toggleRepoSource} from '../helpers/getCurrentUser';
-import AppToolbar, {
-  AppToolbarSearch,
-  AppToolbarDrawer
-} from './AppToolbar.jsx';
 
 const TABS = {
   readme:{
@@ -57,23 +52,12 @@ export default ({id, user, viewUrl='news'})=> {
             ? <CommitView     commitId={head} repo={id} />
         : (
           <div>
-            <AppToolbar
-              left={<AppToolbarDrawer />}
-              right={
-                <div>
-                  <AppToolbarSearch />
-                  <Icon
-                    className={`c-white ${isBookmarked(user, id) ? '' : 'c-opacity-50'}`}
-                    name='bookmark'
-                    onClick={()=> { toggleRepoSource(id) }}
-                    size='small'
-                  />
-                </div>
-              }
-              secondary={
-                <Tabs hrefPrefix={`#github/${id}?`} selected={tab} tabs={TABS} />
-              }
-              title={id}
+            <RepoUserToolbar
+              TABS={TABS}
+              id={id}
+              isBookmarked={isBookmarked(user, id)}
+              onBookmark={()=> { toggleRepoSource(id) }}
+              tab={tab}
             />
             <div className='l-padding-t24 l-padding-b2'>
               {TABS[tab].view(id, head, tail)}
