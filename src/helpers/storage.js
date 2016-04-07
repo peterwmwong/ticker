@@ -11,12 +11,6 @@ let registry;
 try{ registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)) }
 catch(e){} //eslint-disable-line
 
-// TODO: Remove when full migration
-if(registry && !(registry instanceof Array)){
-  registry = Object.keys(registry).sort((a, b)=> registry[b] - registry[a]);
-  localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry));
-}
-
 if(!registry) localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry = []));
 
 const removeLRUItem = ()=> {

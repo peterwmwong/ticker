@@ -21,7 +21,7 @@ const renderDirectory = (repo, sha, files)=>
     {files.map(({name, type, path})=>
       <a
         className='List-item layout horizontal center t-normal'
-        href={`#github/${repo}/?code/${sha}/${path}`}
+        href={`#github/${repo}?code/${sha}/${path}`}
         key={name}
       >
         <Icon className='l-margin-r3' name={TYPE_TO_ICON[type]} />

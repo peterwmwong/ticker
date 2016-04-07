@@ -1,16 +1,17 @@
 import './AppToolbar.css';
 import xvdom from 'xvdom';
+import App   from './App.jsx';
 import Icon  from './common/Icon.jsx';
 
-const handleOnDrawer = ()=> AppToolbar.onDrawer && AppToolbar.onDrawer();
-const handleOnSearch = ()=> AppToolbar.onSearch && AppToolbar.onSearch();
+const showSearch = ()=> { App.showSearch() };
+const showDrawer = ()=> { App.showDrawer() };
 
-const AppToolbar = ({title, secondary}, {scrollClass})=>
+const AppToolbar = ({title, secondary, left, right}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
-    <div className='layout horizontal center-center l-height14'>
-      <Icon className='l-padding-h4 c-white' name='three-bars' size='small' onClick={handleOnDrawer} />
-      <div className='App__title t-truncate t-font-size-20 flex' textContent={title} />
-      <Icon className='l-padding-h4 c-white t-bold' name='search' size='small' onClick={handleOnSearch} />
+    <div className='layout horizontal center-center l-height14 l-padding-h4'>
+      {left}
+      <div className='App__title l-padding-h4 t-truncate t-font-size-20 flex' textContent={title} />
+      {right}
     </div>
     {secondary}
   </div>;
@@ -29,5 +30,21 @@ AppToolbar.state = {
     };
   }
 };
+
+export const AppToolbarSearch = ()=>
+  <Icon
+    className='t-bold c-white l-padding-l4 l-padding-r6'
+    name='search'
+    onClick={showSearch}
+    size='small'
+  />
+
+export const AppToolbarDrawer = ()=>
+  <Icon
+    className='c-white'
+    name='three-bars'
+    onClick={showDrawer}
+    size='small'
+  />
 
 export default AppToolbar;

@@ -32,7 +32,7 @@ const getOrCreateUser = ({github: {id, username, accessToken}})=> (
   // Get or create user information
   User.get(id)
     // Couldn't find existing user w/authId, so create a new User
-    .catch(()=> new User({id, username, sources:[]}).save())
+    .catch(()=> User.save({id, username, sources:[]}))
     .then((user)=> (
       storage.setItem(LAST_LOGIN_ID_STORAGE_KEY, id),
       (currentUser = user)
@@ -53,8 +53,38 @@ export const getPreviousUser = ()=> {
   if(lastUserId) return User.localGet(lastUserId);
 }
 
-export const getCurrentUser = ()=>
-  currentUser ? Promise.resolve(currentUser)
-    : loadFirebase()
-        .then(authWithFirebase)
-        .then(getOrCreateUser);
+let userListener = ()=> { };
+const toggleSource = (type, id)=> {
+  if(!currentUser) return;
+  const {sources:{github, github:{[type]:list}}} = currentUser;
+  const index = list.map((s)=> s.id).indexOf(id);
+  if(index > -1){
+    list.splice(index, 1);
+    github[type] = [...list];
+  }
+  else{
+    github[type] = list.concat({id});
+  }
+
+  User.save(currentUser).then((user)=> {
+    currentUser = user;
+    userListener(currentUser);
+  });
+}
+
+export const toggleUserSource = toggleSource.bind(null, 'users');
+export const toggleRepoSource = toggleSource.bind(null, 'repos');
+
+export const getCurrentUser = (cb=()=> {})=> {
+  userListener = cb;
+  if(currentUser) return currentUser;
+
+  loadFirebase()
+    .then(authWithFirebase)
+    .then(getOrCreateUser)
+    .catch(()=> null)
+    .then(userListener);
+
+  const prevUser = getPreviousUser();
+  if(prevUser) return prevUser;
+};

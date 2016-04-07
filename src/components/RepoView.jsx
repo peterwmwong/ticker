@@ -1,14 +1,19 @@
-import xvdom           from 'xvdom';
-import AppToolbar      from './AppToolbar.jsx';
-import CommitView      from './CommitView.jsx';
-import EventsView      from './EventsView.jsx';
-import CodeView        from './code-view/CodeView.jsx';
-import GithubIssue     from '../models/github/GithubIssue';
-import GithubPull      from '../models/github/GithubPull';
-import IssuesPullsView from './IssuesPullsView.jsx';
-import ReadmeView      from './ReadmeView.jsx';
-import IssuePullView   from './issue-pull-view/IssuePullView.jsx';
-import Tabs            from './common/Tabs.jsx';
+import xvdom              from 'xvdom';
+import CommitView         from './CommitView.jsx';
+import EventsView         from './EventsView.jsx';
+import CodeView           from './code-view/CodeView.jsx';
+import GithubIssue        from '../models/github/GithubIssue';
+import GithubPull         from '../models/github/GithubPull';
+import IssuesPullsView    from './IssuesPullsView.jsx';
+import ReadmeView         from './ReadmeView.jsx';
+import IssuePullView      from './issue-pull-view/IssuePullView.jsx';
+import Tabs               from './common/Tabs.jsx';
+import Icon               from './common/Icon.jsx';
+import {toggleRepoSource} from '../helpers/getCurrentUser';
+import AppToolbar, {
+  AppToolbarSearch,
+  AppToolbarDrawer
+} from './AppToolbar.jsx';
 
 const TABS = {
   readme:{
@@ -23,7 +28,6 @@ const TABS = {
   code:{
     title: 'Code',
     view: (id, head, tail)=> <CodeView pathArray={tail} repo={id} sha={head} />
-
   },
   pulls:{
     title: 'Pull Requests',
@@ -37,7 +41,10 @@ const TABS = {
 
 const stripURLEnding = (url)=> url.replace(/\/\s*$/, '');
 
-export default ({id, viewUrl='news'})=> {
+const isBookmarked = (user, id)=>
+  user && user.sources.github.repos.find((s)=> s.id === id);
+
+export default ({id, user, viewUrl='news'})=> {
   const [tab, head, ...tail] = stripURLEnding(viewUrl).split('/');
   // TODO: Temporary wrapper <div> to workaround xvdom dynamic stateful component
   //       rerendering bug
@@ -51,6 +58,18 @@ export default ({id, viewUrl='news'})=> {
         : (
           <div>
             <AppToolbar
+              left={<AppToolbarDrawer />}
+              right={
+                <div>
+                  <AppToolbarSearch />
+                  <Icon
+                    className={`c-white ${isBookmarked(user, id) ? '' : 'c-opacity-50'}`}
+                    name='bookmark'
+                    onClick={()=> { toggleRepoSource(id) }}
+                    size='small'
+                  />
+                </div>
+              }
               secondary={
                 <Tabs hrefPrefix={`#github/${id}?`} selected={tab} tabs={TABS} />
               }

@@ -7,7 +7,7 @@ const CodeView = ({repo, pathArray=[], sha='master'}, contents)=>
   <div>
     <PathNavigator
       pathArray={pathArray}
-      pathURLPrefix={`#github/${repo}/?code/`}
+      pathURLPrefix={`#github/${repo}?code/`}
       repo={repo}
       sha={sha}
     />

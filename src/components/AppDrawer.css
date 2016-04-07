@@ -1,6 +1,6 @@
 .AppDrawer {
-  width: 300px;
-  max-width: 75vw;
+  width: 0;
+  height: 0;
   background-color: white;
   box-shadow: 0 0 10px rgba(0,0,0, 0.75);
   /* Extra 1% to hide the box shadow */
@@ -9,6 +9,12 @@
   transition: transform 200ms ease-out;
   transition: -webkit-transform 200ms ease-out;
   z-index: 2;
+}
+
+.AppDrawer.is-rendered {
+  height: auto;
+  width: 300px;
+  max-width: 75vw;
 }
 
 .AppDrawer.is-enabled {
