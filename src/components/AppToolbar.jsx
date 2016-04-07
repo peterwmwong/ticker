@@ -4,13 +4,18 @@ import App   from './App.jsx';
 import Icon  from './common/Icon.jsx';
 
 const showSearch = ()=> { App.showSearch() };
-const showDrawer = ()=> { App.showDrawer() };
 
 const AppToolbar = ({title, secondary, left, right}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
     <div className='layout horizontal center-center l-height14 l-padding-h4'>
       {left}
       <div className='App__title l-padding-h4 t-truncate t-font-size-20 flex' textContent={title} />
+      <Icon
+        className='t-bold c-white l-padding-l4 l-padding-r0'
+        name='search'
+        onClick={showSearch}
+        size='small'
+      />
       {right}
     </div>
     {secondary}
@@ -30,21 +35,5 @@ AppToolbar.state = {
     };
   }
 };
-
-export const AppToolbarSearch = ()=>
-  <Icon
-    className='t-bold c-white l-padding-l4 l-padding-r6'
-    name='search'
-    onClick={showSearch}
-    size='small'
-  />
-
-export const AppToolbarDrawer = ()=>
-  <Icon
-    className='c-white'
-    name='three-bars'
-    onClick={showDrawer}
-    size='small'
-  />
 
 export default AppToolbar;
