@@ -39,3 +39,6 @@
 .t-bold {
   font-weight: 700 !important;
 }
+.t-center {
+  text-align: center !important;
+}

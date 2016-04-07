@@ -1,8 +1,13 @@
-import xvdom         from 'xvdom';
-import AppToolbar    from './AppToolbar.jsx';
-import EventsView    from './EventsView.jsx';
-import UserReposView from './UserReposView.jsx';
-import Tabs          from './common/Tabs.jsx';
+import xvdom              from 'xvdom';
+import EventsView         from './EventsView.jsx';
+import UserReposView      from './UserReposView.jsx';
+import Tabs               from './common/Tabs.jsx';
+import Icon               from './common/Icon.jsx';
+import {toggleUserSource} from '../helpers/getCurrentUser';
+import AppToolbar, {
+  AppToolbarSearch,
+  AppToolbarDrawer
+} from './AppToolbar.jsx';
 
 const TABS = {
   news:{
@@ -15,9 +20,24 @@ const TABS = {
   }
 };
 
-const UserView = ({id, viewUrl='news'})=>
+const isBookmarked = (user, id)=>
+  user && user.sources.github.users.find((s)=> s.id === id);
+
+export default ({id, user, viewUrl='news'})=>
   <div>
     <AppToolbar
+      left={<AppToolbarDrawer />}
+      right={
+        <div>
+          <AppToolbarSearch />
+          <Icon
+            className={`c-white ${isBookmarked(user, id) ? '' : 'c-opacity-50'}`}
+            name='bookmark'
+            size='small'
+            onClick={()=> { toggleUserSource(id) }}
+          />
+        </div>
+      }
       secondary={
         <Tabs hrefPrefix={`#github/${id}?`} selected={viewUrl} tabs={TABS} />
       }
@@ -27,5 +47,3 @@ const UserView = ({id, viewUrl='news'})=>
       {TABS[viewUrl].view(id)}
     </div>
   </div>;
-
-export default UserView;

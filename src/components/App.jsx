@@ -4,83 +4,67 @@ import '../helpers/globalLogger';
 import xvdom      from 'xvdom';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
-import AppToolbar from './AppToolbar.jsx';
 import UserView   from './UserView.jsx';
 import RepoView   from './RepoView.jsx';
 import {
   authWithOAuthPopup,
-  getCurrentUser,
-  getPreviousUser
+  getCurrentUser
 } from '../helpers/getCurrentUser';
 
 const App = (
   props,
-  {currentUser, isSearchEnabled, isDrawerEnabled, view, viewId, viewUrl},
+  {user, hasSearch, hasDrawer, view, viewId, viewUrl},
   {disableOverlay, login}
 )=>
   <body className='App fit fullbleed'>
-    {view}
+    {view === 'user'
+      ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
+      : <RepoView id={viewId} user={user} viewUrl={viewUrl} />
+    }
     <div
-      className={`App-backdrop fixed ${isSearchEnabled || isDrawerEnabled ? 'is-enabled' : ''}`}
+      className={`App-backdrop fixed ${hasSearch || hasDrawer ? 'is-enabled' : ''}`}
       onclick={disableOverlay}
     />
-    <AppSearch enabled={isSearchEnabled} />
-    <AppDrawer enabled={isDrawerEnabled} onLogin={login} user={currentUser} />
+    <AppSearch enabled={hasSearch} />
+    <AppDrawer enabled={hasDrawer} onLogin={login} user={user} />
   </body>;
 
 App.state = {
-  onInit: (props, state, {onHashChange, onCurrentUserChange, enableSearch, enableDrawer})=> {
-    AppToolbar.onDrawer = enableDrawer;
-    AppToolbar.onSearch = enableSearch;
-    getCurrentUser()
-      .then(onCurrentUserChange)
-      .catch(()=> onCurrentUserChange(null));
+  onInit: (props, state, {onHashChange, onUserChange, enableSearch, enableDrawer})=> {
+    App.showDrawer      = enableDrawer;
+    App.showSearch      = enableSearch;
     window.onhashchange = onHashChange;
     return {
-      currentUser: getPreviousUser(),
+      user: getCurrentUser(onUserChange),
       ...onHashChange()
     };
   },
 
-  onHashChange: (props, state, {viewRepo, viewUser})=> {
+  onHashChange: (props, state, {view, disableOverlay})=> {
     if(state) document.body.scrollTop = 0;
     const [appUrl, viewUrl] = window.location.hash.split('?');
-    const [, owner, repo] = appUrl.split('/');
+    const viewId = appUrl.slice(8);
     return {
-      ...(
-        repo
-          ? viewRepo(`${owner}/${repo}`, viewUrl)
-          : viewUser(owner, viewUrl)
-      ),
-      isDrawerEnabled: false,
-      isSearchEnabled: false
+      ...view((/\//.test(viewId) ? 'repo' : 'user'), viewId, viewUrl),
+      ...disableOverlay()
     }
   },
 
-  viewUser: (props, state, actions, user, viewUrl)=> ({
-    ...state,
-    view: <UserView id={user} viewUrl={viewUrl} />
+  view: (props, state, actions, view, viewId, viewUrl)=> ({
+    ...state, view, viewId, viewUrl
   }),
 
-  viewRepo: (props, state, actions, repo, viewUrl)=> ({
-    ...state,
-    view: <RepoView id={repo} viewUrl={viewUrl} />
-  }),
+  enableSearch:   (props, state)=> ({...state, hasSearch:true,  hasDrawer:false}),
+  enableDrawer:   (props, state)=> ({...state, hasSearch:false, hasDrawer:true}),
+  disableOverlay: (props, state)=> ({...state, hasSearch:false, hasDrawer:false}),
+  onUserChange:   (props, state, actions, user)=> ({...state, user}),
 
-  enableSearch:   (props, state)=> ({...state, isSearchEnabled:true,  isDrawerEnabled:false}),
-  enableDrawer:   (props, state)=> ({...state, isSearchEnabled:false, isDrawerEnabled:true}),
-  disableOverlay: (props, state)=> ({...state, isSearchEnabled:false, isDrawerEnabled:false}),
-
-  login: (props, state, {onCurrentUserChange})=> (
-    authWithOAuthPopup().then(onCurrentUserChange),
+  login: (props, state, {onUserChange})=> (
+    authWithOAuthPopup().then(onUserChange),
     state
-  ),
-
-  onCurrentUserChange: (props, state, actions, currentUser)=> ({
-    ...state,
-    currentUser
-  })
-
+  )
 };
 
 document.body = xvdom.render(<App />);
+
+export default App;

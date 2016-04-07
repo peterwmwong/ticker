@@ -6,22 +6,25 @@ import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';
 import compare    from '../helpers/compare';
 
-const sortRepos = (a, b)=> compare(a.full_name, b.full_name);
-const sortUsers = (a, b)=> compare(a.login,     b.login);
+const sort = (a, b)=> compare(a.sortKey, b.sortKey);
+const renderData = ({id})=> {
+  const [owner, name] = id.split('/');
+  return {
+    id,
+    avatarUrl: `https://github.com/${owner}.png?size=32`,
+    sortKey: (name || owner).toLowerCase()
+  };
+};
 
-const SourceGroup = ({sourceNameProp, sources, sort, type})=>
+const SourceGroup = ({sources})=>
   <div>
     {sources
-      .filter((s)=> s.type === type)
+      .map(renderData)
       .sort(sort)
-      .map(({avatar_url, [sourceNameProp]:name})=>
-        <div className='layout horizontal center l-padding-l4' key={name}>
-          <Avatar avatarUrl={avatar_url} />
-          <SourceName
-            className='List-item List-item--noBorder'
-            displayName={name}
-            key={name}
-          />
+      .map(({id, avatarUrl})=>
+        <div className='layout horizontal center l-padding-l4' key={id}>
+          <Avatar avatarUrl={avatarUrl} />
+          <SourceName className='List-item List-item--noBorder' displayName={id} />
         </div>
       )
     }
@@ -46,21 +49,11 @@ export default ({user, enabled, onLogin})=> {
             <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
               Repositories
             </div>
-            <SourceGroup
-              sort={sortRepos}
-              sourceNameProp='full_name'
-              sources={user.sources}
-              type='GithubRepoSource'
-            />
+            <SourceGroup sources={user.sources.github.repos} />
             <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
               Users / Orgs
             </div>
-            <SourceGroup
-              sort={sortUsers}
-              sourceNameProp='login'
-              sources={user.sources}
-              type='GithubUserSource'
-            />
+            <SourceGroup sources={user.sources.github.users} />
           </div>
         ) : (
           <div
