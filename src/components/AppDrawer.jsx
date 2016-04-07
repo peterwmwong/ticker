@@ -30,6 +30,11 @@ const SourceGroup = ({sources})=>
     }
   </div>
 
+const logout = ()=> {
+  window.localStorage.clear();
+  window.location.reload();
+}
+
 // Lazily render drawer contents the first time the drawer is enabled.
 // Prevent un-rendering contents when disabled.
 let lazyRenderContents = false;
@@ -46,14 +51,20 @@ export default ({user, enabled, onLogin})=> {
               <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
               <span className='l-margin-l4' textContent={user.githubUsername} />
             </div>
-            <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
-              Repositories
+            <div className='List-item List-item--header'>
+              REPOSITORIES
             </div>
             <SourceGroup sources={user.sources.github.repos} />
-            <div className='List-item List-item--header c-gray-dark t-normal t-uppercase'>
-              Users / Orgs
+            <div className='List-item List-item--header'>
+              USERS / ORGS
             </div>
             <SourceGroup sources={user.sources.github.users} />
+            <a
+              className='List-item List-item--header l-padding-b4'
+              onclick={logout}
+            >
+              LOGOUT
+            </a>
           </div>
         ) : (
           <div

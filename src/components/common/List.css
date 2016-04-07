@@ -9,6 +9,7 @@
   border-top: 1px solid #EEE;
   padding-bottom: 8px;
   cursor: default;
+  color: hsl(192, 0%, 55%) !important;
 }
 
 .List-item--noBorder,
