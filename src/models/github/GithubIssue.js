@@ -4,6 +4,7 @@ export default model({
   get: (id)=> {
     const [owner, repo, issueId] = id.split('/');
     return {
+      cache: `ticker:GithubIssue:${id}`,
       url: `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}`
     };
   },
