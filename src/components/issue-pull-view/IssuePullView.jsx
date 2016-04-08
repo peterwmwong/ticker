@@ -27,7 +27,7 @@ const IssuePullView = ({id, repo, tab='info'}, issue, {onBack})=>
     <AppToolbar
       left={
         <Icon
-          className='c-white'
+          className='c-white l-padding-h4'
           name='chevron-left'
           onClick={onBack}
           size='small'

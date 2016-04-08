@@ -10,7 +10,7 @@ export default ({id, tab, TABS, isBookmarked, onBookmark})=>
   <AppToolbar
     left={
       <Icon
-        className='c-white'
+        className='c-white l-padding-h4'
         name='three-bars'
         onClick={showDrawer}
         size='small'
@@ -18,7 +18,7 @@ export default ({id, tab, TABS, isBookmarked, onBookmark})=>
     }
     right={
       <Icon
-        className={`c-white l-padding-l4 ${isBookmarked ? '' : 'c-opacity-50'}`}
+        className={`c-white l-padding-l2 l-padding-r4 ${isBookmarked ? '' : 'c-opacity-50'}`}
         name='bookmark'
         onClick={onBookmark}
         size='small'

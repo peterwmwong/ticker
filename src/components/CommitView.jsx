@@ -39,7 +39,7 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats}, {onBack
         <AppToolbar
           left={
             <Icon
-              className='c-white'
+              className='c-white l-padding-h4'
               name='chevron-left'
               onClick={onBack}
               size='small'

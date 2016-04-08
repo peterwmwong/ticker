@@ -7,11 +7,11 @@ const showSearch = ()=> { App.showSearch() };
 
 const AppToolbar = ({title, secondary, left, right}, {scrollClass})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
-    <div className='layout horizontal center-center l-height14 l-padding-h4'>
+    <div className='layout horizontal center-center l-height14'>
       {left}
-      <div className='App__title l-padding-h4 t-truncate t-font-size-20 flex' textContent={title} />
+      <div className='App__title l-padding-r0 t-truncate t-font-size-20 flex' textContent={title} />
       <Icon
-        className='t-bold c-white l-padding-l4 l-padding-r0'
+        className='t-bold c-white l-padding-h4'
         name='search'
         onClick={showSearch}
         size='small'
