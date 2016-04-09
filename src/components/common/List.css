@@ -12,7 +12,11 @@
   color: hsl(192, 0%, 55%) !important;
 }
 
-.List-item--noBorder,
+.List-item--noDivider,
 .List-item--header {
   border-bottom: 0;
+}
+
+.List-item--noDivider {
+  padding: 16px;
 }

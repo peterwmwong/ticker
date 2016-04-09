@@ -10,7 +10,7 @@ const EVENT_TYPES_TO_HIDE = {
 const filterEvents = (e)=> !EVENT_TYPES_TO_HIDE[e.type];
 
 const EventsView = (props, events)=>
-  <div className='l-margin-t2'>
+  <div>
     {events.map((event)=>
       <EventCard event={event} key={event.id} recycle />
     )}

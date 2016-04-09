@@ -44,7 +44,7 @@ const IssuePullView = ({id, repo, tab='info'}, issue, {onBack})=>
       title={`${issue && issue.pull_request ? 'PR' : 'Issue'} #${id}: ${issue ? issue.title : ''}`}
     />
     <div
-      className={`${issue && issue.pull_request ? 'l-padding-t24' : 'l-padding-t14'} l-padding-b2`}
+      className={`${issue && issue.pull_request ? 'l-padding-t24' : 'l-padding-t14'}`}
     >
       {issue && TABS[tab].view(repo, id, issue)}
     </div>
