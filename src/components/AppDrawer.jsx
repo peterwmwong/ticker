@@ -1,34 +1,30 @@
 import './AppDrawer.css';
 import './common/List.css';
 import xvdom      from 'xvdom';
-import Icon from './common/Icon.jsx';
+import List       from './common/List.jsx';
+import Icon       from './common/Icon.jsx';
 import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';
 import compare    from '../helpers/compare';
 
+const userAvatarUrl = (username)=> `https://github.com/${username}.png?size=32`
 const sort = (a, b)=> compare(a.sortKey, b.sortKey);
 const renderData = ({id})=> {
   const [owner, name] = id.split('/');
   return {
     id,
-    avatarUrl: `https://github.com/${owner}.png?size=32`,
+    avatarUrl: userAvatarUrl(owner),
     sortKey: (name || owner).toLowerCase()
   };
-};
+}
+const sortSources = (sources)=> sources.map(renderData).sort(sort)
 
-const SourceGroup = ({sources})=>
-  <div>
-    {sources
-      .map(renderData)
-      .sort(sort)
-      .map(({id, avatarUrl})=>
-        <div className='layout horizontal center l-padding-l4' key={id}>
-          <Avatar avatarUrl={avatarUrl} />
-          <SourceName className='List-item List-item--noBorder' displayName={id} />
-        </div>
-      )
-    }
-  </div>
+const listMeta = ({id, avatarUrl})=> ({
+  href: `#github/${id}`,
+  avatarUrl: avatarUrl,
+  key:  id,
+  text: <SourceName displayName={id} />
+})
 
 const logout = ()=> {
   window.localStorage.clear();
@@ -47,18 +43,28 @@ export default ({user, enabled, onLogin})=> {
       {lazyRenderContents && (
         user ? (
           <div>
-            <div className='List-item List-item--noBorder layout horizontal center'>
-              <Avatar avatarUrl={`https://avatars.githubusercontent.com/u/${user.id}?`} />
+            <div className='List-item List-item--noDivider layout horizontal center'>
+              <Avatar avatarUrl={userAvatarUrl(user.githubUsername)} />
               <span className='l-margin-l4' textContent={user.githubUsername} />
             </div>
             <div className='List-item List-item--header'>
               REPOSITORIES
             </div>
-            <SourceGroup sources={user.sources.github.repos} />
+            <List
+              list={user.sources.github.repos}
+              meta={listMeta}
+              noDivider
+              transform={sortSources}
+            />
             <div className='List-item List-item--header'>
               USERS / ORGS
             </div>
-            <SourceGroup sources={user.sources.github.users} />
+            <List
+              list={user.sources.github.users}
+              meta={listMeta}
+              noDivider
+              transform={sortSources}
+            />
             <a
               className='List-item List-item--header l-padding-b4'
               onclick={logout}
@@ -68,7 +74,7 @@ export default ({user, enabled, onLogin})=> {
           </div>
         ) : (
           <div
-            className='List-item List-item--noBorder layout horizontal center'
+            className='List-item List-item--noDivider layout horizontal center'
             onclick={onLogin}
           >
             <Icon name='mark-github' />

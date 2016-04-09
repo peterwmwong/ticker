@@ -11,7 +11,7 @@ const CodeView = ({repo, pathArray=[], sha='master'}, contents)=>
       repo={repo}
       sha={sha}
     />
-    {contents && <PathContents contents={contents} repo={repo} sha={sha} />}
+    <PathContents contents={contents} repo={repo} sha={sha} />
   </div>;
 
 const onInit = (props, state, {loadContents})=> {

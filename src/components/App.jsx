@@ -1,3 +1,5 @@
+import '../../vendor/octicons/octicons.css';
+import '../../vendor/highlightjs/styles/github.css';
 import './App-old.css';
 import './App.css';
 import '../helpers/globalLogger';

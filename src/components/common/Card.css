@@ -5,7 +5,7 @@
   border-bottom-color: rgba(0, 0, 0, 0.15);
   border-bottom-width: 2px;
   overflow: hidden;
-  margin: 0 8px;
+  margin: 8px 8px 0 8px;
 }
 
 .Card--fullBleed {
@@ -27,13 +27,14 @@
   padding-top: 0;
 }
 
-.Card + .Card {
+.Card:not(.Card--fullBleed) + .Card {
   margin-top: 4px;
 }
 
 @media (min-width: 639px) {
   .Card {
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 620px;
   }
   .Card--fullBleed .Card-title,

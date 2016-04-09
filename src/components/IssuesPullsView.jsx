@@ -1,35 +1,34 @@
 import xvdom      from 'xvdom';
-import Avatar     from './common/Avatar.jsx';
+import List       from './common/List.jsx';
 import compare    from '../helpers/compare';
 import timeAgo    from '../helpers/timeAgo';
 
 const compareCreatedAt = (a, b)=> compare(b.created_at, a.created_at)
+const sortIssues = (issues)=> issues.sort(compareCreatedAt)
 
-const IssuesPullsView = ({id:modelId, icon}, issues)=>
-  <div className='l-margin-t2 Card' hidden={!issues.length} >
-    {issues.map(({base, number, title, created_at, user})=>
-      <div className='List-item layout horizontal center' key={number}>
-        <Avatar avatarUrl={user.avatar_url} />
-        <a
-          className='t-normal l-margin-l3'
-          href={`#github/${modelId}?${base ? 'pulls' : 'issues'}/${number}`}
-        >
-          {title}
-          <div
-            className='t-light t-font-size-14 c-gray-dark'
-            textContent={`#${number} opened ${timeAgo(Date.parse(created_at))} ago by ${user.login}`}
-          />
-        </a>
-      </div>
-    )}
-  </div>;
+const listMeta = ({base, number, title, created_at, user}, id)=> ({
+  href: `#github/${id}?${base ? 'pulls' : 'issues'}/${number}`,
+  avatarUrl: user.avatar_url,
+  key:  number,
+  text: title,
+  secondaryText: `#${number} opened ${timeAgo(Date.parse(created_at))} ago by ${user.login}`
+})
+
+const IssuesPullsView = ({id}, issues)=>
+  <List
+    className='Card'
+    context={id}
+    list={issues}
+    meta={listMeta}
+    transform={sortIssues}
+  />
 
 IssuesPullsView.state = {
   onInit: ({id, modelClass}, state, {loadIssues})=> (
     modelClass.query(id).then(loadIssues),
     loadIssues(modelClass.localQuery(id) || [])
   ),
-  loadIssues: (props, state, actions, issues)=> issues.sort(compareCreatedAt)
+  loadIssues: (props, state, actions, issues)=> issues
 }
 
 export default IssuesPullsView;

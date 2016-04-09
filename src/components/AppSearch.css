@@ -8,6 +8,10 @@
   transform: scale(1);
 }
 
+/*
+TODO(pwong): Simplify into a rectangle moving in from the left
+Noone can actual see it's a circle! :)
+*/
 .AppSearch-inkdrop {
   width: 200vw;
   height: 200vw;

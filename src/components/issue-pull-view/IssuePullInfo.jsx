@@ -6,7 +6,7 @@ import Markup             from './../common/Markup.jsx';
 
 const IssuePullInfo = ({repo, issue}, issueComments)=>
   <div>
-    <div className='Card Card--fullBleed l-margin-b2'>
+    <div className='Card Card--fullBleed'>
       <div className='Card-title'>
         <h1
           className='t-word-break-word l-margin-v0'
