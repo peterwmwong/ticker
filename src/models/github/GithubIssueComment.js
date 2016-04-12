@@ -1,10 +1,9 @@
 import model  from '../../helpers/model';
 
 export default model({
-  query: ({id})=> {
-    const [owner, repo, issueId] = id.split('/');
+  query: ({repo, issue})=> {
     return {
-      url: `https://api.github.com/repos/${owner}/${repo}/issues/${issueId}/comments`
+      url: `https://api.github.com/repos/${repo}/issues/${issue.number}/comments`
     };
   }
 });

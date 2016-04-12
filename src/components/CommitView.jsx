@@ -1,11 +1,12 @@
 import './common/Card.css';
 import './common/Pill.css';
-import xvdom        from 'xvdom';
-import AppToolbar   from './AppToolbar.jsx';
-import GithubCommit from '../models/github/GithubCommit';
-import DiffFiles    from './common/DiffFiles.jsx';
-import Actor        from './common/Actor.jsx';
-import Icon         from './common/Icon.jsx';
+import xvdom               from 'xvdom';
+import AppToolbar          from './AppToolbar.jsx';
+import GithubCommit        from '../models/github/GithubCommit';
+import DiffFiles           from './common/DiffFiles.jsx';
+import Actor               from './common/Actor.jsx';
+import Icon                from './common/Icon.jsx';
+import modelStateComponent from '../helpers/modelStateComponent';
 
 const COMMIT_PLACEHOLDER = {
   files: [],
@@ -27,23 +28,26 @@ const COMMIT_PLACEHOLDER = {
 
 const getCommitTitleMessage = (message)=> {
   const [title] = /.*/g.exec(message);
-  return title === message ? {title:'', message}
-    : {title, message:message.substr(title.length)};
+  return title === message
+    ? {title:'', message}
+    : {title,    message:message.substr(title.length)};
 };
 
-const CommitView = ({repo, commitId}, {files, commit, committer, stats}, {onBack})=> {
+export default modelStateComponent(GithubCommit, 'get', ({repo, commitId}, state)=> {
+  const {files, commit, committer, stats} = state || COMMIT_PLACEHOLDER;
   const {title, message} = getCommitTitleMessage(commit.message);
   return (
     <div className='l-padding-t6'>
       <div className='Card Card--fullBleed l-padding-t5'>
         <AppToolbar
           left={
-            <Icon
-              className='c-white l-padding-h4'
-              name='chevron-left'
-              onClick={onBack}
-              size='small'
-            />
+            <a href={`#github/${repo}`}>
+              <Icon
+                className='c-white l-padding-h4'
+                name='chevron-left'
+                size='small'
+              />
+            </a>
           }
           title={commitId}
         />
@@ -73,15 +77,4 @@ const CommitView = ({repo, commitId}, {files, commit, committer, stats}, {onBack
       <DiffFiles files={files} />
     </div>
   );
-};
-
-CommitView.state = {
-  onInit: ({repo, commitId}, state, {onCommit})=> (
-    GithubCommit.get(`${repo}/${commitId}`).then(onCommit),
-    GithubCommit.localGet(`${repo}/${commitId}`) || COMMIT_PLACEHOLDER
-  ),
-  onBack: ({repo})=> {window.location.hash=`#github/${repo}`},
-  onCommit:(props, state, action, commit)=> commit
-};
-
-export default CommitView;
+})
