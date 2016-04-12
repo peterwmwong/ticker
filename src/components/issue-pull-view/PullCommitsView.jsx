@@ -8,11 +8,15 @@ import timeAgo             from '../../helpers/timeAgo';
 const sortCreatedAt = (a, b)=> compare(b.created_at, a.created_at);
 const sort = (commits)=> commits.sort(sortCreatedAt)
 
-const listMeta = (
+const item = (
   {
     sha,
     author,
-    commit:{author:{name:authorName}, committer, message}
+    commit: {
+      author: {name},
+      committer,
+      message
+    }
   },
   repo
 )=> ({
@@ -21,7 +25,7 @@ const listMeta = (
   icon: 'person',
   key:  sha,
   text: message,
-  secondaryText: `committed ${timeAgo(Date.parse(committer.date))} ago by ${author ? author.login : authorName}`
+  secondaryText: `committed ${timeAgo(Date.parse(committer.date))} ago by ${author ? author.login : name}`
 })
 
 export default modelStateComponent(GithubPullCommit, 'query', ({id, repo}, commits)=>
@@ -29,7 +33,7 @@ export default modelStateComponent(GithubPullCommit, 'query', ({id, repo}, commi
     className='Card'
     context={repo}
     list={commits}
-    meta={listMeta}
+    item={item}
     transform={sort}
   />
 );

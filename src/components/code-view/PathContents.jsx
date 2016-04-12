@@ -11,7 +11,7 @@ const TYPE_TO_ICON = {
 
 const sortFiles = (a, b)=> compare(a.type, b.type) || compare(a.name, b.name)
 
-const listMeta = ({name, type, path}, context)=> ({
+const item = ({name, type, path}, context)=> ({
   href: `${context}${path}`,
   icon: TYPE_TO_ICON[type],
   key:  name,
@@ -28,6 +28,6 @@ export default ({repo, sha, contents})=>
       className='Card'
       context={`#github/${repo}?code/${sha}/`}
       list={contents && contents.value.sort(sortFiles)}
-      meta={listMeta}
+      item={item}
     />
   )
