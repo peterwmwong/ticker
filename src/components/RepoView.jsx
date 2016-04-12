@@ -56,7 +56,7 @@ export default ({id, user, viewUrl='news'})=> {
               TABS={TABS}
               id={id}
               isBookmarked={isBookmarked(user, id)}
-              onBookmark={()=> { toggleRepoSource(id) }}
+              onBookmark={toggleRepoSource}
               tab={tab}
             />
             <div className='l-padding-t24 l-padding-b2'>

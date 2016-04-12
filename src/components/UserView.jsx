@@ -24,7 +24,7 @@ export default ({id, user, viewUrl='news'})=>
       TABS={TABS}
       id={id}
       isBookmarked={isBookmarked(user, id)}
-      onBookmark={()=> { toggleUserSource(id) }}
+      onBookmark={toggleUserSource}
       tab={viewUrl}
     />
     <div className='l-padding-t24 l-padding-b2'>

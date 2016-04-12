@@ -3,8 +3,9 @@ import xvdom              from 'xvdom';
 import GithubIssueComment from '../../models/github/GithubIssueComment';
 import Actor              from './../common/Actor.jsx';
 import Markup             from './../common/Markup.jsx';
+import modelStateComponent         from '../../helpers/modelStateComponent';
 
-const IssuePullInfo = ({repo, issue}, issueComments)=>
+export default modelStateComponent(GithubIssueComment, 'query', ({repo, issue}, issueComments)=>
   <div>
     <div className='Card Card--fullBleed'>
       <div className='Card-title'>
@@ -20,24 +21,11 @@ const IssuePullInfo = ({repo, issue}, issueComments)=>
       />
       <Markup className='Card-content' content={issue.body} />
     </div>
-    {issueComments.map(({id, user, body, created_at})=>
+    {issueComments && issueComments.map(({id, user, body, created_at})=>
       <div className='Card' id={id} key={id}>
         <Actor actionDate={created_at} className='Card-content' user={user} />
         <Markup className='Card-content' content={body} />
       </div>
     )}
-  </div>;
-
-const onInit = ({repo, issue}, state, {loadIssueComments})=> {
-  const id = `${repo}/${issue.number}`;
-  GithubIssueComment.query({id}).then(loadIssueComments);
-  return GithubIssueComment.localQuery({id}) || [];
-};
-
-IssuePullInfo.state = {
-  onInit,
-  onProps: onInit,
-  loadIssueComments: (props, state, actions, issueComments)=> issueComments
-};
-
-export default IssuePullInfo;
+  </div>
+)

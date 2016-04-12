@@ -1,9 +1,10 @@
 import xvdom              from 'xvdom';
+import modelStateComponent         from '../../helpers/modelStateComponent';
 import PathNavigator      from './PathNavigator.jsx';
 import PathContents       from './PathContents.jsx';
 import GithubFileContents from '../../models/github/GithubFileContents';
 
-const CodeView = ({repo, pathArray=[], sha='master'}, contents)=>
+export default modelStateComponent(GithubFileContents, 'query', ({repo, pathArray=[], sha='master'}, contents)=>
   <div>
     <PathNavigator
       pathArray={pathArray}
@@ -12,16 +13,5 @@ const CodeView = ({repo, pathArray=[], sha='master'}, contents)=>
       sha={sha}
     />
     <PathContents contents={contents} repo={repo} sha={sha} />
-  </div>;
-
-const onInit = (props, state, {loadContents})=> {
-  GithubFileContents.query(props).then(loadContents);
-};
-
-CodeView.state = {
-  onInit,
-  onProps: onInit,
-  loadContents: (props, state, actions, contents)=> contents
-};
-
-export default CodeView;
+  </div>
+)

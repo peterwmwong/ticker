@@ -27,7 +27,7 @@ export default ({repo, sha, contents})=>
     <List
       className='Card'
       context={`#github/${repo}?code/${sha}/`}
-      list={contents ? contents.value.sort(sortFiles) : []}
+      list={contents && contents.value.sort(sortFiles)}
       meta={listMeta}
     />
   )

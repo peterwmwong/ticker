@@ -4,6 +4,7 @@ import Icon   from './Icon.jsx';
 
 export default ({className, context, list, meta, noDivider, transform})=> {
   const listClass = `List-item layout horizontal center t-normal ${noDivider ? 'List-item--noDivider' : ''}`;
+  list = list || [];
   if(transform) list = transform(list);
   return (
     <div className={className} hidden={!list || !list.length} >

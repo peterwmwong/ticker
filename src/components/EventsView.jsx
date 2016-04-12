@@ -1,6 +1,7 @@
 import xvdom       from 'xvdom';
 import EventCard   from './EventCard.jsx';
 import GithubEvent from '../models/github/GithubEvent';
+import modelStateComponent  from '../helpers/modelStateComponent';
 
 const EVENT_TYPES_TO_HIDE = {
   'WatchEvent': true,
@@ -9,22 +10,10 @@ const EVENT_TYPES_TO_HIDE = {
 
 const filterEvents = (e)=> !EVENT_TYPES_TO_HIDE[e.type];
 
-const EventsView = (props, events)=>
+export default modelStateComponent(GithubEvent, 'query', (props, events)=>
   <div>
-    {events.map((event)=>
+    {(events || []).filter(filterEvents).map((event)=>
       <EventCard event={event} key={event.id} recycle />
     )}
-  </div>;
-
-const onInit = (props, state, {loadEvents})=> (
-  GithubEvent.query(props).then(loadEvents),
-  loadEvents(GithubEvent.localQuery(props) || [])
+  </div>
 );
-
-EventsView.state = {
-  onInit: onInit,
-  onProps: onInit,
-  loadEvents: (props, state, actions, events)=> events.filter(filterEvents)
-};
-
-export default EventsView;

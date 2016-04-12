@@ -20,7 +20,7 @@ export default ({id, tab, TABS, isBookmarked, onBookmark})=>
       <Icon
         className={`c-white l-padding-l2 l-padding-r4 ${isBookmarked ? '' : 'c-opacity-50'}`}
         name='bookmark'
-        onClick={onBookmark}
+        onClick={()=> { onBookmark(id) }}
         size='small'
       />
     }

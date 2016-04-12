@@ -6,6 +6,7 @@ import AppToolbar      from '../AppToolbar.jsx';
 import Icon            from '../common/Icon.jsx';
 import Tabs            from '../common/Tabs.jsx';
 import GithubIssue     from '../../models/github/GithubIssue';
+import modelStateComponent      from '../../helpers/modelStateComponent';
 
 const TABS = {
   info:{
@@ -22,45 +23,32 @@ const TABS = {
   }
 };
 
-const IssuePullView = ({id, repo, tab='info'}, issue, {onBack})=>
+export default modelStateComponent(GithubIssue, 'get', ({id, repo, tab='info'}, issue)=>
   <div>
     <AppToolbar
       left={
-        <Icon
-          className='c-white l-padding-h4'
-          name='chevron-left'
-          onClick={onBack}
-          size='small'
-        />
+        <a href={`#github/${repo}`}>
+          <Icon
+            className='c-white l-padding-h4'
+            name='chevron-left'
+            size='small'
+          />
+        </a>
       }
       secondary={
-        (!!issue && !!issue.pull_request) &&
+        (issue && issue.pull_request) &&
           <Tabs
             hrefPrefix={`#github/${repo}?pulls/${id}/`}
             selected={tab}
             tabs={TABS}
           />
       }
-      title={`${issue && issue.pull_request ? 'PR' : 'Issue'} #${id}: ${issue ? issue.title : ''}`}
+      title={`${(issue && issue.pull_request) ? 'PR' : 'Issue'} #${id}: ${issue ? issue.title : ''}`}
     />
     <div
-      className={`${issue && issue.pull_request ? 'l-padding-t24' : 'l-padding-t14'}`}
+      className={`${(issue && issue.pull_request) ? 'l-padding-t24' : 'l-padding-t14'}`}
     >
       {issue && TABS[tab].view(repo, id, issue)}
     </div>
-  </div>;
-
-const onInit = ({repo, id}, state, {loadIssue})=> {
-  const repoId = `${repo}/${id}`;
-  GithubIssue.get(repoId).then(loadIssue);
-  return GithubIssue.localGet(repoId);
-};
-
-IssuePullView.state = {
-  onInit,
-  onProps: onInit,
-  onBack: ({repo})=> {window.location.hash=`#github/${repo}`},
-  loadIssue: (props, state, actions, issue)=> issue
-};
-
-export default IssuePullView;
+  </div>
+);
