@@ -5,7 +5,7 @@ import SourceName from './SourceName.jsx';
 import GithubRepo from '../models/github/GithubRepo';
 import GithubUser from '../models/github/GithubUser';
 
-const listMeta = ({avatar_url, full_name, id, login, owner})=> ({
+const item = ({avatar_url, full_name, id, login, owner})=> ({
   href: `#github/${login || full_name}`,
   avatarUrl: (avatar_url || (owner && owner.avatar_url)),
   key:  id,
@@ -29,7 +29,7 @@ const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
     <List
       className='AppSearch-searchResults'
       list={searchResults}
-      meta={listMeta}
+      item={item}
       noDivider
     />
   </div>;

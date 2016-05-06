@@ -19,7 +19,7 @@ const renderData = ({id})=> {
 }
 const sortSources = (sources)=> sources.map(renderData).sort(sort)
 
-const listMeta = ({id, avatarUrl})=> ({
+const item = ({id, avatarUrl})=> ({
   href: `#github/${id}`,
   avatarUrl: avatarUrl,
   key:  id,
@@ -52,7 +52,7 @@ export default ({user, enabled, onLogin})=> {
             </div>
             <List
               list={user.sources.github.repos}
-              meta={listMeta}
+              item={item}
               noDivider
               transform={sortSources}
             />
@@ -61,7 +61,7 @@ export default ({user, enabled, onLogin})=> {
             </div>
             <List
               list={user.sources.github.users}
-              meta={listMeta}
+              item={item}
               noDivider
               transform={sortSources}
             />

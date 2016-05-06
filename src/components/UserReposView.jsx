@@ -6,7 +6,7 @@ import GithubRepo          from '../models/github/GithubRepo';
 
 const compareRepos = (a, b)=> compare(a.name, b.name)
 const sortRepos = (repos)=> repos.sort(compareRepos)
-const listMeta = ({name, description}, id)=> ({
+const item = ({name, description}, id)=> ({
   href: `#github/${id}/${name}`,
   icon: 'repo',
   key:  name,
@@ -19,7 +19,7 @@ export default modelStateComponent(GithubRepo, 'query', ({id}, repos)=>
     className='Card'
     context={id}
     list={repos}
-    meta={listMeta}
+    item={item}
     transform={sortRepos}
   />
 )
