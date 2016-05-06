@@ -1,3 +1,7 @@
+.App {
+  margin: 0;
+}
+
 .App-backdrop {
   -webkit-transform: scale(0);
   transform: scale(0);

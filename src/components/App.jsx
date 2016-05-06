@@ -18,7 +18,7 @@ const App = (
   {user, hasSearch, hasDrawer, view, viewId, viewUrl},
   {disableOverlay, login}
 )=>
-  <body className='App fit fullbleed'>
+  <body className='App'>
     {view === 'user'
       ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
       : <RepoView id={viewId} user={user} viewUrl={viewUrl} />
