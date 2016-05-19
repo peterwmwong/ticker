@@ -5,7 +5,7 @@ import Actor              from './../common/Actor.jsx';
 import Markup             from './../common/Markup.jsx';
 import modelStateComponent         from '../../helpers/modelStateComponent';
 
-export default modelStateComponent(GithubIssueComment, 'query', ({repo, issue}, issueComments)=>
+export default modelStateComponent(GithubIssueComment, 'query', ({props: {issue}, state:issueComments})=>
   <div>
     <div className='Card Card--fullBleed'>
       <div className='Card-title'>

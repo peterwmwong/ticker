@@ -2,19 +2,15 @@ import './Code.css';
 import xvdom         from 'xvdom';
 import loadHighlight from '../../helpers/loaders/loadHighlight';
 
-const Code = ({code}, codeHTML)=>
-  <pre
-    className='Code'
-    innerHTML={codeHTML}
-    textContent={code}
-  />;
+const Code = ({props: {code}, state})=>
+  <pre className='Code' innerHTML={state} textContent={code} />;
 
 Code.state = {
-  onInit: ({syntax}, state, {highlight})=> {
-    if(syntax) loadHighlight(syntax).then(highlight);
+  onInit: ({props: {syntax}, bindSend})=> {
+    if(syntax) loadHighlight(syntax).then(bindSend('highlight'));
     return '';
   },
-  highlight: ({syntax, code}, state, actions, hljs)=>
+  highlight: ({props: {syntax, code}}, hljs)=>
     hljs.highlight(syntax, code).value
 };
 

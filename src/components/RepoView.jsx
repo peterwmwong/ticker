@@ -26,11 +26,11 @@ const TABS = {
   },
   pulls:{
     title: 'Pull Requests',
-    view: (id)=> <IssuesPullsView id={id} modelClass={GithubPull} />
+    view: (repo)=> <IssuesPullsView modelClass={GithubPull} repo={repo} />
   },
   issues:{
     title: 'Issues',
-    view: (id)=> <IssuesPullsView id={id} modelClass={GithubIssue} />
+    view: (repo)=> <IssuesPullsView modelClass={GithubIssue} repo={repo} />
   }
 };
 

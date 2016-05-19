@@ -23,7 +23,7 @@ const TABS = {
   }
 };
 
-export default modelStateComponent(GithubIssue, 'get', ({id, repo, tab='info'}, issue)=>
+export default modelStateComponent(GithubIssue, 'get', ({props: {id, repo, tab='info'}, state:issue})=>
   <div>
     <AppToolbar
       left={

@@ -12,14 +12,14 @@ const item = ({avatar_url, full_name, id, login, owner})=> ({
   text: <SourceName displayName={login || full_name} />
 })
 
-const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
+const AppSearch = ({props:{enabled}, state:{searchResults, term}, bindSend})=>
   <div className={`AppSearch l-padding-2 fixed fixed--top ${enabled ? 'is-enabled' : ''}`}>
     <div className='AppSearch-searchInputContainer'>
       <div className='AppSearch-inkdrop fit' />
       <div className='AppSearch-searchBar layout horizontal'>
         <input
           className='AppSearch-searchInput flex l-padding-h4'
-          oninput={onSearchInput}
+          oninput={bindSend('onSearchInput')}
           placeholder='Search repositories or users…'
           type='text'
           value={term}
@@ -28,8 +28,8 @@ const AppSearch = ({enabled}, {searchResults, term}, {onSearchInput})=>
     </div>
     <List
       className='AppSearch-searchResults'
-      list={searchResults}
       item={item}
+      list={searchResults}
       noDivider
     />
   </div>;
@@ -39,18 +39,18 @@ const onInit = ()=> ({term: '', searchResults: []});
 AppSearch.state = {
   onInit,
   onProps: onInit,
-  onSearchInput: (props, state, {doSearch}, event)=> ({
+  onSearchInput: ({state, bindSend}, event)=> ({
     ...state,
-    curSearch: (clearTimeout(state.curSearch), setTimeout(doSearch, 300)),
+    curSearch: (clearTimeout(state.curSearch), setTimeout(bindSend('doSearch'), 300)),
     term: event.target.value
   }),
-  doSearch: (props, state, {onSearchResults})=> (
+  doSearch: ({state, bindSend})=> (
     Promise
       .all([GithubRepo.query(state), GithubUser.query(state)])
-      .then(onSearchResults),
+      .then(bindSend('onSearchResults')),
     {...state, curSearch:null}
   ),
-  onSearchResults: (props, state, actions, [repos, users])=> ({
+  onSearchResults: ({state}, [repos, users])=> ({
     ...state,
     searchResults:
       (repos || [])

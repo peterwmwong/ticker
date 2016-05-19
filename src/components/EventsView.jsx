@@ -13,7 +13,7 @@ const filterEvents = (e)=> !EVENT_TYPES_TO_HIDE[e.type];
 
 const renderEvent = (event)=> <EventCard event={event} key={event.id} recycle />;
 
-export default modelStateComponent(GithubEvent, 'query', (props, events)=>
+export default modelStateComponent(GithubEvent, 'query', ({state:events})=>
   <ChunkedArrayRender
     array={(events || []).filter(filterEvents)}
     render={renderEvent}

@@ -5,7 +5,7 @@ import Icon  from './common/Icon.jsx';
 
 const showSearch = ()=> { App.showSearch() };
 
-const AppToolbar = ({title, secondary, left, right}, {scrollClass})=>
+const AppToolbar = ({props: {title, secondary, left, right}, state:{scrollClass}})=>
   <div className={`AppToolbar fixed fixed--top c-white bg-purple ${scrollClass}`}>
     <div className='layout horizontal center-center l-height14'>
       {left}
@@ -21,19 +21,22 @@ const AppToolbar = ({title, secondary, left, right}, {scrollClass})=>
     {secondary}
   </div>;
 
+const getScrollState = (prevScrollTop)=> {
+  const scrollTop = document.body ? document.body.scrollTop : 0;
+  return {
+    scrollTop,
+    scrollClass: (scrollTop > 56 && scrollTop - prevScrollTop > 0) ? ' is-scrolling-down': ''
+  };
+}
+
+
 AppToolbar.state = {
-  onInit: (props, state, {onScroll})=> (
-    requestAnimationFrame(()=> document.body.onscroll = onScroll),
-    onScroll()
+  onInit: ({bindSend})=> (
+    requestAnimationFrame(()=> document.body.onscroll = bindSend('onScroll')),
+    getScrollState(0)
   ),
 
-  onScroll: (props, state)=> {
-    const scrollTop = document.body ? document.body.scrollTop : 0;
-    return {
-      scrollTop,
-      scrollClass: (scrollTop > 56 && scrollTop - state.scrollTop > 0) ? ' is-scrolling-down': ''
-    };
-  }
+  onScroll: ({state:{scrollTop}})=> getScrollState(scrollTop)
 };
 
 export default AppToolbar;

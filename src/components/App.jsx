@@ -13,11 +13,10 @@ import {
   getCurrentUser
 } from '../helpers/getCurrentUser';
 
-const App = (
-  props,
-  {user, hasSearch, hasDrawer, view, viewId, viewUrl},
-  {disableOverlay, login}
-)=>
+const App = ({
+  state: {user, hasSearch, hasDrawer, view, viewId, viewUrl},
+  bindSend
+})=>
   <body className='App'>
     {view === 'user'
       ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
@@ -25,44 +24,47 @@ const App = (
     }
     <div
       className={`App-backdrop fixed ${hasSearch || hasDrawer ? 'is-enabled' : ''}`}
-      onclick={disableOverlay}
+      onclick={bindSend('disableOverlay')}
     />
     <AppSearch enabled={hasSearch} />
-    <AppDrawer enabled={hasDrawer} onLogin={login} user={user} />
+    <AppDrawer enabled={hasDrawer} onLogin={bindSend('login')} user={user} />
   </body>;
 
+const stateFromHash = (hash)=> {
+  const [appUrl, viewUrl] = hash.split('?');
+  const viewId = appUrl.slice(8);
+  return {
+    hasSearch: false,
+    hasDrawer: false,
+    view: (/\//.test(viewId) ? 'repo' : 'user'),
+    viewId,
+    viewUrl
+  }
+};
+
 App.state = {
-  onInit: (props, state, {onHashChange, onUserChange, enableSearch, enableDrawer})=> {
-    App.showDrawer      = enableDrawer;
-    App.showSearch      = enableSearch;
-    window.onhashchange = onHashChange;
+  onInit: ({bindSend})=> {
+    App.showDrawer      = bindSend('enableDrawer');
+    App.showSearch      = bindSend('enableSearch');
+    window.onhashchange = bindSend('onHashChange');
     return {
-      user: getCurrentUser(onUserChange),
-      ...onHashChange()
+      user: getCurrentUser(bindSend('onUserChange')),
+      ...stateFromHash(window.location.hash)
     };
   },
 
-  onHashChange: (props, state, {view, disableOverlay})=> {
-    if(state) document.body.scrollTop = 0;
-    const [appUrl, viewUrl] = window.location.hash.split('?');
-    const viewId = appUrl.slice(8);
-    return {
-      ...view((/\//.test(viewId) ? 'repo' : 'user'), viewId, viewUrl),
-      ...disableOverlay()
-    }
+  onHashChange: ({state})=> {
+    document.body.scrollTop = 0;
+    return {...state, ...stateFromHash(window.location.hash)};
   },
 
-  view: (props, state, actions, view, viewId, viewUrl)=> ({
-    ...state, view, viewId, viewUrl
-  }),
+  enableSearch:   ({state})=> ({...state, hasSearch:true,  hasDrawer:false}),
+  enableDrawer:   ({state})=> ({...state, hasSearch:false, hasDrawer:true}),
+  disableOverlay: ({state})=> ({...state, hasSearch:false, hasDrawer:false}),
+  onUserChange:   ({state}, user)=> ({...state, user}),
 
-  enableSearch:   (props, state)=> ({...state, hasSearch:true,  hasDrawer:false}),
-  enableDrawer:   (props, state)=> ({...state, hasSearch:false, hasDrawer:true}),
-  disableOverlay: (props, state)=> ({...state, hasSearch:false, hasDrawer:false}),
-  onUserChange:   (props, state, actions, user)=> ({...state, user}),
-
-  login: (props, state, {onUserChange})=> (
-    authWithOAuthPopup().then(onUserChange),
+  login: ({state, bindSend})=> (
+    authWithOAuthPopup().then(bindSend('onUserChange')),
     state
   )
 };

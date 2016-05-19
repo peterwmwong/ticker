@@ -28,12 +28,12 @@ const item = (
   secondaryText: `committed ${timeAgo(Date.parse(committer.date))} ago by ${author ? author.login : name}`
 })
 
-export default modelStateComponent(GithubPullCommit, 'query', ({id, repo}, commits)=>
+export default modelStateComponent(GithubPullCommit, 'query', ({props: {repo}, state: commits})=>
   <List
     className='Card'
     context={repo}
-    list={commits}
     item={item}
+    list={commits}
     transform={sort}
   />
 );
