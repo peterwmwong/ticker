@@ -2,6 +2,7 @@ import '../../vendor/octicons/octicons.css';
 import '../../vendor/highlightjs/styles/github.css';
 import './App-old.css';
 import './App.css';
+import '../helpers/installServiceWorker';
 import '../helpers/globalLogger';
 import xvdom      from 'xvdom';
 import AppDrawer  from './AppDrawer.jsx';

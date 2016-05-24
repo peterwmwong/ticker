@@ -18,6 +18,7 @@
 {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
 <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
 {% } %}
+<!-- TODO: REMOVE highlight.min.js, move into loadHighlight.js -->
 <script src="../vendor/highlightjs/highlight.min.js"></script>
 </head>
 </html>
