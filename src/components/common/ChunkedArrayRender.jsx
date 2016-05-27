@@ -2,44 +2,22 @@ import xvdom from 'xvdom';
 
 const INITIAL_RENDER_SIZE = 3;
 
-const ChunkedArrayRender = (props, {renderedItems})=>
-  <div>
-    {renderedItems}
-  </div>;
+const ChunkedArrayRender = ({props: {render}, state})=>
+  <div>{state.map(render)}</div>;
 
-const onInit = ({array, render}, state, {renderRest})=> {
-  window.setTimeout(renderRest, 100);
-  return renderRest();
-};
+const renderSome = (array, bindSend)=> (
+  window.setTimeout(bindSend('renderAll'), 100),
+  array.slice(0, Math.min(array.length, INITIAL_RENDER_SIZE))
+);
 
 ChunkedArrayRender.state = {
-  onInit,
-  onProps: onInit,
-  renderRest: ({render, array}, state)=> {
-    const prevArray = state && state.prevArray;
-    let renderedItems, length;
+  onInit: ({props: {array}, bindSend})=>
+    renderSome(array, bindSend),
 
-    if(prevArray === array){
-      length = array.length;
-      renderedItems = [].concat(state.renderedItems);
-    }
-    else {
-      length = Math.min(array.length, INITIAL_RENDER_SIZE);
-      renderedItems = [];
-    }
+  onProps: ({props: {array, arrayKey, render}, bindSend}, {arrayKey: prevArrayKey})=>
+    (arrayKey === prevArrayKey ? array : renderSome(array, bindSend)),
 
-    let i = renderedItems.length;
-    while(i < length){
-      renderedItems.push(
-        render(array[i++])
-      );
-    }
-
-    return {
-      prevArray: array,
-      renderedItems
-    }
-  }
+  renderAll: ({props: {array}})=> array
 };
 
 export default ChunkedArrayRender;

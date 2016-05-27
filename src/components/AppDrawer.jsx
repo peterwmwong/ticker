@@ -51,8 +51,8 @@ export default ({user, enabled, onLogin})=> {
               REPOSITORIES
             </div>
             <List
-              list={user.sources.github.repos}
               item={item}
+              list={user.sources.github.repos}
               noDivider
               transform={sortSources}
             />
@@ -60,8 +60,8 @@ export default ({user, enabled, onLogin})=> {
               USERS / ORGS
             </div>
             <List
-              list={user.sources.github.users}
               item={item}
+              list={user.sources.github.users}
               noDivider
               transform={sortSources}
             />

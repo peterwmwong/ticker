@@ -19,7 +19,7 @@ const isBookmarked = (user, id)=>
   user && user.sources.github.users.find((s)=> s.id === id);
 
 export default ({id, user, viewUrl='news'})=>
-  <div>
+  <div className='l-padding-b2'>
     <RepoUserToolbar
       TABS={TABS}
       id={id}
@@ -27,7 +27,5 @@ export default ({id, user, viewUrl='news'})=>
       onBookmark={toggleUserSource}
       tab={viewUrl}
     />
-    <div className='l-padding-t24 l-padding-b2'>
-      {TABS[viewUrl].view(id)}
-    </div>
+    {TABS[viewUrl].view(id)}
   </div>;

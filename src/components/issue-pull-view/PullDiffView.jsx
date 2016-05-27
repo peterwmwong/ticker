@@ -4,5 +4,5 @@ import GithubPullFile from '../../models/github/GithubPullFile';
 import DiffFiles      from '../common/DiffFiles.jsx';
 
 export default modelStateComponent(GithubPullFile, 'query',
-  ({repo, id}, files)=> <DiffFiles files={files || []} />
+  ({state})=> <DiffFiles files={state || []} />
 )

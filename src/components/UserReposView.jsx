@@ -14,12 +14,12 @@ const item = ({name, description}, id)=> ({
   secondaryText: description
 })
 
-export default modelStateComponent(GithubRepo, 'query', ({id}, repos)=>
+export default modelStateComponent(GithubRepo, 'query', ({props: {id}, state})=>
   <List
     className='Card'
     context={id}
-    list={repos}
     item={item}
+    list={state}
     transform={sortRepos}
   />
 )

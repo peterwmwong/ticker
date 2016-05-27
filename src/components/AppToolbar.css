@@ -1,16 +1,38 @@
 .AppToolbar {
+  height: 56px;
+}
+.AppToolbar--withSecondary {
+  height: 96px;
+}
+
+.AppToolbar-bar {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   -webkit-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
   transition:
     -webkit-transform 150ms ease-out,
-    transform 150ms ease-out,
-    opacity 300ms ease-out,
-    background 300ms ease-out;
+    transform 150ms ease-out;
   z-index: 1;
 }
 
-.AppToolbar.is-scrolling-down {
+.AppToolbar-bar.is-scrolling-down {
   -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
+}
+
+.App.is-apple-standalone .AppToolbar-bar,
+.App.is-apple-standalone .AppToolbar {
+  padding-top: 20px;
+}
+
+.App.is-apple-standalone .AppToolbar:before {
+  background: #3F51B5 !important;
+  content: '';
+  display: block;
+  height: 20px;
+  opacity: 0.75;
+  overflow: hidden;
+  position: fixed;
+  top: 0px;
+  width: 100%;
 }

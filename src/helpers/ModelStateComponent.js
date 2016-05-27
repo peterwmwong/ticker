@@ -1,12 +1,13 @@
-export default (Model, type, Component)=> {
-  const onInit = (props, state, {onLoadModel})=> (
-    Model[type](props).then(onLoadModel),
-    Model[type === 'get' ? 'localGet' : 'localQuery'](props)
-  );
+export default (modelOrGetter, type, Component)=> {
+  const onInit = ({props, bindSend})=> {
+    const Model = typeof modelOrGetter === 'function' ? modelOrGetter(props) : modelOrGetter;
+    Model[type](props).then(bindSend('onLoadModel'));
+    return Model[type === 'get' ? 'localGet' : 'localQuery'](props);
+  };
   Component.state = {
     onInit,
     onProps: onInit,
-    onLoadModel: (props, state, actions, model)=> model
+    onLoadModel: (component, model)=> model
   }
   return Component;
 }

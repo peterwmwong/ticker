@@ -5,7 +5,7 @@ export default model({
     cache: `ticker:GithubIssue:${repo}${id}`,
     url: `https://api.github.com/repos/${repo}/issues/${id}`
   }),
-  query: (repo)=> ({
+  query: ({repo})=> ({
     url: `https://api.github.com/repos/${repo}/issues`
   })
 });
