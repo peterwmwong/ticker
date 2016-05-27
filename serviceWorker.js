@@ -1,10 +1,11 @@
 const CACHE_VERSION = 1;
 const CACHE_NAME = `static-v${CACHE_VERSION}`;
+const INDEX_PATH_NAME = '/dist/';
+const CACHE = caches.open(CACHE_NAME);
 
 self.addEventListener('install', (event)=> {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache)=> cache.addAll(['/dist/']))
+    CACHE.then((cache)=> cache.addAll([INDEX_PATH_NAME]))
   )
 });
 
@@ -14,11 +15,9 @@ self.addEventListener('activate', (event)=> {
 
 self.addEventListener('fetch', (event)=> {
   const pathname = new URL(event.request.url).pathname;
-  if(pathname === '/dist/'){
+  if(pathname === INDEX_PATH_NAME){
     event.respondWith(
-      caches.open(CACHE_NAME).then((cache)=>
-        cache.match(pathname)
-      )
+      CACHE.then((cache)=> cache.match(pathname))
     );
   }
 });
