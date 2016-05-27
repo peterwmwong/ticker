@@ -14,11 +14,13 @@ import {
   getCurrentUser
 } from '../helpers/getCurrentUser';
 
+const APP_CLASS = `App ${window.navigator.standalone ? 'is-apple-standalone' : ''}`;
+
 const App = ({
   state: {user, hasSearch, hasDrawer, view, viewId, viewUrl},
   bindSend
 })=>
-  <body className='App'>
+  <body className={APP_CLASS}>
     {view === 'user'
       ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
       : <RepoView id={viewId} user={user} viewUrl={viewUrl} />

@@ -47,11 +47,11 @@ export default ({id, user, viewUrl='news'})=> {
     <div>
       {
         ((tab === 'issues' || tab === 'pulls') && head)
-            ? <IssuePullView  id={head}       repo={id} tab={tail[0]} />
+            ? <IssuePullView id={head} repo={id} tab={tail[0]} />
         : (tab === 'commits' && head)
-            ? <CommitView     commitId={head} repo={id} />
+            ? <CommitView commitId={head} repo={id} />
         : (
-          <div>
+          <div className='l-padding-b2'>
             <RepoUserToolbar
               TABS={TABS}
               id={id}
@@ -59,9 +59,7 @@ export default ({id, user, viewUrl='news'})=> {
               onBookmark={toggleRepoSource}
               tab={tab}
             />
-            <div className='l-padding-t24 l-padding-b2'>
-              {TABS[tab].view(id, head, tail)}
-            </div>
+            {TABS[tab].view(id, head, tail)}
           </div>
         )
       }

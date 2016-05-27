@@ -33,30 +33,32 @@ const getCommitTitleMessage = (message)=> {
     : {title,    message:message.substr(title.length)};
 };
 
-export default modelStateComponent(GithubCommit, 'get', ({repo, commitId}, state)=> {
+export default modelStateComponent(GithubCommit, 'get', ({props: {repo, commitId}, state})=> {
   const {files, commit, committer, stats} = state || COMMIT_PLACEHOLDER;
   const {title, message} = getCommitTitleMessage(commit.message);
   return (
-    <div className='l-padding-t6'>
-      <div className='Card Card--fullBleed l-padding-t5'>
-        <AppToolbar
-          left={
-            <a href={`#github/${repo}`}>
-              <Icon
-                className='c-white l-padding-h4'
-                name='chevron-left'
-                size='small'
-              />
-            </a>
-          }
-          title={commitId}
-        />
-        <div className='Card-title'>
-          {title && <h1
-            className='t-word-break-word l-margin-t4 l-margin-b0'
-            textContent={title}
-          />}
-        </div>
+    <div>
+      <AppToolbar
+        left={
+          <a href={`#github/${repo}`}>
+            <Icon
+              className='c-white l-padding-h4'
+              name='chevron-left'
+              size='small'
+            />
+          </a>
+        }
+        title={commitId}
+      />
+      <div className='Card Card--fullBleed'>
+        {title &&
+          <div className='Card-title'>
+            <h1
+              className='t-word-break-word l-margin-t4 l-margin-b0'
+              textContent={title}
+            />
+          </div>
+        }
         <div className='Card-content'>
           <div className='layout horizontal center l-margin-b4'>
             <Actor
