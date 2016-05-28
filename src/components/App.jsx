@@ -1,9 +1,8 @@
-import '../../vendor/octicons/octicons.css';
-import '../../vendor/highlightjs/styles/github.css';
-import './App-old.css';
 import './App.css';
+
 import '../helpers/installServiceWorker';
 import '../helpers/globalLogger';
+
 import xvdom      from 'xvdom';
 import AppDrawer  from './AppDrawer.jsx';
 import AppSearch  from './AppSearch.jsx';
@@ -58,7 +57,10 @@ App.state = {
 
   onHashChange: ({state})=> {
     document.body.scrollTop = 0;
-    return {...state, ...stateFromHash(window.location.hash)};
+    return {
+      ...state,
+      ...stateFromHash(window.location.hash)
+    };
   },
 
   enableSearch:   ({state})=> ({...state, hasSearch:true,  hasDrawer:false}),
