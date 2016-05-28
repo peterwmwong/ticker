@@ -1,3 +1,4 @@
+import '../../../vendor/highlightjs/styles/github.css';
 import loadScript from './loadScript';
 
 const syntaxPromises = {};

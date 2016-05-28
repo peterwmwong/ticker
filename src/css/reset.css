@@ -1,9 +1,3 @@
-@import '../css/colors.css';
-@import '../css/flex.css';
-@import '../css/layout.css';
-@import '../css/link.css';
-@import '../css/text.css';
-
 html {
   font-size: 10px;
 }
@@ -51,15 +45,4 @@ pre {
 :-ms-input-placeholder,
 ::placeholder {
   color: hsl(198, 0, 87%);
-}
-.u-pointer-cursor {
-  cursor: pointer;
-}
-
-.icon-24 {
-  font-size: 24px !important;
-}
-
-.icon-32 {
-  font-size: 32px !important;
 }

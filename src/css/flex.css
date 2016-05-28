@@ -119,10 +119,6 @@
 .fixed--top {
   bottom: auto;
 }
-body.fullbleed {
-  margin: 0;
-  height: 100vh;
-}
 .scroll {
   -webkit-overflow-scrolling: touch;
   overflow: auto;
