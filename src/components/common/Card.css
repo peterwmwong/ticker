@@ -2,8 +2,7 @@
   background: #FFF;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-top-color: #FFF;
-  border-bottom-color: rgba(0, 0, 0, 0.15);
-  border-bottom-width: 2px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
   overflow: hidden;
   margin: 8px 8px 0 8px;
 }
@@ -13,6 +12,7 @@
 }
 
 .Card-title {
+  display: block;
   font-size: 1.8rem;
   line-height: 24px;
 }

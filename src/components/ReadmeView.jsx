@@ -5,6 +5,6 @@ import GithubRepoReadme from '../models/github/GithubRepoReadme';
 
 export default modelStateComponent(GithubRepoReadme, 'get', ({state})=>
   <div className='Card l-margin-t2'>
-    <Markup className='Card-content' content={state || ''} />
+    <Markup className='Card-content' content={state} />
   </div>
 )

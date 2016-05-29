@@ -6,7 +6,6 @@ import timeAgo             from '../helpers/timeAgo';
 
 const compareCreatedAt = (a, b)=> compare(b.created_at, a.created_at)
 const sortIssues = (issues)=> issues.sort(compareCreatedAt)
-
 const item = ({base, number, title, created_at, user}, id)=> ({
   href: `#github/${id}?${base ? 'pulls' : 'issues'}/${number}`,
   avatarUrl: user.avatar_url,

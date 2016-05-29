@@ -1,5 +1,5 @@
 import './common/Card.css';
-import './common/EventCard.css';
+import './EventCard.css';
 import xvdom        from 'xvdom';
 import Icon         from './common/Icon.jsx';
 import SourceName   from './SourceName.jsx';
@@ -34,9 +34,7 @@ const renderEventAction = (event)=> {
 
 export default ({event})=>
   <div className='Card EventCard'>
-    <div className='Card-title'>
-      <SourceName displayName={event.repo.name} />
-    </div>
+    <SourceName className='Card-title' displayName={event.repo.name} />
     <div className='Card-content'>
       <EventSummary event={event} />
       {renderEventAction(event)}

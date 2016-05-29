@@ -52,8 +52,8 @@ export default ({user, enabled, onLogin})=> {
             </div>
             <List
               item={item}
+              itemClass='List-item--noDivider'
               list={user.sources.github.repos}
-              noDivider
               transform={sortSources}
             />
             <div className='List-item List-item--header'>
@@ -61,8 +61,8 @@ export default ({user, enabled, onLogin})=> {
             </div>
             <List
               item={item}
+              itemClass='List-item--noDivider'
               list={user.sources.github.users}
-              noDivider
               transform={sortSources}
             />
             <a

@@ -3,11 +3,11 @@ import xvdom         from 'xvdom';
 import loadHighlight from '../../helpers/loaders/loadHighlight';
 
 const Code = ({props: {code}, state})=>
-  <pre className='Code' innerHTML={state} textContent={code} />;
+  <pre className='Code' innerHTML={state} textContent={code || ''} />;
 
 Code.state = {
-  onInit: ({props: {syntax}, bindSend})=> {
-    if(syntax) loadHighlight(syntax).then(bindSend('highlight'));
+  onInit: ({props: {code, syntax}, bindSend})=> {
+    if(code && syntax) loadHighlight(syntax).then(bindSend('highlight'));
     return '';
   },
   highlight: ({props: {syntax, code}}, hljs)=>
