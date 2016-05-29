@@ -2,11 +2,11 @@ import xvdom from 'xvdom';
 import Actor from './common/Actor.jsx';
 import Icon  from './common/Icon.jsx';
 
-const issuePRIcon = (event)=>
-  `${event.payload.pull_request ? 'git-pull-request' : 'issue-opened'}`;
+const issuePRIcon = ({pull_request})=>
+  `${pull_request ? 'git-pull-request' : 'issue-opened'}`;
 
-const issuePRSubject = ({payload})=>
-  payload.pull_request ? payload.pull_request.title : payload.issue.title;
+const issuePRSubject = ({pull_request, issue})=>
+  (pull_request || issue).title;
 
 const issuePRSubjectUrl = ({repo:{name}, payload:{number, issue, pull_request}})=>
   issue
@@ -14,14 +14,14 @@ const issuePRSubjectUrl = ({repo:{name}, payload:{number, issue, pull_request}})
     : `#github/${name}?pulls/${number || pull_request.number}`;
 
 const getSummary = (event)=> {
-  const payload = event.payload;
+  const {payload} = event;
   switch(event.type){
   case 'IssuesEvent':
   case 'PullRequestEvent':
     return {
-      actorsAction: `${event.payload.action} this issue.`,
-      subjectIcon: issuePRIcon(event),
-      subject: issuePRSubject(event),
+      actorsAction: `${payload.action} this issue.`,
+      subjectIcon: issuePRIcon(payload),
+      subject: issuePRSubject(payload),
       subjectUrl: issuePRSubjectUrl(event)
     };
 
@@ -44,8 +44,8 @@ const getSummary = (event)=> {
   case 'PullRequestReviewCommentEvent':
     return {
       actorsAction: 'commented…',
-      subjectIcon: issuePRIcon(event),
-      subject: issuePRSubject(event),
+      subjectIcon: issuePRIcon(payload),
+      subject: issuePRSubject(payload),
       subjectUrl: issuePRSubjectUrl(event)
     };
 

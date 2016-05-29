@@ -29,8 +29,8 @@ const AppSearch = ({props:{enabled}, state:{searchResults, term}, bindSend})=>
     <List
       className='AppSearch-searchResults'
       item={item}
+      itemClass='List-item--noDivider'
       list={searchResults}
-      noDivider
     />
   </div>;
 
