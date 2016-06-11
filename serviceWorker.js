@@ -1,4 +1,4 @@
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 const CACHE_NAME = `static-v${CACHE_VERSION}`;
 const INDEX_PATH_NAME = '/ticker/dist/';
 const CACHE = caches.open(CACHE_NAME);
@@ -10,7 +10,13 @@ self.addEventListener('install', (event)=> {
 });
 
 self.addEventListener('activate', (event)=> {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keyList)=>
+      Promise.all(keyList.map((key)=>
+        (key !== CACHE_NAME) && caches.delete(key)
+      ))
+    )
+  );
 });
 
 self.addEventListener('fetch', (event)=> {
