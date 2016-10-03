@@ -1,5 +1,5 @@
 import './Code.css';
-import xvdom         from 'xvdom';
+import xvdom         from 'xvdom/src/index';
 import loadHighlight from '../../helpers/loaders/loadHighlight';
 
 const Code = ({props: {code}, state})=>

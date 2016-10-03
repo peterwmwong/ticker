@@ -1,6 +1,6 @@
 import './common/Card.css';
 import './EventCard.css';
-import xvdom        from 'xvdom';
+import xvdom        from 'xvdom/src/index';
 import Icon         from './common/Icon.jsx';
 import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';

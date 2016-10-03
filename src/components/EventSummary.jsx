@@ -1,4 +1,4 @@
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 import Actor from './common/Actor.jsx';
 import Icon  from './common/Icon.jsx';
 

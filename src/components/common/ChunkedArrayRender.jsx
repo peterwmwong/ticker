@@ -1,4 +1,4 @@
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 
 const ChunkedArrayRender = ({props: {render}, state})=>
   <div>{state.map(render)}</div>;

@@ -1,4 +1,4 @@
-import xvdom            from 'xvdom';
+import xvdom            from 'xvdom/src/index';
 import List             from '../common/List.jsx';
 import Code             from '../common/Code.jsx';
 import compare          from '../../helpers/compare';

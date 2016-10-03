@@ -1,6 +1,6 @@
 import './common/Card.css';
 import './common/Pill.css';
-import xvdom               from 'xvdom';
+import xvdom               from 'xvdom/src/index';
 import AppToolbar          from './AppToolbar.jsx';
 import GithubCommit        from '../models/github/GithubCommit';
 import DiffFiles           from './common/DiffFiles.jsx';

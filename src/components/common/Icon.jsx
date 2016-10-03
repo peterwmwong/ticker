@@ -1,5 +1,5 @@
 import './Icon.css';
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 
 export default ({className, name, onClick, size='med'})=>
   <i

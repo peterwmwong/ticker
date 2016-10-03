@@ -1,3 +1,11 @@
+import '../../vendor/octicons/octicons.css';
+import '../css/colors.css';
+import '../css/flex.css';
+import '../css/icons.css';
+import '../css/layout.css';
+import '../css/link.css';
+import '../css/reset.css';
+import '../css/text.css';
 import './App.css';
 
 import '../helpers/installServiceWorker';

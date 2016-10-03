@@ -7,6 +7,6 @@
     "transform-node-env-inline"
   ],
   "presets": [
-    ["es2015", {"loose": true}]
+    "es2015-rollup"
   ]
 }

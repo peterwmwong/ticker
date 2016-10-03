@@ -1,4 +1,4 @@
-import xvdom      from 'xvdom';
+import xvdom      from 'xvdom/src/index';
 import Icon       from './common/Icon.jsx';
 import Tabs       from './common/Tabs.jsx';
 import App        from './App.jsx';

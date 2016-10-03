@@ -1,4 +1,4 @@
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 
 export default ({className, displayName})=> {
   const [owner, repo] = displayName.split('/');

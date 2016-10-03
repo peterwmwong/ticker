@@ -1,5 +1,5 @@
 import './AppToolbar.css';
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 import App   from './App.jsx';
 import Icon  from './common/Icon.jsx';
 

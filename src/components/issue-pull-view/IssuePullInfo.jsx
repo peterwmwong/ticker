@@ -1,5 +1,5 @@
 import '../common/Card.css';
-import xvdom              from 'xvdom';
+import xvdom              from 'xvdom/src/index';
 import GithubIssueComment from '../../models/github/GithubIssueComment';
 import Actor              from './../common/Actor.jsx';
 import Markup             from './../common/Markup.jsx';

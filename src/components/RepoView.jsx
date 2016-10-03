@@ -1,4 +1,4 @@
-import xvdom              from 'xvdom';
+import xvdom              from 'xvdom/src/index';
 import CommitView         from './CommitView.jsx';
 import EventsView         from './EventsView.jsx';
 import CodeView           from './code-view/CodeView.jsx';

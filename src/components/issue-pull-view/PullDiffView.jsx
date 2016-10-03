@@ -1,4 +1,4 @@
-import xvdom          from 'xvdom';
+import xvdom          from 'xvdom/src/index';
 import modelStateComponent from '../../helpers/modelStateComponent';
 import GithubPullFile from '../../models/github/GithubPullFile';
 import DiffFiles      from '../common/DiffFiles.jsx';

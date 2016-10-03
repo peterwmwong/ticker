@@ -1,5 +1,5 @@
 import './Tabs.css';
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 
 function renderTab(tabId){
   const {tabs, selected, hrefPrefix} = this;

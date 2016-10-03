@@ -1,5 +1,5 @@
 import './PathNavigator.css';
-import xvdom from 'xvdom';
+import xvdom from 'xvdom/src/index';
 
 const repoName = (repo)=> repo.split('/')[1]
 const pathURL = (pathArray, i)=> pathArray.slice(0, i).map((a)=> `/${a}`).join('')

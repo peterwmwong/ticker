@@ -1,4 +1,4 @@
-import xvdom   from 'xvdom';
+import xvdom   from 'xvdom/src/index';
 import timeAgo from '../../helpers/timeAgo';
 import Avatar  from './Avatar.jsx';
 
