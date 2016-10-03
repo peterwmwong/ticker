@@ -3,8 +3,10 @@
     "syntax-jsx",
     "xvdom",
     "transform-object-rest-spread",
-    "transform-member-expression-literals",
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
     "transform-node-env-inline"
   ],
-  "presets": ["es2015-loose"]
+  "presets": [
+    ["es2015", {"loose": true}]
+  ]
 }

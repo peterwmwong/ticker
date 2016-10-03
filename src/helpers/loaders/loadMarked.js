@@ -1,4 +1,3 @@
-import loadScript from './loadScript';
 import loadHighlight from './loadHighlight';
 import {EXT_TO_SYNTAX} from '../getSyntaxForFile';
 import ALL_LANGUAGES from '../../../vendor/highlightjs/allLanguages.js';
