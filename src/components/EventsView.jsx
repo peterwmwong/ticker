@@ -1,4 +1,4 @@
-import xvdom               from 'xvdom';
+import xvdom               from 'xvdom/src/index';
 import EventCard           from './EventCard.jsx';
 import ChunkedArrayRender  from './common/ChunkedArrayRender.jsx';
 import GithubEvent         from '../models/github/GithubEvent';

@@ -1,6 +1,6 @@
 import './Card.css';
 import './Pill.css';
-import xvdom          from 'xvdom';
+import xvdom          from 'xvdom/src/index';
 import Code           from './Code.jsx';
 
 const PATH_REGEX = /^(.*\/)?([^\/]+)$/;

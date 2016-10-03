@@ -1,4 +1,4 @@
-import xvdom              from 'xvdom';
+import xvdom              from 'xvdom/src/index';
 import EventsView         from './EventsView.jsx';
 import UserReposView      from './UserReposView.jsx';
 import RepoUserToolbar    from './RepoUserToolbar.jsx';

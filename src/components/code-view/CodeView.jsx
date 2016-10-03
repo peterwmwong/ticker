@@ -1,4 +1,4 @@
-import xvdom              from 'xvdom';
+import xvdom              from 'xvdom/src/index';
 import modelStateComponent         from '../../helpers/modelStateComponent';
 import PathNavigator      from './PathNavigator.jsx';
 import PathContents       from './PathContents.jsx';

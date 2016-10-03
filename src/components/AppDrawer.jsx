@@ -1,6 +1,6 @@
 import './AppDrawer.css';
 import './common/List.css';
-import xvdom      from 'xvdom';
+import xvdom      from 'xvdom/src/index';
 import List       from './common/List.jsx';
 import Icon       from './common/Icon.jsx';
 import Avatar     from './common/Avatar.jsx';

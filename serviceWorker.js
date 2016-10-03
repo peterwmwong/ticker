@@ -1,4 +1,4 @@
-const CACHE_VERSION = 8;
+const CACHE_VERSION = 9;
 const CACHE_NAME = `static-v${CACHE_VERSION}`;
 const INDEX_PATH_NAME = '/ticker/dist/';
 const CACHE = caches.open(CACHE_NAME);

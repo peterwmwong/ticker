@@ -1,5 +1,5 @@
 import './Markup.css';
-import xvdom      from 'xvdom';
+import xvdom      from 'xvdom/src/index';
 import marked from '../../helpers/loaders/loadMarked';
 
 const Markup = ({props: {className}, state})=>

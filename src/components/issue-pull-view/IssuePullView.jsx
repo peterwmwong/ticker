@@ -1,4 +1,4 @@
-import xvdom           from 'xvdom';
+import xvdom           from 'xvdom/src/index';
 import IssuePullInfo   from './IssuePullInfo.jsx';
 import PullCommitsView from './PullCommitsView.jsx';
 import PullDiffView    from './PullDiffView.jsx';

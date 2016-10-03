@@ -1,4 +1,4 @@
-import xvdom            from 'xvdom';
+import xvdom            from 'xvdom/src/index';
 import Markup           from './common/Markup.jsx';
 import modelStateComponent       from '../helpers/modelStateComponent';
 import GithubRepoReadme from '../models/github/GithubRepoReadme';

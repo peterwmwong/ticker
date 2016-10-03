@@ -1,5 +1,5 @@
 import './AppSearch.css';
-import xvdom      from 'xvdom';
+import xvdom      from 'xvdom/src/index';
 import List       from './common/List.jsx';
 import SourceName from './SourceName.jsx';
 import GithubRepo from '../models/github/GithubRepo';
