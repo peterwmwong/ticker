@@ -9,7 +9,7 @@ const REGISTRY_KEY = 'ticker:storage';
 // Map of storage key to last used timestamp.
 let registry;
 try{ registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)) }
-catch(e){} //eslint-disable-line
+catch(e){} // eslint-disable-line no-empty
 
 if(!registry) localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry = []));
 
@@ -17,10 +17,10 @@ const removeLRUItem = ()=> {
   const lruKey = registry.pop();
   if(lruKey){
     if(process.env.NODE_ENV === 'development'){
-      console.warn(`[storage] ${lruKey} bumped`); //eslint-disable-line
+      console.warn(`[storage] ${lruKey} bumped`); // eslint-disable-line no-console
     }
     localStorage.removeItem(lruKey);
-    updateRegistryKey(lruKey, false);
+    updateRegistryKey(lruKey, false); // eslint-disable-line no-use-before-define
   }
 };
 
@@ -34,7 +34,7 @@ const safeSetItem = (key, value)=> {
     catch(e){ removeLRUItem() }
   }
   if(process.env.NODE_ENV === 'development'){
-    console.warn(`Unable to make room to store ${key}.`); //eslint-disable-line
+    console.warn(`Unable to make room to store ${key}.`); // eslint-disable-line no-console
   }
 };
 
