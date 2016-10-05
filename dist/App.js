@@ -22,13 +22,17 @@ r - keyed map of unmounted instanced that can be recycled
 
 */
 
+var isDynamicEmpty = function isDynamicEmpty(value) {
+  return value == null || value === true || value === false;
+};
+
 // https://esbench.com/bench/57f1459d330ab09900a1a1dd
 function dynamicType(value) {
   if (value instanceof Object) {
     return value instanceof Array ? 'array' : 'object';
   }
 
-  return value == null || value === true || value === false ? 'empty' : 'text';
+  return isDynamicEmpty(value) ? 'empty' : 'text';
 }
 
 // Creates an empty object with no built in properties (ie. `constructor`).
@@ -76,245 +80,126 @@ var replaceNode = function replaceNode(oldNode, newNode) {
   if (parentNode) parentNode.replaceChild(newNode, oldNode);
 };
 
-var insertBefore = function insertBefore(parentNode, node, beforeNode) {
-  return beforeNode ? parentNode.insertBefore(node, beforeNode) : parentNode.appendChild(node);
-};
-
-var unmountInstance = function unmountInstance(inst, parentNode) {
+function unmountInstance(inst, parentNode) {
   recycle(inst);
   parentNode.removeChild(inst.$n);
-};
+}
 
-var removeArrayNodes = function removeArrayNodes(array, parentNode) {
-  var length = array.length;
-  var i = 0;
-
-  while (i < length) {
+function removeArrayNodes(array, parentNode, i) {
+  while (i < array.length) {
     unmountInstance(array[i++], parentNode);
   }
-};
+}
 
-var removeArrayNodesOnlyChild = function removeArrayNodesOnlyChild(array, parentNode) {
-  var length = array.length;
+function removeArrayNodesOnlyChild(array, parentNode) {
   var i = 0;
 
-  while (i < length) {
+  while (i < array.length) {
     recycle(array[i++]);
   }
   parentNode.textContent = '';
-};
+}
 
-var internalRerenderInstance = function internalRerenderInstance(inst, prevInst) {
+function internalRerenderInstance(inst, prevInst) {
   return prevInst.$s === inst.$s && (inst.$s.u(inst, prevInst), true);
-};
+}
 
-var renderArrayToParentBefore = function renderArrayToParentBefore(parentNode, array, length, markerNode) {
-  var i = 0;
+function renderArrayToParentBefore(parentNode, array, i, markerNode) {
+  if (markerNode == null) renderArrayToParent(parentNode, array, i);else renderArrayToParentBeforeNode(parentNode, array, i, markerNode);
+}
 
-  while (i < length) {
-    insertBefore(parentNode, (array[i] = internalRender(array[i])).$n, markerNode);
+function renderArrayToParentBeforeNode(parentNode, array, i, beforeNode) {
+  while (i < array.length) {
+    parentNode.insertBefore((array[i] = internalRender(array[i])).$n, beforeNode);
     ++i;
   }
-};
+}
 
-var renderArrayToParent = function renderArrayToParent(parentNode, array, length) {
-  var i = 0;
-
-  while (i < length) {
+function renderArrayToParent(parentNode, array, i) {
+  while (i < array.length) {
     parentNode.appendChild((array[i] = internalRender(array[i])).$n);
     ++i;
   }
-};
+}
 
-var rerenderArray_reconcileWithMap = function rerenderArray_reconcileWithMap(parentNode, array, oldArray, startIndex, endIndex, oldStartItem, oldStartIndex, oldEndItem, oldEndIndex) {
-  var oldListNodeKeyMap = new Map();
-  var insertBeforeNode = oldEndItem.$n;
-  var item = void 0,
-      key = void 0,
-      startItem = void 0;
-
-  while (oldStartIndex <= oldEndIndex) {
-    item = oldArray[oldStartIndex++];
-    oldListNodeKeyMap.set(item.key, item);
-  }
-
-  while (startIndex <= endIndex) {
-    startItem = array[startIndex];
-    key = startItem.key;
-    item = oldListNodeKeyMap.get(key);
-
-    if (item) {
-      if (item === oldEndItem) insertBeforeNode = insertBeforeNode.nextSibling;
-      oldListNodeKeyMap.delete(key);
-      startItem = internalRerender(item, startItem);
-    } else {
-      startItem = internalRender(startItem);
-    }
-    array[startIndex] = startItem;
-    insertBefore(parentNode, startItem.$n, insertBeforeNode);
-    ++startIndex;
-  }
-
-  oldListNodeKeyMap.forEach(function (value) {
-    unmountInstance(value, parentNode);
-  });
-};
-
-var rerenderArray_afterReconcile = function rerenderArray_afterReconcile(parentNode, array, oldArray, startIndex, startItem, endIndex, endItem, oldStartIndex, oldStartItem, oldEndIndex, oldEndItem, insertBeforeNode) {
-  if (oldStartIndex > oldEndIndex) {
-    while (startIndex <= endIndex) {
-      startItem = array[startIndex];
-      insertBefore(parentNode, (array[startIndex] = internalRender(startItem)).$n, insertBeforeNode);
-      ++startIndex;
-    }
-  } else if (startIndex > endIndex) {
-    while (oldStartIndex <= oldEndIndex) {
-      unmountInstance(oldArray[oldStartIndex++], parentNode);
-    }
-  } else {
-    rerenderArray_reconcileWithMap(parentNode, array, oldArray, startIndex, endIndex, oldStartItem, oldStartIndex, oldEndItem, oldEndIndex);
-  }
-};
-
-var rerenderArray_reconcile = function rerenderArray_reconcile(parentNode, array, endIndex, oldArray, oldEndIndex, markerNode) {
+function rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, markerNode) {
   var oldStartIndex = 0;
   var startIndex = 0;
-  var successful = true;
-  var startItem = array[0];
-  var oldStartItem = oldArray[0];
-  var insertBeforeNode = markerNode;
-  var oldEndItem = void 0,
-      endItem = void 0,
-      node = void 0;
-  endIndex--;
-  oldEndIndex--;
 
-  outer: while (successful && oldStartIndex <= oldEndIndex && startIndex <= endIndex) {
-    successful = false;
+  do {
+    array[startIndex] = internalRerender(oldArray[oldStartIndex], array[startIndex]);
+    ++startIndex;
+    ++oldStartIndex;
+  } while (oldStartIndex < oldLength && startIndex < length);
 
-    while (oldStartItem.key === startItem.key) {
-      array[startIndex] = internalRerender(oldStartItem, startItem);
-
-      oldStartIndex++;startIndex++;
-      if (oldStartIndex > oldEndIndex || startIndex > endIndex) {
-        break outer;
-      } else {
-        oldStartItem = oldArray[oldStartIndex];
-        startItem = array[startIndex];
-        successful = true;
-      }
-    }
-
-    oldEndItem = oldArray[oldEndIndex];
-    endItem = array[endIndex];
-
-    while (oldEndItem.key === endItem.key) {
-      insertBeforeNode = (array[endIndex] = internalRerender(oldEndItem, endItem)).$n;
-
-      oldEndIndex--;endIndex--;
-      if (oldStartIndex > oldEndIndex || startIndex > endIndex) {
-        break outer;
-      } else {
-        oldEndItem = oldArray[oldEndIndex];
-        endItem = array[endIndex];
-        successful = true;
-      }
-    }
-
-    while (oldStartItem.key === endItem.key) {
-      node = (array[endIndex] = internalRerender(oldStartItem, endItem)).$n;
-
-      if (oldEndItem.key !== endItem.key) {
-        insertBeforeNode = insertBefore(parentNode, node, insertBeforeNode);
-      }
-      oldStartIndex++;endIndex--;
-      if (oldStartIndex > oldEndIndex || startIndex > endIndex) {
-        break outer;
-      } else {
-        oldStartItem = oldArray[oldStartIndex];
-        endItem = array[endIndex];
-        successful = true;
-      }
-    }
-
-    while (oldEndItem.key === startItem.key) {
-      insertBefore(parentNode, (array[startIndex] = internalRerender(oldEndItem, startItem)).$n, oldStartItem.$n);
-
-      oldEndIndex--;startIndex++;
-      if (oldStartIndex > oldEndIndex || startIndex > endIndex) {
-        break outer;
-      } else {
-        oldEndItem = oldArray[oldEndIndex];
-        startItem = array[startIndex];
-        successful = true;
-      }
-    }
+  if (startIndex < length) {
+    renderArrayToParentBefore(parentNode, array, startIndex, markerNode);
+  } else {
+    removeArrayNodes(oldArray, parentNode, oldStartIndex);
   }
+}
 
-  if (startIndex <= endIndex || oldStartIndex <= oldEndIndex) {
-    rerenderArray_afterReconcile(parentNode, array, oldArray, startIndex, startItem, endIndex, endItem, oldStartIndex, oldStartItem, oldEndIndex, oldEndItem, insertBeforeNode);
-  }
-};
-
-var rerenderArray = function rerenderArray(markerNode, array, oldArray) {
+function rerenderArray(markerNode, array, oldArray) {
   var parentNode = markerNode.parentNode;
   var length = array.length;
   var oldLength = oldArray.length;
-  if (!length) {
-    removeArrayNodes(oldArray, parentNode);
-  } else if (!oldLength) {
-    renderArrayToParentBefore(parentNode, array, length, markerNode);
-  } else {
-    rerenderArray_reconcile(parentNode, array, length, oldArray, oldLength, markerNode);
-  }
-};
 
-var rerenderArrayOnlyChild = function rerenderArrayOnlyChild(parentNode, array, oldArray) {
+  if (!length) {
+    removeArrayNodes(oldArray, parentNode, 0);
+  } else if (!oldLength) {
+    renderArrayToParentBefore(parentNode, array, 0, markerNode);
+  } else {
+    rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, markerNode);
+  }
+}
+
+function rerenderArrayOnlyChild(parentNode, array, oldArray) {
   var length = array.length;
   var oldLength = oldArray.length;
+
   if (!length) {
     removeArrayNodesOnlyChild(oldArray, parentNode);
   } else if (!oldLength) {
-    renderArrayToParent(parentNode, array, length);
+    renderArrayToParent(parentNode, array, 0);
   } else {
-    rerenderArray_reconcile(parentNode, array, length, oldArray, oldLength, null);
+    rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, null);
   }
-};
+}
 
-var rerenderText = function rerenderText(value, contextNode, isOnlyChild) {
+function rerenderDynamic(isOnlyChild, value, contextNode) {
+  var node = createDynamic(isOnlyChild, contextNode.parentNode, value);
+  replaceNode(contextNode, node);
+  return node;
+}
+
+function rerenderText(value, contextNode, isOnlyChild) {
   if (value instanceof Object) {
     return rerenderDynamic(isOnlyChild, value, contextNode);
   }
 
-  contextNode.nodeValue = value == null || value === true || value === false ? '' : value;
+  contextNode.nodeValue = isDynamicEmpty(value) ? '' : value;
   return contextNode;
-};
+}
 
-var rerenderDynamic = function rerenderDynamic(isOnlyChild, value, contextNode) {
-  var node = createDynamic(isOnlyChild, contextNode.parentNode, value);
-  replaceNode(contextNode, node);
-  return node;
-};
-
-var rerenderInstance = function rerenderInstance(value, node, isOnlyChild, prevValue) {
+function rerenderInstance(value, node, isOnlyChild, prevValue) {
   var prevRenderedInstance = void 0;
-  if (value && internalRerenderInstance(value, prevRenderedInstance = prevValue.$r || prevValue)) {
-    value.$r = prevRenderedInstance;
-    return node;
+  if (!value || !internalRerenderInstance(value, prevRenderedInstance = prevValue.$r || prevValue)) {
+    return rerenderDynamic(isOnlyChild, value, node);
   }
 
-  return rerenderDynamic(isOnlyChild, value, node);
-};
+  value.$r = prevRenderedInstance;
+  return node;
+}
 
 // TODO: Figure out whether we're using all these arguments
-var rerenderComponent = function rerenderComponent(component, props, componentInstance, instance, componentInstanceProp) {
+function rerenderComponent(component, props, componentInstance, instance, componentInstanceProp) {
   var newCompInstance = component(props || EMPTY_PROPS);
   if (!internalRerenderInstance(newCompInstance, componentInstance)) {
     replaceNode(componentInstance.$n, (instance[componentInstanceProp] = internalRender(newCompInstance)).$n);
   }
-};
+}
 
-var rerenderArrayMaybe = function rerenderArrayMaybe(array, contextNode, isOnlyChild, oldArray) {
+function rerenderArrayMaybe(array, contextNode, isOnlyChild, oldArray) {
   var markerNode = contextNode.xvdomContext;
 
   if (array instanceof Array) {
@@ -324,40 +209,40 @@ var rerenderArrayMaybe = function rerenderArrayMaybe(array, contextNode, isOnlyC
       rerenderArray(markerNode, array, oldArray);
     }
     return contextNode;
-  } else {
-    if (isOnlyChild) {
-      removeArrayNodesOnlyChild(oldArray, markerNode);
-      return markerNode.appendChild(createDynamic(true, markerNode, array));
-    } else {
-      removeArrayNodes(oldArray, markerNode.parentNode);
-      return rerenderDynamic(false, array, markerNode);
-    }
   }
-};
 
-var rerenderStatefulComponent = function rerenderStatefulComponent(component, newProps, api) {
+  if (isOnlyChild) {
+    removeArrayNodesOnlyChild(oldArray, markerNode);
+    return markerNode.appendChild(createDynamic(true, markerNode, array));
+  }
+
+  removeArrayNodes(oldArray, markerNode.parentNode, 0);
+  return rerenderDynamic(false, array, markerNode);
+}
+
+function rerenderStatefulComponent(component, newProps, api) {
   var _onProps = api._onProps;
   var props = api.props;
 
   api.props = newProps;
 
   if (_onProps) componentSend(component, api, _onProps, props);else componentRerender(component, api);
-};
+}
 
-var createArray = function createArray(value, parentNode, isOnlyChild) {
+function createArray(value, parentNode, isOnlyChild) {
   var node = document.createDocumentFragment();
-  renderArrayToParent(node, value, value.length);
+  renderArrayToParent(node, value, 0);
   node.xvdomContext = isOnlyChild ? parentNode : node.appendChild(createTextNode(''));
   return node;
-};
+}
 
-var componentRerender = function componentRerender(component, api) {
+function componentRerender(component, api) {
   var instance = internalRerender(api._instance, component(api));
   api._instance = instance;
   instance.$n.xvdom = api._parentInst;
-};
+}
 
-var componentSend = function componentSend(component, api, actionFn, context) {
+function componentSend(component, api, actionFn, context) {
   // TODO: process.ENV === 'development', console.error(`Action not found #{action}`);
   if (!actionFn) return;
 
@@ -366,9 +251,9 @@ var componentSend = function componentSend(component, api, actionFn, context) {
     api.state = newState;
     componentRerender(component, api);
   }
-};
+}
 
-var createStatefulComponent = function createStatefulComponent(component, props, instance, rerenderFuncProp, componentInstanceProp, actions) {
+function createStatefulComponent(component, props, instance, rerenderFuncProp, componentInstanceProp, actions) {
   var boundActions = new Hash();
 
   var api = {
@@ -389,36 +274,38 @@ var createStatefulComponent = function createStatefulComponent(component, props,
   instance[rerenderFuncProp] = rerenderStatefulComponent;
   instance[componentInstanceProp] = api;
   return internalRenderNoRecycle(api._instance = component(api));
-};
+}
 
-var createNoStateComponent = function createNoStateComponent(component, props, instance, rerenderFuncProp, componentInstanceProp) {
+function createNoStateComponent(component, props, instance, rerenderFuncProp, componentInstanceProp) {
+  // TODO: Remove passing componentInstanceProp and rerenderFuncProp
+  //       Instead have an `updateComponent()` (match approach to dynamics)
   instance[rerenderFuncProp] = rerenderComponent;
   return internalRenderNoRecycle(instance[componentInstanceProp] = component(props));
-};
+}
 
-var createComponent = function createComponent(component, actions, props, instance, rerenderFuncProp, componentInstanceProp) {
+function createComponent(component, actions, props, instance, rerenderFuncProp, componentInstanceProp) {
   var createFn = actions ? createStatefulComponent : createNoStateComponent;
   return createFn(component, props || EMPTY_PROPS, instance, rerenderFuncProp, componentInstanceProp, actions);
-};
+}
 
-var internalRenderNoRecycle = function internalRenderNoRecycle(instance) {
+function internalRenderNoRecycle(instance) {
   var node = instance.$s.c(instance);
   instance.$n = node;
   node.xvdom = instance;
   return node;
-};
+}
 
-var internalRender = function internalRender(instance) {
+function internalRender(instance) {
   var spec = instance.$s;
   var recycledInstance = spec.r.pop(instance.key);
   if (recycledInstance) {
     spec.u(instance, recycledInstance);
     return recycledInstance;
-  } else {
-    internalRenderNoRecycle(instance);
-    return instance;
   }
-};
+
+  internalRenderNoRecycle(instance);
+  return instance;
+}
 
 var CREATE_BY_TYPE = {
   text: createTextNode,
@@ -438,27 +325,25 @@ var UPDATE_BY_TYPE = {
   empty: rerenderText
 };
 
-var updateDynamic = function updateDynamic(isOnlyChild, oldValue, value, contextNode) {
+function updateDynamic(isOnlyChild, oldValue, value, contextNode) {
   return UPDATE_BY_TYPE[dynamicType(oldValue)](value, contextNode, isOnlyChild, oldValue);
-};
+}
 
-var render = function render(instance) {
-  return internalRender(instance).$n;
-};
-
-var internalRerender = function internalRerender(prevInstance, instance) {
+function internalRerender(prevInstance, instance) {
   if (internalRerenderInstance(instance, prevInstance)) return prevInstance;
 
   instance = internalRender(instance);
   replaceNode(prevInstance.$n, instance.$n);
   recycle(prevInstance);
   return instance;
-};
+}
 
+var render = function render(instance) {
+  return internalRender(instance).$n;
+};
 var rerender = function rerender(node, instance) {
   return internalRerender(node.xvdom, instance).$n;
 };
-
 var unmount = function unmount(node) {
   unmountInstance(node.xvdom, node.parentNode);
 };
