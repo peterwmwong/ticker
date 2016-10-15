@@ -2516,14 +2516,9 @@ var _xvdomSpec$8 = {
   },
   r: new xvdom.Pool()
 };
-var EVENT_TYPES_TO_HIDE = {
-  'WatchEvent': true,
-  'GollumEvent': true
-};
-
 var filterEvents = function filterEvents(_ref) {
-  var type = _ref.type;
-  return !EVENT_TYPES_TO_HIDE[type];
+  var t = _ref.type;
+  return t !== 'WatchEvent' && t !== 'GollumEvent';
 };
 
 var renderEvent = function renderEvent(event) {
@@ -3052,17 +3047,12 @@ var toggleSource = function toggleSource(type, id) {
   var _currentUser = currentUser;
   var _currentUser$sources = _currentUser.sources;
   var github = _currentUser$sources.github;
-  var list = _currentUser$sources.github[type];
+  var l = _currentUser$sources.github[type];
 
-  var index = list.map(function (s) {
+  var index = l.map(function (s) {
     return s.id;
   }).indexOf(id);
-  if (index > -1) {
-    list.splice(index, 1);
-    github[type] = [].concat(toConsumableArray(list));
-  } else {
-    github[type] = list.concat({ id: id });
-  }
+  github[type] = index > -1 ? (l.splice(index, 1), [].concat(toConsumableArray(l))) : l.concat({ id: id });
 
   User.save(currentUser).then(function (user) {
     currentUser = user;
@@ -3070,21 +3060,19 @@ var toggleSource = function toggleSource(type, id) {
   });
 };
 
-var toggleUserSource = toggleSource.bind(null, 'users');
-var toggleRepoSource = toggleSource.bind(null, 'repos');
+var toggleUserSource = function toggleUserSource(id) {
+  return toggleSource('users', id);
+};
+var toggleRepoSource = function toggleRepoSource(id) {
+  return toggleSource('repos', id);
+};
 
-var getCurrentUser = function getCurrentUser() {
-  var cb = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-
-  userListener = cb;
+var getCurrentUser = function getCurrentUser(cb) {
   if (currentUser) return currentUser;
 
-  loadFirebase().then(authWithFirebase).then(getOrCreateUser).catch(function () {
-    return null;
-  }).then(userListener);
+  loadFirebase().then(authWithFirebase).then(getOrCreateUser).catch(function () {}).then(userListener = cb || userListener);
 
-  var prevUser = getPreviousUser();
-  if (prevUser) return prevUser;
+  return getPreviousUser();
 };
 
 var _xvdomCreateComponent$4 = xvdom.createComponent;

@@ -4,12 +4,7 @@ import ChunkedArrayRender  from './common/ChunkedArrayRender.jsx';
 import GithubEvent         from '../models/github/GithubEvent';
 import modelStateComponent from '../helpers/modelStateComponent';
 
-const EVENT_TYPES_TO_HIDE = {
-  'WatchEvent': true,
-  'GollumEvent': true
-};
-
-const filterEvents = ({type}) => !EVENT_TYPES_TO_HIDE[type];
+const filterEvents = ({type:t}) => t !== 'WatchEvent' && t !== 'GollumEvent';
 
 const renderEvent = event => <EventCard event={event} key={event.id} recycle />;
 

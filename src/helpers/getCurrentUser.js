@@ -56,15 +56,9 @@ export const getPreviousUser = () => {
 let userListener = () => { };
 const toggleSource = (type, id) => {
   if(!currentUser) return;
-  const {sources:{github, github:{[type]:list}}} = currentUser;
-  const index = list.map(s => s.id).indexOf(id);
-  if(index > -1){
-    list.splice(index, 1);
-    github[type] = [...list];
-  }
-  else{
-    github[type] = list.concat({id});
-  }
+  const {sources:{github, github:{[type]:l}}} = currentUser;
+  const index = l.map(s => s.id).indexOf(id);
+  github[type] = index > -1 ? (l.splice(index, 1), [...l]) : l.concat({id});
 
   User.save(currentUser).then(user => {
     currentUser = user;
@@ -72,19 +66,17 @@ const toggleSource = (type, id) => {
   });
 }
 
-export const toggleUserSource = toggleSource.bind(null, 'users');
-export const toggleRepoSource = toggleSource.bind(null, 'repos');
+export const toggleUserSource = id => toggleSource('users', id);
+export const toggleRepoSource = id => toggleSource('repos', id);
 
-export const getCurrentUser = (cb=() => {}) => {
-  userListener = cb;
+export const getCurrentUser = cb => {
   if(currentUser) return currentUser;
 
   loadFirebase()
     .then(authWithFirebase)
     .then(getOrCreateUser)
-    .catch(() => null)
-    .then(userListener);
+    .catch(() => {})
+    .then(userListener = cb || userListener);
 
-  const prevUser = getPreviousUser();
-  if(prevUser) return prevUser;
+  return getPreviousUser();
 };
