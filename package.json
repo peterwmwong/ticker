@@ -29,11 +29,11 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-serve": "^0.1.0",
     "rollup-watch": "^2.5.0",
-    "rollup": "^0.36.1",
+    "rollup": "^0.36.3",
     "style-loader": "^0.13.1",
     "uglify-js": "^2.7.3",
-    "vulcanize": "^1.14.7",
-    "xvdom": "peterwmwong/xvdom#master"
+    "vulcanize": "^1.14.8",
+    "xvdom": "peterwmwong/xvdom#v1.0.1"
   },
   "scripts": {
     "lint":
