@@ -26,14 +26,14 @@ const COMMIT_PLACEHOLDER = {
   }
 };
 
-const getCommitTitleMessage = (message)=> {
+const getCommitTitleMessage = message => {
   const [title] = /.*/g.exec(message);
   return title === message
     ? {title:'', message}
     : {title,    message:message.substr(title.length)};
 };
 
-export default modelStateComponent(GithubCommit, 'get', ({props: {repo, commitId}, state})=> {
+export default modelStateComponent(GithubCommit, 'get', ({props: {repo, commitId}, state}) => {
   const {files, commit, committer, stats} = state || COMMIT_PLACEHOLDER;
   const {title, message} = getCommitTitleMessage(commit.message);
   return (

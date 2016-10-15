@@ -1,6 +1,6 @@
 import xvdom from 'xvdom/src/index';
 
-export default ({className, displayName})=> {
+export default ({className, displayName}) => {
   const [owner, repo] = displayName.split('/');
   return (
     <a className={`t-normal ${className || ''}`} href={`#github/${displayName}`}>

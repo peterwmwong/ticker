@@ -26,7 +26,7 @@ const APP_CLASS = `App ${window.navigator.standalone ? 'is-apple-standalone' : '
 const App = ({
   state: {user, hasSearch, hasDrawer, view, viewId, viewUrl},
   bindSend
-})=>
+}) =>
   <body className={APP_CLASS}>
     {view === 'user'
       ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
@@ -40,7 +40,7 @@ const App = ({
     <AppDrawer enabled={hasDrawer} onLogin={bindSend('login')} user={user} />
   </body>;
 
-const stateFromHash = (hash)=> {
+const stateFromHash = hash => {
   const [appUrl, viewUrl] = hash.split('?');
   const viewId = appUrl.slice(8);
   return {
@@ -53,7 +53,7 @@ const stateFromHash = (hash)=> {
 };
 
 App.state = {
-  onInit: ({bindSend})=> {
+  onInit: ({bindSend}) => {
     App.showDrawer      = bindSend('enableDrawer');
     App.showSearch      = bindSend('enableSearch');
     window.onhashchange = bindSend('onHashChange');
@@ -63,7 +63,7 @@ App.state = {
     };
   },
 
-  onHashChange: ({state})=> {
+  onHashChange: ({state}) => {
     document.body.scrollTop = 0;
     return {
       ...state,
@@ -71,12 +71,12 @@ App.state = {
     };
   },
 
-  enableSearch:   ({state})=> ({...state, hasSearch:true,  hasDrawer:false}),
-  enableDrawer:   ({state})=> ({...state, hasSearch:false, hasDrawer:true}),
-  disableOverlay: ({state})=> ({...state, hasSearch:false, hasDrawer:false}),
-  onUserChange:   ({state}, user)=> ({...state, user}),
+  enableSearch:   ({state}) => ({...state, hasSearch:true,  hasDrawer:false}),
+  enableDrawer:   ({state}) => ({...state, hasSearch:false, hasDrawer:true}),
+  disableOverlay: ({state}) => ({...state, hasSearch:false, hasDrawer:false}),
+  onUserChange:   ({state}, user) => ({...state, user}),
 
-  login: ({state, bindSend})=> (
+  login: ({state, bindSend}) => (
     authWithOAuthPopup().then(bindSend('onUserChange')),
     state
   )

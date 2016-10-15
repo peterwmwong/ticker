@@ -2,18 +2,18 @@ import xvdom from 'xvdom/src/index';
 import Actor from './common/Actor.jsx';
 import Icon  from './common/Icon.jsx';
 
-const issuePRIcon = ({pull_request})=>
+const issuePRIcon = ({pull_request}) =>
   `${pull_request ? 'git-pull-request' : 'issue-opened'}`;
 
-const issuePRSubject = ({pull_request, issue})=>
+const issuePRSubject = ({pull_request, issue}) =>
   (pull_request || issue).title;
 
-const issuePRSubjectUrl = ({repo:{name}, payload:{number, issue, pull_request}})=>
+const issuePRSubjectUrl = ({repo:{name}, payload:{number, issue, pull_request}}) =>
   issue
     ? `#github/${name}?issues/${number || issue.number}`
     : `#github/${name}?pulls/${number || pull_request.number}`;
 
-const getSummary = (event)=> {
+const getSummary = event => {
   const {payload} = event;
   switch(event.type){
   case 'IssuesEvent':
@@ -77,7 +77,7 @@ const getSummary = (event)=> {
   }
 };
 
-export default ({event})=> {
+export default ({event}) => {
   const {actorsAction, subject, subjectIcon, subjectUrl} = getSummary(event);
   return (
     <div>

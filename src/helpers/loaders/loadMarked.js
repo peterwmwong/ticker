@@ -2,13 +2,13 @@ import loadHighlight from './loadHighlight';
 import {EXT_TO_SYNTAX} from '../getSyntaxForFile';
 import ALL_LANGUAGES from '../../../vendor/highlightjs/allLanguages.js';
 
-const getSyntaxForLanguage = (lang)=> {
+const getSyntaxForLanguage = lang => {
   const syntax = EXT_TO_SYNTAX[lang] || lang;
   return ALL_LANGUAGES[syntax] && syntax;
 };
 
 const renderer = new window.marked.Renderer();
-renderer.link = (href, title, text)=>
+renderer.link = (href, title, text) =>
   `<a href="${href}" title="${title}" target="_blank">${text}</a>`;
 
 window.marked.setOptions({
@@ -17,16 +17,16 @@ window.marked.setOptions({
     const syntax = getSyntaxForLanguage(lang);
     if (!syntax) return callback(null, code);
 
-    loadHighlight(syntax).then((hljs)=> {
+    loadHighlight(syntax).then(hljs => {
       callback(null, hljs.highlight(syntax, code).value)
     });
   }
 });
 
-export default (content, cb)=> {
+export default (content, cb) => {
   let result = null;
   if(content){
-    window.marked(content, (err, r)=> {
+    window.marked(content, (err, r) => {
       if (result === null){
         result = r;
       }

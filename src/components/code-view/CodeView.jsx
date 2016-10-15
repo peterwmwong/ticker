@@ -4,7 +4,7 @@ import PathNavigator      from './PathNavigator.jsx';
 import PathContents       from './PathContents.jsx';
 import GithubFileContents from '../../models/github/GithubFileContents';
 
-export default modelStateComponent(GithubFileContents, 'query', ({props: {repo, pathArray=[], sha='master'}, state:contents})=>
+export default modelStateComponent(GithubFileContents, 'query', ({props: {repo, pathArray=[], sha='master'}, state:contents}) =>
   <div>
     <PathNavigator
       pathArray={pathArray}

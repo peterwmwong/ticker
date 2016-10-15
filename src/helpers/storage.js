@@ -13,7 +13,7 @@ catch(e){} // eslint-disable-line no-empty
 
 if(!registry) localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry = []));
 
-const removeLRUItem = ()=> {
+const removeLRUItem = () => {
   const lruKey = registry.pop();
   if(lruKey){
     if(process.env.NODE_ENV === 'development'){
@@ -24,7 +24,7 @@ const removeLRUItem = ()=> {
   }
 };
 
-const safeSetItem = (key, value)=> {
+const safeSetItem = (key, value) => {
   let remainingTries = registry.length;
   while(remainingTries--){
     try{
@@ -38,7 +38,7 @@ const safeSetItem = (key, value)=> {
   }
 };
 
-const updateRegistryKey = (key, isAdd)=> {
+const updateRegistryKey = (key, isAdd) => {
   const keyIndex = registry.indexOf(key);
   if(keyIndex >= 0) registry.splice(keyIndex, 1);
   if(isAdd) registry.unshift(key);
@@ -46,7 +46,7 @@ const updateRegistryKey = (key, isAdd)=> {
   safeSetItem(REGISTRY_KEY, JSON.stringify(registry));
 };
 
-const updateLRUItem = (key)=> {updateRegistryKey(key, true)};
+const updateLRUItem = key => {updateRegistryKey(key, true)};
 
 export default {
   getItem(key){

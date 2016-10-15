@@ -13,33 +13,33 @@ import {toggleRepoSource} from '../helpers/getCurrentUser';
 const TABS = {
   readme:{
     title: 'Readme',
-    view: (id)=> <ReadmeView id={id} />
+    view: id => <ReadmeView id={id} />
   },
   news:{
     title: 'News',
-    view: (id)=> <EventsView id={id} type='repos' />
+    view: id => <EventsView id={id} type='repos' />
 
   },
   code:{
     title: 'Code',
-    view: (id, head, tail)=> <CodeView pathArray={tail} repo={id} sha={head} />
+    view: (id, head, tail) => <CodeView pathArray={tail} repo={id} sha={head} />
   },
   pulls:{
     title: 'Pull Requests',
-    view: (repo)=> <IssuesPullsView modelClass={GithubPull} repo={repo} />
+    view: repo => <IssuesPullsView modelClass={GithubPull} repo={repo} />
   },
   issues:{
     title: 'Issues',
-    view: (repo)=> <IssuesPullsView modelClass={GithubIssue} repo={repo} />
+    view: repo => <IssuesPullsView modelClass={GithubIssue} repo={repo} />
   }
 };
 
-const stripURLEnding = (url)=> url.replace(/\/\s*$/, '');
+const stripURLEnding = url => url.replace(/\/\s*$/, '');
 
-const isBookmarked = (user, id)=>
-  user && user.sources.github.repos.find((s)=> s.id === id);
+const isBookmarked = (user, id) =>
+  user && user.sources.github.repos.find(s => s.id === id);
 
-export default ({id, user, viewUrl='news'})=> {
+export default ({id, user, viewUrl='news'}) => {
   const [tab, head, ...tail] = stripURLEnding(viewUrl).split('/');
   // TODO: Temporary wrapper <div> to workaround xvdom dynamic stateful component
   //       rerendering bug

@@ -15,7 +15,7 @@ function renderTab(tabId){
   );
 }
 
-export default (props)=>
+export default props =>
   <div className='Tabs layout horizontal end center-justified c-white l-height10 t-font-size-14 t-uppercase t-normal'>
     {Object.keys(props.tabs).map(renderTab, props)}
   </div>

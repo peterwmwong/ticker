@@ -6,7 +6,7 @@ import SourceName   from './SourceName.jsx';
 import EventSummary from './EventSummary.jsx';
 import Markup       from './common/Markup.jsx';
 
-const renderEventAction = (event)=> {
+const renderEventAction = event => {
   switch(event.type){
   case 'IssueCommentEvent':
   case 'PullRequestReviewCommentEvent':
@@ -19,7 +19,7 @@ const renderEventAction = (event)=> {
     );
 
   case 'PushEvent':
-    return event.payload.commits.map(({sha, message})=>
+    return event.payload.commits.map(({sha, message}) =>
       <a
         className='layout horizontal center l-padding-l4 l-padding-t4'
         href={`#github/${event.repo.name}?commits/${sha}`}
@@ -32,7 +32,7 @@ const renderEventAction = (event)=> {
   }
 }
 
-export default ({event})=>
+export default ({event}) =>
   <div className='Card EventCard'>
     <SourceName className='Card-title' displayName={event.repo.name} />
     <div className='Card-content'>

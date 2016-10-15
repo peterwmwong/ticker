@@ -11,19 +11,19 @@ import modelStateComponent      from '../../helpers/modelStateComponent';
 const TABS = {
   info:{
     title: 'Info',
-    view: (repo, id, issue)=> <IssuePullInfo issue={issue} repo={repo} />
+    view: (repo, id, issue) => <IssuePullInfo issue={issue} repo={repo} />
   },
   commits:{
     title: 'Commits',
-    view: (repo, id)=> <PullCommitsView id={id} repo={repo} />
+    view: (repo, id) => <PullCommitsView id={id} repo={repo} />
   },
   diff:{
     title: 'Diff',
-    view: (repo, id)=> <PullDiffView id={id} repo={repo} />
+    view: (repo, id) => <PullDiffView id={id} repo={repo} />
   }
 };
 
-export default modelStateComponent(GithubIssue, 'get', ({props: {id, repo, tab='info'}, state:issue})=>
+export default modelStateComponent(GithubIssue, 'get', ({props: {id, repo, tab='info'}, state:issue}) =>
   <div>
     <AppToolbar
       left={

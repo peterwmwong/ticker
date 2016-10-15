@@ -5,8 +5,8 @@ import modelStateComponent from '../../helpers/modelStateComponent';
 import compare             from '../../helpers/compare';
 import timeAgo             from '../../helpers/timeAgo';
 
-const sortCreatedAt = (a, b)=> compare(b.created_at, a.created_at);
-const sort = (commits)=> commits.sort(sortCreatedAt)
+const sortCreatedAt = (a, b) => compare(b.created_at, a.created_at);
+const sort = commits => commits.sort(sortCreatedAt)
 
 const item = (
   {
@@ -19,7 +19,7 @@ const item = (
     }
   },
   repo
-)=> ({
+) => ({
   href: `#github/${repo}?commits/${sha}`,
   avatarUrl: (author && author.avatar_url),
   icon: 'person',
@@ -28,7 +28,7 @@ const item = (
   secondaryText: `committed ${timeAgo(Date.parse(committer.date))} ago by ${author ? author.login : name}`
 })
 
-export default modelStateComponent(GithubPullCommit, 'query', ({props: {repo}, state: commits})=>
+export default modelStateComponent(GithubPullCommit, 'query', ({props: {repo}, state: commits}) =>
   <List
     className='Card'
     context={repo}

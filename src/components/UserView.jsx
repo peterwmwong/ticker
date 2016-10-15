@@ -7,18 +7,18 @@ import {toggleUserSource} from '../helpers/getCurrentUser';
 const TABS = {
   news:{
     title: 'News',
-    view: (id)=> <EventsView id={id} type='users' />
+    view: id => <EventsView id={id} type='users' />
   },
   repos:{
     title: 'Repos',
-    view: (id)=> <UserReposView id={id} />
+    view: id => <UserReposView id={id} />
   }
 };
 
-const isBookmarked = (user, id)=>
-  user && user.sources.github.users.find((s)=> s.id === id);
+const isBookmarked = (user, id) =>
+  user && user.sources.github.users.find(s => s.id === id);
 
-export default ({id, user, viewUrl='news'})=>
+export default ({id, user, viewUrl='news'}) =>
   <div className='l-padding-b2'>
     <RepoUserToolbar
       TABS={TABS}

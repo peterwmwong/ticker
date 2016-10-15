@@ -22,17 +22,17 @@ r - keyed map of unmounted instanced that can be recycled
 
 */
 
-var isDynamicEmpty = function isDynamicEmpty(value) {
-  return value == null || value === true || value === false;
+var isDynamicEmpty = function isDynamicEmpty(v) {
+  return v == null || v === true || v === false;
 };
 
 // https://esbench.com/bench/57f1459d330ab09900a1a1dd
-function dynamicType(value) {
-  if (value instanceof Object) {
-    return value instanceof Array ? 'array' : 'object';
+function dynamicType(v) {
+  if (v instanceof Object) {
+    return v instanceof Array ? 'array' : 'object';
   }
 
-  return isDynamicEmpty(value) ? 'empty' : 'text';
+  return isDynamicEmpty(v) ? 'empty' : 'text';
 }
 
 // Creates an empty object with no built in properties (ie. `constructor`).
@@ -407,7 +407,9 @@ var _xvdomSpec$4 = {
 
     inst.b = _n;
     _n.className = inst.a;
-    _n.onclick = inst.c;
+    _n.onClickArg = inst.c;
+    _n.onClickFn = inst.d;
+    _n.onclick = inst.e;
     return _n;
   },
   u: function u(inst, pInst) {
@@ -422,22 +424,44 @@ var _xvdomSpec$4 = {
     v = inst.c;
 
     if (v !== pInst.c) {
-      pInst.b.onclick = v;
+      pInst.b.onClickArg = v;
       pInst.c = v;
+    }
+
+    v = inst.d;
+
+    if (v !== pInst.d) {
+      pInst.b.onClickFn = v;
+      pInst.d = v;
+    }
+
+    v = inst.e;
+
+    if (v !== pInst.e) {
+      pInst.b.onclick = v;
+      pInst.e = v;
     }
   },
   r: xvdom.DEADPOOL
 };
-var Icon = (function (_ref) {
-  var className = _ref.className;
-  var name = _ref.name;
-  var onClick = _ref.onClick;
-  var _ref$size = _ref.size;
-  var size = _ref$size === undefined ? 'med' : _ref$size;
+var handleClick = function handleClick(_ref) {
+  var t = _ref.currentTarget;
+  t.onClickFn(t.onClickArg);
+};
+
+var Icon = (function (_ref2) {
+  var className = _ref2.className;
+  var name = _ref2.name;
+  var onClick = _ref2.onClick;
+  var onClickArg = _ref2.onClickArg;
+  var _ref2$size = _ref2.size;
+  var size = _ref2$size === undefined ? 'med' : _ref2$size;
   return {
     $s: _xvdomSpec$4,
     a: 'Icon Icon--' + size + ' octicon octicon-' + name + ' ' + className + ' t-center',
-    c: onClick
+    c: onClickArg,
+    d: onClick,
+    e: handleClick
   };
 });
 
@@ -2801,10 +2825,11 @@ var _xvdomSpec4$3 = {
 };
 var _xvdomSpec3$5 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$10(Icon, Icon.state, {
+    var _n = (inst.d = _xvdomCreateComponent$10(Icon, Icon.state, {
       className: inst.a,
       name: 'bookmark',
       onClick: inst.b,
+      onClickArg: inst.c,
       size: 'small'
     }, inst)).$n;
 
@@ -2813,13 +2838,14 @@ var _xvdomSpec3$5 = {
   u: function u(inst, pInst) {
     var v;
 
-    if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$10(Icon, Icon.state, {
+    if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
+      pInst.d = _xvdomUpdateComponent$10(Icon, Icon.state, {
         className: pInst.a = inst.a,
         name: 'bookmark',
         onClick: pInst.b = inst.b,
+        onClickArg: pInst.c = inst.c,
         size: 'small'
-      }, pInst.c);
+      }, pInst.d);
     }
   },
   r: xvdom.DEADPOOL
@@ -2893,9 +2919,8 @@ var RepoUserToolbar = (function (_ref) {
     b: {
       $s: _xvdomSpec3$5,
       a: 'c-white l-padding-l2 l-padding-r4 ' + (isBookmarked ? '' : 'c-opacity-50'),
-      b: function b() {
-        onBookmark(id);
-      }
+      b: onBookmark,
+      c: id
     },
     c: {
       $s: _xvdomSpec4$3,

@@ -1,11 +1,11 @@
 import model  from '../../helpers/model';
 
 export default model({
-  get: ({repo, id})=> ({
+  get: ({repo, id}) => ({
     cache: `ticker:GithubIssue:${repo}${id}`,
     url: `https://api.github.com/repos/${repo}/issues/${id}`
   }),
-  query: ({repo})=> ({
+  query: ({repo}) => ({
     url: `https://api.github.com/repos/${repo}/issues`
   })
 });

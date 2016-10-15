@@ -4,9 +4,9 @@ import compare             from '../helpers/compare';
 import modelStateComponent from '../helpers/modelStateComponent';
 import GithubRepo          from '../models/github/GithubRepo';
 
-const compareRepos = (a, b)=> compare(a.name, b.name)
-const sortRepos = (repos)=> repos.sort(compareRepos)
-const item = ({name, description}, id)=> ({
+const compareRepos = (a, b) => compare(a.name, b.name)
+const sortRepos = repos => repos.sort(compareRepos)
+const item = ({name, description}, id) => ({
   href: `#github/${id}/${name}`,
   icon: 'repo',
   key:  name,
@@ -14,7 +14,7 @@ const item = ({name, description}, id)=> ({
   secondaryText: description
 })
 
-export default modelStateComponent(GithubRepo, 'query', ({props: {id}, state})=>
+export default modelStateComponent(GithubRepo, 'query', ({props: {id}, state}) =>
   <List
     className='Card'
     context={id}
