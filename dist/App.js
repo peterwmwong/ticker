@@ -1621,334 +1621,6 @@ AppSearch.state = {
   }
 };
 
-var MIN_MS = 1000 * 60;
-var HOUR_MS = MIN_MS * 60;
-var DAY_MS = HOUR_MS * 24;
-var WEEK_MS = DAY_MS * 7;
-
-var timeAgoNow = Date.now();
-// Update every 5 min
-setInterval(function () {
-  return timeAgoNow = Date.now();
-}, MIN_MS * 5);
-
-var timeAgo = (function (dateTime) {
-  var diffms = timeAgoNow - dateTime;
-  return diffms > WEEK_MS ? ~~(diffms / WEEK_MS) + ' weeks' : diffms > DAY_MS ? ~~(diffms / DAY_MS) + ' days' : diffms > HOUR_MS ? ~~(diffms / HOUR_MS) + ' hours' : diffms > MIN_MS ? ~~(diffms / MIN_MS) + ' minutes' : '1 minute';
-});
-
-var _xvdomCreateComponent$8 = xvdom.createComponent;
-var _xvdomCreateDynamic$8 = xvdom.createDynamic;
-var _xvdomEl$10 = xvdom.el;
-var _xvdomUpdateComponent$8 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$8 = xvdom.updateDynamic;
-var _xvdomSpec$11 = {
-  c: function c(inst) {
-    var _n = _xvdomEl$10('a'),
-        _n2,
-        _n3,
-        _n4;
-
-    inst.b = _n;
-    _n.className = inst.a;
-    if (inst.c != null) _n.href = inst.c;
-    _n2 = (inst.e = _xvdomCreateComponent$8(Avatar, Avatar.state, {
-      avatarUrl: inst.d
-    }, inst)).$n;
-
-    _n.appendChild(_n2);
-
-    _n2 = _xvdomEl$10('div');
-    _n2.className = 'l-margin-l2';
-    _n3 = _xvdomEl$10('div');
-    _n3.className = 't-normal';
-
-    _n3.appendChild(inst.g = _xvdomCreateDynamic$8(false, _n3, inst.f));
-
-    _n4 = _xvdomEl$10('span');
-    _n4.className = 'c-gray-dark l-margin-l1 t-light';
-    inst.i = _n4;
-    _n4.textContent = inst.h;
-
-    _n3.appendChild(_n4);
-
-    _n2.appendChild(_n3);
-
-    _n3 = _xvdomEl$10('div');
-    _n3.className = 'c-gray-dark t-font-size-10';
-    inst.k = _n3;
-    _n3.textContent = inst.j;
-
-    _n2.appendChild(_n3);
-
-    _n.appendChild(_n2);
-
-    return _n;
-  },
-  u: function u(inst, pInst) {
-    var v;
-    v = inst.a;
-
-    if (v !== pInst.a) {
-      pInst.b.className = v;
-      pInst.a = v;
-    }
-
-    v = inst.c;
-
-    if (v !== pInst.c) {
-      if (pInst.b.href !== v) {
-        pInst.b.href = v;
-      }
-
-      pInst.c = v;
-    }
-
-    if (inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$8(Avatar, Avatar.state, {
-        avatarUrl: pInst.d = inst.d
-      }, pInst.e);
-    }
-
-    if (inst.f !== pInst.f) {
-      pInst.g = _xvdomUpdateDynamic$8(false, pInst.f, pInst.f = inst.f, pInst.g);
-    }
-
-    v = inst.h;
-
-    if (v !== pInst.h) {
-      pInst.i.textContent = v;
-      pInst.h = v;
-    }
-
-    v = inst.j;
-
-    if (v !== pInst.j) {
-      pInst.k.textContent = v;
-      pInst.j = v;
-    }
-  },
-  r: xvdom.DEADPOOL
-};
-var Actor = (function (_ref) {
-  var _ref$user = _ref.user;
-  var login = _ref$user.login;
-  var avatar_url = _ref$user.avatar_url;
-  var action = _ref.action;
-  var actionDate = _ref.actionDate;
-  var className = _ref.className;
-  return {
-    $s: _xvdomSpec$11,
-    a: 'layout horizontal center ' + className,
-    c: '#github/' + login,
-    d: avatar_url,
-    f: login,
-    h: action || '',
-    j: timeAgo(Date.parse(actionDate)) + ' ago'
-  };
-});
-
-var _xvdomCreateComponent$7 = xvdom.createComponent;
-var _xvdomCreateDynamic$7 = xvdom.createDynamic;
-var _xvdomEl$9 = xvdom.el;
-var _xvdomUpdateComponent$7 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$7 = xvdom.updateDynamic;
-var _xvdomSpec2$7 = {
-  c: function c(inst) {
-    var _n = _xvdomEl$9('div'),
-        _n2;
-
-    _n.appendChild(inst.b = _xvdomCreateDynamic$7(false, _n, inst.a));
-
-    _n2 = (inst.f = _xvdomCreateComponent$7(Actor, Actor.state, {
-      action: inst.c,
-      actionDate: inst.d,
-      className: 'l-padding-l4',
-      user: inst.e
-    }, inst)).$n;
-
-    _n.appendChild(_n2);
-
-    return _n;
-  },
-  u: function u(inst, pInst) {
-    var v;
-
-    if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$7(false, pInst.a, pInst.a = inst.a, pInst.b);
-    }
-
-    if (inst.d !== pInst.d || inst.c !== pInst.c || inst.e !== pInst.e) {
-      pInst.f = _xvdomUpdateComponent$7(Actor, Actor.state, {
-        action: pInst.c = inst.c,
-        actionDate: pInst.d = inst.d,
-        className: 'l-padding-l4',
-        user: pInst.e = inst.e
-      }, pInst.f);
-    }
-  },
-  r: xvdom.DEADPOOL
-};
-var _xvdomSpec$10 = {
-  c: function c(inst) {
-    var _n = _xvdomEl$9('a'),
-        _n2;
-
-    _n.className = 'layout horizontal center l-padding-b4';
-    inst.b = _n;
-    if (inst.a != null) _n.href = inst.a;
-    _n2 = (inst.d = _xvdomCreateComponent$7(Icon, Icon.state, {
-      name: inst.c
-    }, inst)).$n;
-
-    _n.appendChild(_n2);
-
-    _n2 = _xvdomEl$9('div');
-    _n2.className = 'flex l-padding-l2 t-truncate t-normal';
-    inst.f = _n2;
-    _n2.textContent = inst.e;
-
-    _n.appendChild(_n2);
-
-    return _n;
-  },
-  u: function u(inst, pInst) {
-    var v;
-    v = inst.a;
-
-    if (v !== pInst.a) {
-      if (pInst.b.href !== v) {
-        pInst.b.href = v;
-      }
-
-      pInst.a = v;
-    }
-
-    if (inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$7(Icon, Icon.state, {
-        name: pInst.c = inst.c
-      }, pInst.d);
-    }
-
-    v = inst.e;
-
-    if (v !== pInst.e) {
-      pInst.f.textContent = v;
-      pInst.e = v;
-    }
-  },
-  r: xvdom.DEADPOOL
-};
-var issuePRIcon = function issuePRIcon(_ref) {
-  var pull_request = _ref.pull_request;
-  return '' + (pull_request ? 'git-pull-request' : 'issue-opened');
-};
-
-var issuePRSubject = function issuePRSubject(_ref2) {
-  var pull_request = _ref2.pull_request;
-  var issue = _ref2.issue;
-  return (pull_request || issue).title;
-};
-
-var issuePRSubjectUrl = function issuePRSubjectUrl(_ref3) {
-  var name = _ref3.repo.name;
-  var _ref3$payload = _ref3.payload;
-  var number = _ref3$payload.number;
-  var issue = _ref3$payload.issue;
-  var pull_request = _ref3$payload.pull_request;
-  return issue ? '#github/' + name + '?issues/' + (number || issue.number) : '#github/' + name + '?pulls/' + (number || pull_request.number);
-};
-
-var getSummary = function getSummary(event) {
-  var payload = event.payload;
-
-  switch (event.type) {
-    case 'IssuesEvent':
-    case 'PullRequestEvent':
-      return {
-        actorsAction: payload.action + ' this issue.',
-        subjectIcon: issuePRIcon(payload),
-        subject: issuePRSubject(payload),
-        subjectUrl: issuePRSubjectUrl(event)
-      };
-
-    case 'ReleaseEvent':
-      return {
-        actorsAction: 'published this release.',
-        subjectIcon: 'versions',
-        subject: payload.release.name || payload.release.tag_name
-      };
-
-    case 'CreateEvent':
-    case 'DeleteEvent':
-      return {
-        actorsAction: (event.type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.ref_type + '.',
-        subjectIcon: 'git-branch',
-        subject: payload.ref_type === 'branch' ? payload.ref : event.repo.name
-      };
-
-    case 'IssueCommentEvent':
-    case 'PullRequestReviewCommentEvent':
-      return {
-        actorsAction: 'commented…',
-        subjectIcon: issuePRIcon(payload),
-        subject: issuePRSubject(payload),
-        subjectUrl: issuePRSubjectUrl(event)
-      };
-
-    case 'CommitCommentEvent':
-      return {
-        actorsAction: 'commented…',
-        subjectIcon: 'git-commit',
-        subject: payload.comment.commit_id,
-        subjectUrl: '#github/' + event.repo.name + '?commits/' + payload.comment.commit_id
-      };
-
-    case 'PushEvent':
-      return {
-        actorsAction: 'pushed ' + payload.commits.length + ' commits...',
-        subjectIcon: 'git-branch',
-        subject: payload.ref.replace(/.*\//, '')
-      };
-
-    case 'TeamAddEvent':
-      return {
-        actorsAction: 'added the ' + payload.team.name + ' team.',
-        subjectIcon: 'git-branch'
-      };
-
-    case 'ForkEvent':
-      return { actorsAction: 'forked this repository.' };
-
-    default:
-      return {};
-  }
-};
-
-var EventSummary = (function (_ref4) {
-  var event = _ref4.event;
-
-  var _getSummary = getSummary(event);
-
-  var actorsAction = _getSummary.actorsAction;
-  var subject = _getSummary.subject;
-  var subjectIcon = _getSummary.subjectIcon;
-  var subjectUrl = _getSummary.subjectUrl;
-
-  return {
-    $s: _xvdomSpec2$7,
-    a: subject && {
-      $s: _xvdomSpec$10,
-      a: subjectUrl,
-      c: subjectIcon,
-      e: subject
-    },
-    c: actorsAction,
-    d: event.created_at,
-    e: event.actor
-  };
-});
-
 var loadScript = (function (src, globalProp) {
   return new Promise(function (resolve) {
     var s = document.createElement('script');
@@ -2187,10 +1859,10 @@ var marked = (function (content, cb) {
   return result;
 });
 
-var _xvdomEl$11 = xvdom.el;
-var _xvdomSpec$12 = {
+var _xvdomEl$9 = xvdom.el;
+var _xvdomSpec$10 = {
   c: function c(inst) {
-    var _n = _xvdomEl$11('div');
+    var _n = _xvdomEl$9('div');
 
     inst.b = _n;
     _n.className = inst.a;
@@ -2219,7 +1891,7 @@ var Markup = function Markup(_ref) {
   var className = _ref.props.className;
   var state = _ref.state;
   return {
-    $s: _xvdomSpec$12,
+    $s: _xvdomSpec$10,
     a: 'Markup ' + className,
     c: state
   };
@@ -2239,16 +1911,136 @@ Markup.state = {
   }
 };
 
+var MIN_MS = 1000 * 60;
+var HOUR_MS = MIN_MS * 60;
+var DAY_MS = HOUR_MS * 24;
+var WEEK_MS = DAY_MS * 7;
+
+var timeAgoNow = Date.now();
+// Update every 5 min
+setInterval(function () {
+  return timeAgoNow = Date.now();
+}, MIN_MS * 5);
+
+var timeAgo = (function (dateTime) {
+  var diffms = timeAgoNow - dateTime;
+  return diffms > WEEK_MS ? ~~(diffms / WEEK_MS) + ' weeks' : diffms > DAY_MS ? ~~(diffms / DAY_MS) + ' days' : diffms > HOUR_MS ? ~~(diffms / HOUR_MS) + ' hours' : diffms > MIN_MS ? ~~(diffms / MIN_MS) + ' minutes' : '1 minute';
+});
+
+var _xvdomCreateComponent$7 = xvdom.createComponent;
+var _xvdomCreateDynamic$7 = xvdom.createDynamic;
+var _xvdomEl$10 = xvdom.el;
+var _xvdomUpdateComponent$7 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$7 = xvdom.updateDynamic;
+var _xvdomSpec$11 = {
+  c: function c(inst) {
+    var _n = _xvdomEl$10('a'),
+        _n2,
+        _n3;
+
+    inst.b = _n;
+    _n.className = inst.a;
+    if (inst.c != null) _n.href = inst.c;
+    _n2 = (inst.e = _xvdomCreateComponent$7(Avatar, Avatar.state, {
+      avatarUrl: inst.d
+    }, inst)).$n;
+
+    _n.appendChild(_n2);
+
+    _n2 = _xvdomEl$10('div');
+    _n2.className = 'l-margin-l2 c-gray-dark';
+    _n3 = _xvdomEl$10('span');
+    _n3.className = 'c-black';
+    inst.g = _n3;
+    _n3.textContent = inst.f;
+
+    _n2.appendChild(_n3);
+
+    _n2.appendChild(inst.i = _xvdomCreateDynamic$7(false, _n2, inst.h));
+
+    _n3 = _xvdomEl$10('div');
+    _n3.className = 't-font-size-10';
+    inst.k = _n3;
+    _n3.textContent = inst.j;
+
+    _n2.appendChild(_n3);
+
+    _n.appendChild(_n2);
+
+    return _n;
+  },
+  u: function u(inst, pInst) {
+    var v;
+    v = inst.a;
+
+    if (v !== pInst.a) {
+      pInst.b.className = v;
+      pInst.a = v;
+    }
+
+    v = inst.c;
+
+    if (v !== pInst.c) {
+      if (pInst.b.href !== v) {
+        pInst.b.href = v;
+      }
+
+      pInst.c = v;
+    }
+
+    if (inst.d !== pInst.d) {
+      pInst.e = _xvdomUpdateComponent$7(Avatar, Avatar.state, {
+        avatarUrl: pInst.d = inst.d
+      }, pInst.e);
+    }
+
+    v = inst.f;
+
+    if (v !== pInst.f) {
+      pInst.g.textContent = v;
+      pInst.f = v;
+    }
+
+    if (inst.h !== pInst.h) {
+      pInst.i = _xvdomUpdateDynamic$7(false, pInst.h, pInst.h = inst.h, pInst.i);
+    }
+
+    v = inst.j;
+
+    if (v !== pInst.j) {
+      pInst.k.textContent = v;
+      pInst.j = v;
+    }
+  },
+  r: xvdom.DEADPOOL
+};
+var Actor = (function (_ref) {
+  var _ref$user = _ref.user;
+  var login = _ref$user.login;
+  var avatar_url = _ref$user.avatar_url;
+  var action = _ref.action;
+  var actionDate = _ref.actionDate;
+  var className = _ref.className;
+  return {
+    $s: _xvdomSpec$11,
+    a: 'layout horizontal center ' + className,
+    c: '#github/' + login,
+    d: avatar_url,
+    f: login,
+    h: ' ' + (action || ''),
+    j: timeAgo(Date.parse(actionDate)) + ' ago'
+  };
+});
+
 var _xvdomCreateComponent$6 = xvdom.createComponent;
 var _xvdomCreateDynamic$6 = xvdom.createDynamic;
 var _xvdomEl$8 = xvdom.el;
 var _xvdomUpdateComponent$6 = xvdom.updateComponent;
 var _xvdomUpdateDynamic$6 = xvdom.updateDynamic;
-var _xvdomSpec3$5 = {
+var _xvdomSpec4$3 = {
   c: function c(inst) {
     var _n = _xvdomEl$8('div'),
-        _n2,
-        _n3;
+        _n2;
 
     _n.className = 'Card EventCard';
     _n2 = (inst.b = _xvdomCreateComponent$6(SourceName, SourceName.state, {
@@ -2258,17 +2050,18 @@ var _xvdomSpec3$5 = {
 
     _n.appendChild(_n2);
 
-    _n2 = _xvdomEl$8('div');
-    _n2.className = 'Card-content';
-    _n3 = (inst.d = _xvdomCreateComponent$6(EventSummary, EventSummary.state, {
-      event: inst.c
+    _n.appendChild(inst.d = _xvdomCreateDynamic$6(false, _n, inst.c));
+
+    _n2 = (inst.h = _xvdomCreateComponent$6(Actor, Actor.state, {
+      action: inst.e,
+      actionDate: inst.f,
+      className: 'Card-content',
+      user: inst.g
     }, inst)).$n;
 
-    _n2.appendChild(_n3);
-
-    _n2.appendChild(inst.f = _xvdomCreateDynamic$6(false, _n2, inst.e));
-
     _n.appendChild(_n2);
+
+    _n.appendChild(inst.j = _xvdomCreateDynamic$6(false, _n, inst.i));
 
     return _n;
   },
@@ -2283,13 +2076,70 @@ var _xvdomSpec3$5 = {
     }
 
     if (inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$6(EventSummary, EventSummary.state, {
-        event: pInst.c = inst.c
+      pInst.d = _xvdomUpdateDynamic$6(false, pInst.c, pInst.c = inst.c, pInst.d);
+    }
+
+    if (inst.f !== pInst.f || inst.e !== pInst.e || inst.g !== pInst.g) {
+      pInst.h = _xvdomUpdateComponent$6(Actor, Actor.state, {
+        action: pInst.e = inst.e,
+        actionDate: pInst.f = inst.f,
+        className: 'Card-content',
+        user: pInst.g = inst.g
+      }, pInst.h);
+    }
+
+    if (inst.i !== pInst.i) {
+      pInst.j = _xvdomUpdateDynamic$6(false, pInst.i, pInst.i = inst.i, pInst.j);
+    }
+  },
+  r: xvdom.DEADPOOL
+};
+var _xvdomSpec3$5 = {
+  c: function c(inst) {
+    var _n = _xvdomEl$8('a'),
+        _n2;
+
+    _n.className = 'Card-content layout horizontal center';
+    inst.b = _n;
+    if (inst.a != null) _n.href = inst.a;
+    _n2 = (inst.d = _xvdomCreateComponent$6(Icon, Icon.state, {
+      name: inst.c
+    }, inst)).$n;
+
+    _n.appendChild(_n2);
+
+    _n2 = _xvdomEl$8('div');
+    _n2.className = 'flex l-padding-l2 t-truncate t-normal';
+    inst.f = _n2;
+    _n2.textContent = inst.e;
+
+    _n.appendChild(_n2);
+
+    return _n;
+  },
+  u: function u(inst, pInst) {
+    var v;
+    v = inst.a;
+
+    if (v !== pInst.a) {
+      if (pInst.b.href !== v) {
+        pInst.b.href = v;
+      }
+
+      pInst.a = v;
+    }
+
+    if (inst.c !== pInst.c) {
+      pInst.d = _xvdomUpdateComponent$6(Icon, Icon.state, {
+        name: pInst.c = inst.c
       }, pInst.d);
     }
 
-    if (inst.e !== pInst.e) {
-      pInst.f = _xvdomUpdateDynamic$6(false, pInst.e, pInst.e = inst.e, pInst.f);
+    v = inst.e;
+
+    if (v !== pInst.e) {
+      pInst.f.textContent = v;
+      pInst.e = v;
     }
   },
   r: xvdom.DEADPOOL
@@ -2299,7 +2149,7 @@ var _xvdomSpec2$6 = {
     var _n = _xvdomEl$8('a'),
         _n2;
 
-    _n.className = 'layout horizontal center l-padding-l4 l-padding-t4';
+    _n.className = 'Card-content layout horizontal center';
     inst.b = _n;
     if (inst.a != null) _n.href = inst.a;
     _n2 = _xvdomCreateComponent$6(Icon, Icon.state, {
@@ -2334,7 +2184,7 @@ var _xvdomSpec2$6 = {
 var _xvdomSpec$9 = {
   c: function c(inst) {
     var _n = (inst.b = _xvdomCreateComponent$6(Markup, Markup.state, {
-      className: 'l-padding-l4 l-padding-t4',
+      className: 'Card-content',
       content: inst.a
     }, inst)).$n;
 
@@ -2345,13 +2195,99 @@ var _xvdomSpec$9 = {
 
     if (inst.a !== pInst.a) {
       pInst.b = _xvdomUpdateComponent$6(Markup, Markup.state, {
-        className: 'l-padding-l4 l-padding-t4',
+        className: 'Card-content',
         content: pInst.a = inst.a
       }, pInst.b);
     }
   },
   r: xvdom.DEADPOOL
 };
+var issuePRIcon = function issuePRIcon(_ref) {
+  var pull_request = _ref.pull_request;
+  return '' + (pull_request ? 'git-pull-request' : 'issue-opened');
+};
+
+var issuePRSubject = function issuePRSubject(_ref2) {
+  var pull_request = _ref2.pull_request;
+  var issue = _ref2.issue;
+  return (pull_request || issue).title;
+};
+
+var issuePRSubjectUrl = function issuePRSubjectUrl(_ref3) {
+  var name = _ref3.repo.name;
+  var _ref3$payload = _ref3.payload;
+  var number = _ref3$payload.number;
+  var issue = _ref3$payload.issue;
+  var pull_request = _ref3$payload.pull_request;
+  return issue ? '#github/' + name + '?issues/' + (number || issue.number) : '#github/' + name + '?pulls/' + (number || pull_request.number);
+};
+
+var getSummary = function getSummary(event) {
+  var payload = event.payload;
+
+  switch (event.type) {
+    case 'IssuesEvent':
+    case 'PullRequestEvent':
+      return {
+        actorsAction: payload.action + ' this issue.',
+        subjectIcon: issuePRIcon(payload),
+        subject: issuePRSubject(payload),
+        subjectUrl: issuePRSubjectUrl(event)
+      };
+
+    case 'ReleaseEvent':
+      return {
+        actorsAction: 'published this release.',
+        subjectIcon: 'versions',
+        subject: payload.release.name || payload.release.tag_name
+      };
+
+    case 'CreateEvent':
+    case 'DeleteEvent':
+      return {
+        actorsAction: (event.type === 'CreateEvent' ? 'created' : 'deleted') + ' this ' + payload.ref_type + '.',
+        subjectIcon: 'git-branch',
+        subject: payload.ref_type === 'branch' ? payload.ref : event.repo.name
+      };
+
+    case 'IssueCommentEvent':
+    case 'PullRequestReviewCommentEvent':
+      return {
+        actorsAction: 'commented…',
+        subjectIcon: issuePRIcon(payload),
+        subject: issuePRSubject(payload),
+        subjectUrl: issuePRSubjectUrl(event)
+      };
+
+    case 'CommitCommentEvent':
+      return {
+        actorsAction: 'commented…',
+        subjectIcon: 'git-commit',
+        subject: payload.comment.commit_id,
+        subjectUrl: '#github/' + event.repo.name + '?commits/' + payload.comment.commit_id
+      };
+
+    case 'PushEvent':
+      return {
+        actorsAction: 'pushed ' + payload.commits.length + ' commits\u2026',
+        subjectIcon: 'git-branch',
+        subject: payload.ref.replace(/.*\//, '')
+      };
+
+    case 'TeamAddEvent':
+      return {
+        actorsAction: 'added the ' + payload.team.name + ' team.',
+        subjectIcon: 'git-branch'
+      };
+
+    case 'ForkEvent':
+      return { actorsAction: 'forked this repository.' };
+
+    default:
+      return {};
+  }
+};
+
 var renderEventAction = function renderEventAction(event) {
   switch (event.type) {
     case 'IssueCommentEvent':
@@ -2363,9 +2299,9 @@ var renderEventAction = function renderEventAction(event) {
       };
 
     case 'PushEvent':
-      return event.payload.commits.map(function (_ref) {
-        var sha = _ref.sha;
-        var message = _ref.message;
+      return event.payload.commits.map(function (_ref4) {
+        var sha = _ref4.sha;
+        var message = _ref4.message;
         return {
           $s: _xvdomSpec2$6,
           a: '#github/' + event.repo.name + '?commits/' + sha,
@@ -2376,24 +2312,40 @@ var renderEventAction = function renderEventAction(event) {
   }
 };
 
-var EventCard = (function (_ref2) {
-  var event = _ref2.event;
+var EventCard = (function (_ref5) {
+  var event = _ref5.event;
+
+  var _getSummary = getSummary(event);
+
+  var actorsAction = _getSummary.actorsAction;
+  var subject = _getSummary.subject;
+  var subjectIcon = _getSummary.subjectIcon;
+  var subjectUrl = _getSummary.subjectUrl;
+
   return {
-    $s: _xvdomSpec3$5,
+    $s: _xvdomSpec4$3,
     a: event.repo.name,
-    c: event,
-    e: renderEventAction(event)
+    c: subject && {
+      $s: _xvdomSpec3$5,
+      a: subjectUrl,
+      c: subjectIcon,
+      e: subject
+    },
+    e: actorsAction,
+    f: event.created_at,
+    g: event.actor,
+    i: renderEventAction(event)
   };
 });
 
-var _xvdomCreateDynamic$9 = xvdom.createDynamic;
-var _xvdomEl$12 = xvdom.el;
-var _xvdomUpdateDynamic$9 = xvdom.updateDynamic;
-var _xvdomSpec$13 = {
+var _xvdomCreateDynamic$8 = xvdom.createDynamic;
+var _xvdomEl$11 = xvdom.el;
+var _xvdomUpdateDynamic$8 = xvdom.updateDynamic;
+var _xvdomSpec$12 = {
   c: function c(inst) {
-    var _n = _xvdomEl$12('div');
+    var _n = _xvdomEl$11('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$9(true, _n, inst.a));
+    _n.appendChild(inst.b = _xvdomCreateDynamic$8(true, _n, inst.a));
 
     return _n;
   },
@@ -2401,7 +2353,7 @@ var _xvdomSpec$13 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$9(true, pInst.a, pInst.a = inst.a, pInst.b);
+      pInst.b = _xvdomUpdateDynamic$8(true, pInst.a, pInst.a = inst.a, pInst.b);
     }
   },
   r: xvdom.DEADPOOL
@@ -2410,7 +2362,7 @@ var ChunkedArrayRender = function ChunkedArrayRender(_ref) {
   var render$$1 = _ref.props.render;
   var state = _ref.state;
   return {
-    $s: _xvdomSpec$13,
+    $s: _xvdomSpec$12,
     a: state.map(render$$1)
   };
 };
@@ -2540,11 +2492,11 @@ var EventsView = modelStateComponent(GithubEvent, 'query', function (_ref2) {
   };
 });
 
-var _xvdomCreateComponent$9 = xvdom.createComponent;
-var _xvdomUpdateComponent$9 = xvdom.updateComponent;
-var _xvdomSpec$14 = {
+var _xvdomCreateComponent$8 = xvdom.createComponent;
+var _xvdomUpdateComponent$8 = xvdom.updateComponent;
+var _xvdomSpec$13 = {
   c: function c(inst) {
-    var _n = (inst.e = _xvdomCreateComponent$9(List, List.state, {
+    var _n = (inst.e = _xvdomCreateComponent$8(List, List.state, {
       className: 'Card',
       context: inst.a,
       item: inst.b,
@@ -2558,7 +2510,7 @@ var _xvdomSpec$14 = {
     var v;
 
     if (inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$9(List, List.state, {
+      pInst.e = _xvdomUpdateComponent$8(List, List.state, {
         className: 'Card',
         context: pInst.a = inst.a,
         item: pInst.b = inst.b,
@@ -2591,7 +2543,7 @@ var UserReposView = modelStateComponent(GithubRepo, 'query', function (_ref2) {
   var id = _ref2.props.id;
   var state = _ref2.state;
   return {
-    $s: _xvdomSpec$14,
+    $s: _xvdomSpec$13,
     a: id,
     b: item$2,
     c: state,
@@ -2599,16 +2551,16 @@ var UserReposView = modelStateComponent(GithubRepo, 'query', function (_ref2) {
   };
 });
 
-var _xvdomCreateDynamic$10 = xvdom.createDynamic;
-var _xvdomEl$13 = xvdom.el;
-var _xvdomUpdateDynamic$10 = xvdom.updateDynamic;
-var _xvdomSpec2$9 = {
+var _xvdomCreateDynamic$9 = xvdom.createDynamic;
+var _xvdomEl$12 = xvdom.el;
+var _xvdomUpdateDynamic$9 = xvdom.updateDynamic;
+var _xvdomSpec2$8 = {
   c: function c(inst) {
-    var _n = _xvdomEl$13('div');
+    var _n = _xvdomEl$12('div');
 
     _n.className = 'Tabs layout horizontal end center-justified c-white l-height10 t-font-size-14 t-uppercase t-normal';
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$10(true, _n, inst.a));
+    _n.appendChild(inst.b = _xvdomCreateDynamic$9(true, _n, inst.a));
 
     return _n;
   },
@@ -2616,20 +2568,20 @@ var _xvdomSpec2$9 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$10(true, pInst.a, pInst.a = inst.a, pInst.b);
+      pInst.b = _xvdomUpdateDynamic$9(true, pInst.a, pInst.a = inst.a, pInst.b);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$16 = {
+var _xvdomSpec$15 = {
   c: function c(inst) {
-    var _n = _xvdomEl$13('a');
+    var _n = _xvdomEl$12('a');
 
     inst.b = _n;
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
 
-    _n.appendChild(inst.e = _xvdomCreateDynamic$10(true, _n, inst.d));
+    _n.appendChild(inst.e = _xvdomCreateDynamic$9(true, _n, inst.d));
 
     return _n;
   },
@@ -2653,7 +2605,7 @@ var _xvdomSpec$16 = {
     }
 
     if (inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateDynamic$10(true, pInst.d, pInst.d = inst.d, pInst.e);
+      pInst.e = _xvdomUpdateDynamic$9(true, pInst.d, pInst.d = inst.d, pInst.e);
     }
   },
   r: xvdom.DEADPOOL
@@ -2667,7 +2619,7 @@ function renderTab(tabId) {
   var title = _tabs$tabId.title;
 
   return {
-    $s: _xvdomSpec$16,
+    $s: _xvdomSpec$15,
     a: 'Tabs-tab u-cursor-pointer l-padding-h4 l-padding-b2 ' + (selected === tabId ? 'is-selected' : ''),
     c: '' + hrefPrefix + (href || tabId),
     d: title || tabId,
@@ -2677,41 +2629,41 @@ function renderTab(tabId) {
 
 var Tabs = (function (props) {
   return {
-    $s: _xvdomSpec2$9,
+    $s: _xvdomSpec2$8,
     a: Object.keys(props.tabs).map(renderTab, props)
   };
 });
 
-var _xvdomCreateComponent$11 = xvdom.createComponent;
-var _xvdomCreateDynamic$11 = xvdom.createDynamic;
-var _xvdomEl$14 = xvdom.el;
-var _xvdomUpdateComponent$11 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$11 = xvdom.updateDynamic;
-var _xvdomSpec$17 = {
+var _xvdomCreateComponent$10 = xvdom.createComponent;
+var _xvdomCreateDynamic$10 = xvdom.createDynamic;
+var _xvdomEl$13 = xvdom.el;
+var _xvdomUpdateComponent$10 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$10 = xvdom.updateDynamic;
+var _xvdomSpec$16 = {
   c: function c(inst) {
-    var _n = _xvdomEl$14('div'),
+    var _n = _xvdomEl$13('div'),
         _n2,
         _n3,
         _n4;
 
     inst.b = _n;
     _n.className = inst.a;
-    _n2 = _xvdomEl$14('div');
+    _n2 = _xvdomEl$13('div');
     inst.d = _n2;
     _n2.className = inst.c;
-    _n3 = _xvdomEl$14('div');
+    _n3 = _xvdomEl$13('div');
     _n3.className = 'layout horizontal center-center l-height14';
 
-    _n3.appendChild(inst.f = _xvdomCreateDynamic$11(false, _n3, inst.e));
+    _n3.appendChild(inst.f = _xvdomCreateDynamic$10(false, _n3, inst.e));
 
-    _n4 = _xvdomEl$14('div');
+    _n4 = _xvdomEl$13('div');
     _n4.className = 'l-padding-r0 t-truncate t-font-size-20 flex';
     inst.h = _n4;
     _n4.textContent = inst.g;
 
     _n3.appendChild(_n4);
 
-    _n4 = (inst.j = _xvdomCreateComponent$11(Icon, Icon.state, {
+    _n4 = (inst.j = _xvdomCreateComponent$10(Icon, Icon.state, {
       className: 't-bold c-white l-padding-h4',
       name: 'search',
       onClick: inst.i,
@@ -2720,11 +2672,11 @@ var _xvdomSpec$17 = {
 
     _n3.appendChild(_n4);
 
-    _n3.appendChild(inst.l = _xvdomCreateDynamic$11(false, _n3, inst.k));
+    _n3.appendChild(inst.l = _xvdomCreateDynamic$10(false, _n3, inst.k));
 
     _n2.appendChild(_n3);
 
-    _n2.appendChild(inst.n = _xvdomCreateDynamic$11(false, _n2, inst.m));
+    _n2.appendChild(inst.n = _xvdomCreateDynamic$10(false, _n2, inst.m));
 
     _n.appendChild(_n2);
 
@@ -2747,7 +2699,7 @@ var _xvdomSpec$17 = {
     }
 
     if (inst.e !== pInst.e) {
-      pInst.f = _xvdomUpdateDynamic$11(false, pInst.e, pInst.e = inst.e, pInst.f);
+      pInst.f = _xvdomUpdateDynamic$10(false, pInst.e, pInst.e = inst.e, pInst.f);
     }
 
     v = inst.g;
@@ -2758,7 +2710,7 @@ var _xvdomSpec$17 = {
     }
 
     if (inst.i !== pInst.i) {
-      pInst.j = _xvdomUpdateComponent$11(Icon, Icon.state, {
+      pInst.j = _xvdomUpdateComponent$10(Icon, Icon.state, {
         className: 't-bold c-white l-padding-h4',
         name: 'search',
         onClick: pInst.i = inst.i,
@@ -2767,11 +2719,11 @@ var _xvdomSpec$17 = {
     }
 
     if (inst.k !== pInst.k) {
-      pInst.l = _xvdomUpdateDynamic$11(false, pInst.k, pInst.k = inst.k, pInst.l);
+      pInst.l = _xvdomUpdateDynamic$10(false, pInst.k, pInst.k = inst.k, pInst.l);
     }
 
     if (inst.m !== pInst.m) {
-      pInst.n = _xvdomUpdateDynamic$11(false, pInst.m, pInst.m = inst.m, pInst.n);
+      pInst.n = _xvdomUpdateDynamic$10(false, pInst.m, pInst.m = inst.m, pInst.n);
     }
   },
   r: xvdom.DEADPOOL
@@ -2788,7 +2740,7 @@ var AppToolbar = function AppToolbar(_ref) {
   var right = _ref$props.right;
   var scrollClass = _ref.state.scrollClass;
   return {
-    $s: _xvdomSpec$17,
+    $s: _xvdomSpec$16,
     a: 'AppToolbar ' + (secondary ? 'AppToolbar--withSecondary' : ''),
     c: 'AppToolbar-bar fixed fixed--top c-white bg-purple ' + scrollClass,
     e: left,
@@ -2822,11 +2774,11 @@ AppToolbar.state = {
   }
 };
 
-var _xvdomCreateComponent$10 = xvdom.createComponent;
-var _xvdomUpdateComponent$10 = xvdom.updateComponent;
-var _xvdomSpec4$3 = {
+var _xvdomCreateComponent$9 = xvdom.createComponent;
+var _xvdomUpdateComponent$9 = xvdom.updateComponent;
+var _xvdomSpec4$4 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$10(Tabs, Tabs.state, {
+    var _n = (inst.d = _xvdomCreateComponent$9(Tabs, Tabs.state, {
       hrefPrefix: inst.a,
       selected: inst.b,
       tabs: inst.c
@@ -2838,7 +2790,7 @@ var _xvdomSpec4$3 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$10(Tabs, Tabs.state, {
+      pInst.d = _xvdomUpdateComponent$9(Tabs, Tabs.state, {
         hrefPrefix: pInst.a = inst.a,
         selected: pInst.b = inst.b,
         tabs: pInst.c = inst.c
@@ -2849,7 +2801,7 @@ var _xvdomSpec4$3 = {
 };
 var _xvdomSpec3$6 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$10(Icon, Icon.state, {
+    var _n = (inst.d = _xvdomCreateComponent$9(Icon, Icon.state, {
       className: inst.a,
       name: 'bookmark',
       onClick: inst.b,
@@ -2863,7 +2815,7 @@ var _xvdomSpec3$6 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$10(Icon, Icon.state, {
+      pInst.d = _xvdomUpdateComponent$9(Icon, Icon.state, {
         className: pInst.a = inst.a,
         name: 'bookmark',
         onClick: pInst.b = inst.b,
@@ -2874,9 +2826,9 @@ var _xvdomSpec3$6 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec2$8 = {
+var _xvdomSpec2$7 = {
   c: function c(inst) {
-    var _n = (inst.b = _xvdomCreateComponent$10(Icon, Icon.state, {
+    var _n = (inst.b = _xvdomCreateComponent$9(Icon, Icon.state, {
       className: 'c-white l-padding-h4',
       name: 'three-bars',
       onClick: inst.a,
@@ -2889,7 +2841,7 @@ var _xvdomSpec2$8 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateComponent$10(Icon, Icon.state, {
+      pInst.b = _xvdomUpdateComponent$9(Icon, Icon.state, {
         className: 'c-white l-padding-h4',
         name: 'three-bars',
         onClick: pInst.a = inst.a,
@@ -2899,9 +2851,9 @@ var _xvdomSpec2$8 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$15 = {
+var _xvdomSpec$14 = {
   c: function c(inst) {
-    var _n = (inst.e = _xvdomCreateComponent$10(AppToolbar, AppToolbar.state, {
+    var _n = (inst.e = _xvdomCreateComponent$9(AppToolbar, AppToolbar.state, {
       left: inst.a,
       right: inst.b,
       secondary: inst.c,
@@ -2914,7 +2866,7 @@ var _xvdomSpec$15 = {
     var v;
 
     if (inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$10(AppToolbar, AppToolbar.state, {
+      pInst.e = _xvdomUpdateComponent$9(AppToolbar, AppToolbar.state, {
         left: pInst.a = inst.a,
         right: pInst.b = inst.b,
         secondary: pInst.c = inst.c,
@@ -2935,9 +2887,9 @@ var RepoUserToolbar = (function (_ref) {
   var isBookmarked = _ref.isBookmarked;
   var onBookmark = _ref.onBookmark;
   return {
-    $s: _xvdomSpec$15,
+    $s: _xvdomSpec$14,
     a: {
-      $s: _xvdomSpec2$8,
+      $s: _xvdomSpec2$7,
       a: showDrawer
     },
     b: {
@@ -2947,7 +2899,7 @@ var RepoUserToolbar = (function (_ref) {
       c: id
     },
     c: {
-      $s: _xvdomSpec4$3,
+      $s: _xvdomSpec4$4,
       a: '#github/' + id + '?',
       b: tab,
       c: TABS
@@ -3212,10 +3164,10 @@ var GithubCommit = model({
   }
 });
 
-var _xvdomEl$18 = xvdom.el;
-var _xvdomSpec$21 = {
+var _xvdomEl$17 = xvdom.el;
+var _xvdomSpec$20 = {
   c: function c(inst) {
-    var _n = _xvdomEl$18('pre');
+    var _n = _xvdomEl$17('pre');
 
     _n.className = 'Code';
     inst.b = _n;
@@ -3245,7 +3197,7 @@ var Code = function Code(_ref) {
   var code = _ref.props.code;
   var state = _ref.state;
   return {
-    $s: _xvdomSpec$21,
+    $s: _xvdomSpec$20,
     a: state,
     c: code || ''
   };
@@ -3269,16 +3221,16 @@ Code.state = {
   }
 };
 
-var _xvdomCreateComponent$14 = xvdom.createComponent;
-var _xvdomCreateDynamic$14 = xvdom.createDynamic;
-var _xvdomEl$17 = xvdom.el;
-var _xvdomUpdateComponent$14 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$14 = xvdom.updateDynamic;
-var _xvdomSpec2$12 = {
+var _xvdomCreateComponent$13 = xvdom.createComponent;
+var _xvdomCreateDynamic$13 = xvdom.createDynamic;
+var _xvdomEl$16 = xvdom.el;
+var _xvdomUpdateComponent$13 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$13 = xvdom.updateDynamic;
+var _xvdomSpec2$11 = {
   c: function c(inst) {
-    var _n = _xvdomEl$17('div');
+    var _n = _xvdomEl$16('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$14(true, _n, inst.a));
+    _n.appendChild(inst.b = _xvdomCreateDynamic$13(true, _n, inst.a));
 
     return _n;
   },
@@ -3286,47 +3238,47 @@ var _xvdomSpec2$12 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$14(true, pInst.a, pInst.a = inst.a, pInst.b);
+      pInst.b = _xvdomUpdateDynamic$13(true, pInst.a, pInst.a = inst.a, pInst.b);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$20 = {
+var _xvdomSpec$19 = {
   c: function c(inst) {
-    var _n = _xvdomEl$17('div'),
+    var _n = _xvdomEl$16('div'),
         _n2,
         _n3;
 
     _n.className = 'Card';
-    _n2 = _xvdomEl$17('div');
+    _n2 = _xvdomEl$16('div');
     _n2.className = 'Card-title layout horizontal center t-no-wrap l-padding-r0';
-    _n3 = _xvdomEl$17('div');
+    _n3 = _xvdomEl$16('div');
     _n3.className = 'c-gray-dark t-truncate';
     inst.b = _n3;
     _n3.textContent = inst.a;
 
     _n2.appendChild(_n3);
 
-    _n3 = _xvdomEl$17('div');
+    _n3 = _xvdomEl$16('div');
     _n3.className = 't-normal l-padding-r1 t-truncate';
     inst.d = _n3;
     _n3.textContent = inst.c;
 
     _n2.appendChild(_n3);
 
-    _n3 = _xvdomEl$17('div');
+    _n3 = _xvdomEl$16('div');
     _n3.className = 'flex';
 
     _n2.appendChild(_n3);
 
-    _n3 = _xvdomEl$17('div');
+    _n3 = _xvdomEl$16('div');
     _n3.className = 'Pill bg-green c-green';
     inst.f = _n3;
     _n3.textContent = inst.e;
 
     _n2.appendChild(_n3);
 
-    _n3 = _xvdomEl$17('div');
+    _n3 = _xvdomEl$16('div');
     _n3.className = 'Pill bg-red c-red';
     inst.h = _n3;
     _n3.textContent = inst.g;
@@ -3335,7 +3287,7 @@ var _xvdomSpec$20 = {
 
     _n.appendChild(_n2);
 
-    _n2 = (inst.j = _xvdomCreateComponent$14(Code, Code.state, {
+    _n2 = (inst.j = _xvdomCreateComponent$13(Code, Code.state, {
       code: inst.i,
       syntax: 'diff'
     }, inst)).$n;
@@ -3375,7 +3327,7 @@ var _xvdomSpec$20 = {
     }
 
     if (inst.i !== pInst.i) {
-      pInst.j = _xvdomUpdateComponent$14(Code, Code.state, {
+      pInst.j = _xvdomUpdateComponent$13(Code, Code.state, {
         code: pInst.i = inst.i,
         syntax: 'diff'
       }, pInst.j);
@@ -3399,7 +3351,7 @@ var renderFile = function renderFile(_ref) {
   var fname = _PATH_REGEX$exec2[2];
 
   return {
-    $s: _xvdomSpec$20,
+    $s: _xvdomSpec$19,
     a: path,
     c: fname,
     e: '+' + additions,
@@ -3412,24 +3364,24 @@ var renderFile = function renderFile(_ref) {
 var DiffFiles = (function (_ref2) {
   var files = _ref2.files;
   return {
-    $s: _xvdomSpec2$12,
+    $s: _xvdomSpec2$11,
     a: files.map(renderFile)
   };
 });
 
-var _xvdomCreateComponent$13 = xvdom.createComponent;
-var _xvdomCreateDynamic$13 = xvdom.createDynamic;
-var _xvdomEl$16 = xvdom.el;
-var _xvdomUpdateComponent$13 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$13 = xvdom.updateDynamic;
+var _xvdomCreateComponent$12 = xvdom.createComponent;
+var _xvdomCreateDynamic$12 = xvdom.createDynamic;
+var _xvdomEl$15 = xvdom.el;
+var _xvdomUpdateComponent$12 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$12 = xvdom.updateDynamic;
 var _xvdomSpec3$8 = {
   c: function c(inst) {
-    var _n = _xvdomEl$16('a'),
+    var _n = _xvdomEl$15('a'),
         _n2;
 
     inst.b = _n;
     if (inst.a != null) _n.href = inst.a;
-    _n2 = _xvdomCreateComponent$13(Icon, Icon.state, {
+    _n2 = _xvdomCreateComponent$12(Icon, Icon.state, {
       className: 'c-white l-padding-h4',
       name: 'chevron-left',
       size: 'small'
@@ -3453,31 +3405,31 @@ var _xvdomSpec3$8 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec2$11 = {
+var _xvdomSpec2$10 = {
   c: function c(inst) {
-    var _n = _xvdomEl$16('div'),
+    var _n = _xvdomEl$15('div'),
         _n2,
         _n3,
         _n4,
         _n5;
 
-    _n2 = (inst.c = _xvdomCreateComponent$13(AppToolbar, AppToolbar.state, {
+    _n2 = (inst.c = _xvdomCreateComponent$12(AppToolbar, AppToolbar.state, {
       left: inst.a,
       title: inst.b
     }, inst)).$n;
 
     _n.appendChild(_n2);
 
-    _n2 = _xvdomEl$16('div');
+    _n2 = _xvdomEl$15('div');
     _n2.className = 'Card Card--fullBleed';
 
-    _n2.appendChild(inst.e = _xvdomCreateDynamic$13(false, _n2, inst.d));
+    _n2.appendChild(inst.e = _xvdomCreateDynamic$12(false, _n2, inst.d));
 
-    _n3 = _xvdomEl$16('div');
+    _n3 = _xvdomEl$15('div');
     _n3.className = 'Card-content';
-    _n4 = _xvdomEl$16('div');
+    _n4 = _xvdomEl$15('div');
     _n4.className = 'layout horizontal center l-margin-b4';
-    _n5 = (inst.h = _xvdomCreateComponent$13(Actor, Actor.state, {
+    _n5 = (inst.h = _xvdomCreateComponent$12(Actor, Actor.state, {
       actionDate: inst.f,
       className: 'flex',
       user: inst.g
@@ -3485,21 +3437,21 @@ var _xvdomSpec2$11 = {
 
     _n4.appendChild(_n5);
 
-    _n5 = _xvdomEl$16('div');
+    _n5 = _xvdomEl$15('div');
     _n5.className = 't-font-size-12 l-margin-h2';
     inst.j = _n5;
     _n5.textContent = inst.i;
 
     _n4.appendChild(_n5);
 
-    _n5 = _xvdomEl$16('div');
+    _n5 = _xvdomEl$15('div');
     _n5.className = 'Pill bg-green c-green';
     inst.l = _n5;
     _n5.textContent = inst.k;
 
     _n4.appendChild(_n5);
 
-    _n5 = _xvdomEl$16('div');
+    _n5 = _xvdomEl$15('div');
     _n5.className = 'Pill bg-red c-red';
     inst.n = _n5;
     _n5.textContent = inst.m;
@@ -3508,7 +3460,7 @@ var _xvdomSpec2$11 = {
 
     _n3.appendChild(_n4);
 
-    _n4 = _xvdomEl$16('pre');
+    _n4 = _xvdomEl$15('pre');
     _n4.className = 't-white-space-normal t-word-break-word';
     inst.p = _n4;
     _n4.textContent = inst.o;
@@ -3519,7 +3471,7 @@ var _xvdomSpec2$11 = {
 
     _n.appendChild(_n2);
 
-    _n2 = (inst.r = _xvdomCreateComponent$13(DiffFiles, DiffFiles.state, {
+    _n2 = (inst.r = _xvdomCreateComponent$12(DiffFiles, DiffFiles.state, {
       files: inst.q
     }, inst)).$n;
 
@@ -3531,18 +3483,18 @@ var _xvdomSpec2$11 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$13(AppToolbar, AppToolbar.state, {
+      pInst.c = _xvdomUpdateComponent$12(AppToolbar, AppToolbar.state, {
         left: pInst.a = inst.a,
         title: pInst.b = inst.b
       }, pInst.c);
     }
 
     if (inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateDynamic$13(false, pInst.d, pInst.d = inst.d, pInst.e);
+      pInst.e = _xvdomUpdateDynamic$12(false, pInst.d, pInst.d = inst.d, pInst.e);
     }
 
     if (inst.f !== pInst.f || inst.g !== pInst.g) {
-      pInst.h = _xvdomUpdateComponent$13(Actor, Actor.state, {
+      pInst.h = _xvdomUpdateComponent$12(Actor, Actor.state, {
         actionDate: pInst.f = inst.f,
         className: 'flex',
         user: pInst.g = inst.g
@@ -3578,20 +3530,20 @@ var _xvdomSpec2$11 = {
     }
 
     if (inst.q !== pInst.q) {
-      pInst.r = _xvdomUpdateComponent$13(DiffFiles, DiffFiles.state, {
+      pInst.r = _xvdomUpdateComponent$12(DiffFiles, DiffFiles.state, {
         files: pInst.q = inst.q
       }, pInst.r);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$19 = {
+var _xvdomSpec$18 = {
   c: function c(inst) {
-    var _n = _xvdomEl$16('div'),
+    var _n = _xvdomEl$15('div'),
         _n2;
 
     _n.className = 'Card-title';
-    _n2 = _xvdomEl$16('h1');
+    _n2 = _xvdomEl$15('h1');
     _n2.className = 't-word-break-word l-margin-t4 l-margin-b0';
     inst.b = _n2;
     _n2.textContent = inst.a;
@@ -3658,14 +3610,14 @@ var CommitView = modelStateComponent(GithubCommit, 'get', function (_ref) {
   var message = _getCommitTitleMessag.message;
 
   return {
-    $s: _xvdomSpec2$11,
+    $s: _xvdomSpec2$10,
     a: {
       $s: _xvdomSpec3$8,
       a: '#github/' + repo
     },
     b: commitId,
     d: title && {
-      $s: _xvdomSpec$19,
+      $s: _xvdomSpec$18,
       a: title
     },
     f: commit.committer.date,
@@ -3678,29 +3630,29 @@ var CommitView = modelStateComponent(GithubCommit, 'get', function (_ref) {
   };
 });
 
-var _xvdomCreateDynamic$15 = xvdom.createDynamic;
-var _xvdomEl$20 = xvdom.el;
-var _xvdomUpdateDynamic$15 = xvdom.updateDynamic;
-var _xvdomSpec2$13 = {
+var _xvdomCreateDynamic$14 = xvdom.createDynamic;
+var _xvdomEl$19 = xvdom.el;
+var _xvdomUpdateDynamic$14 = xvdom.updateDynamic;
+var _xvdomSpec2$12 = {
   c: function c(inst) {
-    var _n = _xvdomEl$20('div'),
+    var _n = _xvdomEl$19('div'),
         _n2,
         _n3;
 
     _n.className = 'Card Card--fullBleed';
-    _n2 = _xvdomEl$20('div');
+    _n2 = _xvdomEl$19('div');
     _n2.className = 'Card-content layout horizontal l-padding-v2';
-    _n3 = _xvdomEl$20('div');
+    _n3 = _xvdomEl$19('div');
     _n3.className = 'flex';
 
-    _n3.appendChild(inst.b = _xvdomCreateDynamic$15(true, _n3, inst.a));
+    _n3.appendChild(inst.b = _xvdomCreateDynamic$14(true, _n3, inst.a));
 
     _n2.appendChild(_n3);
 
-    _n3 = _xvdomEl$20('a');
+    _n3 = _xvdomEl$19('a');
     _n3.className = 'u-link';
 
-    _n3.appendChild(inst.d = _xvdomCreateDynamic$15(true, _n3, inst.c));
+    _n3.appendChild(inst.d = _xvdomCreateDynamic$14(true, _n3, inst.c));
 
     _n2.appendChild(_n3);
 
@@ -3712,24 +3664,24 @@ var _xvdomSpec2$13 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$15(true, pInst.a, pInst.a = inst.a, pInst.b);
+      pInst.b = _xvdomUpdateDynamic$14(true, pInst.a, pInst.a = inst.a, pInst.b);
     }
 
     if (inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateDynamic$15(true, pInst.c, pInst.c = inst.c, pInst.d);
+      pInst.d = _xvdomUpdateDynamic$14(true, pInst.c, pInst.c = inst.c, pInst.d);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$23 = {
+var _xvdomSpec$22 = {
   c: function c(inst) {
-    var _n = _xvdomEl$20('a');
+    var _n = _xvdomEl$19('a');
 
     inst.b = _n;
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
 
-    _n.appendChild(inst.e = _xvdomCreateDynamic$15(true, _n, inst.d));
+    _n.appendChild(inst.e = _xvdomCreateDynamic$14(true, _n, inst.d));
 
     return _n;
   },
@@ -3753,7 +3705,7 @@ var _xvdomSpec$23 = {
     }
 
     if (inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateDynamic$15(true, pInst.d, pInst.d = inst.d, pInst.e);
+      pInst.e = _xvdomUpdateDynamic$14(true, pInst.d, pInst.d = inst.d, pInst.e);
     }
   },
   r: xvdom.DEADPOOL
@@ -3773,10 +3725,10 @@ var PathNavigator = (function (_ref) {
   var repo = _ref.repo;
   var sha = _ref.sha;
   return {
-    $s: _xvdomSpec2$13,
+    $s: _xvdomSpec2$12,
     a: [repoName(repo)].concat(toConsumableArray(pathArray)).map(function (component, i) {
       return {
-        $s: _xvdomSpec$23,
+        $s: _xvdomSpec$22,
         a: 'PathNavigator-path ' + (i === pathArray.length ? '' : 'u-link'),
         c: pathURLPrefix + sha + pathURL(pathArray, i),
         d: component,
@@ -3787,12 +3739,12 @@ var PathNavigator = (function (_ref) {
   };
 });
 
-var _xvdomCreateComponent$16 = xvdom.createComponent;
-var _xvdomEl$21 = xvdom.el;
-var _xvdomUpdateComponent$16 = xvdom.updateComponent;
-var _xvdomSpec2$14 = {
+var _xvdomCreateComponent$15 = xvdom.createComponent;
+var _xvdomEl$20 = xvdom.el;
+var _xvdomUpdateComponent$15 = xvdom.updateComponent;
+var _xvdomSpec2$13 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$16(List, List.state, {
+    var _n = (inst.d = _xvdomCreateComponent$15(List, List.state, {
       className: 'Card',
       context: inst.a,
       item: inst.b,
@@ -3805,7 +3757,7 @@ var _xvdomSpec2$14 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$16(List, List.state, {
+      pInst.d = _xvdomUpdateComponent$15(List, List.state, {
         className: 'Card',
         context: pInst.a = inst.a,
         item: pInst.b = inst.b,
@@ -3815,13 +3767,13 @@ var _xvdomSpec2$14 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$24 = {
+var _xvdomSpec$23 = {
   c: function c(inst) {
-    var _n = _xvdomEl$21('div'),
+    var _n = _xvdomEl$20('div'),
         _n2;
 
     _n.className = 'Card l-padding-t4';
-    _n2 = (inst.c = _xvdomCreateComponent$16(Code, Code.state, {
+    _n2 = (inst.c = _xvdomCreateComponent$15(Code, Code.state, {
       code: inst.a,
       syntax: inst.b
     }, inst)).$n;
@@ -3834,7 +3786,7 @@ var _xvdomSpec$24 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$16(Code, Code.state, {
+      pInst.c = _xvdomUpdateComponent$15(Code, Code.state, {
         code: pInst.a = inst.a,
         syntax: pInst.b = inst.b
       }, pInst.c);
@@ -3868,11 +3820,11 @@ var PathContents = (function (_ref2) {
   var sha = _ref2.sha;
   var contents = _ref2.contents;
   return contents && contents.isFile ? {
-    $s: _xvdomSpec$24,
+    $s: _xvdomSpec$23,
     a: contents.value.content,
     b: getSyntaxForFile(contents.value.name)
   } : {
-    $s: _xvdomSpec2$14,
+    $s: _xvdomSpec2$13,
     a: '#github/' + repo + '?code/' + sha + '/',
     b: item$3,
     c: contents && contents.value.sort(sortFiles)
@@ -3914,15 +3866,15 @@ var GithubFileContents = model({
   }
 });
 
-var _xvdomCreateComponent$15 = xvdom.createComponent;
-var _xvdomEl$19 = xvdom.el;
-var _xvdomUpdateComponent$15 = xvdom.updateComponent;
-var _xvdomSpec$22 = {
+var _xvdomCreateComponent$14 = xvdom.createComponent;
+var _xvdomEl$18 = xvdom.el;
+var _xvdomUpdateComponent$14 = xvdom.updateComponent;
+var _xvdomSpec$21 = {
   c: function c(inst) {
-    var _n = _xvdomEl$19('div'),
+    var _n = _xvdomEl$18('div'),
         _n2;
 
-    _n2 = (inst.e = _xvdomCreateComponent$15(PathNavigator, PathNavigator.state, {
+    _n2 = (inst.e = _xvdomCreateComponent$14(PathNavigator, PathNavigator.state, {
       pathArray: inst.a,
       pathURLPrefix: inst.b,
       repo: inst.c,
@@ -3931,7 +3883,7 @@ var _xvdomSpec$22 = {
 
     _n.appendChild(_n2);
 
-    _n2 = (inst.i = _xvdomCreateComponent$15(PathContents, PathContents.state, {
+    _n2 = (inst.i = _xvdomCreateComponent$14(PathContents, PathContents.state, {
       contents: inst.f,
       repo: inst.g,
       sha: inst.h
@@ -3945,7 +3897,7 @@ var _xvdomSpec$22 = {
     var v;
 
     if (inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$15(PathNavigator, PathNavigator.state, {
+      pInst.e = _xvdomUpdateComponent$14(PathNavigator, PathNavigator.state, {
         pathArray: pInst.a = inst.a,
         pathURLPrefix: pInst.b = inst.b,
         repo: pInst.c = inst.c,
@@ -3954,7 +3906,7 @@ var _xvdomSpec$22 = {
     }
 
     if (inst.g !== pInst.g || inst.f !== pInst.f || inst.h !== pInst.h) {
-      pInst.i = _xvdomUpdateComponent$15(PathContents, PathContents.state, {
+      pInst.i = _xvdomUpdateComponent$14(PathContents, PathContents.state, {
         contents: pInst.f = inst.f,
         repo: pInst.g = inst.g,
         sha: pInst.h = inst.h
@@ -3972,7 +3924,7 @@ var CodeView = modelStateComponent(GithubFileContents, 'query', function (_ref) 
   var sha = _ref$props$sha === undefined ? 'master' : _ref$props$sha;
   var contents = _ref.state;
   return {
-    $s: _xvdomSpec$22,
+    $s: _xvdomSpec$21,
     a: pathArray,
     b: '#github/' + repo + '?code/',
     c: repo,
@@ -4009,11 +3961,11 @@ var GithubPull = model({
   }
 });
 
-var _xvdomCreateComponent$17 = xvdom.createComponent;
-var _xvdomUpdateComponent$17 = xvdom.updateComponent;
-var _xvdomSpec$25 = {
+var _xvdomCreateComponent$16 = xvdom.createComponent;
+var _xvdomUpdateComponent$16 = xvdom.updateComponent;
+var _xvdomSpec$24 = {
   c: function c(inst) {
-    var _n = (inst.e = _xvdomCreateComponent$17(List, List.state, {
+    var _n = (inst.e = _xvdomCreateComponent$16(List, List.state, {
       className: 'Card',
       context: inst.a,
       item: inst.b,
@@ -4027,7 +3979,7 @@ var _xvdomSpec$25 = {
     var v;
 
     if (inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$17(List, List.state, {
+      pInst.e = _xvdomUpdateComponent$16(List, List.state, {
         className: 'Card',
         context: pInst.a = inst.a,
         item: pInst.b = inst.b,
@@ -4066,7 +4018,7 @@ var IssuesPullsView = modelStateComponent(function (_ref2) {
   var repo = _ref3.props.repo;
   var state = _ref3.state;
   return {
-    $s: _xvdomSpec$25,
+    $s: _xvdomSpec$24,
     a: repo,
     b: item$4,
     c: state,
@@ -4087,16 +4039,16 @@ var GithubRepoReadme = model({
   }
 });
 
-var _xvdomCreateComponent$18 = xvdom.createComponent;
-var _xvdomEl$22 = xvdom.el;
-var _xvdomUpdateComponent$18 = xvdom.updateComponent;
-var _xvdomSpec$26 = {
+var _xvdomCreateComponent$17 = xvdom.createComponent;
+var _xvdomEl$21 = xvdom.el;
+var _xvdomUpdateComponent$17 = xvdom.updateComponent;
+var _xvdomSpec$25 = {
   c: function c(inst) {
-    var _n = _xvdomEl$22('div'),
+    var _n = _xvdomEl$21('div'),
         _n2;
 
     _n.className = 'Card l-margin-t2';
-    _n2 = (inst.b = _xvdomCreateComponent$18(Markup, Markup.state, {
+    _n2 = (inst.b = _xvdomCreateComponent$17(Markup, Markup.state, {
       className: 'Card-content',
       content: inst.a
     }, inst)).$n;
@@ -4109,7 +4061,7 @@ var _xvdomSpec$26 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateComponent$18(Markup, Markup.state, {
+      pInst.b = _xvdomUpdateComponent$17(Markup, Markup.state, {
         className: 'Card-content',
         content: pInst.a = inst.a
       }, pInst.b);
@@ -4120,7 +4072,7 @@ var _xvdomSpec$26 = {
 var ReadmeView = modelStateComponent(GithubRepoReadme, 'get', function (_ref) {
   var state = _ref.state;
   return {
-    $s: _xvdomSpec$26,
+    $s: _xvdomSpec$25,
     a: state
   };
 });
@@ -4136,23 +4088,23 @@ var GithubIssueComment = model({
   }
 });
 
-var _xvdomCreateComponent$20 = xvdom.createComponent;
-var _xvdomCreateDynamic$17 = xvdom.createDynamic;
-var _xvdomEl$24 = xvdom.el;
-var _xvdomUpdateComponent$20 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$17 = xvdom.updateDynamic;
-var _xvdomSpec2$16 = {
+var _xvdomCreateComponent$19 = xvdom.createComponent;
+var _xvdomCreateDynamic$16 = xvdom.createDynamic;
+var _xvdomEl$23 = xvdom.el;
+var _xvdomUpdateComponent$19 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$16 = xvdom.updateDynamic;
+var _xvdomSpec2$15 = {
   c: function c(inst) {
-    var _n = _xvdomEl$24('div'),
+    var _n = _xvdomEl$23('div'),
         _n2,
         _n3,
         _n4;
 
-    _n2 = _xvdomEl$24('div');
+    _n2 = _xvdomEl$23('div');
     _n2.className = 'Card Card--fullBleed';
-    _n3 = _xvdomEl$24('div');
+    _n3 = _xvdomEl$23('div');
     _n3.className = 'Card-title';
-    _n4 = _xvdomEl$24('h1');
+    _n4 = _xvdomEl$23('h1');
     _n4.className = 't-word-break-word l-margin-v0';
     inst.b = _n4;
     _n4.textContent = inst.a;
@@ -4161,7 +4113,7 @@ var _xvdomSpec2$16 = {
 
     _n2.appendChild(_n3);
 
-    _n3 = (inst.e = _xvdomCreateComponent$20(Actor, Actor.state, {
+    _n3 = (inst.e = _xvdomCreateComponent$19(Actor, Actor.state, {
       actionDate: inst.c,
       className: 'Card-content',
       user: inst.d
@@ -4169,7 +4121,7 @@ var _xvdomSpec2$16 = {
 
     _n2.appendChild(_n3);
 
-    _n3 = (inst.g = _xvdomCreateComponent$20(Markup, Markup.state, {
+    _n3 = (inst.g = _xvdomCreateComponent$19(Markup, Markup.state, {
       className: 'Card-content',
       content: inst.f
     }, inst)).$n;
@@ -4178,7 +4130,7 @@ var _xvdomSpec2$16 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.i = _xvdomCreateDynamic$17(false, _n, inst.h));
+    _n.appendChild(inst.i = _xvdomCreateDynamic$16(false, _n, inst.h));
 
     return _n;
   },
@@ -4192,7 +4144,7 @@ var _xvdomSpec2$16 = {
     }
 
     if (inst.c !== pInst.c || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$20(Actor, Actor.state, {
+      pInst.e = _xvdomUpdateComponent$19(Actor, Actor.state, {
         actionDate: pInst.c = inst.c,
         className: 'Card-content',
         user: pInst.d = inst.d
@@ -4200,27 +4152,27 @@ var _xvdomSpec2$16 = {
     }
 
     if (inst.f !== pInst.f) {
-      pInst.g = _xvdomUpdateComponent$20(Markup, Markup.state, {
+      pInst.g = _xvdomUpdateComponent$19(Markup, Markup.state, {
         className: 'Card-content',
         content: pInst.f = inst.f
       }, pInst.g);
     }
 
     if (inst.h !== pInst.h) {
-      pInst.i = _xvdomUpdateDynamic$17(false, pInst.h, pInst.h = inst.h, pInst.i);
+      pInst.i = _xvdomUpdateDynamic$16(false, pInst.h, pInst.h = inst.h, pInst.i);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$28 = {
+var _xvdomSpec$27 = {
   c: function c(inst) {
-    var _n = _xvdomEl$24('div'),
+    var _n = _xvdomEl$23('div'),
         _n2;
 
     _n.className = 'Card';
     inst.b = _n;
     _n.id = inst.a;
-    _n2 = (inst.e = _xvdomCreateComponent$20(Actor, Actor.state, {
+    _n2 = (inst.e = _xvdomCreateComponent$19(Actor, Actor.state, {
       actionDate: inst.c,
       className: 'Card-content',
       user: inst.d
@@ -4228,7 +4180,7 @@ var _xvdomSpec$28 = {
 
     _n.appendChild(_n2);
 
-    _n2 = (inst.g = _xvdomCreateComponent$20(Markup, Markup.state, {
+    _n2 = (inst.g = _xvdomCreateComponent$19(Markup, Markup.state, {
       className: 'Card-content',
       content: inst.f
     }, inst)).$n;
@@ -4247,7 +4199,7 @@ var _xvdomSpec$28 = {
     }
 
     if (inst.c !== pInst.c || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$20(Actor, Actor.state, {
+      pInst.e = _xvdomUpdateComponent$19(Actor, Actor.state, {
         actionDate: pInst.c = inst.c,
         className: 'Card-content',
         user: pInst.d = inst.d
@@ -4255,7 +4207,7 @@ var _xvdomSpec$28 = {
     }
 
     if (inst.f !== pInst.f) {
-      pInst.g = _xvdomUpdateComponent$20(Markup, Markup.state, {
+      pInst.g = _xvdomUpdateComponent$19(Markup, Markup.state, {
         className: 'Card-content',
         content: pInst.f = inst.f
       }, pInst.g);
@@ -4267,7 +4219,7 @@ var IssuePullInfo = modelStateComponent(GithubIssueComment, 'query', function (_
   var issue = _ref.props.issue;
   var issueComments = _ref.state;
   return {
-    $s: _xvdomSpec2$16,
+    $s: _xvdomSpec2$15,
     a: issue.title,
     c: issue.created_at,
     d: issue.user,
@@ -4278,7 +4230,7 @@ var IssuePullInfo = modelStateComponent(GithubIssueComment, 'query', function (_
       var body = _ref2.body;
       var created_at = _ref2.created_at;
       return {
-        $s: _xvdomSpec$28,
+        $s: _xvdomSpec$27,
         a: id,
         c: created_at,
         d: user,
@@ -4299,11 +4251,11 @@ var GithubPullCommit = model({
   }
 });
 
-var _xvdomCreateComponent$21 = xvdom.createComponent;
-var _xvdomUpdateComponent$21 = xvdom.updateComponent;
-var _xvdomSpec$29 = {
+var _xvdomCreateComponent$20 = xvdom.createComponent;
+var _xvdomUpdateComponent$20 = xvdom.updateComponent;
+var _xvdomSpec$28 = {
   c: function c(inst) {
-    var _n = (inst.e = _xvdomCreateComponent$21(List, List.state, {
+    var _n = (inst.e = _xvdomCreateComponent$20(List, List.state, {
       className: 'Card',
       context: inst.a,
       item: inst.b,
@@ -4317,7 +4269,7 @@ var _xvdomSpec$29 = {
     var v;
 
     if (inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.d !== pInst.d) {
-      pInst.e = _xvdomUpdateComponent$21(List, List.state, {
+      pInst.e = _xvdomUpdateComponent$20(List, List.state, {
         className: 'Card',
         context: pInst.a = inst.a,
         item: pInst.b = inst.b,
@@ -4356,7 +4308,7 @@ var PullCommitsView = modelStateComponent(GithubPullCommit, 'query', function (_
   var repo = _ref2.props.repo;
   var commits = _ref2.state;
   return {
-    $s: _xvdomSpec$29,
+    $s: _xvdomSpec$28,
     a: repo,
     b: item$5,
     c: commits,
@@ -4375,11 +4327,11 @@ var GithubPullFile = model({
   }
 });
 
-var _xvdomCreateComponent$22 = xvdom.createComponent;
-var _xvdomUpdateComponent$22 = xvdom.updateComponent;
-var _xvdomSpec$30 = {
+var _xvdomCreateComponent$21 = xvdom.createComponent;
+var _xvdomUpdateComponent$21 = xvdom.updateComponent;
+var _xvdomSpec$29 = {
   c: function c(inst) {
-    var _n = (inst.b = _xvdomCreateComponent$22(DiffFiles, DiffFiles.state, {
+    var _n = (inst.b = _xvdomCreateComponent$21(DiffFiles, DiffFiles.state, {
       files: inst.a
     }, inst)).$n;
 
@@ -4389,7 +4341,7 @@ var _xvdomSpec$30 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateComponent$22(DiffFiles, DiffFiles.state, {
+      pInst.b = _xvdomUpdateComponent$21(DiffFiles, DiffFiles.state, {
         files: pInst.a = inst.a
       }, pInst.b);
     }
@@ -4399,24 +4351,24 @@ var _xvdomSpec$30 = {
 var PullDiffView = modelStateComponent(GithubPullFile, 'query', function (_ref) {
   var state = _ref.state;
   return {
-    $s: _xvdomSpec$30,
+    $s: _xvdomSpec$29,
     a: state || []
   };
 });
 
-var _xvdomCreateComponent$19 = xvdom.createComponent;
-var _xvdomCreateDynamic$16 = xvdom.createDynamic;
-var _xvdomEl$23 = xvdom.el;
-var _xvdomUpdateComponent$19 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$16 = xvdom.updateDynamic;
+var _xvdomCreateComponent$18 = xvdom.createComponent;
+var _xvdomCreateDynamic$15 = xvdom.createDynamic;
+var _xvdomEl$22 = xvdom.el;
+var _xvdomUpdateComponent$18 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$15 = xvdom.updateDynamic;
 var _xvdomSpec6$1 = {
   c: function c(inst) {
-    var _n = _xvdomEl$23('a'),
+    var _n = _xvdomEl$22('a'),
         _n2;
 
     inst.b = _n;
     if (inst.a != null) _n.href = inst.a;
-    _n2 = _xvdomCreateComponent$19(Icon, Icon.state, {
+    _n2 = _xvdomCreateComponent$18(Icon, Icon.state, {
       className: 'c-white l-padding-h4',
       name: 'chevron-left',
       size: 'small'
@@ -4442,10 +4394,10 @@ var _xvdomSpec6$1 = {
 };
 var _xvdomSpec5$1 = {
   c: function c(inst) {
-    var _n = _xvdomEl$23('div'),
+    var _n = _xvdomEl$22('div'),
         _n2;
 
-    _n2 = (inst.d = _xvdomCreateComponent$19(AppToolbar, AppToolbar.state, {
+    _n2 = (inst.d = _xvdomCreateComponent$18(AppToolbar, AppToolbar.state, {
       left: inst.a,
       secondary: inst.b,
       title: inst.c
@@ -4453,7 +4405,7 @@ var _xvdomSpec5$1 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.f = _xvdomCreateDynamic$16(false, _n, inst.e));
+    _n.appendChild(inst.f = _xvdomCreateDynamic$15(false, _n, inst.e));
 
     return _n;
   },
@@ -4461,7 +4413,7 @@ var _xvdomSpec5$1 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$19(AppToolbar, AppToolbar.state, {
+      pInst.d = _xvdomUpdateComponent$18(AppToolbar, AppToolbar.state, {
         left: pInst.a = inst.a,
         secondary: pInst.b = inst.b,
         title: pInst.c = inst.c
@@ -4469,14 +4421,14 @@ var _xvdomSpec5$1 = {
     }
 
     if (inst.e !== pInst.e) {
-      pInst.f = _xvdomUpdateDynamic$16(false, pInst.e, pInst.e = inst.e, pInst.f);
+      pInst.f = _xvdomUpdateDynamic$15(false, pInst.e, pInst.e = inst.e, pInst.f);
     }
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec4$5 = {
+var _xvdomSpec4$6 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$19(Tabs, Tabs.state, {
+    var _n = (inst.d = _xvdomCreateComponent$18(Tabs, Tabs.state, {
       hrefPrefix: inst.a,
       selected: inst.b,
       tabs: inst.c
@@ -4488,7 +4440,7 @@ var _xvdomSpec4$5 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$19(Tabs, Tabs.state, {
+      pInst.d = _xvdomUpdateComponent$18(Tabs, Tabs.state, {
         hrefPrefix: pInst.a = inst.a,
         selected: pInst.b = inst.b,
         tabs: pInst.c = inst.c
@@ -4499,7 +4451,7 @@ var _xvdomSpec4$5 = {
 };
 var _xvdomSpec3$9 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$19(PullDiffView, PullDiffView.state, {
+    var _n = (inst.c = _xvdomCreateComponent$18(PullDiffView, PullDiffView.state, {
       id: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4510,7 +4462,7 @@ var _xvdomSpec3$9 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$19(PullDiffView, PullDiffView.state, {
+      pInst.c = _xvdomUpdateComponent$18(PullDiffView, PullDiffView.state, {
         id: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4518,9 +4470,9 @@ var _xvdomSpec3$9 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec2$15 = {
+var _xvdomSpec2$14 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$19(PullCommitsView, PullCommitsView.state, {
+    var _n = (inst.c = _xvdomCreateComponent$18(PullCommitsView, PullCommitsView.state, {
       id: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4531,7 +4483,7 @@ var _xvdomSpec2$15 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$19(PullCommitsView, PullCommitsView.state, {
+      pInst.c = _xvdomUpdateComponent$18(PullCommitsView, PullCommitsView.state, {
         id: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4539,9 +4491,9 @@ var _xvdomSpec2$15 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$27 = {
+var _xvdomSpec$26 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$19(IssuePullInfo, IssuePullInfo.state, {
+    var _n = (inst.c = _xvdomCreateComponent$18(IssuePullInfo, IssuePullInfo.state, {
       issue: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4552,7 +4504,7 @@ var _xvdomSpec$27 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$19(IssuePullInfo, IssuePullInfo.state, {
+      pInst.c = _xvdomUpdateComponent$18(IssuePullInfo, IssuePullInfo.state, {
         issue: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4565,7 +4517,7 @@ var TABS$2 = {
     title: 'Info',
     view: function view(repo, id, issue) {
       return {
-        $s: _xvdomSpec$27,
+        $s: _xvdomSpec$26,
         a: issue,
         b: repo
       };
@@ -4575,7 +4527,7 @@ var TABS$2 = {
     title: 'Commits',
     view: function view(repo, id) {
       return {
-        $s: _xvdomSpec2$15,
+        $s: _xvdomSpec2$14,
         a: id,
         b: repo
       };
@@ -4607,7 +4559,7 @@ var IssuePullView = modelStateComponent(GithubIssue, 'get', function (_ref) {
       a: '#github/' + repo
     },
     b: issue && issue.pull_request && {
-      $s: _xvdomSpec4$5,
+      $s: _xvdomSpec4$6,
       a: '#github/' + repo + '?pulls/' + id + '/',
       b: tab,
       c: TABS$2
@@ -4617,16 +4569,16 @@ var IssuePullView = modelStateComponent(GithubIssue, 'get', function (_ref) {
   };
 });
 
-var _xvdomCreateComponent$12 = xvdom.createComponent;
-var _xvdomCreateDynamic$12 = xvdom.createDynamic;
-var _xvdomEl$15 = xvdom.el;
-var _xvdomUpdateComponent$12 = xvdom.updateComponent;
-var _xvdomUpdateDynamic$12 = xvdom.updateDynamic;
+var _xvdomCreateComponent$11 = xvdom.createComponent;
+var _xvdomCreateDynamic$11 = xvdom.createDynamic;
+var _xvdomEl$14 = xvdom.el;
+var _xvdomUpdateComponent$11 = xvdom.updateComponent;
+var _xvdomUpdateDynamic$11 = xvdom.updateDynamic;
 var _xvdomSpec9 = {
   c: function c(inst) {
-    var _n = _xvdomEl$15('div');
+    var _n = _xvdomEl$14('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$12(true, _n, inst.a));
+    _n.appendChild(inst.b = _xvdomCreateDynamic$11(true, _n, inst.a));
 
     return _n;
   },
@@ -4634,18 +4586,18 @@ var _xvdomSpec9 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateDynamic$12(true, pInst.a, pInst.a = inst.a, pInst.b);
+      pInst.b = _xvdomUpdateDynamic$11(true, pInst.a, pInst.a = inst.a, pInst.b);
     }
   },
   r: xvdom.DEADPOOL
 };
 var _xvdomSpec8 = {
   c: function c(inst) {
-    var _n = _xvdomEl$15('div'),
+    var _n = _xvdomEl$14('div'),
         _n2;
 
     _n.className = 'l-padding-b2';
-    _n2 = (inst.f = _xvdomCreateComponent$12(RepoUserToolbar, RepoUserToolbar.state, {
+    _n2 = (inst.f = _xvdomCreateComponent$11(RepoUserToolbar, RepoUserToolbar.state, {
       TABS: inst.a,
       id: inst.b,
       isBookmarked: inst.c,
@@ -4655,7 +4607,7 @@ var _xvdomSpec8 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.h = _xvdomCreateDynamic$12(false, _n, inst.g));
+    _n.appendChild(inst.h = _xvdomCreateDynamic$11(false, _n, inst.g));
 
     return _n;
   },
@@ -4663,7 +4615,7 @@ var _xvdomSpec8 = {
     var v;
 
     if (inst.d !== pInst.d || inst.c !== pInst.c || inst.b !== pInst.b || inst.a !== pInst.a || inst.e !== pInst.e) {
-      pInst.f = _xvdomUpdateComponent$12(RepoUserToolbar, RepoUserToolbar.state, {
+      pInst.f = _xvdomUpdateComponent$11(RepoUserToolbar, RepoUserToolbar.state, {
         TABS: pInst.a = inst.a,
         id: pInst.b = inst.b,
         isBookmarked: pInst.c = inst.c,
@@ -4673,14 +4625,14 @@ var _xvdomSpec8 = {
     }
 
     if (inst.g !== pInst.g) {
-      pInst.h = _xvdomUpdateDynamic$12(false, pInst.g, pInst.g = inst.g, pInst.h);
+      pInst.h = _xvdomUpdateDynamic$11(false, pInst.g, pInst.g = inst.g, pInst.h);
     }
   },
   r: xvdom.DEADPOOL
 };
 var _xvdomSpec7 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$12(CommitView, CommitView.state, {
+    var _n = (inst.c = _xvdomCreateComponent$11(CommitView, CommitView.state, {
       commitId: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4691,7 +4643,7 @@ var _xvdomSpec7 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$12(CommitView, CommitView.state, {
+      pInst.c = _xvdomUpdateComponent$11(CommitView, CommitView.state, {
         commitId: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4701,7 +4653,7 @@ var _xvdomSpec7 = {
 };
 var _xvdomSpec6 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$12(IssuePullView, IssuePullView.state, {
+    var _n = (inst.d = _xvdomCreateComponent$11(IssuePullView, IssuePullView.state, {
       id: inst.a,
       repo: inst.b,
       tab: inst.c
@@ -4713,7 +4665,7 @@ var _xvdomSpec6 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$12(IssuePullView, IssuePullView.state, {
+      pInst.d = _xvdomUpdateComponent$11(IssuePullView, IssuePullView.state, {
         id: pInst.a = inst.a,
         repo: pInst.b = inst.b,
         tab: pInst.c = inst.c
@@ -4724,7 +4676,7 @@ var _xvdomSpec6 = {
 };
 var _xvdomSpec5 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$12(IssuesPullsView, IssuesPullsView.state, {
+    var _n = (inst.c = _xvdomCreateComponent$11(IssuesPullsView, IssuesPullsView.state, {
       modelClass: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4735,7 +4687,7 @@ var _xvdomSpec5 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$12(IssuesPullsView, IssuesPullsView.state, {
+      pInst.c = _xvdomUpdateComponent$11(IssuesPullsView, IssuesPullsView.state, {
         modelClass: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4743,9 +4695,9 @@ var _xvdomSpec5 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec4$4 = {
+var _xvdomSpec4$5 = {
   c: function c(inst) {
-    var _n = (inst.c = _xvdomCreateComponent$12(IssuesPullsView, IssuesPullsView.state, {
+    var _n = (inst.c = _xvdomCreateComponent$11(IssuesPullsView, IssuesPullsView.state, {
       modelClass: inst.a,
       repo: inst.b
     }, inst)).$n;
@@ -4756,7 +4708,7 @@ var _xvdomSpec4$4 = {
     var v;
 
     if (inst.a !== pInst.a || inst.b !== pInst.b) {
-      pInst.c = _xvdomUpdateComponent$12(IssuesPullsView, IssuesPullsView.state, {
+      pInst.c = _xvdomUpdateComponent$11(IssuesPullsView, IssuesPullsView.state, {
         modelClass: pInst.a = inst.a,
         repo: pInst.b = inst.b
       }, pInst.c);
@@ -4766,7 +4718,7 @@ var _xvdomSpec4$4 = {
 };
 var _xvdomSpec3$7 = {
   c: function c(inst) {
-    var _n = (inst.d = _xvdomCreateComponent$12(CodeView, CodeView.state, {
+    var _n = (inst.d = _xvdomCreateComponent$11(CodeView, CodeView.state, {
       pathArray: inst.a,
       repo: inst.b,
       sha: inst.c
@@ -4778,7 +4730,7 @@ var _xvdomSpec3$7 = {
     var v;
 
     if (inst.b !== pInst.b || inst.a !== pInst.a || inst.c !== pInst.c) {
-      pInst.d = _xvdomUpdateComponent$12(CodeView, CodeView.state, {
+      pInst.d = _xvdomUpdateComponent$11(CodeView, CodeView.state, {
         pathArray: pInst.a = inst.a,
         repo: pInst.b = inst.b,
         sha: pInst.c = inst.c
@@ -4787,9 +4739,9 @@ var _xvdomSpec3$7 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec2$10 = {
+var _xvdomSpec2$9 = {
   c: function c(inst) {
-    var _n = (inst.b = _xvdomCreateComponent$12(EventsView, EventsView.state, {
+    var _n = (inst.b = _xvdomCreateComponent$11(EventsView, EventsView.state, {
       id: inst.a,
       type: 'repos'
     }, inst)).$n;
@@ -4800,7 +4752,7 @@ var _xvdomSpec2$10 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateComponent$12(EventsView, EventsView.state, {
+      pInst.b = _xvdomUpdateComponent$11(EventsView, EventsView.state, {
         id: pInst.a = inst.a,
         type: 'repos'
       }, pInst.b);
@@ -4808,9 +4760,9 @@ var _xvdomSpec2$10 = {
   },
   r: xvdom.DEADPOOL
 };
-var _xvdomSpec$18 = {
+var _xvdomSpec$17 = {
   c: function c(inst) {
-    var _n = (inst.b = _xvdomCreateComponent$12(ReadmeView, ReadmeView.state, {
+    var _n = (inst.b = _xvdomCreateComponent$11(ReadmeView, ReadmeView.state, {
       id: inst.a
     }, inst)).$n;
 
@@ -4820,7 +4772,7 @@ var _xvdomSpec$18 = {
     var v;
 
     if (inst.a !== pInst.a) {
-      pInst.b = _xvdomUpdateComponent$12(ReadmeView, ReadmeView.state, {
+      pInst.b = _xvdomUpdateComponent$11(ReadmeView, ReadmeView.state, {
         id: pInst.a = inst.a
       }, pInst.b);
     }
@@ -4832,7 +4784,7 @@ var TABS$1 = {
     title: 'Readme',
     view: function view(id) {
       return {
-        $s: _xvdomSpec$18,
+        $s: _xvdomSpec$17,
         a: id
       };
     }
@@ -4841,7 +4793,7 @@ var TABS$1 = {
     title: 'News',
     view: function view(id) {
       return {
-        $s: _xvdomSpec2$10,
+        $s: _xvdomSpec2$9,
         a: id
       };
     }
@@ -4862,7 +4814,7 @@ var TABS$1 = {
     title: 'Pull Requests',
     view: function view(repo) {
       return {
-        $s: _xvdomSpec4$4,
+        $s: _xvdomSpec4$5,
         a: GithubPull,
         b: repo
       };
