@@ -1,8 +1,12 @@
 import './Icon.css';
 import xvdom from 'xvdom/src/index';
 
-export default ({className, name, onClick, size='med'})=>
+const handleClick = ({currentTarget:t}) => { t.onClickFn(t.onClickArg) }
+
+export default ({className, name, onClick, onClickArg, size='med'}) =>
   <i
     className={`Icon Icon--${size} octicon octicon-${name} ${className} t-center`}
-    onclick={onClick}
+    onClickArg={onClickArg}
+    onClickFn={onClick}
+    onclick={handleClick}
   />

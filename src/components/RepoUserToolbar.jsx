@@ -4,9 +4,9 @@ import Tabs       from './common/Tabs.jsx';
 import App        from './App.jsx';
 import AppToolbar from './AppToolbar.jsx';
 
-const showDrawer = ()=> { App.showDrawer() };
+const showDrawer = () => { App.showDrawer() };
 
-export default ({id, tab, TABS, isBookmarked, onBookmark})=>
+export default ({id, tab, TABS, isBookmarked, onBookmark}) =>
   <AppToolbar
     left={
       <Icon
@@ -20,7 +20,8 @@ export default ({id, tab, TABS, isBookmarked, onBookmark})=>
       <Icon
         className={`c-white l-padding-l2 l-padding-r4 ${isBookmarked ? '' : 'c-opacity-50'}`}
         name='bookmark'
-        onClick={()=> { onBookmark(id) }}
+        onClick={onBookmark}
+        onClickArg={id}
         size='small'
       />
     }

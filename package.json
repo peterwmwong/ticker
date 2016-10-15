@@ -37,7 +37,7 @@
   },
   "scripts": {
     "lint":
-      "eslint src/ serviceWorker.js",
+      "eslint src/ serviceWorker.js --ext .js --ext .jsx",
 
     "build:marked":
       "uglifyjs --compress --mangle -- node_modules/marked/lib/marked.js > vendor/marked/marked.min.js",

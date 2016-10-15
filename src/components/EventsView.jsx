@@ -9,11 +9,11 @@ const EVENT_TYPES_TO_HIDE = {
   'GollumEvent': true
 };
 
-const filterEvents = ({type})=> !EVENT_TYPES_TO_HIDE[type];
+const filterEvents = ({type}) => !EVENT_TYPES_TO_HIDE[type];
 
-const renderEvent = (event)=> <EventCard event={event} key={event.id} recycle />;
+const renderEvent = event => <EventCard event={event} key={event.id} recycle />;
 
-export default modelStateComponent(GithubEvent, 'query', ({props:{id}, state})=>
+export default modelStateComponent(GithubEvent, 'query', ({props:{id}, state}) =>
   <ChunkedArrayRender
     array={(state || []).filter(filterEvents)}
     arrayKey={id}

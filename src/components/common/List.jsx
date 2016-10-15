@@ -22,7 +22,7 @@ function renderItem(el){
   );
 }
 
-export default ({className, context, list, item, itemClass, transform})=> {
+export default ({className, context, list, item, itemClass, transform}) => {
   const listClass = `List-item layout horizontal center t-normal ${itemClass || ''}`;
   list = list || [];
   if(transform) list = transform(list);

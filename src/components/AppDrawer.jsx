@@ -7,9 +7,9 @@ import Avatar     from './common/Avatar.jsx';
 import SourceName from './SourceName.jsx';
 import compare    from '../helpers/compare';
 
-const userAvatarUrl = (username)=> `https://github.com/${username}.png?size=32`
-const sort = (a, b)=> compare(a.sortKey, b.sortKey);
-const renderData = ({id})=> {
+const userAvatarUrl = username => `https://github.com/${username}.png?size=32`
+const sort = (a, b) => compare(a.sortKey, b.sortKey);
+const renderData = ({id}) => {
   const [owner, name] = id.split('/');
   return {
     id,
@@ -17,16 +17,16 @@ const renderData = ({id})=> {
     sortKey: (name || owner).toLowerCase()
   };
 }
-const sortSources = (sources)=> sources.map(renderData).sort(sort)
+const sortSources = sources => sources.map(renderData).sort(sort)
 
-const item = ({id, avatarUrl})=> ({
+const item = ({id, avatarUrl}) => ({
   href: `#github/${id}`,
   avatarUrl: avatarUrl,
   key:  id,
   text: <SourceName displayName={id} />
 })
 
-const logout = ()=> {
+const logout = () => {
   window.localStorage.clear();
   window.location.reload();
 }
@@ -34,7 +34,7 @@ const logout = ()=> {
 // Lazily render drawer contents the first time the drawer is enabled.
 // Prevent un-rendering contents when disabled.
 let lazyRenderContents = false;
-export default ({user, enabled, onLogin})=> {
+export default ({user, enabled, onLogin}) => {
   lazyRenderContents  = enabled || lazyRenderContents;
   const enabledClass  = enabled            ? 'is-enabled'  : '';
   const renderedClass = lazyRenderContents ? 'is-rendered' : '';

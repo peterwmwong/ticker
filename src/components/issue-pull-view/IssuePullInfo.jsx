@@ -5,7 +5,7 @@ import Actor              from './../common/Actor.jsx';
 import Markup             from './../common/Markup.jsx';
 import modelStateComponent         from '../../helpers/modelStateComponent';
 
-export default modelStateComponent(GithubIssueComment, 'query', ({props: {issue}, state:issueComments})=>
+export default modelStateComponent(GithubIssueComment, 'query', ({props: {issue}, state:issueComments}) =>
   <div>
     <div className='Card Card--fullBleed'>
       <div className='Card-title'>
@@ -21,7 +21,7 @@ export default modelStateComponent(GithubIssueComment, 'query', ({props: {issue}
       />
       <Markup className='Card-content' content={issue.body} />
     </div>
-    {issueComments && issueComments.map(({id, user, body, created_at})=>
+    {issueComments && issueComments.map(({id, user, body, created_at}) =>
       <div className='Card' id={id} key={id}>
         <Actor actionDate={created_at} className='Card-content' user={user} />
         <Markup className='Card-content' content={body} />

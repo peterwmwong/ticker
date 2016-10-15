@@ -5,7 +5,7 @@ import Code           from './Code.jsx';
 
 const PATH_REGEX = /^(.*\/)?([^\/]+)$/;
 
-const renderFile = ({additions, deletions, filename, patch})=> {
+const renderFile = ({additions, deletions, filename, patch}) => {
   const [, path, fname] = PATH_REGEX.exec(filename);
   return (
     <div className='Card' key={filename}>
@@ -21,7 +21,7 @@ const renderFile = ({additions, deletions, filename, patch})=> {
   );
 };
 
-export default ({files})=>
+export default ({files}) =>
   <div>
     {files.map(renderFile)}
   </div>;
