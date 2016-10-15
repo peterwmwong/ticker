@@ -46,7 +46,7 @@
       "build/build-hljs-languages.sh",
 
     "build:dev":
-      "rollup -c rollup.config.dev.js -w",
+      "NODE_ENV=development rollup -c rollup.config.dev.js -w",
 
     "build:prod":
       "rollup -c rollup.config.js; uglifyjs --compress --mangle -- dist/App.js > dist/App-pre.min.js; optimize-js dist/App-pre.min.js > dist/App.min.js; rm dist/App-pre.min.js; cleancss -o dist/main.min.css dist/main.css; vulcanize --inline-scripts --inline-css dist/_index.html | sed 's/<body>//g' | sed 's/<\\/body>//g' > dist/index.html; ls -al dist/index.html"
