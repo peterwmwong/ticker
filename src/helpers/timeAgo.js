@@ -6,11 +6,11 @@ const WEEK_MS = DAY_MS * 7;
 let timeAgoNow = Date.now();
 // Update every 5 min
 setInterval(
-  ()=> timeAgoNow = Date.now(),
+  () => timeAgoNow = Date.now(),
   MIN_MS * 5
 );
 
-export default (dateTime)=> {
+export default dateTime => {
   const diffms = timeAgoNow - dateTime;
   return  diffms > WEEK_MS ? `${~~(diffms / WEEK_MS)} weeks`
         : diffms > DAY_MS  ? `${~~(diffms / DAY_MS)} days`

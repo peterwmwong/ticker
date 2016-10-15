@@ -1,5 +1,5 @@
-const loadJSON = (url)=>
-  new Promise((resolve, reject)=> {
+const loadJSON = url =>
+  new Promise((resolve, reject) => {
     const xhr = new window.XMLHttpRequest();
     const accessToken = localStorage.getItem('ticker:token:github');
     xhr.open('GET', url);
@@ -7,7 +7,7 @@ const loadJSON = (url)=>
     xhr.responseType = 'json';
     xhr.send();
     xhr.onerror = reject;
-    xhr.onload  = ()=> {
+    xhr.onload  = () => {
       const response = xhr.response;
       if(response){
         resolve(typeof response === 'string' ? JSON.parse(response) : response);
@@ -18,7 +18,7 @@ const loadJSON = (url)=>
     };
   });
 
-loadJSON.setAccessToken = (accessToken)=> {
+loadJSON.setAccessToken = accessToken => {
   localStorage.setItem('ticker:token:github', accessToken);
 };
 

@@ -18,7 +18,7 @@ export const EXT_TO_SYNTAX = {
   sh      : 'bash'
 };
 
-export default (fname)=> {
+export default fname => {
   const ext = (/\.([^.]*)$/.exec(fname) || [])[1];
   return ext
     ? (EXT_TO_SYNTAX[ext] || ext)
