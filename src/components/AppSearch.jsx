@@ -12,29 +12,37 @@ const item = ({avatar_url, full_name, id, login, owner}) => ({
   text: <SourceName displayName={login || full_name} />
 })
 
-const AppSearch = ({props:{enabled}, state:{searchResults, term}, bindSend}) =>
+const AppSearch = ({props:{enabled}, state:{render, searchResults, term}, bindSend}) =>
   <div className={`AppSearch l-padding-2 fixed fixed--top ${enabled ? 'is-enabled' : ''}`}>
-    <div className='AppSearch-searchInputContainer'>
-      <div className='AppSearch-inkdrop fit' />
-      <div className='AppSearch-searchBar layout horizontal'>
-        <input
-          className='AppSearch-searchInput flex l-padding-h4'
-          oninput={bindSend('onSearchInput')}
-          placeholder='Search repositories or users…'
-          type='text'
-          value={term}
+    {render &&
+      <div>
+        <div className='AppSearch-searchInputContainer'>
+          <div className='AppSearch-inkdrop fit' />
+          <div className='AppSearch-searchBar layout horizontal'>
+            <input
+              className='AppSearch-searchInput flex l-padding-h4'
+              oninput={bindSend('onSearchInput')}
+              placeholder='Search repositories or users…'
+              type='text'
+              value={term}
+            />
+          </div>
+        </div>
+        <List
+          className='AppSearch-searchResults'
+          item={item}
+          itemClass='List-item--noDivider'
+          list={searchResults}
         />
       </div>
-    </div>
-    <List
-      className='AppSearch-searchResults'
-      item={item}
-      itemClass='List-item--noDivider'
-      list={searchResults}
-    />
+    }
   </div>;
 
-const onInit = () => ({term: '', searchResults: []});
+const onInit = ({props, state}) => ({
+  render: (state && state.render || props.enabled),
+  term: '',
+  searchResults: []
+});
 
 AppSearch.state = {
   onInit,
