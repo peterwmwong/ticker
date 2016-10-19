@@ -33,7 +33,7 @@
     "style-loader": "^0.13.1",
     "uglify-js": "^2.7.3",
     "vulcanize": "^1.14.8",
-    "xvdom": "peterwmwong/xvdom#v1.0.1"
+    "xvdom": "peterwmwong/xvdom#v1.1.0"
   },
   "scripts": {
     "lint":

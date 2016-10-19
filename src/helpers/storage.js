@@ -61,9 +61,34 @@ export default {
     return value;
   },
 
-  getItemObj(key){ return JSON.parse(this.getItem(key) || null) },
+  getItemObj(key){
+    if(process.env.NODE_ENV === 'development') performance.mark(`getItemObj.start(${key})`);
+
+    const valueString = this.getItem(key);
+
+    if(process.env.NODE_ENV === 'development') performance.mark(`getItemObj.JSON.start(${key})`);
+
+    const value = valueString && JSON.parse(valueString);
+
+    if(process.env.NODE_ENV === 'development'){
+      performance.mark(`getItemObj.JSON.end(${key})`);
+      performance.measure(`getItemObj(${key}).JSON`, `getItemObj.JSON.start(${key})`, `getItemObj.JSON.end(${key})`);
+
+      performance.mark(`getItemObj.end(${key})`);
+      performance.measure(`getItemObj(${key})`, `getItemObj.start(${key})`, `getItemObj.end(${key})`);
+    }
+
+    return value;
+  },
   setItemObj(key, value){
+    if(process.env.NODE_ENV === 'development') performance.mark(`setItemObj.start(${key})`);
+
     this.setItem(key, JSON.stringify(value));
+
+    if(process.env.NODE_ENV === 'development'){
+      performance.mark(`setItemObj.end(${key})`);
+      performance.measure(`setItemObj(${key})`, `setItemObj.start(${key})`, `setItemObj.end(${key})`);
+    }
     return value;
   }
 };

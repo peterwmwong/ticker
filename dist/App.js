@@ -270,14 +270,21 @@ function createNoStateComponent(component, props) {
 }
 
 function createComponent(component, actions, props, parentInstance) {
-  return (actions ? createStatefulComponent : createNoStateComponent)(component, props || EMPTY_PROPS, parentInstance, actions);
+  var result = (actions ? createStatefulComponent : createNoStateComponent)(component, props || EMPTY_PROPS, parentInstance, actions);
+
+  return result;
 }
 
 function updateComponent(component, actions, props, componentInstance) {
-  if (!actions) return internalRerender(componentInstance, component(props));
+  var result = void 0;
+  if (actions) {
+    rerenderStatefulComponent(component, actions, props, componentInstance);
+    result = componentInstance;
+  } else {
+    result = internalRerender(componentInstance, component(props));
+  }
 
-  rerenderStatefulComponent(component, actions, props, componentInstance);
-  return componentInstance;
+  return result;
 }
 
 function internalRenderNoRecycle(instance) {
@@ -1354,10 +1361,15 @@ var storage = {
     return value;
   },
   getItemObj: function getItemObj(key) {
-    return JSON.parse(this.getItem(key) || null);
+    var valueString = this.getItem(key);
+
+    var value = valueString && JSON.parse(valueString);
+
+    return value;
   },
   setItemObj: function setItemObj(key, value) {
     this.setItem(key, JSON.stringify(value));
+
     return value;
   }
 };
