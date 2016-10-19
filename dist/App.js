@@ -5065,13 +5065,13 @@ var App = function App(_ref) {
   };
 };
 
-var stateFromHash = function stateFromHash(hash) {
-  var _hash$split = hash.split('?');
+var stateFromHash = function stateFromHash() {
+  var _location$hash$split = location.hash.split('?');
 
-  var _hash$split2 = slicedToArray(_hash$split, 2);
+  var _location$hash$split2 = slicedToArray(_location$hash$split, 2);
 
-  var appUrl = _hash$split2[0];
-  var viewUrl = _hash$split2[1];
+  var appUrl = _location$hash$split2[0];
+  var viewUrl = _location$hash$split2[1];
 
   var viewId = appUrl.slice(8);
   return {
@@ -5092,14 +5092,14 @@ App.state = {
     window.onhashchange = bindSend('onHashChange');
     return _extends({
       user: getCurrentUser(bindSend('onUserChange'))
-    }, stateFromHash(window.location.hash));
+    }, stateFromHash());
   },
 
   onHashChange: function onHashChange(_ref3) {
     var state = _ref3.state;
 
     document.body.scrollTop = 0;
-    return _extends({}, state, stateFromHash(window.location.hash));
+    return _extends({}, state, stateFromHash());
   },
 
   enableSearch: function enableSearch(_ref4) {

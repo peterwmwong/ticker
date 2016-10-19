@@ -40,8 +40,8 @@ const App = ({
     <AppDrawer enabled={hasDrawer} onLogin={bindSend('login')} user={user} />
   </body>;
 
-const stateFromHash = hash => {
-  const [appUrl, viewUrl] = hash.split('?');
+const stateFromHash = () => {
+  const [appUrl, viewUrl] = location.hash.split('?');
   const viewId = appUrl.slice(8);
   return {
     hasSearch: false,
@@ -59,7 +59,7 @@ App.state = {
     window.onhashchange = bindSend('onHashChange');
     return {
       user: getCurrentUser(bindSend('onUserChange')),
-      ...stateFromHash(window.location.hash)
+      ...stateFromHash()
     };
   },
 
@@ -67,7 +67,7 @@ App.state = {
     document.body.scrollTop = 0;
     return {
       ...state,
-      ...stateFromHash(window.location.hash)
+      ...stateFromHash()
     };
   },
 
