@@ -52,29 +52,24 @@ export default modelStateComponent(GithubCommit, 'get', ({props: {repo, commitId
       />
       <div className='Card Card--fullBleed'>
         {title &&
-          <div className='Card-title'>
-            <h1
-              className='t-word-break-word l-margin-t4 l-margin-b0'
-              textContent={title}
-            />
-          </div>
+          <h1
+            className='Card-title t-word-break-word l-margin-t0 l-margin-b0'
+            textContent={title} />
         }
-        <div className='Card-content'>
-          <div className='layout horizontal center l-margin-b4'>
-            <Actor
-              actionDate={commit.committer.date}
-              className='flex'
-              user={committer || {login:commit.committer.name}}
-            />
-            <div className='t-font-size-12 l-margin-h2' textContent={`${files.length} files changed`} />
-            <div className='Pill bg-green c-green' textContent={`+${stats.additions}`} />
-            <div className='Pill bg-red c-red' textContent={`–${stats.deletions}`} />
-          </div>
-          <pre
-            className='t-white-space-normal t-word-break-word'
-            textContent={message}
+        <div className='Card-content horizontal layout'>
+          <Actor
+            actionDate={commit.committer.date}
+            className='flex'
+            user={committer || {login:commit.committer.name}}
           />
+          <div className='t-font-size-12 l-margin-h2' textContent={`${files.length} files changed`} />
+          <div className='Pill bg-green c-green' textContent={`+${stats.additions}`} />
+          <div className='Pill bg-red c-red' textContent={`–${stats.deletions}`} />
         </div>
+        <pre
+          className='Card-content t-white-space-normal t-word-break-word'
+          textContent={message}
+        />
       </div>
       <DiffFiles files={files} />
     </div>

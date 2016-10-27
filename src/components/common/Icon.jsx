@@ -8,5 +8,5 @@ export default ({className, name, onClick, onClickArg, size='med'}) =>
     className={`Icon Icon--${size} octicon octicon-${name} ${className} t-center`}
     onClickArg={onClickArg}
     onClickFn={onClick}
-    onclick={handleClick}
+    onclick={onClick && handleClick}
   />
