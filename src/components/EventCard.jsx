@@ -96,7 +96,7 @@ const renderEventAction = event => {
   case 'PushEvent':
     return event.payload.commits.map(({sha, message}) =>
       <a
-        className='Card-content layout horizontal center'
+        className='Card-content'
         href={`#github/${event.repo.name}?commits/${sha}`}
         key={sha}
       >
@@ -114,8 +114,8 @@ export default ({event}) => {
       <SourceName className='Card-title' displayName={event.repo.name} />
       {subject &&
         <a className='Card-content layout horizontal center' href={subjectUrl}>
-          <Icon name={subjectIcon} />
-          <div className='flex l-padding-l2 t-truncate t-normal' textContent={subject} />
+          <Icon className='l-padding-r2' name={subjectIcon} />
+          {subject}
         </a>
       }
       <Actor

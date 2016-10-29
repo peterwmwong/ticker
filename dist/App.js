@@ -28,22 +28,20 @@ var isDynamicEmpty = function isDynamicEmpty(v) {
 
 // https://esbench.com/bench/57f1459d330ab09900a1a1dd
 function dynamicType(v) {
-  if (v instanceof Object) {
-    return v instanceof Array ? 'array' : 'object';
-  }
+  if (v instanceof Object) return v instanceof Array ? 'array' : 'object';
 
   return isDynamicEmpty(v) ? 'empty' : 'text';
 }
 
-// Creates an empty object with no built in properties (ie. `constructor`).
-function Hash() {}
-Hash.prototype = Object.create(null);
-
-var EMPTY_PROPS = new Hash();
+var EMPTY_PROPS = {};
 var DEADPOOL = {
   push: function push() {},
   pop: function pop() {}
 };
+
+// Creates an empty object with no built in properties (ie. `constructor`).
+function Hash() {}
+Hash.prototype = Object.create(null);
 
 // TODO: Benchmark whether this is slower than Function/Prototype
 function Pool() {
@@ -70,9 +68,6 @@ var recycle = function recycle(instance) {
 };
 var createTextNode = function createTextNode(value) {
   return document.createTextNode(value);
-};
-var createEmptyTextNode = function createEmptyTextNode() {
-  return createTextNode('');
 };
 
 var replaceNode = function replaceNode(oldNode, newNode) {
@@ -105,7 +100,7 @@ function internalRerenderInstance(prevInst, inst) {
 }
 
 function renderArrayToParentBefore(parentNode, array, i, markerNode) {
-  if (markerNode == null) renderArrayToParent(parentNode, array, i);else renderArrayToParentBeforeNode(parentNode, array, i, markerNode);
+  if (markerNode === null) renderArrayToParent(parentNode, array, i);else renderArrayToParentBeforeNode(parentNode, array, i, markerNode);
 }
 
 function renderArrayToParentBeforeNode(parentNode, array, i, beforeNode) {
@@ -122,54 +117,48 @@ function renderArrayToParent(parentNode, array, i) {
   }
 }
 
-function rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, markerNode) {
-  var oldStartIndex = 0;
-  var startIndex = 0;
-
-  do {
-    array[startIndex] = internalRerender(oldArray[oldStartIndex], array[startIndex]);
-    ++startIndex;
-    ++oldStartIndex;
-  } while (oldStartIndex < oldLength && startIndex < length);
-
-  if (startIndex < length) {
-    renderArrayToParentBefore(parentNode, array, startIndex, markerNode);
-  } else {
-    removeArrayNodes(oldArray, parentNode, oldStartIndex);
-  }
+function rerenderDynamic(isOnlyChild, value, contextNode) {
+  var frag = document.createDocumentFragment();
+  var node = createDynamic(isOnlyChild, frag, value);
+  replaceNode(contextNode, frag);
+  return node;
 }
 
-function rerenderArray(markerNode, array, oldArray) {
-  var parentNode = markerNode.parentNode;
-  var length = array.length;
-  var oldLength = oldArray.length;
+function rerenderArrayReconcileWithMinLayout(parentNode, array, oldArray, markerNode) {
+  var i = 0;
+  for (; i < array.length && i < oldArray.length; i++) {
+    array[i] = internalRerender(oldArray[i], array[i]);
+  }
 
-  if (!length) {
-    removeArrayNodes(oldArray, parentNode, 0);
-  } else if (!oldLength) {
-    renderArrayToParentBefore(parentNode, array, 0, markerNode);
+  if (i < array.length) {
+    renderArrayToParentBefore(parentNode, array, i, markerNode);
   } else {
-    rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, markerNode);
+    removeArrayNodes(oldArray, parentNode, i);
   }
 }
 
 function rerenderArrayOnlyChild(parentNode, array, oldArray) {
-  var length = array.length;
-  var oldLength = oldArray.length;
-
-  if (!length) {
-    removeArrayNodesOnlyChild(oldArray, parentNode);
-  } else if (!oldLength) {
+  if (!oldArray.length) {
     renderArrayToParent(parentNode, array, 0);
+  } else if (!array.length) {
+    removeArrayNodesOnlyChild(oldArray, parentNode);
   } else {
-    rerenderArrayReconcileWithMinLayout(parentNode, array, length, oldArray, oldLength, null);
+    rerenderArrayReconcileWithMinLayout(parentNode, array, oldArray, null);
   }
 }
 
-function rerenderDynamic(isOnlyChild, value, contextNode) {
-  var node = createDynamic(isOnlyChild, contextNode.parentNode, value);
-  replaceNode(contextNode, node);
-  return node;
+function rerenderArray(array, parentOrMarkerNode, isOnlyChild, oldArray) {
+  if (array instanceof Array) {
+    return isOnlyChild ? rerenderArrayOnlyChild(parentOrMarkerNode, array, oldArray) : rerenderArrayReconcileWithMinLayout(parentOrMarkerNode.parentNode, array, oldArray, parentOrMarkerNode), parentOrMarkerNode;
+  }
+
+  if (isOnlyChild) {
+    removeArrayNodesOnlyChild(oldArray, parentOrMarkerNode);
+    return createDynamic(true, parentOrMarkerNode, array);
+  }
+
+  removeArrayNodes(oldArray, parentOrMarkerNode.parentNode, 0);
+  return rerenderDynamic(false, array, parentOrMarkerNode);
 }
 
 function rerenderText(value, contextNode, isOnlyChild) {
@@ -187,97 +176,72 @@ function rerenderInstance(value, node, isOnlyChild, prevValue) {
     return rerenderDynamic(isOnlyChild, value, node);
   }
 
+  // TODO: What is $r? Is this trying to track the original rendered instnace?
   value.$r = prevRenderedInstance;
   return node;
 }
 
-function rerenderArrayMaybe(array, contextNode, isOnlyChild, oldArray) {
-  var markerNode = contextNode.xvdomContext;
-
-  if (array instanceof Array) {
-    if (isOnlyChild) {
-      rerenderArrayOnlyChild(markerNode, array, oldArray);
-    } else {
-      rerenderArray(markerNode, array, oldArray);
-    }
-    return contextNode;
-  }
-
-  if (isOnlyChild) {
-    removeArrayNodesOnlyChild(oldArray, markerNode);
-    return markerNode.appendChild(createDynamic(true, markerNode, array));
-  }
-
-  removeArrayNodes(oldArray, markerNode.parentNode, 0);
-  return rerenderDynamic(false, array, markerNode);
+function StatefulComponent(render, props, instance, actions) {
+  this._boundActions = new Hash();
+  this._parentInst = instance;
+  this.actions = actions;
+  this.props = props;
+  this.render = render;
+  this.bindSend = this.bindSend.bind(this);
+  this.state = actions.onInit(this);
+  this.$n = internalRenderNoRecycle(this._instance = render(this));
 }
 
-function rerenderStatefulComponent(component, actions, newProps, api) {
-  var props = api.props;
+StatefulComponent.prototype.updateProps = function (newProps) {
+  var props = this.props;
 
-  api.props = newProps;
+  this.props = newProps;
 
-  if (actions.onProps) componentSend(component, api, actions.onProps, props);else componentRerender(component, api);
-}
+  if (this.actions.onProps) this.send('onProps', props);else this.rerender();
 
-function createArray(value, parentNode, isOnlyChild) {
-  var node = document.createDocumentFragment();
-  renderArrayToParent(node, value, 0);
-  node.xvdomContext = isOnlyChild ? parentNode : node.appendChild(createTextNode(''));
-  return node;
-}
+  return this;
+};
 
-function componentRerender(component, api) {
-  var instance = internalRerender(api._instance, component(api));
-  api._instance = instance;
-  instance.$n.xvdom = api._parentInst;
-}
+StatefulComponent.prototype.bindSend = function (action) {
+  return this._boundActions[action] || (this._boundActions[action] = this.send.bind(this, action));
+};
 
-function componentSend(component, api, actionFn, context) {
+StatefulComponent.prototype.send = function (actionName, context) {
+  var newState = void 0;
+  var actionFn = this.actions[actionName];
   // TODO: process.ENV === 'development', console.error(`Action not found #{action}`);
-  if (!actionFn) return;
+  if (!actionFn || (newState = actionFn(this, context)) == this.state) return;
 
-  var newState = actionFn(api, context);
-  if (newState !== api.state) {
-    api.state = newState;
-    componentRerender(component, api);
-  }
-}
+  this.state = newState;
+  this.rerender();
+};
+
+StatefulComponent.prototype.rerender = function () {
+  var instance = internalRerender(this._instance, this.render(this));
+  this._instance = instance;
+  instance.$n.xvdom = this._parentInst;
+};
 
 function createStatefulComponent(component, props, instance, actions) {
-  var boundActions = new Hash();
-
-  var api = {
-    props: props,
-    bindSend: function bindSend(action) {
-      return boundActions[action] || (boundActions[action] = function (context) {
-        componentSend(component, api, actions[action], context);
-      });
-    },
-    _parentInst: instance
-  };
-
-  //TODO: process.ENV === 'development', console.error(`Stateful components require atleast an 'onInit' function to provide the initial state (see)`);
-  api.state = actions.onInit(api);
-  api.$n = internalRenderNoRecycle(api._instance = component(api));
-  return api;
+  return new StatefulComponent(component, props, instance, actions);
 }
 
-function createNoStateComponent(component, props) {
+function createStatelessComponent(component, props) {
   var instance = component(props);
   internalRenderNoRecycle(instance);
   return instance;
 }
 
 function createComponent(component, actions, props, parentInstance) {
-  return (actions ? createStatefulComponent : createNoStateComponent)(component, props || EMPTY_PROPS, parentInstance, actions);
+  var result = (actions ? createStatefulComponent : createStatelessComponent)(component, props || EMPTY_PROPS, parentInstance, actions);
+
+  return result;
 }
 
 function updateComponent(component, actions, props, componentInstance) {
-  if (!actions) return internalRerender(componentInstance, component(props));
+  var result = actions ? componentInstance.updateProps(props) : internalRerender(componentInstance, component(props));
 
-  rerenderStatefulComponent(component, actions, props, componentInstance);
-  return componentInstance;
+  return result;
 }
 
 function internalRenderNoRecycle(instance) {
@@ -300,20 +264,28 @@ function internalRender(instance) {
 }
 
 var CREATE_BY_TYPE = {
-  text: createTextNode,
-  object: internalRenderNoRecycle,
-  array: createArray,
-  empty: createEmptyTextNode
+  text: function text(node, value) {
+    return node.appendChild(createTextNode(value));
+  },
+  empty: function empty(node) {
+    return node.appendChild(createTextNode(''));
+  },
+  object: function object(node, value) {
+    return node.appendChild(internalRenderNoRecycle(value));
+  },
+  array: function array(node, value, isOnlyChild) {
+    return renderArrayToParent(node, value, 0), isOnlyChild ? node : node.appendChild(createTextNode(''));
+  }
 };
 
 function createDynamic(isOnlyChild, parentNode, value) {
-  return CREATE_BY_TYPE[dynamicType(value)](value, parentNode, isOnlyChild);
+  return CREATE_BY_TYPE[dynamicType(value)](parentNode, value, isOnlyChild);
 }
 
 var UPDATE_BY_TYPE = {
   text: rerenderText,
   object: rerenderInstance,
-  array: rerenderArrayMaybe,
+  array: rerenderArray,
   empty: rerenderText
 };
 
@@ -461,7 +433,7 @@ var Icon = (function (_ref2) {
     a: 'Icon Icon--' + size + ' octicon octicon-' + name + ' ' + className + ' t-center',
     c: onClickArg,
     d: onClick,
-    e: handleClick
+    e: onClick && handleClick
   };
 });
 
@@ -477,9 +449,7 @@ var _xvdomSpec4$2 = {
     inst.b = _n;
     _n.className = inst.a;
     _n.hidden = inst.c;
-
-    _n.appendChild(inst.e = _xvdomCreateDynamic$2(true, _n, inst.d));
-
+    inst.e = _xvdomCreateDynamic$2(true, _n, inst.d);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -513,14 +483,10 @@ var _xvdomSpec3$2 = {
     inst.b = _n;
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
-
-    _n.appendChild(inst.e = _xvdomCreateDynamic$2(false, _n, inst.d));
-
+    inst.e = _xvdomCreateDynamic$2(false, _n, inst.d);
     _n2 = _xvdomEl$2('div');
     _n2.className = 'l-margin-l3';
-
-    _n2.appendChild(inst.g = _xvdomCreateDynamic$2(false, _n2, inst.f));
-
+    inst.g = _xvdomCreateDynamic$2(false, _n2, inst.f);
     _n3 = _xvdomEl$2('div');
     _n3.className = 't-light t-font-size-14 c-gray-dark';
     inst.i = _n3;
@@ -934,14 +900,13 @@ var _xvdomSpec$5 = {
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
     _n2 = _xvdomEl$5('span');
-    _n2.className = 'c-gray-dark t-light';
+    _n2.className = 'c-gray-dark';
     inst.e = _n2;
     _n2.textContent = inst.d;
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.g = _xvdomCreateDynamic$3(false, _n, inst.f));
-
+    inst.g = _xvdomCreateDynamic$3(false, _n, inst.f);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -989,7 +954,7 @@ var SourceName = (function (_ref) {
 
   return {
     $s: _xvdomSpec$5,
-    a: 't-normal ' + (className || ''),
+    a: className || '',
     c: '#github/' + displayName,
     d: repo ? owner + '/' : '',
     f: repo || owner
@@ -1011,9 +976,7 @@ var _xvdomSpec4$1 = {
 
     inst.b = _n;
     _n.className = inst.a;
-
-    _n.appendChild(inst.d = _xvdomCreateDynamic$1(true, _n, inst.c));
-
+    inst.d = _xvdomCreateDynamic$1(true, _n, inst.c);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -1354,10 +1317,15 @@ var storage = {
     return value;
   },
   getItemObj: function getItemObj(key) {
-    return JSON.parse(this.getItem(key) || null);
+    var valueString = this.getItem(key);
+
+    var value = valueString && JSON.parse(valueString);
+
+    return value;
   },
   setItemObj: function setItemObj(key, value) {
     this.setItem(key, JSON.stringify(value));
+
     return value;
   }
 };
@@ -1433,9 +1401,7 @@ var _xvdomSpec3$3 = {
 
     inst.b = _n;
     _n.className = inst.a;
-
-    _n.appendChild(inst.d = _xvdomCreateDynamic$4(true, _n, inst.c));
-
+    inst.d = _xvdomCreateDynamic$4(true, _n, inst.c);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -1950,14 +1916,13 @@ var _xvdomSpec$11 = {
     _n2 = _xvdomEl$10('div');
     _n2.className = 'l-margin-l2 c-gray-dark';
     _n3 = _xvdomEl$10('span');
-    _n3.className = 'c-black';
+    _n3.className = 'c-black l-padding-r1';
     inst.g = _n3;
     _n3.textContent = inst.f;
 
     _n2.appendChild(_n3);
 
-    _n2.appendChild(inst.i = _xvdomCreateDynamic$7(false, _n2, inst.h));
-
+    inst.i = _xvdomCreateDynamic$7(false, _n2, inst.h);
     _n3 = _xvdomEl$10('div');
     _n3.className = 't-font-size-10';
     inst.k = _n3;
@@ -2023,11 +1988,11 @@ var Actor = (function (_ref) {
   var className = _ref.className;
   return {
     $s: _xvdomSpec$11,
-    a: 'layout horizontal center ' + className,
+    a: className + ' layout horizontal center',
     c: '#github/' + login,
     d: avatar_url,
     f: login,
-    h: ' ' + (action || ''),
+    h: action || '',
     j: timeAgo(Date.parse(actionDate)) + ' ago'
   };
 });
@@ -2050,8 +2015,7 @@ var _xvdomSpec4$3 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.d = _xvdomCreateDynamic$6(false, _n, inst.c));
-
+    inst.d = _xvdomCreateDynamic$6(false, _n, inst.c);
     _n2 = (inst.h = _xvdomCreateComponent$6(Actor, Actor.state, {
       action: inst.e,
       actionDate: inst.f,
@@ -2061,8 +2025,7 @@ var _xvdomSpec4$3 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.j = _xvdomCreateDynamic$6(false, _n, inst.i));
-
+    inst.j = _xvdomCreateDynamic$6(false, _n, inst.i);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2103,18 +2066,13 @@ var _xvdomSpec3$5 = {
     inst.b = _n;
     if (inst.a != null) _n.href = inst.a;
     _n2 = (inst.d = _xvdomCreateComponent$6(Icon, Icon.state, {
+      className: 'l-padding-r2',
       name: inst.c
     }, inst)).$n;
 
     _n.appendChild(_n2);
 
-    _n2 = _xvdomEl$8('div');
-    _n2.className = 'flex l-padding-l2 t-truncate t-normal';
-    inst.f = _n2;
-    _n2.textContent = inst.e;
-
-    _n.appendChild(_n2);
-
+    inst.f = _xvdomCreateDynamic$6(false, _n, inst.e);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2131,15 +2089,13 @@ var _xvdomSpec3$5 = {
 
     if (inst.c !== pInst.c) {
       pInst.d = _xvdomUpdateComponent$6(Icon, Icon.state, {
+        className: 'l-padding-r2',
         name: pInst.c = inst.c
       }, pInst.d);
     }
 
-    v = inst.e;
-
-    if (v !== pInst.e) {
-      pInst.f.textContent = v;
-      pInst.e = v;
+    if (inst.e !== pInst.e) {
+      pInst.f = _xvdomUpdateDynamic$6(false, pInst.e, pInst.e = inst.e, pInst.f);
     }
   },
   r: xvdom.DEADPOOL
@@ -2149,7 +2105,7 @@ var _xvdomSpec2$6 = {
     var _n = _xvdomEl$8('a'),
         _n2;
 
-    _n.className = 'Card-content layout horizontal center';
+    _n.className = 'Card-content';
     inst.b = _n;
     if (inst.a != null) _n.href = inst.a;
     _n2 = _xvdomCreateComponent$6(Icon, Icon.state, {
@@ -2159,8 +2115,7 @@ var _xvdomSpec2$6 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.e = _xvdomCreateDynamic$6(false, _n, inst.d));
-
+    inst.e = _xvdomCreateDynamic$6(false, _n, inst.d);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2345,8 +2300,7 @@ var _xvdomSpec$12 = {
   c: function c(inst) {
     var _n = _xvdomEl$11('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$8(true, _n, inst.a));
-
+    inst.b = _xvdomCreateDynamic$8(true, _n, inst.a);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2559,9 +2513,7 @@ var _xvdomSpec2$8 = {
     var _n = _xvdomEl$12('div');
 
     _n.className = 'Tabs layout horizontal end center-justified c-white l-height10 t-font-size-14 t-uppercase t-normal';
-
-    _n.appendChild(inst.b = _xvdomCreateDynamic$9(true, _n, inst.a));
-
+    inst.b = _xvdomCreateDynamic$9(true, _n, inst.a);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2580,9 +2532,7 @@ var _xvdomSpec$15 = {
     inst.b = _n;
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
-
-    _n.appendChild(inst.e = _xvdomCreateDynamic$9(true, _n, inst.d));
-
+    inst.e = _xvdomCreateDynamic$9(true, _n, inst.d);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -2653,9 +2603,7 @@ var _xvdomSpec$16 = {
     _n2.className = inst.c;
     _n3 = _xvdomEl$13('div');
     _n3.className = 'layout horizontal center-center l-height14';
-
-    _n3.appendChild(inst.f = _xvdomCreateDynamic$10(false, _n3, inst.e));
-
+    inst.f = _xvdomCreateDynamic$10(false, _n3, inst.e);
     _n4 = _xvdomEl$13('div');
     _n4.className = 'l-padding-r0 t-truncate t-font-size-20 flex';
     inst.h = _n4;
@@ -2672,11 +2620,11 @@ var _xvdomSpec$16 = {
 
     _n3.appendChild(_n4);
 
-    _n3.appendChild(inst.l = _xvdomCreateDynamic$10(false, _n3, inst.k));
+    inst.l = _xvdomCreateDynamic$10(false, _n3, inst.k);
 
     _n2.appendChild(_n3);
 
-    _n2.appendChild(inst.n = _xvdomCreateDynamic$10(false, _n2, inst.m));
+    inst.n = _xvdomCreateDynamic$10(false, _n2, inst.m);
 
     _n.appendChild(_n2);
 
@@ -3048,8 +2996,7 @@ var _xvdomSpec3$4 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.h = _xvdomCreateDynamic$5(false, _n, inst.g));
-
+    inst.h = _xvdomCreateDynamic$5(false, _n, inst.g);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -3230,8 +3177,7 @@ var _xvdomSpec2$11 = {
   c: function c(inst) {
     var _n = _xvdomEl$16('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$13(true, _n, inst.a));
-
+    inst.b = _xvdomCreateDynamic$13(true, _n, inst.a);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -3410,8 +3356,7 @@ var _xvdomSpec2$10 = {
     var _n = _xvdomEl$15('div'),
         _n2,
         _n3,
-        _n4,
-        _n5;
+        _n4;
 
     _n2 = (inst.c = _xvdomCreateComponent$12(AppToolbar, AppToolbar.state, {
       left: inst.a,
@@ -3422,50 +3367,44 @@ var _xvdomSpec2$10 = {
 
     _n2 = _xvdomEl$15('div');
     _n2.className = 'Card Card--fullBleed';
-
-    _n2.appendChild(inst.e = _xvdomCreateDynamic$12(false, _n2, inst.d));
-
+    inst.e = _xvdomCreateDynamic$12(false, _n2, inst.d);
     _n3 = _xvdomEl$15('div');
-    _n3.className = 'Card-content';
-    _n4 = _xvdomEl$15('div');
-    _n4.className = 'layout horizontal center l-margin-b4';
-    _n5 = (inst.h = _xvdomCreateComponent$12(Actor, Actor.state, {
+    _n3.className = 'Card-content horizontal layout';
+    _n4 = (inst.h = _xvdomCreateComponent$12(Actor, Actor.state, {
       actionDate: inst.f,
       className: 'flex',
       user: inst.g
     }, inst)).$n;
 
-    _n4.appendChild(_n5);
+    _n3.appendChild(_n4);
 
-    _n5 = _xvdomEl$15('div');
-    _n5.className = 't-font-size-12 l-margin-h2';
-    inst.j = _n5;
-    _n5.textContent = inst.i;
-
-    _n4.appendChild(_n5);
-
-    _n5 = _xvdomEl$15('div');
-    _n5.className = 'Pill bg-green c-green';
-    inst.l = _n5;
-    _n5.textContent = inst.k;
-
-    _n4.appendChild(_n5);
-
-    _n5 = _xvdomEl$15('div');
-    _n5.className = 'Pill bg-red c-red';
-    inst.n = _n5;
-    _n5.textContent = inst.m;
-
-    _n4.appendChild(_n5);
+    _n4 = _xvdomEl$15('div');
+    _n4.className = 't-font-size-12 l-margin-h2';
+    inst.j = _n4;
+    _n4.textContent = inst.i;
 
     _n3.appendChild(_n4);
 
-    _n4 = _xvdomEl$15('pre');
-    _n4.className = 't-white-space-normal t-word-break-word';
-    inst.p = _n4;
-    _n4.textContent = inst.o;
+    _n4 = _xvdomEl$15('div');
+    _n4.className = 'Pill bg-green c-green';
+    inst.l = _n4;
+    _n4.textContent = inst.k;
 
     _n3.appendChild(_n4);
+
+    _n4 = _xvdomEl$15('div');
+    _n4.className = 'Pill bg-red c-red';
+    inst.n = _n4;
+    _n4.textContent = inst.m;
+
+    _n3.appendChild(_n4);
+
+    _n2.appendChild(_n3);
+
+    _n3 = _xvdomEl$15('pre');
+    _n3.className = 'Card-content t-white-space-normal t-word-break-word';
+    inst.p = _n3;
+    _n3.textContent = inst.o;
 
     _n2.appendChild(_n3);
 
@@ -3539,17 +3478,11 @@ var _xvdomSpec2$10 = {
 };
 var _xvdomSpec$18 = {
   c: function c(inst) {
-    var _n = _xvdomEl$15('div'),
-        _n2;
+    var _n = _xvdomEl$15('h1');
 
-    _n.className = 'Card-title';
-    _n2 = _xvdomEl$15('h1');
-    _n2.className = 't-word-break-word l-margin-t4 l-margin-b0';
-    inst.b = _n2;
-    _n2.textContent = inst.a;
-
-    _n.appendChild(_n2);
-
+    _n.className = 'Card-title t-word-break-word l-margin-t0 l-margin-b0';
+    inst.b = _n;
+    _n.textContent = inst.a;
     return _n;
   },
   u: function u(inst, pInst) {
@@ -3644,15 +3577,13 @@ var _xvdomSpec2$12 = {
     _n2.className = 'Card-content layout horizontal l-padding-v2';
     _n3 = _xvdomEl$19('div');
     _n3.className = 'flex';
-
-    _n3.appendChild(inst.b = _xvdomCreateDynamic$14(true, _n3, inst.a));
+    inst.b = _xvdomCreateDynamic$14(true, _n3, inst.a);
 
     _n2.appendChild(_n3);
 
     _n3 = _xvdomEl$19('a');
     _n3.className = 'u-link';
-
-    _n3.appendChild(inst.d = _xvdomCreateDynamic$14(true, _n3, inst.c));
+    inst.d = _xvdomCreateDynamic$14(true, _n3, inst.c);
 
     _n2.appendChild(_n3);
 
@@ -3680,9 +3611,7 @@ var _xvdomSpec$22 = {
     inst.b = _n;
     _n.className = inst.a;
     if (inst.c != null) _n.href = inst.c;
-
-    _n.appendChild(inst.e = _xvdomCreateDynamic$14(true, _n, inst.d));
-
+    inst.e = _xvdomCreateDynamic$14(true, _n, inst.d);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -4130,8 +4059,7 @@ var _xvdomSpec2$15 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.i = _xvdomCreateDynamic$16(false, _n, inst.h));
-
+    inst.i = _xvdomCreateDynamic$16(false, _n, inst.h);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -4405,8 +4333,7 @@ var _xvdomSpec5$1 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.f = _xvdomCreateDynamic$15(false, _n, inst.e));
-
+    inst.f = _xvdomCreateDynamic$15(false, _n, inst.e);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -4578,8 +4505,7 @@ var _xvdomSpec9 = {
   c: function c(inst) {
     var _n = _xvdomEl$14('div');
 
-    _n.appendChild(inst.b = _xvdomCreateDynamic$11(true, _n, inst.a));
-
+    inst.b = _xvdomCreateDynamic$11(true, _n, inst.a);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -4607,8 +4533,7 @@ var _xvdomSpec8 = {
 
     _n.appendChild(_n2);
 
-    _n.appendChild(inst.h = _xvdomCreateDynamic$11(false, _n, inst.g));
-
+    inst.h = _xvdomCreateDynamic$11(false, _n, inst.g);
     return _n;
   },
   u: function u(inst, pInst) {
@@ -4904,9 +4829,7 @@ var _xvdomSpec3 = {
 
     inst.b = _n;
     _n.className = inst.a;
-
-    _n.appendChild(inst.d = _xvdomCreateDynamic(false, _n, inst.c));
-
+    inst.d = _xvdomCreateDynamic(false, _n, inst.c);
     _n2 = _xvdomEl('div');
     inst.f = _n2;
     _n2.className = inst.e;
@@ -5053,13 +4976,13 @@ var App = function App(_ref) {
   };
 };
 
-var stateFromHash = function stateFromHash(hash) {
-  var _hash$split = hash.split('?');
+var stateFromHash = function stateFromHash() {
+  var _location$hash$split = location.hash.split('?');
 
-  var _hash$split2 = slicedToArray(_hash$split, 2);
+  var _location$hash$split2 = slicedToArray(_location$hash$split, 2);
 
-  var appUrl = _hash$split2[0];
-  var viewUrl = _hash$split2[1];
+  var appUrl = _location$hash$split2[0];
+  var viewUrl = _location$hash$split2[1];
 
   var viewId = appUrl.slice(8);
   return {
@@ -5080,14 +5003,14 @@ App.state = {
     window.onhashchange = bindSend('onHashChange');
     return _extends({
       user: getCurrentUser(bindSend('onUserChange'))
-    }, stateFromHash(window.location.hash));
+    }, stateFromHash());
   },
 
   onHashChange: function onHashChange(_ref3) {
     var state = _ref3.state;
 
     document.body.scrollTop = 0;
-    return _extends({}, state, stateFromHash(window.location.hash));
+    return _extends({}, state, stateFromHash());
   },
 
   enableSearch: function enableSearch(_ref4) {

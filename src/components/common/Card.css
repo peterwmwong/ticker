@@ -22,6 +22,10 @@
   padding: 16px;
 }
 
+.Card-content {
+  display: block;
+}
+
 .Card-content + .Card-content,
 .Card-title + .Card-content {
   padding-top: 0;
