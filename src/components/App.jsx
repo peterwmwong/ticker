@@ -8,6 +8,7 @@ import '../css/reset.css';
 import '../css/text.css';
 import './App.css';
 
+import '../../vendor/marked/marked.min.js';
 import '../helpers/installServiceWorker';
 import '../helpers/globalLogger';
 

@@ -9,4 +9,12 @@ const loadSyntax = lang =>
       loadScript(`../vendor/highlightjs/languages/${lang}.min.js`)
   )
 
-export default lang => loadSyntax(lang).then(() => window.hljs)
+let loadHighlightJSPromise;
+const loadHighlightJS = () =>
+  loadHighlightJSPromise ||
+    (loadHighlightJSPromise = loadScript('../vendor/highlightjs/highlight.min.js'))
+
+export default lang =>
+  loadHighlightJS()
+    .then(() => loadSyntax(lang))
+    .then(() => window.hljs)
