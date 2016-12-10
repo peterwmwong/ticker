@@ -12,16 +12,17 @@
     "babel-plugin-transform-merge-sibling-variables": "^0.0.2",
     "babel-plugin-transform-node-env-inline": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
-    "babel-plugin-xvdom": "peterwmwong/babel-plugin-xvdom#master",
+    "babel-plugin-xvdom": "peterwmwong/babel-plugin-xvdom#4518094c2bb67cd0c6b69bc2cb83de1832a3dc44",
     "babel-preset-es2015-rollup": "^1.2.0",
     "clean-css": "^3.4.20",
     "css-loader": "^0.25",
-    "eslint-plugin-react": "^6.3.0",
     "eslint": "^3.7.0",
+    "eslint-plugin-react": "^6.3.0",
     "highlight.js": "^9.7.0",
     "marked": "^0.3.6",
     "octicons": "^4.4.0",
     "optimize-js": "^1.0.1",
+    "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "^5.0.4",
     "rollup-plugin-css-only": "0.0.4",
@@ -29,30 +30,18 @@
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-serve": "^0.1.0",
     "rollup-watch": "^2.5.0",
-    "rollup": "^0.36.3",
     "style-loader": "^0.13.1",
     "uglify-js": "^2.7.3",
     "vulcanize": "^1.14.8",
-    "xvdom": "peterwmwong/xvdom#v1.1.0"
+    "xvdom": "peterwmwong/xvdom#master"
   },
   "scripts": {
-    "lint":
-      "eslint src/ serviceWorker.js --ext .js --ext .jsx",
-
-    "build:marked":
-      "uglifyjs --compress --mangle -- node_modules/marked/lib/marked.js > vendor/marked/marked.min.js",
-
-    "build:highlightjs":
-      "build/build-hljs-languages.sh",
-
-    "build:dev":
-      "NODE_ENV=development rollup -c rollup.config.dev.js -w",
-
-    "build:prod2":
-      "rollup -c rollup.config.js; optimize-js dist/App.js > dist/App.min.js; cleancss -o dist/main.min.css dist/main.css",
-
-    "build:prod":
-      "rollup -c rollup.config.js; uglifyjs --compress --mangle -- dist/App.js > dist/App-pre.min.js; optimize-js dist/App-pre.min.js > dist/App.min.js; rm dist/App-pre.min.js; cleancss -o dist/main.min.css dist/main.css; vulcanize --inline-scripts --inline-css --exclude App.min.js dist/_index.html | sed 's/<body>//g' | sed 's/<\\/body>//g' > dist/index.html; ls -al dist/index.html"
+    "lint": "eslint src/ serviceWorker.js --ext .js --ext .jsx",
+    "build:marked": "uglifyjs --compress --mangle -- node_modules/marked/lib/marked.js > vendor/marked/marked.min.js",
+    "build:highlightjs": "build/build-hljs-languages.sh",
+    "build:dev": "NODE_ENV=development rollup -c rollup.config.dev.js -w",
+    "build:prod2": "rollup -c rollup.config.js; optimize-js dist/App.js > dist/App.min.js; cleancss -o dist/main.min.css dist/main.css",
+    "build:prod": "rollup -c rollup.config.js; uglifyjs --compress --mangle -- dist/App.js > dist/App-pre.min.js; optimize-js dist/App-pre.min.js > dist/App.min.js; rm dist/App-pre.min.js; cleancss -o dist/main.min.css dist/main.css; vulcanize --inline-scripts --inline-css --exclude App.min.js dist/_index.html | sed 's/<body>//g' | sed 's/<\\/body>//g' > dist/index.html; ls -al dist/index.html"
   },
   "author": "peter.wm.wong@gmail.com",
   "license": "ISC"

@@ -5,24 +5,17 @@ Stay up-to-date with the GitHub repositories and users.
 ## Developing
 
 ```
-> npm install
-> npm run server
-> open http://localhost:8080/#github/peterwmwong/ticker
+> yarn
+> yarn build:dev
+> open http://localhost:8080/dist/dev.html#github/peterwmwong/ticker
 ```
 
-## URL strategy
+## Production
 
-### Current strategy
-
-{"github" | "bitbucket"}/{org or user}/{repo}/{repo resource "issues" | "commits"}/{resource id}
-{"github" | "bitbucket"}/{org or user}/{repo}?tab={rep}
-
-### Problems
-
-- Mixed top level views
-- top level views don't match model hierarchy
-  - Repo/{repo resource}/{sub repo resource}
-
+```
+> yarn build:prod
+> open http://localhost:8080/dist/#github/peterwmwong/ticker
+```
 
 ### TODOS
 
@@ -34,3 +27,4 @@ Stay up-to-date with the GitHub repositories and users.
 - Feature: AppSearch should provide results and shortcuts...
   - favorited sources
   - previously searched terms
+
