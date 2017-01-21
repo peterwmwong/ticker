@@ -1,8 +1,8 @@
-const CACHE_VERSION = 18;
+const CACHE_VERSION = 19;
 const CACHE_NAME = `static-v${CACHE_VERSION}`;
 const CACHED_PATH_NAMES = [
-  '/ticker/dist/',
-  '/ticker/dist/App.min.js'
+  '/outfit-knockout/dist/',
+  '/outfit-knockout/dist/App.min.js'
 ]
 const CACHE = caches.open(CACHE_NAME);
 
