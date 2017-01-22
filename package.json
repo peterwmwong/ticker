@@ -40,6 +40,7 @@
     "build:marked": "uglifyjs --compress --mangle -- node_modules/marked/lib/marked.js > vendor/marked/marked.min.js",
     "build:highlightjs": "build/build-hljs-languages.sh",
     "build:dev": "NODE_ENV=development rollup -c rollup.config.dev.js -w",
+    "build:prod2": "rollup -c rollup.config.js; optimize-js dist/App.js > dist/App.min.js; cleancss -o dist/main.min.css dist/main.css",
     "build:prod": "rollup -c rollup.config.js; uglifyjs --compress --mangle -- dist/App.js > dist/App-pre.min.js; optimize-js dist/App-pre.min.js > dist/App.min.js; rm dist/App-pre.min.js; cleancss -o dist/main.min.css dist/main.css; vulcanize --inline-scripts --inline-css --exclude App.min.js dist/_index.html | sed 's/<body>//g' | sed 's/<\\/body>//g' > dist/index.html; ls -al dist/index.html"
   },
   "author": "peter.wm.wong@gmail.com",

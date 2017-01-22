@@ -8,200 +8,81 @@ import '../css/reset.css';
 import '../css/text.css';
 import './App.css';
 
+import '../../vendor/marked/marked.min.js';
 import '../helpers/installServiceWorker';
 import '../helpers/globalLogger';
 
-import xvdom from 'xvdom';
-import DataComponent  from '../helpers/DataComponent';
-import DB from '../models/DB';
-import User from '../models/User';
+import xvdom      from 'xvdom';
+import AppDrawer  from './AppDrawer.jsx';
+import AppSearch  from './AppSearch.jsx';
+import UserView   from './UserView.jsx';
+import RepoView   from './RepoView.jsx';
+import {
+  authWithOAuthPopup,
+  getCurrentUser
+} from '../helpers/getCurrentUser';
 
-const PAGE_SIZE = 10;
-const SELECTED_ROW_STYLE  = `background: #DDD;`;
-const SELECTED_CELL_STYLE = `border: 4px solid black;`;
-const CATEGORIES = [ 'Yup', 'Nope', 'Maybe' ];
-const ITEM_TYPES = [ 'bottom', 'shirt', 'sweater', 'businessAttire' ];
-const EMPTY_SELECTED_ITEM_IDS = ITEM_TYPES.reduce((obj, type) => ((obj[type] = 0), obj), {});
+const APP_CLASS = `App ${window.navigator.standalone ? 'is-apple-standalone' : ''}`;
 
-const isEmptySelection = selectedItems =>
-  ITEM_TYPES.reduce((sum, type) => sum + (selectedItems[type] && 1), 0) < 2;
-
-const OutfitRow = ({
-  props: { db, outfitId, outfit, selectedOutfitId, onSelect, onAddExclusion },
-  state: { selectedItems },
+const App = ({
+  state: {user, hasSearch, hasDrawer, view, viewId, viewUrl},
   bindSend
-}) => {
-  const isSelected = outfitId === selectedOutfitId;
-  return (
-    <tr style={isSelected ? SELECTED_ROW_STYLE : ''}>
-      {ITEM_TYPES.map(type => {
-        const itemId = outfit[type];
-        return (
-          <td
-            itemId={itemId}
-            itemType={type}
-            onclick={bindSend('handleSelectItem')}
-            style={selectedItems[type] === itemId ? SELECTED_CELL_STYLE : ''}
-          >
-            <img style='height: 150' src={db.items[itemId].closet_image_url} />
-          </td>
-        );
-      })}
-      <td>
-        {isSelected &&
-          <div>
-            {!isEmptySelection(selectedItems) &&
-              <a href="#" onclick={bindSend('handleRemoveCombosWithSelected')}>Remove outfits with these items</a>
-            }
-            {CATEGORIES.map(cat =>
-              <a href="#" onclick={() => onAddToCategory(outfitId, cat)}>{cat}</a>
-            )}
-          </div>
-        }
-      </td>
-    </tr>
-  );
+}) =>
+  <body className={APP_CLASS}>
+    {view === 'user'
+      ? <UserView id={viewId} user={user} viewUrl={viewUrl} />
+      : <RepoView id={viewId} user={user} viewUrl={viewUrl} />
+    }
+    <div
+      className={`App-backdrop fixed ${hasSearch || hasDrawer ? 'is-enabled' : ''}`}
+      onclick={bindSend('disableOverlay')}
+    />
+    <AppSearch enabled={hasSearch} />
+    <AppDrawer enabled={hasDrawer} onLogin={bindSend('login')} user={user} />
+  </body>;
+
+const stateFromHash = () => {
+  const [appUrl, viewUrl] = location.hash.split('?');
+  const viewId = appUrl.slice(8);
+  return {
+    hasSearch: false,
+    hasDrawer: false,
+    view: (/\//.test(viewId) ? 'repo' : 'user'),
+    viewId,
+    viewUrl
+  }
 };
 
-OutfitRow.state = {
-  onInit: ({ props }) => ({
-    selectedItems: EMPTY_SELECTED_ITEM_IDS
-  }),
-  onProps: ({ props: { selectedOutfitId, outfit, outfitId }, state }) => ({
-    selectedItems: selectedOutfitId === outfitId ? state.selectedItems : EMPTY_SELECTED_ITEM_IDS
-  }),
-  handleSelectItem: ({ props, state: { selectedItems } }, { currentTarget }) => {
-    const { itemId, itemType } = currentTarget;
-    setTimeout(() => props.onSelect(props.outfitId));
+App.state = {
+  onInit: ({bindSend}) => {
+    App.showDrawer      = bindSend('enableDrawer');
+    App.showSearch      = bindSend('enableSearch');
+    window.onhashchange = bindSend('onHashChange');
     return {
-      selectedItems: {
-        ...selectedItems,
-        [itemType]: selectedItems[itemType] === 0 ? +itemId : 0
-      }
+      user: getCurrentUser(bindSend('onUserChange')),
+      ...stateFromHash()
     };
-  }
+  },
+
+  onHashChange: ({state}) => {
+    document.body.scrollTop = 0;
+    return {
+      ...state,
+      ...stateFromHash()
+    };
+  },
+
+  enableSearch:   ({state}) => ({...state, hasSearch:true,  hasDrawer:false}),
+  enableDrawer:   ({state}) => ({...state, hasSearch:false, hasDrawer:true}),
+  disableOverlay: ({state}) => ({...state, hasSearch:false, hasDrawer:false}),
+  onUserChange:   ({state}, user) => ({...state, user}),
+
+  login: ({state, bindSend}) => (
+    authWithOAuthPopup().then(bindSend('onUserChange')),
+    state
+  )
 };
 
-const OutfitList = ({
-  props: { db, outfits },
-  state: { page, selectedOutfitId },
-  bindSend
-}) => (
-  <div>
-    <table style={{ borderCollapse: 'collapse' }}>
-      <tbody>
-        {outfits.slice(0, PAGE_SIZE).map(outfitId =>
-          <OutfitRow
-            db={db}
-            outfitId={outfitId}
-            outfit={db.outfits[outfitId]}
-            selectedOutfitId={selectedOutfitId}
-            onSelect={bindSend('handleSelectOutfit')}
-            onAddExclusion={()=>{}}
-          />
-        )}
-      </tbody>
-    </table>
-  </div>
-);
+document.body = xvdom.render(<App />);
 
-const onInit = ({ props, state }) => ({
-  page: 0,
-  selectedOutfitId: 0
-});
-
-OutfitList.state = {
-  onInit,
-  onProps: onInit,
-
-  handleSelectOutfit: ({ state }, outfitId) => ({
-    ...state,
-    selectedOutfitId: outfitId
-  }),
-
-  handleSelectItem: ({ state }, event) => {
-    const { currentTarget } = event;
-    if(!currentTarget) return;
-
-    const selectedOutfitId = +currentTarget.parentNode.outfitId;
-    const selectedItemType = currentTarget.itemType;
-    const selectedItem = +currentTarget.itemId;
-    let selectedItemIds;
-    if(selectedOutfitId !== state.selectedOutfitId){
-      selectedItemIds = {
-        [selectedItemType]: selectedItem
-      };
-    }
-    else {
-      selectedItemIds = state.selectedItemIds;
-      selectedItemIds[selectedItemType] = selectedItemIds[selectedItemType] ? null : selectedItem;
-    }
-    
-    this.setState({
-      ...state,
-      selectedOutfitId,
-      selectedItemIds
-    });
-
-    event.stopPropagation();
-  }
-}
-
-function toggleSignIn() {
-  if (firebase.auth().currentUser) {
-    User.unsetCurrent();
-    return firebase.auth().signOut();
-  }
-
-  const provider = new firebase.auth.GoogleAuthProvider();
-  provider.addScope('https://www.googleapis.com/auth/plus.login');
-  firebase.auth()
-    .signInWithPopup(provider)
-    .catch(error => console.error(error));
-}
-
-const App = ({ user, db }) => (
-  <body>
-    <div>{ user && user.displayName }</div>
-    {user && db && <OutfitList db={db} outfits={user.uncategorized} />}
-    <button onclick={toggleSignIn}>{user ? 'Sign out' : 'Sign in'}</button>
-  </body>
-);
-
-const renderApp = (user, db) => <App user={user} db={db} />;
-
-firebase.initializeApp({
-  apiKey: "AIzaSyB0wl7pEwIcb9VzHluaAQAZhOe1huyPxi8",
-  authDomain: "outfit-knockout.firebaseapp.com",
-  databaseURL: "https://outfit-knockout.firebaseio.com",
-  storageBucket: "outfit-knockout.appspot.com",
-  messagingSenderId: "60167804767"
-});
-
-
-DB.get().then(db => {
-  document.body = xvdom.render(renderApp(User.current(), db));
-
-  firebase.auth().onAuthStateChanged(authUser => {
-    if(!authUser) return xvdom.rerender(document.body, renderApp(null, null));
-
-    // Get or create user information
-    User.get(authUser.uid)
-      .catch(() =>
-        User.save({
-          // Couldn't find existing user w/authId, so create a new User
-          id: authUser.uid,
-          displayName: authUser.displayName,
-          excludedCombos: {},
-          uncategorized: Object.keys(db.outfits),
-          yup: [],
-          nope: [],
-          maybe: []
-        })
-      )
-      .then(user => {
-        User.setCurrent(user.id);
-        xvdom.rerender(document.body, renderApp(user, db));
-      })
-  });
-})
+export default App;
