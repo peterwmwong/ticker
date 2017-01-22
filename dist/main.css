@@ -582,7 +582,90 @@ pre {
 .t-center {
   text-align: center !important;
 }
-.App {
+.Card {
+  background: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: 0px solid transparent;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  margin: 8px 8px 0 8px;
+}
+
+.Card--fullBleed {
+  margin: 0;
+}
+
+.Card-title {
+  display: block;
+  font-size: 1.8rem;
+  line-height: 24px;
+}
+
+.Card-title,
+.Card-content {
+  padding: 16px;
+}
+
+.Card-content {
+  display: block;
+}
+
+.Card-content + .Card-content,
+.Card-title + .Card-content {
+  padding-top: 0;
+}
+
+.Card:not(.Card--fullBleed) + .Card {
+  margin-top: 4px;
+}
+
+@media (min-width: 639px) {
+  .Card {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 620px;
+  }
+  .Card--fullBleed .Card-title,
+  .Card--fullBleed .Card-content {
+    margin: 0 auto;
+    max-width: 620px;
+  }
+  .Card-content {
+    margin-top: 0;
+  }
+  .Card--fullBleed {
+    margin: 0;
+    max-width: none;
+  }
+}
+.List-item {
+  display: block;
+  border-bottom: 1px solid #EEE;
+  padding: 20px 16px;
+  cursor: pointer;
+  position: relative;
+}
+
+.List-item.List-item--header {
+  border-top: 1px solid #EEE;
+  padding-bottom: 8px;
+  cursor: default;
+  color: hsl(192, 0%, 55%) !important;
+}
+
+.List-item.List-item--noDivider,
+.List-item.List-item--header {
+  border-bottom: 0;
+}
+
+.List-item.List-item--noDivider {
+  padding: 16px;
+}
+
+
+.List-item.List-item--noPadding {
+  padding: 0;
+}.App {
   margin: 0;
 }
 
@@ -599,4 +682,128 @@ pre {
   -webkit-transform: scale(1);
   transform: scale(1);
   opacity: 0.75;
+}
+
+.OutfitRow.is-selected {
+  background: #e0f1ff !important;
+}
+
+.OutfitRow {
+  width: 100%;
+}
+
+.OutfitRow-items {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.OutfitRow-item {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  position: relative;
+  margin-left: 0;
+  transition: margin 0.1s ease-out, background-size 0.1s ease-out;
+}
+
+.OutfitRow-item.is-selected {
+  background-size: 90%;
+}
+.OutfitRow.is-selected .OutfitRow-item + .OutfitRow-item {
+  margin-left: 10px;
+}
+
+.OutfitRow-item:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border: 0px solid #63b8ff;
+  border-width: 0px;
+  transition: border-width 0.1s ease-out;
+}
+
+.OutfitRow-item.is-selected:before {
+  border-width: 8px;
+}.Icon {
+  font-size: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  color: hsl(191, 0%, 73%);
+  cursor: pointer;
+}
+
+.Icon--small {
+  font-size: 18px;
+  min-width: 24px;
+  min-height: 18px;
+}
+.Tabs {
+  overflow-x: scroll;
+}
+
+.Tabs::-webkit-scrollbar {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.Tabs-tab {
+  border-bottom: 4px solid transparent;
+  opacity: 0.5;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.Tabs-tab.is-selected {
+  border-bottom-color: white;
+  opacity: 1;
+}
+
+@media (max-width: 460px) {
+  .Tabs {
+    justify-content: flex-start !important;
+    -webkit-justify-content: flex-start !important;
+  }
+}
+.AppToolbar {
+  height: 56px;
+}
+.AppToolbar--withSecondary {
+  height: 96px;
+}
+
+.AppToolbar-bar {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+  transition:
+    -webkit-transform 150ms ease-out,
+    transform 150ms ease-out;
+  z-index: 1;
+}
+
+.AppToolbar-bar.is-scrolling-down {
+  -webkit-transform: translate3d(0,-100%,0);
+  transform: translate3d(0,-100%,0);
+}
+
+.App.is-apple-standalone .AppToolbar-bar,
+.App.is-apple-standalone .AppToolbar {
+  padding-top: 20px;
+}
+
+.App.is-apple-standalone .AppToolbar:before {
+  background: #3F51B5 !important;
+  content: '';
+  display: block;
+  height: 20px;
+  opacity: 0.75;
+  overflow: hidden;
+  position: fixed;
+  top: 0px;
+  width: 100%;
 }

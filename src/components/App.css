@@ -16,3 +16,50 @@
   transform: scale(1);
   opacity: 0.75;
 }
+
+.OutfitRow.is-selected {
+  background: #e0f1ff !important;
+}
+
+.OutfitRow {
+  width: 100%;
+}
+
+.OutfitRow-items {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.OutfitRow-item {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  position: relative;
+  margin-left: 0;
+  transition: margin 0.1s ease-out, background-size 0.1s ease-out;
+}
+
+.OutfitRow-item.is-selected {
+  background-size: 90%;
+}
+.OutfitRow.is-selected .OutfitRow-item + .OutfitRow-item {
+  margin-left: 10px;
+}
+
+.OutfitRow-item:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  border: 0px solid #63b8ff;
+  border-width: 0px;
+  transition: border-width 0.1s ease-out;
+}
+
+.OutfitRow-item.is-selected:before {
+  border-width: 8px;
+}

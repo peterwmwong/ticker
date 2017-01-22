@@ -1,9 +1,9 @@
 import './AppToolbar.css';
 import xvdom from 'xvdom/src/index';
-import App   from './App.jsx';
+// import App   from './App.jsx';
 import Icon  from './common/Icon.jsx';
 
-const showSearch = () => { App.showSearch() };
+const showSearch = () => { /*App.showSearch()*/ };
 
 const AppToolbar = ({props: {title, secondary, left, right}, state:{scrollClass}}) =>
   <div className={`AppToolbar ${secondary ? 'AppToolbar--withSecondary' : ''}`}>
@@ -13,7 +13,6 @@ const AppToolbar = ({props: {title, secondary, left, right}, state:{scrollClass}
         <div className='l-padding-r0 t-truncate t-font-size-20 flex' textContent={title} />
         <Icon
           className='t-bold c-white l-padding-h4'
-          name='search'
           onClick={showSearch}
           size='small'
         />

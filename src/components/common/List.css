@@ -3,20 +3,26 @@
   border-bottom: 1px solid #EEE;
   padding: 20px 16px;
   cursor: pointer;
+  position: relative;
 }
 
-.List-item--header {
+.List-item.List-item--header {
   border-top: 1px solid #EEE;
   padding-bottom: 8px;
   cursor: default;
   color: hsl(192, 0%, 55%) !important;
 }
 
-.List-item--noDivider,
-.List-item--header {
+.List-item.List-item--noDivider,
+.List-item.List-item--header {
   border-bottom: 0;
 }
 
-.List-item--noDivider {
+.List-item.List-item--noDivider {
   padding: 16px;
+}
+
+
+.List-item.List-item--noPadding {
+  padding: 0;
 }

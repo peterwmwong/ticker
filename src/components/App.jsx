@@ -6,60 +6,66 @@ import '../css/layout.css';
 import '../css/link.css';
 import '../css/reset.css';
 import '../css/text.css';
+
+import './common/Card.css';
+import './common/List.css';
 import './App.css';
+
+import xvdom      from 'xvdom';
+import Icon       from './common/Icon.jsx';
+import List       from './common/List.jsx';
+import Tabs       from './common/Tabs.jsx';
+import DB         from '../models/DB';
+import User       from '../models/User';
+import AppToolbar from './AppToolbar.jsx';
 
 import '../helpers/installServiceWorker';
 import '../helpers/globalLogger';
 
-import xvdom from 'xvdom';
-import DataComponent  from '../helpers/DataComponent';
-import DB from '../models/DB';
-import User from '../models/User';
-
-const PAGE_SIZE = 10;
-const SELECTED_ROW_STYLE  = `background: #DDD;`;
-const SELECTED_CELL_STYLE = `border: 4px solid black;`;
-const CATEGORIES = [ 'Yup', 'Nope', 'Maybe' ];
-const ITEM_TYPES = [ 'bottom', 'shirt', 'sweater', 'businessAttire' ];
+const PAGE_SIZE           = 25;
+const CATEGORIES          = [ 'Yup', 'Nope', 'Maybe' ];
+const ITEM_TYPES          = [ 'bottom', 'shirt', 'sweater', 'businessAttire' ];
 const EMPTY_SELECTED_ITEM_IDS = ITEM_TYPES.reduce((obj, type) => ((obj[type] = 0), obj), {});
 
 const isEmptySelection = selectedItems =>
   ITEM_TYPES.reduce((sum, type) => sum + (selectedItems[type] && 1), 0) < 2;
 
 const OutfitRow = ({
-  props: { db, outfitId, outfit, selectedOutfitId, onSelect, onAddExclusion },
+  props: { db, outfitId, selectedOutfitId, onSelect },
   state: { selectedItems },
   bindSend
 }) => {
+  const outfit     = db.outfits[outfitId];
   const isSelected = outfitId === selectedOutfitId;
   return (
-    <tr style={isSelected ? SELECTED_ROW_STYLE : ''}>
-      {ITEM_TYPES.map(type => {
-        const itemId = outfit[type];
-        return (
-          <td
-            itemId={itemId}
-            itemType={type}
-            onclick={bindSend('handleSelectItem')}
-            style={selectedItems[type] === itemId ? SELECTED_CELL_STYLE : ''}
-          >
-            <img style='height: 150' src={db.items[itemId].closet_image_url} />
-          </td>
-        );
-      })}
-      <td>
+    <div className={`OutfitRow ${isSelected ? 'is-selected' : ''}`}>
+      <div className='OutfitRow-items layout horizontal center'>
+        {ITEM_TYPES.map(type => {
+          const itemId = outfit[type];
+          return (
+            <span
+              className={`OutfitRow-item flex ${selectedItems[type] === itemId ? 'is-selected' : ''}`}
+              itemId={itemId}
+              itemType={type}
+              onclick={bindSend('handleSelectItem')}
+              style={`background-image: url(${db.items[itemId].closet_image_url})`}
+            />
+          );
+        })}
+      </div>
+      <span>
         {isSelected &&
           <div>
             {!isEmptySelection(selectedItems) &&
               <a href="#" onclick={bindSend('handleRemoveCombosWithSelected')}>Remove outfits with these items</a>
             }
             {CATEGORIES.map(cat =>
-              <a href="#" onclick={() => onAddToCategory(outfitId, cat)}>{cat}</a>
+              <a href="#" onclick={() => onAddToCategory(outfitId, cat)} innerText={cat}></a>
             )}
           </div>
         }
-      </td>
-    </tr>
+      </span>
+    </div>
   );
 };
 
@@ -67,9 +73,11 @@ OutfitRow.state = {
   onInit: ({ props }) => ({
     selectedItems: EMPTY_SELECTED_ITEM_IDS
   }),
+
   onProps: ({ props: { selectedOutfitId, outfit, outfitId }, state }) => ({
     selectedItems: selectedOutfitId === outfitId ? state.selectedItems : EMPTY_SELECTED_ITEM_IDS
   }),
+
   handleSelectItem: ({ props, state: { selectedItems } }, { currentTarget }) => {
     const { itemId, itemType } = currentTarget;
     setTimeout(() => props.onSelect(props.outfitId));
@@ -82,69 +90,36 @@ OutfitRow.state = {
   }
 };
 
-const OutfitList = ({
-  props: { db, outfits },
-  state: { page, selectedOutfitId },
-  bindSend
-}) => (
-  <div>
-    <table style={{ borderCollapse: 'collapse' }}>
-      <tbody>
-        {outfits.slice(0, PAGE_SIZE).map(outfitId =>
-          <OutfitRow
-            db={db}
-            outfitId={outfitId}
-            outfit={db.outfits[outfitId]}
-            selectedOutfitId={selectedOutfitId}
-            onSelect={bindSend('handleSelectOutfit')}
-            onAddExclusion={()=>{}}
-          />
-        )}
-      </tbody>
-    </table>
-  </div>
+const renderOutfitListItem = (outfitId, { db, selectedOutfitId, onSelect }) => ({
+  text: (
+    <OutfitRow
+      db={db}
+      outfitId={outfitId}
+      selectedOutfitId={selectedOutfitId}
+      onSelect={onSelect}
+    />
+  )
+})
+
+const firstTen = outfits => outfits.slice(0, PAGE_SIZE);
+
+const OutfitList = ({ props: { db, outfits }, state, bindSend }) => (
+  <List
+    className='Card'
+    transform={firstTen}
+    item={renderOutfitListItem}
+    itemClass='List-item--noPadding'
+    context={{ db, selectedOutfitId: state, onSelect: bindSend('handleSelectOutfit') }}
+    list={outfits}
+  />
 );
 
-const onInit = ({ props, state }) => ({
-  page: 0,
-  selectedOutfitId: 0
-});
+const onInit = ({ props, state }) => state || 0;
 
 OutfitList.state = {
   onInit,
   onProps: onInit,
-
-  handleSelectOutfit: ({ state }, outfitId) => ({
-    ...state,
-    selectedOutfitId: outfitId
-  }),
-
-  handleSelectItem: ({ state }, event) => {
-    const { currentTarget } = event;
-    if(!currentTarget) return;
-
-    const selectedOutfitId = +currentTarget.parentNode.outfitId;
-    const selectedItemType = currentTarget.itemType;
-    const selectedItem = +currentTarget.itemId;
-    let selectedItemIds;
-    if(selectedOutfitId !== state.selectedOutfitId){
-      selectedItemIds = {
-        [selectedItemType]: selectedItem
-      };
-    }
-    else {
-      selectedItemIds = state.selectedItemIds;
-      selectedItemIds[selectedItemType] = selectedItemIds[selectedItemType] ? null : selectedItem;
-    }
-    
-    this.setState({
-      ...state,
-      selectedOutfitId,
-      selectedItemIds
-    });
-
-    event.stopPropagation();
-  }
+  handleSelectOutfit: (_, outfitId) => outfitId
 }
 
 function toggleSignIn() {
@@ -160,9 +135,40 @@ function toggleSignIn() {
     .catch(error => console.error(error));
 }
 
+const TABS = {
+  uncategorized:{
+    title: 'Uncategorized',
+    view: id => <div>Hello</div>
+  },
+  yup:{
+    title: 'Yup',
+    view: id => <div>Hello</div>
+  },
+  nope:{
+    title: 'Nope',
+    view: id => <div>Hello</div>
+  },
+  maybe:{
+    title: 'Maybe',
+    view: id => <div>Hello</div>
+  }
+};
+
 const App = ({ user, db }) => (
   <body>
-    <div>{ user && user.displayName }</div>
+    <AppToolbar
+      left={
+        <Icon
+          className='c-white l-padding-h4'
+          name='three-bars'
+          size='small'
+        />
+      }
+      secondary={
+        <Tabs hrefPrefix='#ok/?' selected='uncategorized' tabs={TABS} />
+      }
+      title='OK'
+    />
     {user && db && <OutfitList db={db} outfits={user.uncategorized} />}
     <button onclick={toggleSignIn}>{user ? 'Sign out' : 'Sign in'}</button>
   </body>
@@ -175,9 +181,7 @@ firebase.initializeApp({
   authDomain: "outfit-knockout.firebaseapp.com",
   databaseURL: "https://outfit-knockout.firebaseio.com",
   storageBucket: "outfit-knockout.appspot.com",
-  messagingSenderId: "60167804767"
 });
-
 
 DB.get().then(db => {
   document.body = xvdom.render(renderApp(User.current(), db));
