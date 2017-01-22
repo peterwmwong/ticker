@@ -865,12 +865,12 @@ var handleClick = function handleClick(_ref) {
 };
 
 var Icon = (function (_ref2) {
-  var className = _ref2.className;
-  var name = _ref2.name;
-  var onClick = _ref2.onClick;
-  var onClickArg = _ref2.onClickArg;
-  var _ref2$size = _ref2.size;
-  var size = _ref2$size === undefined ? 'med' : _ref2$size;
+  var className = _ref2.className,
+      name = _ref2.name,
+      onClick = _ref2.onClick,
+      onClickArg = _ref2.onClickArg,
+      _ref2$size = _ref2.size,
+      size = _ref2$size === undefined ? 'med' : _ref2$size;
   return {
     $s: _xvdomSpec$4,
     a: 'Icon Icon--' + size + ' octicon octicon-' + name + ' ' + className + ' t-center',
@@ -1016,18 +1016,17 @@ var _xvdomSpec$2 = {
   r: xvdom.DEADPOOL
 };
 function renderItem(el) {
-  var item = this.item;
-  var context = this.context;
-  var listClass = this.listClass;
+  var item = this.item,
+      context = this.context,
+      listClass = this.listClass;
 
-  var _item = item(el, context);
-
-  var href = _item.href;
-  var key = _item.key;
-  var avatarUrl = _item.avatarUrl;
-  var icon = _item.icon;
-  var text = _item.text;
-  var secondaryText = _item.secondaryText;
+  var _item = item(el, context),
+      href = _item.href,
+      key = _item.key,
+      avatarUrl = _item.avatarUrl,
+      icon = _item.icon,
+      text = _item.text,
+      secondaryText = _item.secondaryText;
 
   return {
     $s: _xvdomSpec3$2,
@@ -1047,12 +1046,12 @@ function renderItem(el) {
 }
 
 var List = (function (_ref) {
-  var className = _ref.className;
-  var context = _ref.context;
-  var list = _ref.list;
-  var item = _ref.item;
-  var itemClass = _ref.itemClass;
-  var transform = _ref.transform;
+  var className = _ref.className,
+      context = _ref.context,
+      list = _ref.list,
+      item = _ref.item,
+      itemClass = _ref.itemClass,
+      transform = _ref.transform;
 
   var listClass = 'List-item layout horizontal center t-normal ' + (itemClass || '');
   list = list || [];
@@ -1119,15 +1118,13 @@ var _xvdomSpec$5 = {
   r: xvdom.DEADPOOL
 };
 var SourceName = (function (_ref) {
-  var className = _ref.className;
-  var displayName = _ref.displayName;
+  var className = _ref.className,
+      displayName = _ref.displayName;
 
-  var _displayName$split = displayName.split('/');
-
-  var _displayName$split2 = slicedToArray(_displayName$split, 2);
-
-  var owner = _displayName$split2[0];
-  var repo = _displayName$split2[1];
+  var _displayName$split = displayName.split('/'),
+      _displayName$split2 = slicedToArray(_displayName$split, 2),
+      owner = _displayName$split2[0],
+      repo = _displayName$split2[1];
 
   return {
     $s: _xvdomSpec$5,
@@ -1341,12 +1338,10 @@ var sort = function sort(a, b) {
 var renderData = function renderData(_ref) {
   var id = _ref.id;
 
-  var _id$split = id.split('/');
-
-  var _id$split2 = slicedToArray(_id$split, 2);
-
-  var owner = _id$split2[0];
-  var name = _id$split2[1];
+  var _id$split = id.split('/'),
+      _id$split2 = slicedToArray(_id$split, 2),
+      owner = _id$split2[0],
+      name = _id$split2[1];
 
   return {
     id: id,
@@ -1359,8 +1354,8 @@ var sortSources = function sortSources(sources) {
 };
 
 var item = function item(_ref2) {
-  var id = _ref2.id;
-  var avatarUrl = _ref2.avatarUrl;
+  var id = _ref2.id,
+      avatarUrl = _ref2.avatarUrl;
   return {
     href: '#github/' + id,
     avatarUrl: avatarUrl,
@@ -1381,9 +1376,9 @@ var logout = function logout() {
 // Prevent un-rendering contents when disabled.
 var lazyRenderContents = false;
 var AppDrawer = (function (_ref3) {
-  var user = _ref3.user;
-  var enabled = _ref3.enabled;
-  var onLogin = _ref3.onLogin;
+  var user = _ref3.user,
+      enabled = _ref3.enabled,
+      onLogin = _ref3.onLogin;
 
   lazyRenderContents = enabled || lazyRenderContents;
   var enabledClass = enabled ? 'is-enabled' : '';
@@ -1514,18 +1509,18 @@ var fromCache = function fromCache(cacheKey) {
   return storage.getItemObj(cacheKey);
 };
 var load = function load(_ref) {
-  var url = _ref.url;
-  var cache = _ref.cache;
-  var _ref$transform = _ref.transform;
-  var transform = _ref$transform === undefined ? identity : _ref$transform;
+  var url = _ref.url,
+      cache = _ref.cache,
+      _ref$transform = _ref.transform,
+      transform = _ref$transform === undefined ? identity : _ref$transform;
   return loadJSON(url).then(transform).then(!cache ? identity : function (obj) {
     return storage.setItemObj(cache, obj);
   });
 };
 
 var model = (function (_ref2) {
-  var g = _ref2.get;
-  var q = _ref2.query;
+  var g = _ref2.get,
+      q = _ref2.query;
   return {
     localGet: function localGet(options) {
       return fromCache(g(options).cache);
@@ -1544,8 +1539,8 @@ var model = (function (_ref2) {
 
 var GithubRepo = model({
   query: function query(_ref) {
-    var term = _ref.term;
-    var id = _ref.id;
+    var term = _ref.term,
+        id = _ref.id;
     return term != null ? {
       url: 'https://api.github.com/search/repositories?q=' + term + '&per_page=5',
       transform: function transform(d) {
@@ -1687,11 +1682,11 @@ var _xvdomSpec$6 = {
   r: xvdom.DEADPOOL
 };
 var item$1 = function item$1(_ref) {
-  var avatar_url = _ref.avatar_url;
-  var full_name = _ref.full_name;
-  var id = _ref.id;
-  var login = _ref.login;
-  var owner = _ref.owner;
+  var avatar_url = _ref.avatar_url,
+      full_name = _ref.full_name,
+      id = _ref.id,
+      login = _ref.login,
+      owner = _ref.owner;
   return {
     href: '#github/' + (login || full_name),
     avatarUrl: avatar_url || owner && owner.avatar_url,
@@ -1704,12 +1699,12 @@ var item$1 = function item$1(_ref) {
 };
 
 var AppSearch = function AppSearch(_ref2) {
-  var enabled = _ref2.props.enabled;
-  var _ref2$state = _ref2.state;
-  var render$$1 = _ref2$state.render;
-  var searchResults = _ref2$state.searchResults;
-  var term = _ref2$state.term;
-  var bindSend = _ref2.bindSend;
+  var enabled = _ref2.props.enabled,
+      _ref2$state = _ref2.state,
+      render$$1 = _ref2$state.render,
+      searchResults = _ref2$state.searchResults,
+      term = _ref2$state.term,
+      bindSend = _ref2.bindSend;
   return {
     $s: _xvdomSpec3$3,
     a: 'AppSearch l-padding-2 fixed fixed--top ' + (enabled ? 'is-enabled' : ''),
@@ -1724,8 +1719,8 @@ var AppSearch = function AppSearch(_ref2) {
 };
 
 var onInit$1 = function onInit$1(_ref3) {
-  var props = _ref3.props;
-  var state = _ref3.state;
+  var props = _ref3.props,
+      state = _ref3.state;
   return {
     render: state && state.render || props.enabled,
     term: '',
@@ -1737,25 +1732,25 @@ AppSearch.state = {
   onInit: onInit$1,
   onProps: onInit$1,
   onSearchInput: function onSearchInput(_ref4, event) {
-    var state = _ref4.state;
-    var bindSend = _ref4.bindSend;
+    var state = _ref4.state,
+        bindSend = _ref4.bindSend;
     return _extends({}, state, {
       curSearch: (clearTimeout(state.curSearch), setTimeout(bindSend('doSearch'), 300)),
       term: event.target.value
     });
   },
   doSearch: function doSearch(_ref5) {
-    var state = _ref5.state;
-    var bindSend = _ref5.bindSend;
+    var state = _ref5.state,
+        bindSend = _ref5.bindSend;
     return Promise.all([GithubRepo.query(state), GithubUser.query(state)]).then(bindSend('onSearchResults')), _extends({}, state, { curSearch: null });
   },
   onSearchResults: function onSearchResults(_ref6, _ref7) {
     var state = _ref6.state;
 
-    var _ref8 = slicedToArray(_ref7, 2);
+    var _ref8 = slicedToArray(_ref7, 2),
+        repos = _ref8[0],
+        users = _ref8[1];
 
-    var repos = _ref8[0];
-    var users = _ref8[1];
     return _extends({}, state, {
       searchResults: (repos || []).concat(users || []).sort(function (a, b) {
         return b.score - a.score;
@@ -2038,8 +2033,8 @@ var _xvdomSpec$10 = {
   r: xvdom.DEADPOOL
 };
 var Markup = function Markup(_ref) {
-  var className = _ref.props.className;
-  var state = _ref.state;
+  var className = _ref.props.className,
+      state = _ref.state;
   return {
     $s: _xvdomSpec$10,
     a: 'Markup ' + className,
@@ -2048,8 +2043,8 @@ var Markup = function Markup(_ref) {
 };
 
 var onInit$2 = function onInit$2(_ref2) {
-  var content = _ref2.props.content;
-  var bindSend = _ref2.bindSend;
+  var content = _ref2.props.content,
+      bindSend = _ref2.bindSend;
   return content ? marked(content, bindSend('loadMarkup')) : '';
 };
 
@@ -2164,12 +2159,12 @@ var _xvdomSpec$11 = {
   r: xvdom.DEADPOOL
 };
 var Actor = (function (_ref) {
-  var _ref$user = _ref.user;
-  var login = _ref$user.login;
-  var avatar_url = _ref$user.avatar_url;
-  var action = _ref.action;
-  var actionDate = _ref.actionDate;
-  var className = _ref.className;
+  var _ref$user = _ref.user,
+      login = _ref$user.login,
+      avatar_url = _ref$user.avatar_url,
+      action = _ref.action,
+      actionDate = _ref.actionDate,
+      className = _ref.className;
   return {
     $s: _xvdomSpec$11,
     a: className + ' layout horizontal center',
@@ -2347,17 +2342,17 @@ var issuePRIcon = function issuePRIcon(_ref) {
 };
 
 var issuePRSubject = function issuePRSubject(_ref2) {
-  var pull_request = _ref2.pull_request;
-  var issue = _ref2.issue;
+  var pull_request = _ref2.pull_request,
+      issue = _ref2.issue;
   return (pull_request || issue).title;
 };
 
 var issuePRSubjectUrl = function issuePRSubjectUrl(_ref3) {
-  var name = _ref3.repo.name;
-  var _ref3$payload = _ref3.payload;
-  var number = _ref3$payload.number;
-  var issue = _ref3$payload.issue;
-  var pull_request = _ref3$payload.pull_request;
+  var name = _ref3.repo.name,
+      _ref3$payload = _ref3.payload,
+      number = _ref3$payload.number,
+      issue = _ref3$payload.issue,
+      pull_request = _ref3$payload.pull_request;
   return issue ? '#github/' + name + '?issues/' + (number || issue.number) : '#github/' + name + '?pulls/' + (number || pull_request.number);
 };
 
@@ -2439,8 +2434,8 @@ var renderEventAction = function renderEventAction(event) {
 
     case 'PushEvent':
       return event.payload.commits.map(function (_ref4) {
-        var sha = _ref4.sha;
-        var message = _ref4.message;
+        var sha = _ref4.sha,
+            message = _ref4.message;
         return {
           $s: _xvdomSpec2$6,
           a: '#github/' + event.repo.name + '?commits/' + sha,
@@ -2454,12 +2449,11 @@ var renderEventAction = function renderEventAction(event) {
 var EventCard = (function (_ref5) {
   var event = _ref5.event;
 
-  var _getSummary = getSummary(event);
-
-  var actorsAction = _getSummary.actorsAction;
-  var subject = _getSummary.subject;
-  var subjectIcon = _getSummary.subjectIcon;
-  var subjectUrl = _getSummary.subjectUrl;
+  var _getSummary = getSummary(event),
+      actorsAction = _getSummary.actorsAction,
+      subject = _getSummary.subject,
+      subjectIcon = _getSummary.subjectIcon,
+      subjectUrl = _getSummary.subjectUrl;
 
   return {
     $s: _xvdomSpec4$3,
@@ -2497,8 +2491,8 @@ var _xvdomSpec$12 = {
   r: xvdom.DEADPOOL
 };
 var ChunkedArrayRender = function ChunkedArrayRender(_ref) {
-  var render$$1 = _ref.props.render;
-  var state = _ref.state;
+  var render$$1 = _ref.props.render,
+      state = _ref.state;
   return {
     $s: _xvdomSpec$12,
     a: state.map(render$$1)
@@ -2511,17 +2505,17 @@ var renderSome = function renderSome(array, bindSend) {
 
 ChunkedArrayRender.state = {
   onInit: function onInit(_ref2) {
-    var array = _ref2.props.array;
-    var bindSend = _ref2.bindSend;
+    var array = _ref2.props.array,
+        bindSend = _ref2.bindSend;
     return renderSome(array, bindSend);
   },
 
   onProps: function onProps(_ref3, _ref4) {
-    var _ref3$props = _ref3.props;
-    var array = _ref3$props.array;
-    var arrayKey = _ref3$props.arrayKey;
-    var render$$1 = _ref3$props.render;
-    var bindSend = _ref3.bindSend;
+    var _ref3$props = _ref3.props,
+        array = _ref3$props.array,
+        arrayKey = _ref3$props.arrayKey,
+        render$$1 = _ref3$props.render,
+        bindSend = _ref3.bindSend;
     var prevArrayKey = _ref4.arrayKey;
     return arrayKey === prevArrayKey ? array : renderSome(array, bindSend);
   },
@@ -2534,8 +2528,8 @@ ChunkedArrayRender.state = {
 
 var GithubEvent = model({
   query: function query(_ref) {
-    var type = _ref.type;
-    var id = _ref.id;
+    var type = _ref.type,
+        id = _ref.id;
     return {
       cache: 'ticker:GithubEvent:' + type + '/' + id,
       url: 'https://api.github.com/' + type + '/' + id + '/events'
@@ -2545,8 +2539,8 @@ var GithubEvent = model({
 
 var modelStateComponent = (function (modelOrGetter, type, Component) {
   var onInit = function onInit(_ref) {
-    var props = _ref.props;
-    var bindSend = _ref.bindSend;
+    var props = _ref.props,
+        bindSend = _ref.bindSend;
 
     var Model = typeof modelOrGetter === 'function' ? modelOrGetter(props) : modelOrGetter;
     Model[type](props).then(bindSend('onLoadModel'));
@@ -2620,8 +2614,8 @@ var renderEvent = function renderEvent(event) {
 };
 
 var EventsView = modelStateComponent(GithubEvent, 'query', function (_ref2) {
-  var id = _ref2.props.id;
-  var state = _ref2.state;
+  var id = _ref2.props.id,
+      state = _ref2.state;
   return {
     $s: _xvdomSpec2$5,
     a: (state || []).filter(filterEvents),
@@ -2666,8 +2660,8 @@ var sortRepos = function sortRepos(repos) {
   return repos.sort(compareRepos);
 };
 var item$2 = function item$2(_ref, id) {
-  var name = _ref.name;
-  var description = _ref.description;
+  var name = _ref.name,
+      description = _ref.description;
   return {
     href: '#github/' + id + '/' + name,
     icon: 'repo',
@@ -2678,8 +2672,8 @@ var item$2 = function item$2(_ref, id) {
 };
 
 var UserReposView = modelStateComponent(GithubRepo, 'query', function (_ref2) {
-  var id = _ref2.props.id;
-  var state = _ref2.state;
+  var id = _ref2.props.id,
+      state = _ref2.state;
   return {
     $s: _xvdomSpec$13,
     a: id,
@@ -2745,12 +2739,12 @@ var _xvdomSpec$15 = {
   r: xvdom.DEADPOOL
 };
 function renderTab(tabId) {
-  var tabs = this.tabs;
-  var selected = this.selected;
-  var hrefPrefix = this.hrefPrefix;
-  var _tabs$tabId = tabs[tabId];
-  var href = _tabs$tabId.href;
-  var title = _tabs$tabId.title;
+  var tabs = this.tabs,
+      selected = this.selected,
+      hrefPrefix = this.hrefPrefix;
+  var _tabs$tabId = tabs[tabId],
+      href = _tabs$tabId.href,
+      title = _tabs$tabId.title;
 
   return {
     $s: _xvdomSpec$15,
@@ -2865,12 +2859,12 @@ var showSearch = function showSearch() {
 };
 
 var AppToolbar = function AppToolbar(_ref) {
-  var _ref$props = _ref.props;
-  var title = _ref$props.title;
-  var secondary = _ref$props.secondary;
-  var left = _ref$props.left;
-  var right = _ref$props.right;
-  var scrollClass = _ref.state.scrollClass;
+  var _ref$props = _ref.props,
+      title = _ref$props.title,
+      secondary = _ref$props.secondary,
+      left = _ref$props.left,
+      right = _ref$props.right,
+      scrollClass = _ref.state.scrollClass;
   return {
     $s: _xvdomSpec$16,
     a: 'AppToolbar ' + (secondary ? 'AppToolbar--withSecondary' : ''),
@@ -3013,11 +3007,11 @@ var showDrawer = function showDrawer() {
 };
 
 var RepoUserToolbar = (function (_ref) {
-  var id = _ref.id;
-  var tab = _ref.tab;
-  var TABS = _ref.TABS;
-  var isBookmarked = _ref.isBookmarked;
-  var onBookmark = _ref.onBookmark;
+  var id = _ref.id,
+      tab = _ref.tab,
+      TABS = _ref.TABS,
+      isBookmarked = _ref.isBookmarked,
+      onBookmark = _ref.onBookmark;
   return {
     $s: _xvdomSpec$14,
     a: {
@@ -3091,10 +3085,10 @@ var authWithFirebase = function authWithFirebase() {
 };
 
 var getOrCreateUser = function getOrCreateUser(_ref) {
-  var _ref$github = _ref.github;
-  var id = _ref$github.id;
-  var username = _ref$github.username;
-  var accessToken = _ref$github.accessToken;
+  var _ref$github = _ref.github,
+      id = _ref$github.id,
+      username = _ref$github.username,
+      accessToken = _ref$github.accessToken;
   return (
     // Give load access tokens to use for any third-party API requests.
     // For right now, just Github.
@@ -3128,10 +3122,10 @@ var getPreviousUser = function getPreviousUser() {
 var userListener = function userListener() {};
 var toggleSource = function toggleSource(type, id) {
   if (!currentUser) return;
-  var _currentUser = currentUser;
-  var _currentUser$sources = _currentUser.sources;
-  var github = _currentUser$sources.github;
-  var l = _currentUser$sources.github[type];
+  var _currentUser = currentUser,
+      _currentUser$sources = _currentUser.sources,
+      github = _currentUser$sources.github,
+      l = _currentUser$sources.github[type];
 
   var index = l.map(function (s) {
     return s.id;
@@ -3270,10 +3264,10 @@ var isBookmarked = function isBookmarked(user, id) {
 };
 
 var UserView = (function (_ref) {
-  var id = _ref.id;
-  var user = _ref.user;
-  var _ref$viewUrl = _ref.viewUrl;
-  var viewUrl = _ref$viewUrl === undefined ? 'news' : _ref$viewUrl;
+  var id = _ref.id,
+      user = _ref.user,
+      _ref$viewUrl = _ref.viewUrl,
+      viewUrl = _ref$viewUrl === undefined ? 'news' : _ref$viewUrl;
   return {
     $s: _xvdomSpec3$4,
     a: TABS,
@@ -3287,8 +3281,8 @@ var UserView = (function (_ref) {
 
 var GithubCommit = model({
   get: function get(_ref) {
-    var repo = _ref.repo;
-    var commitId = _ref.commitId;
+    var repo = _ref.repo,
+        commitId = _ref.commitId;
     return {
       url: 'https://api.github.com/repos/' + repo + '/commits/' + commitId
     };
@@ -3325,8 +3319,8 @@ var _xvdomSpec$20 = {
   r: xvdom.DEADPOOL
 };
 var Code = function Code(_ref) {
-  var code = _ref.props.code;
-  var state = _ref.state;
+  var code = _ref.props.code,
+      state = _ref.state;
   return {
     $s: _xvdomSpec$20,
     a: state,
@@ -3336,18 +3330,18 @@ var Code = function Code(_ref) {
 
 Code.state = {
   onInit: function onInit(_ref2) {
-    var _ref2$props = _ref2.props;
-    var code = _ref2$props.code;
-    var syntax = _ref2$props.syntax;
-    var bindSend = _ref2.bindSend;
+    var _ref2$props = _ref2.props,
+        code = _ref2$props.code,
+        syntax = _ref2$props.syntax,
+        bindSend = _ref2.bindSend;
 
     if (code && syntax) loadHighlight(syntax).then(bindSend('highlight'));
     return '';
   },
   highlight: function highlight(_ref3, hljs) {
-    var _ref3$props = _ref3.props;
-    var syntax = _ref3$props.syntax;
-    var code = _ref3$props.code;
+    var _ref3$props = _ref3.props,
+        syntax = _ref3$props.syntax,
+        code = _ref3$props.code;
     return hljs.highlight(syntax, code).value;
   }
 };
@@ -3468,17 +3462,15 @@ var _xvdomSpec$19 = {
 var PATH_REGEX = /^(.*\/)?([^\/]+)$/;
 
 var renderFile = function renderFile(_ref) {
-  var additions = _ref.additions;
-  var deletions = _ref.deletions;
-  var filename = _ref.filename;
-  var patch = _ref.patch;
+  var additions = _ref.additions,
+      deletions = _ref.deletions,
+      filename = _ref.filename,
+      patch = _ref.patch;
 
-  var _PATH_REGEX$exec = PATH_REGEX.exec(filename);
-
-  var _PATH_REGEX$exec2 = slicedToArray(_PATH_REGEX$exec, 3);
-
-  var path = _PATH_REGEX$exec2[1];
-  var fname = _PATH_REGEX$exec2[2];
+  var _PATH_REGEX$exec = PATH_REGEX.exec(filename),
+      _PATH_REGEX$exec2 = slicedToArray(_PATH_REGEX$exec, 3),
+      path = _PATH_REGEX$exec2[1],
+      fname = _PATH_REGEX$exec2[2];
 
   return {
     $s: _xvdomSpec$19,
@@ -3699,32 +3691,28 @@ var COMMIT_PLACEHOLDER = {
 };
 
 var getCommitTitleMessage = function getCommitTitleMessage(message) {
-  var _$exec = /.*/g.exec(message);
-
-  var _$exec2 = slicedToArray(_$exec, 1);
-
-  var title = _$exec2[0];
+  var _$exec = /.*/g.exec(message),
+      _$exec2 = slicedToArray(_$exec, 1),
+      title = _$exec2[0];
 
   return title === message ? { title: '', message: message } : { title: title, message: message.substr(title.length) };
 };
 
 var CommitView = modelStateComponent(GithubCommit, 'get', function (_ref) {
-  var _ref$props = _ref.props;
-  var repo = _ref$props.repo;
-  var commitId = _ref$props.commitId;
-  var state = _ref.state;
+  var _ref$props = _ref.props,
+      repo = _ref$props.repo,
+      commitId = _ref$props.commitId,
+      state = _ref.state;
 
-  var _ref2 = state || COMMIT_PLACEHOLDER;
+  var _ref2 = state || COMMIT_PLACEHOLDER,
+      files = _ref2.files,
+      commit = _ref2.commit,
+      committer = _ref2.committer,
+      stats = _ref2.stats;
 
-  var files = _ref2.files;
-  var commit = _ref2.commit;
-  var committer = _ref2.committer;
-  var stats = _ref2.stats;
-
-  var _getCommitTitleMessag = getCommitTitleMessage(commit.message);
-
-  var title = _getCommitTitleMessag.title;
-  var message = _getCommitTitleMessag.message;
+  var _getCommitTitleMessag = getCommitTitleMessage(commit.message),
+      title = _getCommitTitleMessag.title,
+      message = _getCommitTitleMessag.message;
 
   return {
     $s: _xvdomSpec2$10,
@@ -3833,10 +3821,10 @@ var pathURL = function pathURL(pathArray, i) {
 };
 
 var PathNavigator = (function (_ref) {
-  var pathURLPrefix = _ref.pathURLPrefix;
-  var pathArray = _ref.pathArray;
-  var repo = _ref.repo;
-  var sha = _ref.sha;
+  var pathURLPrefix = _ref.pathURLPrefix,
+      pathArray = _ref.pathArray,
+      repo = _ref.repo,
+      sha = _ref.sha;
   return {
     $s: _xvdomSpec2$12,
     a: [repoName(repo)].concat(toConsumableArray(pathArray)).map(function (component, i) {
@@ -3917,9 +3905,9 @@ var sortFiles = function sortFiles(a, b) {
 };
 
 var item$3 = function item$3(_ref, context) {
-  var name = _ref.name;
-  var type = _ref.type;
-  var path = _ref.path;
+  var name = _ref.name,
+      type = _ref.type,
+      path = _ref.path;
   return {
     href: '' + context + path,
     icon: TYPE_TO_ICON[type],
@@ -3929,9 +3917,9 @@ var item$3 = function item$3(_ref, context) {
 };
 
 var PathContents = (function (_ref2) {
-  var repo = _ref2.repo;
-  var sha = _ref2.sha;
-  var contents = _ref2.contents;
+  var repo = _ref2.repo,
+      sha = _ref2.sha,
+      contents = _ref2.contents;
   return contents && contents.isFile ? {
     $s: _xvdomSpec$23,
     a: contents.value.content,
@@ -3967,11 +3955,11 @@ var createGithubFileContent = function createGithubFileContent(contents) {
 
 var GithubFileContents = model({
   query: function query(_ref) {
-    var repo = _ref.repo;
-    var _ref$sha = _ref.sha;
-    var sha = _ref$sha === undefined ? 'master' : _ref$sha;
-    var _ref$pathArray = _ref.pathArray;
-    var pathArray = _ref$pathArray === undefined ? [] : _ref$pathArray;
+    var repo = _ref.repo,
+        _ref$sha = _ref.sha,
+        sha = _ref$sha === undefined ? 'master' : _ref$sha,
+        _ref$pathArray = _ref.pathArray,
+        pathArray = _ref$pathArray === undefined ? [] : _ref$pathArray;
     return {
       url: 'https://api.github.com/repos/' + repo + '/contents/' + pathArray.join('/') + '?ref=' + sha,
       transform: createGithubFileContent
@@ -4029,13 +4017,13 @@ var _xvdomSpec$21 = {
   r: xvdom.DEADPOOL
 };
 var CodeView = modelStateComponent(GithubFileContents, 'query', function (_ref) {
-  var _ref$props = _ref.props;
-  var repo = _ref$props.repo;
-  var _ref$props$pathArray = _ref$props.pathArray;
-  var pathArray = _ref$props$pathArray === undefined ? [] : _ref$props$pathArray;
-  var _ref$props$sha = _ref$props.sha;
-  var sha = _ref$props$sha === undefined ? 'master' : _ref$props$sha;
-  var contents = _ref.state;
+  var _ref$props = _ref.props,
+      repo = _ref$props.repo,
+      _ref$props$pathArray = _ref$props.pathArray,
+      pathArray = _ref$props$pathArray === undefined ? [] : _ref$props$pathArray,
+      _ref$props$sha = _ref$props.sha,
+      sha = _ref$props$sha === undefined ? 'master' : _ref$props$sha,
+      contents = _ref.state;
   return {
     $s: _xvdomSpec$21,
     a: pathArray,
@@ -4050,8 +4038,8 @@ var CodeView = modelStateComponent(GithubFileContents, 'query', function (_ref) 
 
 var GithubIssue = model({
   get: function get(_ref) {
-    var repo = _ref.repo;
-    var id = _ref.id;
+    var repo = _ref.repo,
+        id = _ref.id;
     return {
       cache: 'ticker:GithubIssue:' + repo + id,
       url: 'https://api.github.com/repos/' + repo + '/issues/' + id
@@ -4110,11 +4098,11 @@ var sortIssues = function sortIssues(issues) {
   return issues.sort(compareCreatedAt);
 };
 var item$4 = function item$4(_ref, id) {
-  var base = _ref.base;
-  var number = _ref.number;
-  var title = _ref.title;
-  var created_at = _ref.created_at;
-  var user = _ref.user;
+  var base = _ref.base,
+      number = _ref.number,
+      title = _ref.title,
+      created_at = _ref.created_at,
+      user = _ref.user;
   return {
     href: '#github/' + id + '?' + (base ? 'pulls' : 'issues') + '/' + number,
     avatarUrl: user.avatar_url,
@@ -4128,8 +4116,8 @@ var IssuesPullsView = modelStateComponent(function (_ref2) {
   var modelClass = _ref2.modelClass;
   return modelClass;
 }, 'query', function (_ref3) {
-  var repo = _ref3.props.repo;
-  var state = _ref3.state;
+  var repo = _ref3.props.repo,
+      state = _ref3.state;
   return {
     $s: _xvdomSpec$24,
     a: repo,
@@ -4192,8 +4180,8 @@ var ReadmeView = modelStateComponent(GithubRepoReadme, 'get', function (_ref) {
 
 var GithubIssueComment = model({
   query: function query(_ref) {
-    var repo = _ref.repo;
-    var issue = _ref.issue;
+    var repo = _ref.repo,
+        issue = _ref.issue;
 
     return {
       url: 'https://api.github.com/repos/' + repo + '/issues/' + issue.number + '/comments'
@@ -4328,8 +4316,8 @@ var _xvdomSpec$27 = {
   r: xvdom.DEADPOOL
 };
 var IssuePullInfo = modelStateComponent(GithubIssueComment, 'query', function (_ref) {
-  var issue = _ref.props.issue;
-  var issueComments = _ref.state;
+  var issue = _ref.props.issue,
+      issueComments = _ref.state;
   return {
     $s: _xvdomSpec2$15,
     a: issue.title,
@@ -4337,10 +4325,10 @@ var IssuePullInfo = modelStateComponent(GithubIssueComment, 'query', function (_
     d: issue.user,
     f: issue.body,
     h: issueComments && issueComments.map(function (_ref2) {
-      var id = _ref2.id;
-      var user = _ref2.user;
-      var body = _ref2.body;
-      var created_at = _ref2.created_at;
+      var id = _ref2.id,
+          user = _ref2.user,
+          body = _ref2.body,
+          created_at = _ref2.created_at;
       return {
         $s: _xvdomSpec$27,
         a: id,
@@ -4355,8 +4343,8 @@ var IssuePullInfo = modelStateComponent(GithubIssueComment, 'query', function (_
 
 var GithubPullCommit = model({
   query: function query(_ref) {
-    var repo = _ref.repo;
-    var id = _ref.id;
+    var repo = _ref.repo,
+        id = _ref.id;
     return {
       url: 'https://api.github.com/repos/' + repo + '/pulls/' + id + '/commits'
     };
@@ -4400,12 +4388,12 @@ var sort$1 = function sort$1(commits) {
 };
 
 var item$5 = function item$5(_ref, repo) {
-  var sha = _ref.sha;
-  var author = _ref.author;
-  var _ref$commit = _ref.commit;
-  var name = _ref$commit.author.name;
-  var committer = _ref$commit.committer;
-  var message = _ref$commit.message;
+  var sha = _ref.sha,
+      author = _ref.author,
+      _ref$commit = _ref.commit,
+      name = _ref$commit.author.name,
+      committer = _ref$commit.committer,
+      message = _ref$commit.message;
   return {
     href: '#github/' + repo + '?commits/' + sha,
     avatarUrl: author && author.avatar_url,
@@ -4417,8 +4405,8 @@ var item$5 = function item$5(_ref, repo) {
 };
 
 var PullCommitsView = modelStateComponent(GithubPullCommit, 'query', function (_ref2) {
-  var repo = _ref2.props.repo;
-  var commits = _ref2.state;
+  var repo = _ref2.props.repo,
+      commits = _ref2.state;
   return {
     $s: _xvdomSpec$28,
     a: repo,
@@ -4430,8 +4418,8 @@ var PullCommitsView = modelStateComponent(GithubPullCommit, 'query', function (_
 
 var GithubPullFile = model({
   query: function query(_ref) {
-    var repo = _ref.repo;
-    var id = _ref.id;
+    var repo = _ref.repo,
+        id = _ref.id;
 
     return {
       url: 'https://api.github.com/repos/' + repo + '/pulls/' + id + '/files'
@@ -4657,12 +4645,12 @@ var TABS$2 = {
 };
 
 var IssuePullView = modelStateComponent(GithubIssue, 'get', function (_ref) {
-  var _ref$props = _ref.props;
-  var id = _ref$props.id;
-  var repo = _ref$props.repo;
-  var _ref$props$tab = _ref$props.tab;
-  var tab = _ref$props$tab === undefined ? 'info' : _ref$props$tab;
-  var issue = _ref.state;
+  var _ref$props = _ref.props,
+      id = _ref$props.id,
+      repo = _ref$props.repo,
+      _ref$props$tab = _ref$props.tab,
+      tab = _ref$props$tab === undefined ? 'info' : _ref$props$tab,
+      issue = _ref.state;
   return {
     $s: _xvdomSpec5$1,
     a: {
@@ -4952,19 +4940,16 @@ var isBookmarked$1 = function isBookmarked$1(user, id) {
 };
 
 var RepoView = (function (_ref) {
-  var id = _ref.id;
-  var user = _ref.user;
-  var _ref$viewUrl = _ref.viewUrl;
-  var viewUrl = _ref$viewUrl === undefined ? 'news' : _ref$viewUrl;
+  var id = _ref.id,
+      user = _ref.user,
+      _ref$viewUrl = _ref.viewUrl,
+      viewUrl = _ref$viewUrl === undefined ? 'news' : _ref$viewUrl;
 
-  var _stripURLEnding$split = stripURLEnding(viewUrl).split('/');
-
-  var _stripURLEnding$split2 = toArray(_stripURLEnding$split);
-
-  var tab = _stripURLEnding$split2[0];
-  var head = _stripURLEnding$split2[1];
-
-  var tail = _stripURLEnding$split2.slice(2);
+  var _stripURLEnding$split = stripURLEnding(viewUrl).split('/'),
+      _stripURLEnding$split2 = toArray(_stripURLEnding$split),
+      tab = _stripURLEnding$split2[0],
+      head = _stripURLEnding$split2[1],
+      tail = _stripURLEnding$split2.slice(2);
   // TODO: Temporary wrapper <div> to workaround xvdom dynamic stateful component
   //       rerendering bug
 
@@ -5129,14 +5114,14 @@ var _xvdomSpec = {
 var APP_CLASS = 'App ' + (window.navigator.standalone ? 'is-apple-standalone' : '');
 
 var App = function App(_ref) {
-  var _ref$state = _ref.state;
-  var user = _ref$state.user;
-  var hasSearch = _ref$state.hasSearch;
-  var hasDrawer = _ref$state.hasDrawer;
-  var view = _ref$state.view;
-  var viewId = _ref$state.viewId;
-  var viewUrl = _ref$state.viewUrl;
-  var bindSend = _ref.bindSend;
+  var _ref$state = _ref.state,
+      user = _ref$state.user,
+      hasSearch = _ref$state.hasSearch,
+      hasDrawer = _ref$state.hasDrawer,
+      view = _ref$state.view,
+      viewId = _ref$state.viewId,
+      viewUrl = _ref$state.viewUrl,
+      bindSend = _ref.bindSend;
   return {
     $s: _xvdomSpec3,
     a: APP_CLASS,
@@ -5161,12 +5146,10 @@ var App = function App(_ref) {
 };
 
 var stateFromHash = function stateFromHash() {
-  var _location$hash$split = location.hash.split('?');
-
-  var _location$hash$split2 = slicedToArray(_location$hash$split, 2);
-
-  var appUrl = _location$hash$split2[0];
-  var viewUrl = _location$hash$split2[1];
+  var _location$hash$split = location.hash.split('?'),
+      _location$hash$split2 = slicedToArray(_location$hash$split, 2),
+      appUrl = _location$hash$split2[0],
+      viewUrl = _location$hash$split2[1];
 
   var viewId = appUrl.slice(8);
   return {
@@ -5215,8 +5198,8 @@ App.state = {
   },
 
   login: function login(_ref8) {
-    var state = _ref8.state;
-    var bindSend = _ref8.bindSend;
+    var state = _ref8.state,
+        bindSend = _ref8.bindSend;
     return authWithOAuthPopup().then(bindSend('onUserChange')), state;
   }
 };
